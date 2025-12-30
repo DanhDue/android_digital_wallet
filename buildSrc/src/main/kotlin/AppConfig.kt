@@ -1,9 +1,8 @@
 import org.gradle.api.JavaVersion
 
 object AppConfig {
-    const val namespace = "ai.vinbase.va.vivi"
-    const val applicationId = "ai.vinbase.va.vivi"
-    const val applicationVFe34Id = "ai.vinbase.va.voicecontrol.app"
+    const val namespace = "com.danhdue.androiddigitalwallet"
+    const val applicationId = "com.danhdue.androiddigitalwallet"
     const val compileSdk = 36
     const val buildToolsVersion = "36.0.0"
     const val minSdk = 28

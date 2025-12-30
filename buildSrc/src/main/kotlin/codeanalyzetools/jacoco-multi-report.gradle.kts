@@ -73,7 +73,6 @@ val fileFilter =
         "**/*View*.*",
         "**/*Row*.*",
         "**/MainInteractionSessionService.class",
-        "**/VinBDIInteractionService.class",
         "**/android/*",
         "**/google/*",
         "androidx/**",
@@ -88,14 +87,6 @@ val fileFilter =
         "**/Dagger*Component\$Builder.class",
         "**/*Module_*Factory.class",
         "**/hilt_aggregated_deps/*",
-        "**/ai/vinbase/va/libraries/components/*",
-        "**/ai/vinbase/va/libraries/providers/*",
-        "**/ai/vinbase/va/libraries/theme/*",
-        "**/ai/vinbase/va/libraries/testutils/*",
-        "**/ai/vinbase/va/partner/vfframework/platform/*",
-        "**/ai/vinbase/va/partner/vfframework/platformapi28/*",
-        "**/ai/vinbase/va/partner/vfframework/platformapi30/*",
-        "**/ai/vinbase/va/voicecontrol/client/*",
         "**/di/**/*.*",
         "**/extension/*.*",
         // checker
@@ -118,7 +109,7 @@ fun retrieveMultipleClassDirectoriesTree(project: Project): List<ConfigurableFil
     val classDirectoriesTree = mutableListOf<ConfigurableFileTree>()
     buildVariants.forEach { buildVariant ->
         classDirectoriesTree.add(
-            fileTree(project.buildDir) {
+            fileTree(project.layout.buildDirectory) {
                 exclude(fileFilter)
                 include(
                     "**/classes/**/main/**",
@@ -139,8 +130,8 @@ afterEvaluate {
         reports {
             html.required.set(true)
             xml.required.set(true)
-            html.outputLocation.set(file("$buildDir/reports/jacoco/multiCoverage/html"))
-            xml.outputLocation.set(file("$buildDir/reports/jacoco/multiCoverage/jacocoTestReport.xml"))
+            html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco/multiCoverage/html"))
+            xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/multiCoverage/jacocoTestReport.xml"))
         }
 
         val coverProjects = subprojects.filter { it.name in coverModules }
@@ -152,9 +143,9 @@ afterEvaluate {
         classDirectories.setFrom(classDirectoriesTree)
         val sourceDirectoriesTree = mutableListOf<ConfigurableFileTree>()
         coverProjects.forEach {
-            println("buildDir: ${it.buildDir}")
+            println("buildDir: ${it.layout.buildDirectory.get()}")
             sourceDirectoriesTree.add(
-                fileTree("${it.buildDir}") {
+                fileTree(it.layout.buildDirectory) {
                     include(
                         "**/src/**/java/**",
                         "**/src/**/kotlin/**",
@@ -168,7 +159,7 @@ afterEvaluate {
 
         coverProjects.forEach {
             executions.add(
-                fileTree(it.buildDir) {
+                fileTree(it.layout.buildDirectory) {
                     include(
                         "outputs/unit_test_code_coverage/**/*.exec",
                         "outputs/code_coverage/**/*.ec",

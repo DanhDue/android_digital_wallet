@@ -9,7 +9,9 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 class AndroidCoreLibraryPlugin : Plugin<Project> {
@@ -36,55 +38,56 @@ class AndroidCoreLibraryPlugin : Plugin<Project> {
             }
         }
 
-    private fun Project.configureAndroid() = extensions.getByType(LibraryExtension::class).run {
-        compileSdk = AppConfig.compileSdk
-        defaultConfig.apply {
-            minSdk = AppConfig.minSdk
-            targetSdk = AppConfig.targetSdk
-            testInstrumentationRunner = AppConfig.androidTestInstrumentation
-        }
+    private fun Project.configureAndroid() =
+        extensions.getByType(LibraryExtension::class).run {
+            compileSdk = AppConfig.compileSdk
+            defaultConfig.apply {
+                minSdk = AppConfig.minSdk
+                targetSdk = AppConfig.targetSdk
+                testInstrumentationRunner = AppConfig.androidTestInstrumentation
+            }
 
-        compileOptions.apply {
-            sourceCompatibility = AppConfig.sourceCompatibility
-            targetCompatibility = AppConfig.targetCompatibility
-        }
+            compileOptions.apply {
+                sourceCompatibility = AppConfig.sourceCompatibility
+                targetCompatibility = AppConfig.targetCompatibility
+            }
 
-        project.tasks.withType<KotlinCompile>().configureEach {
-            kotlinOptions {
-                languageVersion = AppConfig.kotlinVersion
-                apiVersion = AppConfig.kotlinVersion
-                jvmTarget = AppConfig.jvmTarget
-                freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
+            project.tasks.withType<KotlinCompile>().configureEach {
+                compilerOptions {
+                    languageVersion.set(KotlinVersion.fromVersion(AppConfig.kotlinVersion))
+                    apiVersion.set(KotlinVersion.fromVersion(AppConfig.kotlinVersion))
+                    jvmTarget.set(JvmTarget.fromTarget(AppConfig.jvmTarget))
+                    freeCompilerArgs.addAll(EnvConfigs.FreeCoroutineCompilerArgs)
+                }
+            }
+
+            buildTypes.apply {
+                getByName("release") {
+                    proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
+
+                    buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Release.dbName)
+                    buildBooleanConfigField(
+                        EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE,
+                        EnvConfigs.Release.crashlyticsEnable,
+                    )
+                    buildBooleanConfigField(
+                        EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE,
+                        EnvConfigs.Release.analyticsEnable,
+                    )
+                }
+                getByName("debug") {
+                    proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
+
+                    buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Debug.dbName)
+                    buildBooleanConfigField(
+                        EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE,
+                        EnvConfigs.Debug.crashlyticsEnable,
+                    )
+                    buildBooleanConfigField(
+                        EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE,
+                        EnvConfigs.Debug.analyticsEnable,
+                    )
+                }
             }
         }
-
-        buildTypes.apply {
-            getByName("release") {
-                proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
-
-                buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Release.dbName)
-                buildBooleanConfigField(
-                    EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE,
-                    EnvConfigs.Release.crashlyticsEnable,
-                )
-                buildBooleanConfigField(
-                    EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE,
-                    EnvConfigs.Release.analyticsEnable,
-                )
-            }
-            getByName("debug") {
-                proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
-
-                buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Debug.dbName)
-                buildBooleanConfigField(
-                    EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE,
-                    EnvConfigs.Debug.crashlyticsEnable,
-                )
-                buildBooleanConfigField(
-                    EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE,
-                    EnvConfigs.Debug.analyticsEnable,
-                )
-            }
-        }
-    }
 }

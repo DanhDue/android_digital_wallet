@@ -32,9 +32,9 @@ dependencies {
 tasks.withType<Detekt>().configureEach {
     reports {
         html.required.set(true)
-        html.outputLocation.set(file("${project.buildDir}/build/reports/detekt/detekt-report.html"))
+        html.outputLocation.set(layout.buildDirectory.file("reports/detekt/detekt-report.html"))
         xml.required.set(true)
-        xml.outputLocation.set(file("${project.buildDir}/build/reports/detekt/detekt-report.xml"))
+        xml.outputLocation.set(layout.buildDirectory.file("reports/detekt/detekt-report.xml"))
     }
 }
 

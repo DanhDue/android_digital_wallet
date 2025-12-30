@@ -9,7 +9,7 @@ configure<SpotlessExtension> {
 
     format("xml") {
         target("**/res/**/*.xml")
-        indentWithSpaces(4)
+        leadingTabsToSpaces(4)
         trimTrailingWhitespace()
     }
 
@@ -18,7 +18,7 @@ configure<SpotlessExtension> {
             fileTree(
                 mapOf(
                     "dir" to "src",
-                    "include" to listOf("**/*.kotlin"),
+                    "include" to listOf("**/*.java"),
                 ),
             ),
         )
@@ -29,7 +29,7 @@ configure<SpotlessExtension> {
         googleJavaFormat().aosp()
         removeUnusedImports()
         trimTrailingWhitespace()
-        indentWithSpaces()
+        leadingTabsToSpaces()
         endWithNewline()
     }
 
@@ -48,6 +48,6 @@ configure<SpotlessExtension> {
             "^(package|object|import|interface)",
         )
         trimTrailingWhitespace()
-        indentWithSpaces()
+        leadingTabsToSpaces()
     }
 }

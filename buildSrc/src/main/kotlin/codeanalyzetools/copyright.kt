@@ -1,4 +1,4 @@
 /*
- * Copyright © $YEAR, vinbigdata.com
+ * Copyright © $YEAR, danhdue.com
  * All Rights Reserved.
  */

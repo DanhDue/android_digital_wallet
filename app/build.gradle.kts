@@ -2,12 +2,19 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("codeanalyzetools.quality")
+    id("codeanalyzetools.jacoco-report")
+    id("codeanalyzetools.spotless")
+}
+
+configurations.forEach {
+    it.exclude("ui-text-google-fonts")
 }
 
 android {
     namespace = "com.danhdue.androiddigitalwallet"
     compileSdk {
-        version = release(36)
+        version = release(AppConfig.compileSdk)
     }
 
     defaultConfig {

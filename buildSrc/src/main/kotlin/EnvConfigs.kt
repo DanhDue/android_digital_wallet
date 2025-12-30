@@ -26,7 +26,6 @@ object EnvConfigs {
         const val analyticsEnableKey = "analyticsEnabled"
 
         const val debugSigningConfigName = "debug"
-        const val debugSigningKeystoreFile = "signing/vinbdi_vf_assistant_keystore.jks"
         const val releaseAndroid9SigningName = "releaseAndroid9"
         const val releaseAndroid9SigningConfigFile = "signing/android9.signing.properties"
         const val releaseAndroid11SigningName = "releaseAndroid11"
@@ -35,15 +34,10 @@ object EnvConfigs {
         const val DB_NAME = "DB_NAME"
         const val CRASHLYTIC_IS_ENABLE = "CRASHLYTIC_IS_ENABLE"
         const val ANALYTIC_IS_ENABLE = "ANALYTIC_IS_ENABLE"
-        const val CAR_MODEL_NAME = "CAR_MODEL_NAME"
     }
 
     object Release {
-        const val vaSdkBaseUrl = "https://one.vinbase.ai/api/"
-        const val apiBaseUrl = "https://dev-cloud.vinbase.ai"
-        const val wssBaseUrl = "wss://dev-cloud.vinbase.ai"
-        const val authenBaseUrl = "https://dev-iam.vinbase.ai"
-        const val dbName = "VAGloabalDb"
+        const val dbName = "ZenoDb"
 
         const val crashlyticsEnable = true
         const val analyticsEnable = true
@@ -51,34 +45,10 @@ object EnvConfigs {
     }
 
     object Debug {
-        const val vaSdkBaseUrl = "https://one.vinbase.ai/api/"
-        const val apiBaseUrl = "https://dev-cloud.vinbase.ai"
-        const val wssBaseUrl = "wss://dev-cloud.vinbase.ai"
-        const val authenBaseUrl = "https://dev-iam.vinbase.ai"
-        const val dbName = "VAGloabalDb"
+        const val dbName = "ZenoDb"
 
         const val crashlyticsEnable = false
         const val analyticsEnable = false
         const val openTelemetryEndPoint = "http://10.0.2.2:4317"
-    }
-
-    object CarModel {
-        const val Global = "Global"
-
-        const val CarVF34 = "VFe34"
-        const val CarVF35 = "VFe35v" // VN market
-
-        const val CarVF36 = "VF9v" // VN market
-
-        const val CarVF5 = "VF5"
-        const val CarVF6 = "VF6"
-        const val CarVF7 = "VF7"
-    }
-
-    object ProductFlavors {
-        const val Global = "global"
-        const val VFe34 = "vfe34"
-        const val VF8 = "vf8"
-        const val VF9 = "vf9"
     }
 }

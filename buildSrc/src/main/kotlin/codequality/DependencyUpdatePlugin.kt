@@ -3,6 +3,8 @@ package codequality
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.support.serviceOf
+import org.gradle.process.ExecOperations
 import java.util.*
 
 class DependencyUpdatePlugin : Plugin<Project> {
@@ -15,8 +17,8 @@ class DependencyUpdatePlugin : Plugin<Project> {
                 }
                 outputFormatter = "html"
                 doLast {
-                    exec {
-                        commandLine("open", "build/dependencyUpdates/report.html")
+                    serviceOf<ExecOperations>().exec {
+                        commandLine("open", "${layout.buildDirectory.get()}/dependencyUpdates/report.html")
                     }
                 }
             }

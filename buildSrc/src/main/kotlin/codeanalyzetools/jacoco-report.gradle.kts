@@ -75,7 +75,6 @@ val fileFilter =
         "**/*View*.*",
         "**/*Row*.*",
         "**/MainInteractionSessionService.class",
-        "**/VinBDIInteractionService.class",
         "**/android/*",
         "**/google/*",
         "androidx/**",
@@ -90,14 +89,6 @@ val fileFilter =
         "**/Dagger*Component\$Builder.class",
         "**/*Module_*Factory.class",
         "**/hilt_aggregated_deps/*",
-        "**/ai/vinbase/va/libraries/components/*",
-        "**/ai/vinbase/va/libraries/providers/*",
-        "**/ai/vinbase/va/libraries/theme/*",
-        "**/ai/vinbase/va/libraries/testutils/*",
-        "**/ai/vinbase/va/partner/vfframework/platform/*",
-        "**/ai/vinbase/va/partner/vfframework/platformapi28/*",
-        "**/ai/vinbase/va/partner/vfframework/platformapi30/*",
-        "**/ai/vinbase/va/voicecontrol/client/*",
         "**/di/**/*.*",
         "**/extension/*.*",
     )
@@ -114,7 +105,7 @@ fun retrieveSourceDirectoriesTree(variantName: String): ConfigurableFileCollecti
 }
 
 fun retrieveClassDirectoriesTree(variantName: String): ConfigurableFileTree {
-    return fileTree(project.buildDir) {
+    return fileTree(layout.buildDirectory) {
         include(
             "**/classes/**/main/**",
             "**/intermediates/classes/${variantName}/**",
@@ -126,7 +117,7 @@ fun retrieveClassDirectoriesTree(variantName: String): ConfigurableFileTree {
 }
 
 fun retrieveExecutionDataTree(variantName: String, testTaskName: String): ConfigurableFileTree {
-    return fileTree(project.buildDir) {
+    return fileTree(layout.buildDirectory) {
         include(
             "**/jacoco/$testTaskName.exec",
             "**/outputs/unit_test_code_coverage/${testTaskName}/${testTaskName}.exec",
@@ -141,8 +132,8 @@ fun retrieveExecutionDataTree(variantName: String, testTaskName: String): Config
 fun JacocoReportsContainer.reports() {
     xml.required.set(true)
     html.required.set(true)
-    xml.outputLocation.set(file("$buildDir/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"))
-    html.outputLocation.set(file("$buildDir/reports/jacoco/jacocoTestReport/html"))
+    xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/jacocoTestReport/jacocoTestReport.xml"))
+    html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco/jacocoTestReport/html"))
 }
 
 fun JacocoReport.setDirectories(variantName: String, testTaskName: String) {
@@ -213,7 +204,7 @@ fun registerReport(variantName: String, testTaskName: String) {
 
         finalizedBy("jacoco${variantName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}TestCoverage")
 
-//        doLast { exec { commandLine("open", "$buildDir/reports/jacoco/jacocoTestReport/html/index.html") } }
+//        doLast { exec { commandLine("open", "${layout.buildDirectory.get()}/reports/jacoco/jacocoTestReport/html/index.html") } }
     }
 
     tasks.register<JacocoCoverageVerification>("jacoco${variantName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}TestCoverage") {

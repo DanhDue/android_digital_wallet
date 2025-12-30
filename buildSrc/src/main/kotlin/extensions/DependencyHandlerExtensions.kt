@@ -59,7 +59,7 @@ fun DependencyHandler.compileOnly(
     dependencyConfiguration: Action<ExternalModuleDependency>
 ): ExternalModuleDependency = addDependencyTo(
     this, "compileOnly", dependencyNotation, dependencyConfiguration
-) as ExternalModuleDependency
+)
 
 /**
  * Adds a dependency to the 'compileOnly' configuration.
@@ -409,6 +409,7 @@ fun DependencyHandler.addComposeDependencies() {
 
     implementation(Deps.Compose.composeUI)
     implementation(Deps.Compose.material3)
+    implementation(Deps.Compose.uiTooling)
     implementation(Deps.Compose.uiToolingPreview)
     implementation(Deps.Compose.runtime)
     implementation(Deps.Compose.foundation)

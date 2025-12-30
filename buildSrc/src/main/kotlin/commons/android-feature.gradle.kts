@@ -11,7 +11,6 @@ import extensions.buildStringConfigField
 plugins {
     id("commons.android-library")
     id("commons.dagger-hilt")
-    id("variant.library-variant")
     id("codeanalyzetools.quality")
     id("codeanalyzetools.jacoco-report")
     id("codeanalyzetools.spotless")

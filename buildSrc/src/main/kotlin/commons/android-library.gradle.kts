@@ -16,7 +16,6 @@ plugins {
     id("codeanalyzetools.quality")
     id("codeanalyzetools.jacoco-report")
     id("codeanalyzetools.spotless")
-    id("variant.library-variant")
 }
 
 android {

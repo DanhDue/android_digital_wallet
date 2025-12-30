@@ -47,12 +47,12 @@ object Deps {
         const val composeBOM = "androidx.compose:compose-bom:${Versions.composeBOM}"
         const val composeUI = "androidx.compose.ui:ui"
         const val composeUIGraphics = "androidx.compose.ui:ui-graphics"
+        const val uiTooling = "androidx.compose.ui:ui-tooling"
         const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
         const val runtime = "androidx.compose.runtime:runtime"
         const val foundation = "androidx.compose.foundation:foundation:${Versions.composeFoundation}"
         const val iconsCore = "androidx.compose.material:material-icons-core"
         const val iconsExtended = "androidx.compose.material:material-icons-extended"
-        const val uiTestManifest = "androidx.compose.ui:ui-test-manifest"
 
         const val material3 = "androidx.compose.material3:material3"
         const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
@@ -172,12 +172,6 @@ object Deps {
         const val analytics = "com.google.firebase:firebase-analytics"
         const val crashlytics = "com.google.firebase:firebase-crashlytics"
         const val remoteConfig = "com.google.firebase:firebase-config"
-    }
-
-    object Vinbase {
-        const val wuwCore = "com.vinbdi.asr:wakeup-core:${Versions.Vinbase.wuwCore}"
-        const val common = "com.vinfast:vf6-common:${Versions.Vinbase.common}"
-        const val core = "ai.vinbase:android-vinbdi-core:${Versions.Vinbase.core}"
     }
 
     object Test {

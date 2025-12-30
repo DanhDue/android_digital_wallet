@@ -13,7 +13,7 @@ object Versions {
     const val lifecycleRuntimeKtx = "2.10.0"
     const val activityKtx = "1.12.2"
     const val activityCompose = "1.12.2"
-    const val composeBOM = "2025.12.00"
+    const val composeBOM = "2025.12.01"
     const val composeFoundation = "1.10.0"
     const val junit = "4.13.2"
     const val junitExt = "1.2.1"
@@ -81,10 +81,4 @@ object Versions {
     const val excelReader = "5.5.0"
     const val libPhoneNumber = "9.0.17"
     const val gson = "2.13.2"
-
-    object Vinbase {
-        const val common = "1.0.3"
-        const val wuwCore = "4.3.9"
-        const val core = "2.0.9"
-    }
 }
