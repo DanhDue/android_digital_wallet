@@ -1,4 +1,5 @@
 import org.gradle.api.JavaVersion
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 object AppConfig {
     const val namespace = "com.danhdue.androiddigitalwallet"
@@ -19,7 +20,7 @@ object AppConfig {
     const val androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"
     const val proguardOptimizedFileName = "proguard-android-optimize.txt"
     const val proguardConsumerRules = "proguard-rules.pro"
-    const val jvmTarget = "21"
+    val jvmTarget = JvmTarget.JVM_21
     const val kotlinCompilerExtensionVersion = "1.5.15"
     const val kotlinVersion = "2.3"
 

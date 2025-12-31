@@ -171,7 +171,7 @@ afterEvaluate {
 
         executionData.setFrom(executions)
 //        doLast {
-//            exec {
+//            serviceOf<ExecOperations>().exec {
 //                commandLine("open", "build/reports/jacoco/multiCoverage/html/index.html")
 //            }
 //        }

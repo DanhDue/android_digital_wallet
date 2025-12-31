@@ -69,7 +69,7 @@ android {
     kotlinOptions {
         languageVersion = AppConfig.kotlinVersion
         apiVersion = AppConfig.kotlinVersion
-        jvmTarget = AppConfig.jvmTarget
+        jvmTarget = AppConfig.jvmTarget.name
         freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
     }
 

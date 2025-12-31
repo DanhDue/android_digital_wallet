@@ -50,7 +50,7 @@ object Deps {
         const val uiTooling = "androidx.compose.ui:ui-tooling"
         const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
         const val runtime = "androidx.compose.runtime:runtime"
-        const val foundation = "androidx.compose.foundation:foundation:${Versions.composeFoundation}"
+        const val foundation = "androidx.compose.foundation:foundation"
         const val iconsCore = "androidx.compose.material:material-icons-core"
         const val iconsExtended = "androidx.compose.material:material-icons-extended"
 
@@ -62,25 +62,8 @@ object Deps {
             "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintLayout}"
         const val lottieCompose = "com.airbnb.android:lottie-compose:${Versions.lottieCompose}"
         const val pagingCompose = "androidx.paging:paging-compose:${Versions.pagingCompose}"
-        const val coil = "io.coil-kt:coil-compose:${Versions.coil}"
-    }
-
-    object Accompanist {
-        const val swiperefresh =
-            "com.google.accompanist:accompanist-swiperefresh:${Versions.accompanist}"
-        const val systemuicontroller =
-            "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}"
-        const val insets = "com.google.accompanist:accompanist-insets:${Versions.accompanistInsets}"
-        const val materialPlaceHolder =
-            "com.google.accompanist:accompanist-placeholder-material:${Versions.accompanist}"
-        const val navigation =
-            "com.google.accompanist:accompanist-navigation-material:${Versions.accompanist}"
-        const val permissions =
-            "com.google.accompanist:accompanist-permissions:${Versions.accompanist}"
-        const val pager = "com.google.accompanist:accompanist-pager:${Versions.accompanist}"
-        const val pagerIndicators =
-            "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanist}"
-        const val webview = "com.google.accompanist:accompanist-webview:${Versions.accompanist}"
+        const val coilCompose = "io.coil-kt.coil3:coil-compose:${Versions.coil}"
+        const val coilNetworkOkhttp = "io.coil-kt.coil3:coil-network-okhttp:${Versions.coil}"
     }
 
     object Hilt {
@@ -93,13 +76,12 @@ object Deps {
     }
 
     object Navigation {
-        const val navigation = "androidx.navigation:navigation-compose:${Versions.navigation}"
-        const val destCore =
-            "io.github.raamcosta.compose-destinations:core:${Versions.destinations}"
-        const val destCoreKsp =
-            "io.github.raamcosta.compose-destinations:ksp:${Versions.destinations}"
-        const val destAnimation =
-            "io.github.raamcosta.compose-destinations:animations-core:${Versions.destinations}"
+        const val nav3Runtime = "androidx.navigation3:navigation3-runtime:${Versions.nav3Core}"
+        const val nav3Ui = "androidx.navigation3:navigation3-ui:${Versions.nav3Core}"
+        const val nav3ViewModel = "androidx.lifecycle:lifecycle-viewmodel-navigation3:${Versions.lifecycleViewmodelNav3}"
+        const val nav3SerializationCore = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinxSerializationCore}"
+        const val nav3Adaptive = "androidx.compose.material3.adaptive:adaptive-navigation3:${Versions.material3AdaptiveNav3}"
+        const val nav3Plugin = "org.jetbrains.kotlin.plugin.serialization:${Versions.kotlinSerialization}"
     }
 
     object WorkManager {
@@ -239,36 +221,14 @@ object Modules {
     const val dataLocal = ":data:local"
     const val dataRemote = ":data:remote"
     const val dataRepository = ":data:repository"
-    const val dataContext = ":data:context"
 
-    const val capabilitiesAgent = ":domain:capabilitiesAgent"
-    const val contextManager = ":domain:contextManager"
-    const val codecService = ":domain:codecService"
     const val authenticator = ":domain:authenticator"
-    const val autoTest = ":domain:autotest"
-
     const val commonComponents = ":libraries:components"
     const val librariesFramework = ":libraries:framework"
     const val librariesTestUtils = ":libraries:testutils"
-
-    const val vaFramework = ":vaframework"
-    const val partnerVfFramework = ":partner:vfframework"
-    const val partnerVfFrameworkPlugins = ":partner:vfframework:plugins"
 
     const val featureSplash = ":features:splash"
     const val featureDashboard = ":features:dashboard"
     const val featureHome = ":features:home"
     const val featureSettings = ":features:settings"
-    const val featureVa = ":features:va"
-    const val featureTesting = ":features:testing"
-    const val featureAutoTest = ":features:autotest"
-    const val featureCommandTesting = ":features:commandtesting"
-    const val featureContexts = ":features:context"
-
-    const val platform = ":partner:vfframework:platform"
-    const val platformApi30 = ":partner:vfframework:platformapi30"
-    const val platformApi28 = ":partner:vfframework:platformapi28"
-
-    const val voiceControlServiceClient = ":partner:vfframework:voicecontrolclient"
-    const val systemEntities = ":SystemEntity"
 }

@@ -425,19 +425,9 @@ fun DependencyHandler.addComposeDependencies() {
     implementation(Deps.Compose.lottieCompose)
     implementation(Deps.AndroidX.paging)
     implementation(Deps.Compose.pagingCompose)
-    implementation(Deps.Compose.coil)
+    implementation(Deps.Compose.coilCompose)
+    implementation(Deps.Compose.coilNetworkOkhttp)
     implementation(Deps.Compose.composeUIGraphics)
-
-    // Accompanist
-    implementation(Deps.Accompanist.swiperefresh)
-    implementation(Deps.Accompanist.systemuicontroller)
-    implementation(Deps.Accompanist.insets)
-    implementation(Deps.Accompanist.materialPlaceHolder)
-    implementation(Deps.Accompanist.navigation)
-    implementation(Deps.Accompanist.permissions)
-    implementation(Deps.Accompanist.pager)
-    implementation(Deps.Accompanist.pagerIndicators)
-    implementation(Deps.Accompanist.webview)
 
     // Compose Testing
     testImplementation(Deps.AndroidX.pagingCommon)
@@ -458,10 +448,11 @@ fun DependencyHandler.addWorkManagerDependencies() {
 }
 
 fun DependencyHandler.addNavigationDependencies() {
-    implementation(Deps.Navigation.navigation)
-    implementation(Deps.Navigation.destCore)
-    ksp(Deps.Navigation.destCoreKsp)
-    implementation(Deps.Navigation.destAnimation)
+    implementation(Deps.Navigation.nav3Ui)
+    implementation(Deps.Navigation.nav3Runtime)
+    implementation(Deps.Navigation.nav3ViewModel)
+    implementation(Deps.Navigation.nav3Adaptive)
+    implementation(Deps.Navigation.nav3SerializationCore)
 }
 
 fun DependencyHandler.addFirebaseDependencies() {
@@ -483,8 +474,6 @@ fun DependencyHandler.addModuleDependencies() {
     implementation(project(mapOf(PATH to Modules.commonComponents)))
 
     implementation(project(mapOf(PATH to Modules.librariesFramework)))
-    implementation(project(mapOf(PATH to Modules.vaFramework)))
-    implementation(project(mapOf(PATH to Modules.partnerVfFramework)))
 
     implementation(project(mapOf(PATH to Modules.librariesTestUtils)))
 
@@ -493,17 +482,12 @@ fun DependencyHandler.addModuleDependencies() {
     implementation(project(mapOf(PATH to Modules.dataRemote)))
     implementation(project(mapOf(PATH to Modules.dataRepository)))
 
-    implementation(project(mapOf(PATH to Modules.capabilitiesAgent)))
-    implementation(project(mapOf(PATH to Modules.contextManager)))
     implementation(project(mapOf(PATH to Modules.authenticator)))
 
     implementation(project(mapOf(PATH to Modules.featureSplash)))
     implementation(project(mapOf(PATH to Modules.featureDashboard)))
     implementation(project(mapOf(PATH to Modules.featureHome)))
     implementation(project(mapOf(PATH to Modules.featureSettings)))
-    implementation(project(mapOf(PATH to Modules.featureVa)))
-    implementation(project(mapOf(PATH to Modules.featureTesting)))
-    implementation(project(mapOf(PATH to Modules.featureCommandTesting)))
 }
 
 fun DependencyHandler.addOpenTelemetryDependencies() {
@@ -539,21 +523,6 @@ fun DependencyHandler.addOpenTelemetryDependencies() {
 }
 
 // Modules
-val DependencyHandler.CAPABILITIES
-    get() = implementation(project(mapOf(PATH to Modules.capabilitiesAgent)))
-
-val DependencyHandler.DOMAIN_CONTEXT_MANAGER
-    get() = implementation(project(mapOf(PATH to Modules.contextManager)))
-
-val DependencyHandler.DOMAIN_AUTHENTICATOR
-    get() = implementation(project(mapOf(PATH to Modules.authenticator)))
-
-val DependencyHandler.DOMAIN_AUTO_TEST
-    get() = implementation(project(mapOf(PATH to Modules.autoTest)))
-
-val DependencyHandler.CODEC_SERVICE
-    get() = implementation(project(mapOf(PATH to Modules.codecService)))
-
 val DependencyHandler.MODEL
     get() = implementation(project(mapOf(PATH to Modules.dataModel)))
 
@@ -566,23 +535,11 @@ val DependencyHandler.REMOTE
 val DependencyHandler.REPOSITORY
     get() = implementation(project(mapOf(PATH to Modules.dataRepository)))
 
-val DependencyHandler.CAR_CONTEXT
-    get() = implementation(project(mapOf(PATH to Modules.dataContext)))
-
-val DependencyHandler.SYSTEM_ENTITIES
-    get() = implementation(project(mapOf(PATH to Modules.systemEntities)))
-
 val DependencyHandler.COMPONENT
     get() = implementation(project(mapOf(PATH to Modules.commonComponents)))
 
 val DependencyHandler.FRAMEWORK
     get() = implementation(project(mapOf(PATH to Modules.librariesFramework)))
-
-val DependencyHandler.VAFRAMEWORK
-    get() = implementation(project(mapOf(PATH to Modules.vaFramework)))
-
-val DependencyHandler.VFFRAMEWORK
-    get() = implementation(project(mapOf(PATH to Modules.partnerVfFramework)))
 
 val DependencyHandler.TEST
     get() = testImplementation(project(mapOf(PATH to Modules.librariesTestUtils)))
@@ -598,32 +555,3 @@ val DependencyHandler.FEATURE_HOME
 
 val DependencyHandler.FEATURE_SETTINGS
     get() = implementation(project(mapOf(PATH to Modules.featureSettings)))
-
-val DependencyHandler.FEATURE_VA
-    get() = implementation(project(mapOf(PATH to Modules.featureVa)))
-
-val DependencyHandler.FEATURE_TESTING
-    get() = implementation(project(mapOf(PATH to Modules.featureTesting)))
-
-val DependencyHandler.PLATFORM_28
-    get() = implementation(project(mapOf(PATH to Modules.platformApi28)))
-
-val DependencyHandler.PLATFORM_30
-    get() = implementation(project(mapOf(PATH to Modules.platformApi30)))
-
-
-val DependencyHandler.CAR_PLATFORM
-    get() = implementation(project(mapOf(PATH to Modules.platform)))
-
-
-val DependencyHandler.VOICE_CONTROL_SERVICE_CLIENT
-    get() = implementation(project(mapOf(PATH to Modules.voiceControlServiceClient)))
-
-val DependencyHandler.FEATURE_AUTO_TESTING
-    get() = implementation(project(mapOf(PATH to Modules.featureAutoTest)))
-
-val DependencyHandler.FEATURE_COMMAND_TESTING
-    get() = implementation(project(mapOf(PATH to Modules.featureCommandTesting)))
-
-val DependencyHandler.FEATURE_CONTEXTS
-    get() = implementation(project(mapOf(PATH to Modules.featureContexts)))

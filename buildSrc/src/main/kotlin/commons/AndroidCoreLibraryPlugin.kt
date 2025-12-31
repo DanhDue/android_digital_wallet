@@ -56,7 +56,7 @@ class AndroidCoreLibraryPlugin : Plugin<Project> {
                 compilerOptions {
                     languageVersion.set(KotlinVersion.fromVersion(AppConfig.kotlinVersion))
                     apiVersion.set(KotlinVersion.fromVersion(AppConfig.kotlinVersion))
-                    jvmTarget.set(JvmTarget.fromTarget(AppConfig.jvmTarget))
+                    jvmTarget.set(AppConfig.jvmTarget)
                     freeCompilerArgs.addAll(EnvConfigs.FreeCoroutineCompilerArgs)
                 }
             }

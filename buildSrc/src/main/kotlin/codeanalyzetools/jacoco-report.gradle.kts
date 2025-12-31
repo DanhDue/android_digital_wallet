@@ -1,5 +1,4 @@
 package codeanalyzetools
-
 import java.util.Locale
 
 plugins.apply(JacocoPlugin::class)
@@ -204,7 +203,11 @@ fun registerReport(variantName: String, testTaskName: String) {
 
         finalizedBy("jacoco${variantName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}TestCoverage")
 
-//        doLast { exec { commandLine("open", "${layout.buildDirectory.get()}/reports/jacoco/jacocoTestReport/html/index.html") } }
+//        doLast {
+//            serviceOf<ExecOperations>().exec {
+//                commandLine("open", "${layout.buildDirectory.get()}/reports/jacoco/jacocoTestReport/html/index.html")
+//            }
+//        }
     }
 
     tasks.register<JacocoCoverageVerification>("jacoco${variantName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}TestCoverage") {
