@@ -17,6 +17,19 @@ gradlePlugin {
     }
 }
 
+object GlobalVersions {
+    const val GRADLE = "8.13.2"
+    const val KOTLIN = "2.1.0"
+    const val KSP = "2.1.0-1.0.29"
+    const val HILT = "2.57.2"
+    const val GOOGLE_SERVICE = "4.4.4"
+    const val CRASHLYTICS = "3.0.6"
+    const val VERSION_CHECKER = "0.53.0"
+    const val KTLINT = "14.0.1"
+    const val SPOTLESS = "8.1.0"
+    const val DETEKT = "1.23.8"
+}
+
 object GlobalDeps {
     const val ANDROID_GRADLE = "com.android.tools.build:gradle:${GlobalVersions.GRADLE}"
     const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:${GlobalVersions.KOTLIN}"
@@ -39,19 +52,6 @@ object GlobalDeps {
     const val SPOTLESS = "com.diffplug.spotless:spotless-plugin-gradle:${GlobalVersions.SPOTLESS}"
     const val DETEKT = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${GlobalVersions.DETEKT}"
     const val COMPOSE_GRADLE = "org.jetbrains.kotlin:compose-compiler-gradle-plugin:${GlobalVersions.KOTLIN}"
-}
-
-object GlobalVersions {
-    const val GRADLE = "8.13.2"
-    const val KOTLIN = "2.1.0"
-    const val KSP = "2.1.0-1.0.29"
-    const val HILT = "2.57.2"
-    const val GOOGLE_SERVICE = "4.4.4"
-    const val CRASHLYTICS = "3.0.6"
-    const val VERSION_CHECKER = "0.50.0"
-    const val KTLINT = "12.1.0"
-    const val SPOTLESS = "7.0.2"
-    const val DETEKT = "1.23.7"
 }
 
 dependencies {

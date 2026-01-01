@@ -1,16 +1,22 @@
 const val PATH = "path"
 
 object Deps {
-
     const val ANDROID_GRADLE_PLUGIN_ID = "com.android.application"
-    const val ANDROID_LIBRARY_GRADLE_PLUGIN_ID = "com.android.library"
-    const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:${Versions.GRADLE}"
     const val KOTLIN_GRADLE_PLUGIN_ID = "org.jetbrains.kotlin.android"
-    const val HILT_GRADLE_PLUGIN_ID = "com.google.dagger.hilt.android"
-    const val KSP_GRADLE_PLUGIN_ID = "com.google.devtools.ksp"
+    const val KOTLIN_SYMBOL_PROCESSING_PLUGIN_ID  = "com.google.devtools.ksp"
+    const val ANDROID_HILT_PLUGIN  = "dagger.hilt.android.plugin"
+    const val ANDROID_HILT_PLUGIN_ID  = "com.google.dagger.hilt.android"
+    const val KOTLIN_PARCELIZE  = "kotlin-parcelize"
+    const val ANDROID_LIBRARY_GRADLE_PLUGIN_ID = "com.android.library"
+    const val COMMONS_ANDROID_LIBRARY = "commons.android-library"
+    const val COMMONS_DAGGER_HILT = "commons.dagger-hilt"
+    const val ANDROID_COMPOSE_PLUGIN_ID = "org.jetbrains.kotlin.plugin.compose"
     const val GOOGLE_SERVICE_GRADLE_PLUGIN_ID = "com.google.gms.google-services"
     const val GOOGLE_CRASHLYTICS_GRADLE_PLUGIN_ID = "com.google.firebase.crashlytics"
-
+    const val CODE_ANALYZE_TOOLS_QUALITY = "codeanalyzetools.quality"
+    const val CODE_ANALYZE_TOOLS_JACOCO = "codeanalyzetools.jacoco-report"
+    const val CODE_ANALYZE_TOOLS_SPOTLESS = "codeanalyzetools.spotless"
+    const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin.plugin.serialization"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"

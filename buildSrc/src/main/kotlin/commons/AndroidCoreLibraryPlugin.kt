@@ -9,7 +9,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -22,8 +21,8 @@ class AndroidCoreLibraryPlugin : Plugin<Project> {
     }
 
     private fun Project.applyPlugins() {
-        plugins.apply("com.android.library")
-        plugins.apply("org.jetbrains.kotlin.android")
+        plugins.apply(Deps.ANDROID_LIBRARY_GRADLE_PLUGIN_ID)
+        plugins.apply(Deps.KOTLIN_GRADLE_PLUGIN_ID)
         plugins.apply("org.jetbrains.kotlin.plugin.parcelize")
         plugins.apply("com.google.devtools.ksp")
     }

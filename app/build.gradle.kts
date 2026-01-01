@@ -9,17 +9,17 @@ import extensions.addWorkManagerDependencies
 import extensions.implementation
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
-    id("kotlin-parcelize")
-    id("dagger.hilt.android.plugin")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("codeanalyzetools.quality")
-    id("codeanalyzetools.jacoco-report")
-    id("codeanalyzetools.spotless")
-    id("org.jetbrains.kotlin.plugin.serialization") version(Versions.kotlinSerialization)
+    id(Deps.ANDROID_GRADLE_PLUGIN_ID)
+    id(Deps.KOTLIN_GRADLE_PLUGIN_ID)
+    id(Deps.KOTLIN_SYMBOL_PROCESSING_PLUGIN_ID)
+    id(Deps.ANDROID_HILT_PLUGIN_ID)
+    id(Deps.KOTLIN_PARCELIZE)
+    id(Deps.ANDROID_HILT_PLUGIN)
+    id(Deps.ANDROID_COMPOSE_PLUGIN_ID)
+    id(Deps.CODE_ANALYZE_TOOLS_QUALITY)
+    id(Deps.CODE_ANALYZE_TOOLS_JACOCO)
+    id(Deps.CODE_ANALYZE_TOOLS_SPOTLESS)
+    id(Deps.KOTLIN_SERIALIZATION) version(Versions.kotlinSerialization)
 }
 
 configurations.forEach {

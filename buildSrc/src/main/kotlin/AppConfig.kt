@@ -12,7 +12,7 @@ object AppConfig {
     private const val majorVersion = 3
     private const val minorVersion = 1
     private const val patchVersion = 1
-    private const val prefixVersion = "VF8-ROW-"
+    private const val prefixVersion = "Zeno-"
     private const val postfixVersion = "-Beta"
     const val versionCode = majorVersion * 100000 + minorVersion * 100 + patchVersion
     const val versionName = "$prefixVersion$majorVersion.$minorVersion.$patchVersion$postfixVersion"

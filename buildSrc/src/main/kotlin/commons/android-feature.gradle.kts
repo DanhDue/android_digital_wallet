@@ -47,11 +47,13 @@ android {
         buildConfig = true
     }
 
-    kotlinOptions {
-        languageVersion = AppConfig.kotlinVersion
-        apiVersion = AppConfig.kotlinVersion
-        jvmTarget = AppConfig.jvmTarget.name
-        freeCompilerArgs = EnvConfigs.FreeCompilerArgs
+    kotlin {
+        compilerOptions {
+            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(AppConfig.kotlinVersion))
+            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(AppConfig.kotlinVersion))
+            jvmTarget.set(AppConfig.jvmTarget)
+            freeCompilerArgs.addAll(EnvConfigs.FreeCompilerArgs)
+        }
     }
 
     testOptions {
