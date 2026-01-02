@@ -97,13 +97,11 @@ val fileFilter =
 val coverModules = "local, model, remote, repository, context," +
     " capabilitiesAgent, contextManager, authenticator" +
     " components, framework," +
-    " vaframework," +
-    " vfframework," +
     " va, testing, autotest"
 
 // TODO: You need to declared all build variant types whenever you create a new one.
 // such as: globalDebug, vfe34Debug, vf8Debug,...
-val buildVariants = listOf("globalDebug", "vfe34Debug", "vf8Debug")
+val buildVariants = listOf("globalDebug")
 
 fun retrieveMultipleClassDirectoriesTree(project: Project): List<ConfigurableFileTree> {
     val classDirectoriesTree = mutableListOf<ConfigurableFileTree>()

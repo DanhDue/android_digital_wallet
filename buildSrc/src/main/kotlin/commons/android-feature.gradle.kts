@@ -14,6 +14,7 @@ plugins {
     id("codeanalyzetools.quality")
     id("codeanalyzetools.jacoco-report")
     id("codeanalyzetools.spotless")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {

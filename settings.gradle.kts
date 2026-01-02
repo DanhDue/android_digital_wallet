@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidDigitalWallet"
 include(":app")
+include(":libraries:testutils")
+include(":libraries:components")

@@ -22,7 +22,7 @@ object AppConfig {
     const val proguardConsumerRules = "proguard-rules.pro"
     val jvmTarget = JvmTarget.JVM_21
     const val kotlinCompilerExtensionVersion = "1.5.15"
-    const val kotlinVersion = "2.3"
+    const val kotlinVersion = "2.1"
 
     val sourceCompatibility = JavaVersion.VERSION_21
     val targetCompatibility = JavaVersion.VERSION_21

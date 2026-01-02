@@ -10,6 +10,7 @@ object Deps {
     const val ANDROID_LIBRARY_GRADLE_PLUGIN_ID = "com.android.library"
     const val COMMONS_ANDROID_LIBRARY = "commons.android-library"
     const val COMMONS_DAGGER_HILT = "commons.dagger-hilt"
+    const val COMMONS_ANDROID_COMPOSE = "commons.android-compose"
     const val ANDROID_COMPOSE_PLUGIN_ID = "org.jetbrains.kotlin.plugin.compose"
     const val GOOGLE_SERVICE_GRADLE_PLUGIN_ID = "com.google.gms.google-services"
     const val GOOGLE_CRASHLYTICS_GRADLE_PLUGIN_ID = "com.google.firebase.crashlytics"

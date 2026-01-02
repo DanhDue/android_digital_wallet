@@ -3,7 +3,7 @@ object Versions {
     const val GOOGLE_CRASHLYTICS = "3.0.6"
     const val SONAR_CLOUD = "7.2.2.6593"
 
-    const val kotlinVersion = "2.3.0"
+    const val kotlinVersion = "2.1.0"
     const val kotlinCoroutine = "1.10.2"
     const val coreKtx = "1.17.0"
     const val lifecycleRuntimeKtx = "2.10.0"
@@ -56,7 +56,7 @@ object Versions {
     const val accompanist = "0.37.3"
     const val accompanistInsets = "0.37.3"
     const val truth = "1.4.5"
-    const val turbine = "1.3.0"
+    const val turbine = "1.2.1"
     const val mockWebServer = "5.3.2"
     const val json = "20241224"
     const val jackson = "2.20.1"
