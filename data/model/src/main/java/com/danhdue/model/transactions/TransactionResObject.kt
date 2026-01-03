@@ -14,9 +14,9 @@ import android.os.Parcelable
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class TransactionResObject(
-    @Json(name = "account_inputs") val accountInputsObject: List<AccountInputsObject?>? = null,
+    @Json(name = "account_inputs") val accountInputs: List<AccountInputsObject?>? = null,
     @Json(name = "signature") val signature: String? = null,
-    @Json(name = "token_balances") val tokenBalancesObject: List<TokenBalancesObject?>? = null,
-    @Json(name = "overview") val transactionOverviewObject: TransactionOverviewObject? = null,
-    @Json(name = "transaction_type") val transactionType: String? = null
+    @Json(name = "token_balances") val balances: List<TokenBalancesObject?>? = null,
+    @Json(name = "overview") val overview: TransactionOverviewObject? = null,
+    @Json(name = "transaction_type") val type: String? = null
 ) : Parcelable
