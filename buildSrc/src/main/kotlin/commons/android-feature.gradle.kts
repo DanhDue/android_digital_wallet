@@ -18,12 +18,8 @@ plugins {
 }
 
 android {
-    compileSdk = AppConfig.compileSdk
 
-    defaultConfig {
-        minSdk = AppConfig.minSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
+    addLibDefaultConfig()
 
     buildTypes {
         release {
@@ -39,30 +35,12 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = AppConfig.sourceCompatibility
-        targetCompatibility = AppConfig.targetCompatibility
+    kotlinOptions {
+        languageVersion = AppConfig.kotlinVersion
+        jvmTarget = AppConfig.jvmTarget.target
+        freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
     }
 
-    buildFeatures {
-        buildConfig = true
-        compose = true
-    }
-
-    kotlin {
-        compilerOptions {
-            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(AppConfig.kotlinVersion))
-            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(AppConfig.kotlinVersion))
-            jvmTarget.set(AppConfig.jvmTarget)
-            freeCompilerArgs.addAll(EnvConfigs.FreeCompilerArgs)
-        }
-    }
-
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
 }
 
 android.libraryVariants.all {

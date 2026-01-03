@@ -1,4 +1,3 @@
-import commons.addLibDefaultConfig
 import extensions.addFirebaseDependencies
 
 plugins {
@@ -8,13 +7,6 @@ plugins {
 
 android {
     namespace = "com.danhdue.jetframework"
-    addLibDefaultConfig()
-
-    kotlinOptions {
-        languageVersion = AppConfig.kotlinVersion
-        jvmTarget = AppConfig.jvmTarget.target
-        freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
-    }
 }
 
 dependencies {

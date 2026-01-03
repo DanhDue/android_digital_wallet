@@ -7,6 +7,7 @@ import extensions.addCommonDependencies
 import extensions.addTestDependencies
 import extensions.buildBooleanConfigField
 import extensions.buildStringConfigField
+import gradle.kotlin.dsl.accessors._01b08877eb0139cc8c320b8760ecef58.kotlinOptions
 
 plugins {
     id("com.android.library")
@@ -20,12 +21,8 @@ plugins {
 }
 
 android {
-    compileSdk = AppConfig.compileSdk
 
-    defaultConfig {
-        minSdk = AppConfig.minSdk
-        testInstrumentationRunner = AppConfig.androidTestInstrumentation
-    }
+    addLibDefaultConfig()
 
     buildTypes {
         release {
@@ -58,51 +55,10 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = AppConfig.sourceCompatibility
-        targetCompatibility = AppConfig.targetCompatibility
-    }
-
-    buildFeatures {
-        buildConfig = true
-    }
-
-    kotlin {
-        compilerOptions {
-            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(AppConfig.kotlinVersion))
-            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(AppConfig.kotlinVersion))
-            jvmTarget.set(AppConfig.jvmTarget)
-            freeCompilerArgs.addAll(EnvConfigs.FreeCoroutineCompilerArgs)
-        }
-    }
-
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
-
-    packaging {
-        resources.excludes.apply {
-            add("META-INF/AL2.0")
-            add("META-INF/LGPL2.1")
-            add("/META-INF/{AL2.0,LGPL2.1}")
-            add("META-INF/DEPENDENCIES")
-            add("META-INF/LICENSE")
-            add("META-INF/LICENSE.txt")
-            add("META-INF/license.txt")
-            add("META-INF/LICENSE.md")
-            add("META-INF/LICENSE-notice.md")
-            add("META-INF/NOTICE")
-            add("META-INF/NOTICE.txt")
-            add("META-INF/notice.txt")
-            add("META-INF/ASL2.0")
-            add("META-INF/*.kotlin_module")
-            add("META-INF/*")
-            add("META-INF/gradle/incremental.annotation.processors")
-            add("/META-INF/{AL2.0,LGPL2.1,gradle-plugins}")
-            jniLibs.pickFirsts.add("**/*.so")
-        }
+    kotlinOptions {
+        languageVersion = AppConfig.kotlinVersion
+        jvmTarget = AppConfig.jvmTarget.target
+        freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
     }
 }
 

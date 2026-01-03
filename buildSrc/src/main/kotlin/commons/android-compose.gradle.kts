@@ -9,7 +9,16 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
-android { addComposeConfig() }
+android {
+
+    addComposeConfig()
+
+    kotlinOptions {
+        languageVersion = AppConfig.kotlinVersion
+        jvmTarget = AppConfig.jvmTarget.target
+        freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
+    }
+}
 
 dependencies {
     addCommonDependencies()

@@ -113,7 +113,6 @@ fun CommonExtension<*, *, *, *, *, *>.addDefaultConfig() {
     buildFeatures {
         compose = true
         buildConfig = true
-        viewBinding = true
     }
 
     lint {
@@ -181,7 +180,6 @@ fun CommonExtension<*, *, *, *, *, *>.addLibDefaultConfig() {
 
     buildFeatures {
         buildConfig = true
-        compose = true
     }
 
     testOptions {

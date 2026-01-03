@@ -14,7 +14,7 @@ object AppConfig {
     private const val patchVersion = 1
     private const val prefixVersion = "Zeno-"
     private const val postfixVersion = "-Beta"
-    const val versionCode = majorVersion * 100000 + minorVersion * 100 + patchVersion
+    const val  versionCode= majorVersion * 100000 + minorVersion * 100 + patchVersion
     const val versionName = "$prefixVersion$majorVersion.$minorVersion.$patchVersion$postfixVersion"
 
     const val androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"

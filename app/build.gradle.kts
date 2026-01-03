@@ -58,8 +58,6 @@ android {
         textOutput = File("${project.rootDir}/build/reports/lint/lint-results-debug.txt")
     }
 
-    hilt { enableAggregatingTask = true }
-
     addDefaultConfig()
 
 }
