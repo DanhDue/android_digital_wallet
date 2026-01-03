@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.network
 
 import android.content.Context
@@ -21,42 +25,43 @@ private const val CLIENT_TIME_OUT = 60L
 private const val CLIENT_CACHE_SIZE = 10 * 1024 * 1024L
 private const val CLIENT_CACHE_DIRECTORY = "http"
 
-fun createMoshi(): Moshi {
-    return Moshi.Builder()
+fun createMoshi(): Moshi =
+    Moshi
+        .Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
-}
 
-fun createCache(context: Context): Cache = Cache(
-    directory = File(context.cacheDir, CLIENT_CACHE_DIRECTORY),
-    maxSize = CLIENT_CACHE_SIZE
-)
+fun createCache(context: Context): Cache =
+    Cache(
+        directory = File(context.cacheDir, CLIENT_CACHE_DIRECTORY),
+        maxSize = CLIENT_CACHE_SIZE,
+    )
 
-fun createHttpLoggingInterceptor(isDev: Boolean = true): HttpLoggingInterceptor {
-    return HttpLoggingInterceptor().apply {
-        level = if (isDev) {
-            HttpLoggingInterceptor.Level.BODY
-        } else {
-            HttpLoggingInterceptor.Level.NONE
-        }
+fun createHttpLoggingInterceptor(isDev: Boolean = true): HttpLoggingInterceptor =
+    HttpLoggingInterceptor().apply {
+        level =
+            if (isDev) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
     }
-}
 
-fun createHttpRequestInterceptor(): HttpRequestInterceptor {
-    return HttpRequestInterceptor()
-}
+fun createHttpRequestInterceptor(): HttpRequestInterceptor = HttpRequestInterceptor()
 
 fun createChuckInterceptor(context: Context): ChuckerInterceptor {
     // Create the Collector
-    val chuckerCollector = ChuckerCollector(
-        context = context,
-        // Toggles visibility of the push notification
-        showNotification = true,
-        // Allows to customize the retention period of collected data
-        retentionPeriod = RetentionManager.Period.ONE_HOUR
-    )
+    val chuckerCollector =
+        ChuckerCollector(
+            context = context,
+            // Toggles visibility of the push notification
+            showNotification = true,
+            // Allows to customize the retention period of collected data
+            retentionPeriod = RetentionManager.Period.ONE_HOUR,
+        )
 
-    return ChuckerInterceptor.Builder(context)
+    return ChuckerInterceptor
+        .Builder(context)
         // The previously created Collector
         .collector(chuckerCollector)
         // The max body content length in bytes, after this responses will be truncated.
@@ -72,78 +77,81 @@ fun createChuckInterceptor(context: Context): ChuckerInterceptor {
 
 fun createOkHttpClient(
     isDev: Boolean = true,
-    context: Context
-): OkHttpClient {
-    return OkHttpClient.Builder().apply {
-        addInterceptor(createHttpLoggingInterceptor(isDev))
-        if (isDev) {
-            addInterceptor(createChuckInterceptor(context))
-            addInterceptor(createHttpRequestInterceptor())
-        }
-        connectTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        readTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        writeTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        followSslRedirects(true)
-        followRedirects(true)
-        retryOnConnectionFailure(true)
-    }.build()
-}
+    context: Context,
+): OkHttpClient =
+    OkHttpClient
+        .Builder()
+        .apply {
+            addInterceptor(createHttpLoggingInterceptor(isDev))
+            if (isDev) {
+                addInterceptor(createChuckInterceptor(context))
+                addInterceptor(createHttpRequestInterceptor())
+            }
+            connectTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            readTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            writeTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            followSslRedirects(true)
+            followRedirects(true)
+            retryOnConnectionFailure(true)
+        }.build()
 
 fun createOkHttpClient(
     isDev: Boolean = true,
     isCache: Boolean = false,
-    context: Context
-): OkHttpClient {
-    return OkHttpClient.Builder().apply {
-        if (isCache) cache(createCache(context))
-        addInterceptor(createHttpLoggingInterceptor(isDev))
-        if (isDev) {
-            addInterceptor(createChuckInterceptor(context))
-            addInterceptor(createHttpRequestInterceptor())
-        }
-        connectTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        readTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        writeTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        followSslRedirects(true)
-        followRedirects(true)
-        retryOnConnectionFailure(true)
-    }.build()
-}
+    context: Context,
+): OkHttpClient =
+    OkHttpClient
+        .Builder()
+        .apply {
+            if (isCache) cache(createCache(context))
+            addInterceptor(createHttpLoggingInterceptor(isDev))
+            if (isDev) {
+                addInterceptor(createChuckInterceptor(context))
+                addInterceptor(createHttpRequestInterceptor())
+            }
+            connectTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            readTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            writeTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            followSslRedirects(true)
+            followRedirects(true)
+            retryOnConnectionFailure(true)
+        }.build()
 
 fun createOkHttpClient(
     isCache: Boolean = false,
     interceptors: MutableList<Interceptor> = mutableListOf(),
-    context: Context
-): OkHttpClient {
-    return OkHttpClient.Builder().apply {
-        if (isCache) cache(createCache(context))
-        interceptors.forEach { addInterceptor(it) }
-        connectTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        readTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        writeTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        followSslRedirects(true)
-        followRedirects(true)
-        retryOnConnectionFailure(true)
-    }.build()
-}
+    context: Context,
+): OkHttpClient =
+    OkHttpClient
+        .Builder()
+        .apply {
+            if (isCache) cache(createCache(context))
+            interceptors.forEach { addInterceptor(it) }
+            connectTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            readTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            writeTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            followSslRedirects(true)
+            followRedirects(true)
+            retryOnConnectionFailure(true)
+        }.build()
 
 fun createOkHttpClient(
     isCache: Boolean = false,
     vararg interceptors: Interceptor,
-    context: Context
-): OkHttpClient {
-    return OkHttpClient.Builder().apply {
-        if (isCache) cache(createCache(context))
-        interceptors.forEach { addInterceptor(it) }
-        connectTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        readTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        writeTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
-        followSslRedirects(true)
-        followRedirects(true)
-        retryOnConnectionFailure(true)
-    }.build()
-}
-
+    context: Context,
+): OkHttpClient =
+    OkHttpClient
+        .Builder()
+        .apply {
+            if (isCache) cache(createCache(context))
+            interceptors.forEach { addInterceptor(it) }
+            connectTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            readTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            writeTimeout(CLIENT_TIME_OUT, TimeUnit.SECONDS)
+            followSslRedirects(true)
+            followRedirects(true)
+            retryOnConnectionFailure(true)
+        }.build()
 
 /**
  * Create Retrofit Client with Moshi
@@ -155,12 +163,14 @@ fun createOkHttpClient(
 inline fun <reified T> createRetrofitWithMoshi(
     okHttpClient: OkHttpClient,
     moshi: Moshi,
-    baseUrl: String
+    baseUrl: String,
 ): T {
-    val retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .client(okHttpClient)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .build()
+    val retrofit =
+        Retrofit
+            .Builder()
+            .baseUrl(baseUrl)
+            .client(okHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
     return retrofit.create(T::class.java)
 }

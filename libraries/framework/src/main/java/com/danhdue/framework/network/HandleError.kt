@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.network
 
 import retrofit2.HttpException
@@ -7,21 +11,54 @@ import java.net.UnknownHostException
 
 sealed class Failure : IOException() {
     data object JsonError : Failure()
+
     data object UnknownError : Failure()
+
     data object UnknownHostError : Failure()
+
     data object EmptyResponse : Failure()
+
     data object ConnectivityError : Failure()
+
     data object InternetError : Failure()
+
     data object UnAuthorizedException : Failure()
+
     data object ParsingDataError : Failure()
+
     data object IgnorableError : Failure()
-    data class TimeOutError(override var message: String) : Failure()
-    data class ApiError(var code: Int = 0, override var message: String) : Failure()
-    data class ServerError(var code: Int = 0, override var message: String) : Failure()
-    data class NotFoundException(override var message: String) : Failure()
-    data class SocketTimeoutError(override var message: String) : Failure()
-    data class BusinessError(override var message: String, val stackTrace: String) : Failure()
-    data class HttpError(var code: Int, override var message: String) : Failure()
+
+    data class TimeOutError(
+        override var message: String,
+    ) : Failure()
+
+    data class ApiError(
+        var code: Int = 0,
+        override var message: String,
+    ) : Failure()
+
+    data class ServerError(
+        var code: Int = 0,
+        override var message: String,
+    ) : Failure()
+
+    data class NotFoundException(
+        override var message: String,
+    ) : Failure()
+
+    data class SocketTimeoutError(
+        override var message: String,
+    ) : Failure()
+
+    data class BusinessError(
+        override var message: String,
+        val stackTrace: String,
+    ) : Failure()
+
+    data class HttpError(
+        var code: Int,
+        override var message: String,
+    ) : Failure()
 }
 
 fun Throwable.handleThrowable(): Failure {
@@ -39,7 +76,7 @@ fun Throwable.handleThrowable(): Failure {
     }
 }
 
-//fun Exception.toCustomExceptions() = when (this) {
+// fun Exception.toCustomExceptions() = when (this) {
 //    is ServerResponseException -> Failure.HttpErrorInternalServerError(this)
 //    is ClientRequestException ->
 //        when (this.response.status.value) {
@@ -51,4 +88,4 @@ fun Throwable.handleThrowable(): Failure {
 //        }
 //    is RedirectResponseException -> Failure.HttpError(this)
 //    else -> Failure.GenericError(this)
-//}
+// }

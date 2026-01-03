@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.network
 
 import kotlinx.coroutines.flow.Flow
@@ -6,39 +10,43 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transform
 
 sealed class DataState<out T> {
-    data class Success<out T>(val result: T) : DataState<T>()
-    data class Error(val error: Throwable) : DataState<Nothing>()
+    data class Success<out T>(
+        val result: T,
+    ) : DataState<T>()
 
-    override fun toString(): String {
-        return when (this) {
+    data class Error(
+        val error: Throwable,
+    ) : DataState<Nothing>()
+
+    override fun toString(): String =
+        when (this) {
             is Success<*> -> "Success[data=$result]"
             is Error -> "Error[exception=$error]"
         }
-    }
 
-    inline fun <R : Any> map(transform: (T) -> R): DataState<R> {
-        return when (this) {
+    inline fun <R : Any> map(transform: (T) -> R): DataState<R> =
+        when (this) {
             is Error -> Error(this.error)
             is Success -> Success(transform(this.result))
         }
-    }
 
-    suspend inline fun <R : Any> suspendMap(crossinline transform: suspend (T) -> R): DataState<R> {
-        return when (this) {
+    suspend inline fun <R : Any> suspendMap(crossinline transform: suspend (T) -> R): DataState<R> =
+        when (this) {
             is Error -> Error(this.error)
             is Success -> Success(transform(this.result))
         }
-    }
 }
 
-fun <T : Any> Flow<T>.asStatefulData(): Flow<DataState<T>> = wrapWithStatefulData()
-    .catch {
-        emit(DataState.Error(it))
-    }
+fun <T : Any> Flow<T>.asStatefulData(): Flow<DataState<T>> =
+    wrapWithStatefulData()
+        .catch {
+            emit(DataState.Error(it))
+        }
 
-fun <T : Any> Flow<T>.wrapWithStatefulData(): Flow<DataState<T>> = transform { value ->
-    return@transform emit(DataState.Success(value))
-}
+fun <T : Any> Flow<T>.wrapWithStatefulData(): Flow<DataState<T>> =
+    transform { value ->
+        return@transform emit(DataState.Success(value))
+    }
 
 inline fun <T : Any, R : Any> Flow<DataState<T>>.mapState(crossinline transform: suspend (value: T) -> R): Flow<DataState<R>> =
     transform { value ->

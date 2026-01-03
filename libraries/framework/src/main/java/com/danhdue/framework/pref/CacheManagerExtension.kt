@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.pref
 
 import android.content.Context
@@ -10,28 +14,29 @@ import androidx.security.crypto.MasterKey
  * @return SharedPreferences
  */
 fun Context.getPrefs(fileName: String? = null): SharedPreferences {
-    val masterKey = MasterKey.Builder(this)
-        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        .build()
+    val masterKey =
+        MasterKey
+            .Builder(this)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
 
-    val name = if (fileName.isNullOrEmpty()) {
-        getDefaultSharedPrefName()
-    } else {
-        fileName.toString()
-    }
+    val name =
+        if (fileName.isNullOrEmpty()) {
+            getDefaultSharedPrefName()
+        } else {
+            fileName.toString()
+        }
 
     return EncryptedSharedPreferences.create(
         this,
         name,
         masterKey,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
     )
 }
 
 /**
  * @return Default SharedPreferences filename
  */
-fun Context.getDefaultSharedPrefName(): String {
-    return this.packageName + "_pref"
-}
+fun Context.getDefaultSharedPrefName(): String = this.packageName + "_pref"

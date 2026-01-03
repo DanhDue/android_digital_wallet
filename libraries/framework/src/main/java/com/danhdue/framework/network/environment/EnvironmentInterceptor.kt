@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.network.environment
 
 import okhttp3.Interceptor
@@ -13,23 +17,32 @@ class EnvironmentInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val currentRequest = chain.request()
-        val host = when (env) {
-            Environment.Companion.DEVELOPMENT -> devUrl
-            Environment.Companion.STAGING -> stagingUrl
-            else -> productionUrl
-        }
+        val host =
+            when (env) {
+                Environment.Companion.DEVELOPMENT -> devUrl
+                Environment.Companion.STAGING -> stagingUrl
+                else -> productionUrl
+            }
         return chain.proceed(
             currentRequest
                 .newBuilder()
-                .url(currentRequest.url.newBuilder().host(host).build())
-                .build()
+                .url(
+                    currentRequest
+                        .url
+                        .newBuilder()
+                        .host(host)
+                        .build(),
+                ).build(),
         )
     }
 
     /**
      * EnvironmentInterceptor inject edip setEnvironment çağrılır.
      */
-    fun setEnvironment(@Environment type: Int, action: () -> Unit) {
+    fun setEnvironment(
+        @Environment type: Int,
+        action: () -> Unit,
+    ) {
         env = type
         action.invoke()
     }

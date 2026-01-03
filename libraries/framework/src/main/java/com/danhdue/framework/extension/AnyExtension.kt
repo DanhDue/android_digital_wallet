@@ -1,13 +1,13 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.extension
 
 val Any.classTag: String get() = this.javaClass.canonicalName.orEmpty()
 
 val Any.methodTag get() = classTag + object : Any() {}.javaClass.enclosingMethod?.name
 
-fun Any.hashCodeAsString(): String {
-    return hashCode().toString()
-}
+fun Any.hashCodeAsString(): String = hashCode().toString()
 
-inline fun <reified T : Any> Any.cast(): T {
-    return this as T
-}
+inline fun <reified T : Any> Any.cast(): T = this as T

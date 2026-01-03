@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.base.mvi
 
 import com.danhdue.framework.base.mvvm.MvvmViewModel
@@ -5,15 +9,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 abstract class MviViewModel<STATE : BaseViewState<*>, EVENT> : MvvmViewModel() {
-
     private val _uiState = MutableStateFlow<BaseViewState<*>>(BaseViewState.Empty)
     val uiState = _uiState.asStateFlow()
 
     abstract fun onTriggerEvent(eventType: EVENT)
 
-    protected fun setState(state: STATE) = safeLaunch {
-        _uiState.emit(state)
-    }
+    protected fun setState(state: STATE) =
+        safeLaunch {
+            _uiState.emit(state)
+        }
 
     override fun startLoading() {
         super.startLoading()

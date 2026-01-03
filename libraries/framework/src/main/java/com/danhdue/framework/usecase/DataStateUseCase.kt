@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.usecase
 
 import com.danhdue.framework.network.DataState
@@ -7,10 +11,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 abstract class DataStateUseCase<in Params, ReturnType> where ReturnType : Any {
-
     protected abstract suspend fun FlowCollector<DataState<ReturnType>>.execute(params: Params)
 
-    suspend operator fun invoke(params: Params) = flow {
-        execute(params)
-    }.flowOn(Dispatchers.IO)
+    suspend operator fun invoke(params: Params) =
+        flow {
+            execute(params)
+        }.flowOn(Dispatchers.IO)
 }

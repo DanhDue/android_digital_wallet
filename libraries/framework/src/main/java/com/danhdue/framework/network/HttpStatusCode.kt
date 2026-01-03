@@ -1,7 +1,12 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.network
 
-enum class HttpStatusCode(val code: Int) {
-
+enum class HttpStatusCode(
+    val code: Int,
+) {
     Unknown(-1),
 
     // Client Errors
@@ -45,5 +50,5 @@ enum class HttpStatusCode(val code: Int) {
     InsufficientStorage(507),
     LoopDetected(508),
     NotExtended(510),
-    NetworkAuthenticationRequired(511);
+    NetworkAuthenticationRequired(511),
 }

@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.jetframework
 
 import android.annotation.SuppressLint
@@ -8,16 +12,17 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.analytics.FirebaseAnalytics
 
 data class User(
-    val userType: String
+    val userType: String,
 )
 
 @SuppressLint("MissingPermission")
 @Composable
 fun rememberAnalytics(user: User): FirebaseAnalytics {
     val context = LocalContext.current
-    val analytics: FirebaseAnalytics = remember {
-        FirebaseAnalytics.getInstance(context)
-    }
+    val analytics: FirebaseAnalytics =
+        remember {
+            FirebaseAnalytics.getInstance(context)
+        }
 
     // On every successful composition, update FirebaseAnalytics with
     // the userType from the current User, ensuring that future analytics

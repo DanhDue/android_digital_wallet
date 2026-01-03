@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.jetframework
 
 import androidx.compose.foundation.text.ClickableText
@@ -30,13 +34,15 @@ fun LinkText(
         onClick = { offset ->
             linkTextData.forEach { annotatedStringData ->
                 if (annotatedStringData.tag != null && annotatedStringData.annotation != null) {
-                    annotatedString.getStringAnnotations(
-                        tag = annotatedStringData.tag,
-                        start = offset,
-                        end = offset,
-                    ).firstOrNull()?.let {
-                        annotatedStringData.onClick?.invoke(it)
-                    }
+                    annotatedString
+                        .getStringAnnotations(
+                            tag = annotatedStringData.tag,
+                            start = offset,
+                            end = offset,
+                        ).firstOrNull()
+                        ?.let {
+                            annotatedStringData.onClick?.invoke(it)
+                        }
                 }
             }
         },
@@ -45,8 +51,8 @@ fun LinkText(
 }
 
 @Composable
-private fun createAnnotatedString(data: List<LinkTextData>): AnnotatedString {
-    return buildAnnotatedString {
+private fun createAnnotatedString(data: List<LinkTextData>): AnnotatedString =
+    buildAnnotatedString {
         data.forEach { linkTextData ->
             if (linkTextData.tag != null && linkTextData.annotation != null) {
                 pushStringAnnotation(
@@ -54,10 +60,11 @@ private fun createAnnotatedString(data: List<LinkTextData>): AnnotatedString {
                     annotation = linkTextData.annotation,
                 )
                 withStyle(
-                    style = SpanStyle(
-                        color = MaterialTheme.colorScheme.primary,
-                        textDecoration = TextDecoration.Underline,
-                    ),
+                    style =
+                        SpanStyle(
+                            color = MaterialTheme.colorScheme.primary,
+                            textDecoration = TextDecoration.Underline,
+                        ),
                 ) {
                     append(linkTextData.text)
                 }
@@ -67,4 +74,3 @@ private fun createAnnotatedString(data: List<LinkTextData>): AnnotatedString {
             }
         }
     }
-}

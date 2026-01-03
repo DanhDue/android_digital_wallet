@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.pref
 
 import android.content.Context
@@ -6,12 +10,18 @@ import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 
-class CacheStore(context: Context, fileName: String) {
+class CacheStore(
+    context: Context,
+    fileName: String,
+) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = fileName)
     var dataStore = context.dataStore
 
     @Suppress("UNCHECKED_CAST")
-    suspend fun <T> read(key: String, defaultValue: T): T {
+    suspend fun <T> read(
+        key: String,
+        defaultValue: T,
+    ): T {
         val preferences = dataStore.data.first()
         return when (defaultValue) {
             is String -> preferences[stringPreferencesKey(key)] as T ?: defaultValue
@@ -24,7 +34,10 @@ class CacheStore(context: Context, fileName: String) {
         }
     }
 
-    suspend fun <T> write(key: String, value: T) {
+    suspend fun <T> write(
+        key: String,
+        value: T,
+    ) {
         when (value) {
             is String -> dataStore.edit { it[stringPreferencesKey(key)] = value }
             is Int -> dataStore.edit { it[intPreferencesKey(key)] = value }

@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.pref
 
 import android.content.Context
@@ -16,12 +20,12 @@ import com.danhdue.framework.extension.toJson
 @Suppress("UNCHECKED_CAST")
 class CacheManager(
     private val context: Context,
-    private var prefFileName: String? = null
+    private var prefFileName: String? = null,
 ) {
-
-    private val prefs: SharedPreferences = context.getPrefs(
-        prefFileName ?: context.getDefaultSharedPrefName()
-    )
+    private val prefs: SharedPreferences =
+        context.getPrefs(
+            prefFileName ?: context.getDefaultSharedPrefName(),
+        )
 
     /**
      * Reads a single String, Int, Boolean or Long value from SharedPreferences
@@ -30,15 +34,17 @@ class CacheManager(
      * @param defaultValue Default value to return if the key does not exist
      * @return A single String, Int, Boolean or Long value
      */
-    fun <T> read(key: String, defaultValue: T): T {
-        return when (defaultValue) {
+    fun <T> read(
+        key: String,
+        defaultValue: T,
+    ): T =
+        when (defaultValue) {
             is String -> prefs.getString(key, defaultValue as String) as T ?: defaultValue
             is Int -> prefs.getInt(key, defaultValue as Int) as T ?: defaultValue
             is Boolean -> prefs.getBoolean(key, defaultValue as Boolean) as T ?: defaultValue
             is Long -> prefs.getLong(key, defaultValue as Long) as T ?: defaultValue
             else -> defaultValue
         }
-    }
 
     /**
      * Stores a single String, Int, Boolean or Long value to SharedPreferences
@@ -46,7 +52,10 @@ class CacheManager(
      * @param key Key to write to
      * @param value Object of String, Int, Boolean or Long types to store
      */
-    fun <T> write(key: String, value: T) {
+    fun <T> write(
+        key: String,
+        value: T,
+    ) {
         when (value) {
             is String -> prefs.edit { putString(key, value).apply() }
             is Int -> prefs.edit { putInt(key, value).apply() }
@@ -60,9 +69,10 @@ class CacheManager(
      * Deletes an object from SharedPreferences
      * @param key to be removed
      */
-    fun clear(key: String): Unit = prefs.edit {
-        remove(key)
-    }
+    fun clear(key: String): Unit =
+        prefs.edit {
+            remove(key)
+        }
 
     /**
      * Clears all the data under current SharedPreferences name
@@ -95,7 +105,10 @@ class CacheManager(
      * @param key Key to write object to. If not given, class name will be used
      * @param value Object to store.
      */
-    fun writeObject(key: String, value: Any) {
+    fun writeObject(
+        key: String,
+        value: Any,
+    ) {
         write(key, value.toJson())
     }
 
@@ -104,8 +117,8 @@ class CacheManager(
      * @param key Key to read from
      * @return List Object
      */
-    inline fun <reified T> readListObject(key: String): List<T>? {
-        return try {
+    inline fun <reified T> readListObject(key: String): List<T>? =
+        try {
             val value = read(key, "")
             if (value.isEmpty()) {
                 null
@@ -115,5 +128,4 @@ class CacheManager(
         } catch (ex: Exception) {
             null
         }
-    }
 }

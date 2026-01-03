@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.utils
 
 import com.danhdue.framework.extension.toJsonString
@@ -10,7 +14,11 @@ class FakeCrashLibrary private constructor() {
     }
 
     companion object {
-        fun log(priority: Int, tag: String?, message: String?) {
+        fun log(
+            priority: Int,
+            tag: String?,
+            message: String?,
+        ) {
             Timber.d("log(priority: $priority, tag: $tag, message: $message)")
         }
 

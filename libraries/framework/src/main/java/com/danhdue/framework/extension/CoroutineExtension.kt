@@ -1,15 +1,26 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.extension
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 
-fun <T> delayFlow(timeout: Long, value: T): Flow<T> = flow {
-    delay(timeout)
-    emit(value)
-}
+fun <T> delayFlow(
+    timeout: Long,
+    value: T,
+): Flow<T> =
+    flow {
+        delay(timeout)
+        emit(value)
+    }
 
-fun flowInterval(interval: Long, timeUnit: TimeUnit = TimeUnit.MILLISECONDS): Flow<Int> {
+fun flowInterval(
+    interval: Long,
+    timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
+): Flow<Int> {
     val delayMillis = timeUnit.toMillis(interval)
     return channelFlow {
         var tick = 0
@@ -21,11 +32,12 @@ fun flowInterval(interval: Long, timeUnit: TimeUnit = TimeUnit.MILLISECONDS): Fl
     }
 }
 
-fun <T> CoroutineScope.lazyAsync(block: suspend CoroutineScope.() -> T): Lazy<Deferred<T>> = lazy {
-    async(start = CoroutineStart.LAZY) {
-        block.invoke(this)
+fun <T> CoroutineScope.lazyAsync(block: suspend CoroutineScope.() -> T): Lazy<Deferred<T>> =
+    lazy {
+        async(start = CoroutineStart.LAZY) {
+            block.invoke(this)
+        }
     }
-}
 
 /**
  * Alias to stateIn with defaults
@@ -41,11 +53,16 @@ fun <T> Flow<T>.stateInDefault(
  * i.e skips emission of [target] if something else is emitted before [timeMillis]
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-fun <T> Flow<T>.delayItem(timeMillis: Long, target: T) = mapLatest {
+fun <T> Flow<T>.delayItem(
+    timeMillis: Long,
+    target: T,
+) = mapLatest {
     if (it == target) {
         delay(timeMillis)
         it
-    } else it
+    } else {
+        it
+    }
 }
 
 fun <T> Flow<T>.sampleAndKeepLast(periodMillis: Long): Flow<T> {

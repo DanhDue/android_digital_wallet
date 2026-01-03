@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.base.mvvm
 
 import androidx.lifecycle.ViewModel
@@ -12,11 +16,11 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 abstract class MvvmViewModel : ViewModel() {
-
-    private val handler = CoroutineExceptionHandler { _, exception ->
-        Timber.Forest.tag(SAFE_LAUNCH_EXCEPTION).e(exception)
-        handleError(exception)
-    }
+    private val handler =
+        CoroutineExceptionHandler { _, exception ->
+            Timber.Forest.tag(SAFE_LAUNCH_EXCEPTION).e(exception)
+            handleError(exception)
+        }
 
     open fun handleError(exception: Throwable) {}
 
@@ -28,7 +32,7 @@ abstract class MvvmViewModel : ViewModel() {
 
     protected suspend fun <T> call(
         callFlow: Flow<T>,
-        completionHandler: (collect: T) -> Unit = {}
+        completionHandler: (collect: T) -> Unit = {},
     ) {
         callFlow
             .catch { handleError(it) }
@@ -39,7 +43,7 @@ abstract class MvvmViewModel : ViewModel() {
 
     protected suspend fun <T> execute(
         callFlow: Flow<DataState<T>>,
-        completionHandler: (collect: T) -> Unit = {}
+        completionHandler: (collect: T) -> Unit = {},
     ) {
         callFlow
             .onStart { startLoading() }

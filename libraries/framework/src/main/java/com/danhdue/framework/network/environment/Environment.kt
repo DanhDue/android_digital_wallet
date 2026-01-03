@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.network.environment
 
 import androidx.annotation.IntDef
@@ -5,7 +9,7 @@ import androidx.annotation.IntDef
 @IntDef(
     Environment.Companion.DEVELOPMENT,
     Environment.Companion.STAGING,
-    Environment.Companion.PRODUCTION
+    Environment.Companion.PRODUCTION,
 )
 @Retention(AnnotationRetention.SOURCE)
 annotation class Environment {

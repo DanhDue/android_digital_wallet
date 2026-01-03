@@ -1,5 +1,7 @@
-@file:Suppress("UnstableApiUsage")
-
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.platform
 
 import android.annotation.SuppressLint
@@ -13,19 +15,16 @@ private const val TAG = "MobileService"
 
 data class EmuiVersion(
     val name: String,
-    val code: Int
+    val code: Int,
 )
 
 object MobileService {
-
     /**
      * Emui information of Huawei Devices
      *
      * @return EmuiVersion object contains name and code fields name format is EmotionUI_X.X.X and code is integer
      */
-    fun getDeviceEmuiVersion(): EmuiVersion {
-        return EmuiVersion(getEmuiVersionName(), getEmuiVersionCode())
-    }
+    fun getDeviceEmuiVersion(): EmuiVersion = EmuiVersion(getEmuiVersionName(), getEmuiVersionCode())
 
     @SuppressLint("PrivateApi")
     private fun getEmuiVersionName(): String {
@@ -68,7 +67,8 @@ object MobileService {
         } catch (e: IllegalAccessException) {
             Timber.tag(TAG).e("IllegalAccessException: ")
         } catch (e: ClassCastException) {
-            Timber.tag(TAG)
+            Timber
+                .tag(TAG)
                 .e("ClassCastException: getEMUIVersionCode is not a number $returnObj")
         }
         Timber.tag(TAG).i("emuiVersionCodeValue: %s", emuiVersionCode)

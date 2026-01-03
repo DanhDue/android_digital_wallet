@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.jetframework
 
 import androidx.compose.animation.AnimatedVisibility
@@ -21,13 +25,13 @@ import kotlinx.coroutines.launch
 fun Delayed(
     modifier: Modifier = Modifier,
     delayMillis: Long = 200,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     TimedVisibility(
         delayMillis = delayMillis,
         visibility = false,
         modifier = modifier,
-        content = content
+        content = content,
     )
 }
 
@@ -39,16 +43,17 @@ fun TimedVisibility(
     modifier: Modifier = Modifier,
     delayMillis: Long = 4000,
     visibility: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     var visible by remember { mutableStateOf(visibility) }
     val coroutine = rememberCoroutineScope()
 
     DisposableEffect(Unit) {
-        val job = coroutine.launch {
-            delay(delayMillis)
-            visible = !visible
-        }
+        val job =
+            coroutine.launch {
+                delay(delayMillis)
+                visible = !visible
+            }
 
         onDispose {
             job.cancel()

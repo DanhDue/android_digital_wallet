@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.jetframework
 
 import android.annotation.SuppressLint
@@ -15,37 +19,40 @@ import kotlinx.coroutines.flow.collectLatest
 fun <T> rememberFlowWithLifecycle(
     flow: Flow<T>,
     lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
-): Flow<T> = remember(flow, lifecycle) {
-    flow.flowWithLifecycle(
-        lifecycle = lifecycle,
-        minActiveState = minActiveState
-    )
-}
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
+): Flow<T> =
+    remember(flow, lifecycle) {
+        flow.flowWithLifecycle(
+            lifecycle = lifecycle,
+            minActiveState = minActiveState,
+        )
+    }
 
 @Composable
 fun <T> rememberSaveableFlowWithLifecycle(
     flow: Flow<T>,
     lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
-): Flow<T> = rememberSaveable(flow, lifecycle) {
-    flow.flowWithLifecycle(
-        lifecycle = lifecycle,
-        minActiveState = minActiveState
-    )
-}
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
+): Flow<T> =
+    rememberSaveable(flow, lifecycle) {
+        flow.flowWithLifecycle(
+            lifecycle = lifecycle,
+            minActiveState = minActiveState,
+        )
+    }
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun <T> rememberFlowWithLifecycle(
     stateFlow: StateFlow<T>,
     lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
-): State<T> = rememberFlowWithLifecycle(
-    flow = stateFlow,
-    lifecycle = lifecycle,
-    minActiveState = minActiveState
-).collectAsState(initial = stateFlow.value)
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
+): State<T> =
+    rememberFlowWithLifecycle(
+        flow = stateFlow,
+        lifecycle = lifecycle,
+        minActiveState = minActiveState,
+    ).collectAsState(initial = stateFlow.value)
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -53,11 +60,12 @@ fun <T> collectEvent(
     flow: Flow<T>,
     lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    collector: suspend (T) -> Unit
-): Unit = LaunchedEffect(lifecycle, flow) {
-    lifecycle.repeatOnLifecycle(minActiveState) {
-        flow.collectLatest {
-            collector(it)
+    collector: suspend (T) -> Unit,
+): Unit =
+    LaunchedEffect(lifecycle, flow) {
+        lifecycle.repeatOnLifecycle(minActiveState) {
+            flow.collectLatest {
+                collector(it)
+            }
         }
     }
-}

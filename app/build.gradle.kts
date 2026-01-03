@@ -19,7 +19,7 @@ plugins {
     id(Deps.CODE_ANALYZE_TOOLS_QUALITY)
     id(Deps.CODE_ANALYZE_TOOLS_JACOCO)
     id(Deps.CODE_ANALYZE_TOOLS_SPOTLESS)
-    id(Deps.KOTLIN_SERIALIZATION) version(Versions.kotlinSerialization)
+    id(Deps.KOTLIN_SERIALIZATION) version (Versions.kotlinSerialization)
 }
 
 configurations.forEach {
@@ -40,7 +40,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -59,7 +59,6 @@ android {
     }
 
     addDefaultConfig()
-
 }
 
 android.applicationVariants.all {

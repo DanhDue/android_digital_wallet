@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.base.app
 
 import android.app.Activity
@@ -13,8 +17,10 @@ import com.danhdue.framework.extension.classTag
 import timber.log.Timber
 
 class ActivityLifecycleCallback : Application.ActivityLifecycleCallbacks {
-
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+    override fun onActivityCreated(
+        activity: Activity,
+        savedInstanceState: Bundle?,
+    ) {
         Timber.tag(activity.classTag).d("onCreate()")
         activity.allowDebugRotation()
         activity.registerFragmentLifecycleCallbacks()
@@ -36,7 +42,10 @@ class ActivityLifecycleCallback : Application.ActivityLifecycleCallbacks {
         Timber.tag(activity.classTag).d("onStop()")
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+    override fun onActivitySaveInstanceState(
+        activity: Activity,
+        outState: Bundle,
+    ) {
         Timber.tag(activity.classTag).d("onSaveInstanceState()")
     }
 
@@ -46,11 +55,12 @@ class ActivityLifecycleCallback : Application.ActivityLifecycleCallbacks {
 }
 
 private fun Activity.allowDebugRotation() {
-    requestedOrientation = if (BuildConfig.DEBUG) {
-        ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    } else {
-        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-    }
+    requestedOrientation =
+        if (BuildConfig.DEBUG) {
+            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
 }
 
 fun Activity.registerFragmentLifecycleCallbacks() {
@@ -62,28 +72,37 @@ fun Activity.registerFragmentLifecycleCallbacks() {
                         fm: FragmentManager,
                         f: Fragment,
                         v: View,
-                        savedInstanceState: Bundle?
+                        savedInstanceState: Bundle?,
                     ) {
                         super.onFragmentViewCreated(fm, f, v, savedInstanceState)
                         Timber.tag(f.classTag).d("onCreateView()")
                     }
 
-                    override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
+                    override fun onFragmentResumed(
+                        fm: FragmentManager,
+                        f: Fragment,
+                    ) {
                         super.onFragmentResumed(fm, f)
                         Timber.tag(f.classTag).d("onResume()")
                     }
 
-                    override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
+                    override fun onFragmentPaused(
+                        fm: FragmentManager,
+                        f: Fragment,
+                    ) {
                         super.onFragmentPaused(fm, f)
                         Timber.tag(f.classTag).d("onPause()")
                     }
 
-                    override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
+                    override fun onFragmentViewDestroyed(
+                        fm: FragmentManager,
+                        f: Fragment,
+                    ) {
                         super.onFragmentViewDestroyed(fm, f)
                         Timber.tag(f.classTag).d("onDestroyView()")
                     }
                 },
-                true
+                true,
             )
     }
 }

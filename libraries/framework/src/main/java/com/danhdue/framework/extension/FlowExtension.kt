@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.extension
 
 import androidx.lifecycle.Observer
@@ -13,36 +17,40 @@ import kotlinx.coroutines.withContext
 fun <T> SavedStateHandle.getStateFlow(
     key: String,
     scope: CoroutineScope,
-    initialValue: T = get(key) ?: error("No initial value for key $key")
-): MutableStateFlow<T> = this.let { handle ->
-    val liveData = handle.getLiveData<T>(key, initialValue).also { liveData ->
-        if (liveData.value === initialValue) {
-            liveData.value = initialValue
-        }
-    }
-    val mutableStateFlow = MutableStateFlow(liveData.value ?: initialValue)
-
-    val observer: Observer<T> = Observer { value ->
-        if (value != mutableStateFlow.value) {
-            mutableStateFlow.value = value
-        }
-    }
-    liveData.observeForever(observer)
-
-    scope.launch {
-        mutableStateFlow.also { flow ->
-            flow.onCompletion {
-                withContext(Dispatchers.Main.immediate) {
-                    liveData.removeObserver(observer)
-                }
-            }.collectLatest { value ->
-                withContext(Dispatchers.Main.immediate) {
-                    if (liveData.value != value) {
-                        liveData.value = value
-                    }
+    initialValue: T = get(key) ?: error("No initial value for key $key"),
+): MutableStateFlow<T> =
+    this.let { handle ->
+        val liveData =
+            handle.getLiveData<T>(key, initialValue).also { liveData ->
+                if (liveData.value === initialValue) {
+                    liveData.value = initialValue
                 }
             }
+        val mutableStateFlow = MutableStateFlow(liveData.value ?: initialValue)
+
+        val observer: Observer<T> =
+            Observer { value ->
+                if (value != mutableStateFlow.value) {
+                    mutableStateFlow.value = value
+                }
+            }
+        liveData.observeForever(observer)
+
+        scope.launch {
+            mutableStateFlow.also { flow ->
+                flow
+                    .onCompletion {
+                        withContext(Dispatchers.Main.immediate) {
+                            liveData.removeObserver(observer)
+                        }
+                    }.collectLatest { value ->
+                        withContext(Dispatchers.Main.immediate) {
+                            if (liveData.value != value) {
+                                liveData.value = value
+                            }
+                        }
+                    }
+            }
         }
+        mutableStateFlow
     }
-    mutableStateFlow
-}

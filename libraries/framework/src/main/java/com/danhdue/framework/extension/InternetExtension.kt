@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.extension
 
 import android.annotation.SuppressLint
@@ -15,20 +19,21 @@ fun Context.isInternetAvailable(): Boolean {
     val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     cm.run {
         getNetworkCapabilities(cm.activeNetwork)?.run {
-            result = when {
-                hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                else -> false
-            }
+            result =
+                when {
+                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                    hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                    else -> false
+                }
         }
     }
 
     return result
 }
 
-fun isInternetAvailableWithSocket(): Boolean {
-    return try {
+fun isInternetAvailableWithSocket(): Boolean =
+    try {
         val timeoutMs = 1500
         val socket = Socket()
         val socketAddress = InetSocketAddress("8.8.8.8", 53)
@@ -40,4 +45,3 @@ fun isInternetAvailableWithSocket(): Boolean {
     } catch (e: IOException) {
         false
     }
-}

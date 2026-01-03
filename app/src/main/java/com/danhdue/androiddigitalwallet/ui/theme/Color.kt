@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.androiddigitalwallet.ui.theme
 
 import androidx.compose.ui.graphics.Color

@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.base.app
 
 import android.app.Application
@@ -5,7 +9,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 
-abstract class CoreApplication : Application(), LifecycleEventObserver {
+abstract class CoreApplication :
+    Application(),
+    LifecycleEventObserver {
     var isAppInForeground: Boolean = true
 
     override fun onCreate() {
@@ -13,7 +19,10 @@ abstract class CoreApplication : Application(), LifecycleEventObserver {
         registerActivityLifecycleCallbacks(ActivityLifecycleCallback())
     }
 
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+    override fun onStateChanged(
+        source: LifecycleOwner,
+        event: Lifecycle.Event,
+    ) {
         when (event) {
             Lifecycle.Event.ON_CREATE -> Unit
             Lifecycle.Event.ON_START -> onAppForegrounded()

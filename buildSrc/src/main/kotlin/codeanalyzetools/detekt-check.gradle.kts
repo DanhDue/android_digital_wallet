@@ -12,7 +12,7 @@ plugins {
 
 configure<DetektExtension> {
     autoCorrect = true
-    toolVersion = "1.20.0"
+    toolVersion = "1.23.8"
     parallel = false
     buildUponDefaultConfig = true
     allRules = false
@@ -26,7 +26,7 @@ configure<DetektExtension> {
 }
 
 dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.20.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
 }
 
 tasks.withType<Detekt>().configureEach {
@@ -42,5 +42,5 @@ tasks.withType<Detekt>().configureEach {
     include("**/*.kt", "**/*.kts")
     exclude("**/build/**", ".*/resources/.*", ".*test.*,.*/resources/.*,.*/tmp/.*")
 
-    jvmTarget = JavaVersion.VERSION_17.toString()
+    jvmTarget = JavaVersion.VERSION_21.toString()
 }
