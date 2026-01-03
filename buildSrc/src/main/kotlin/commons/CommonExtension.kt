@@ -29,6 +29,7 @@ fun getLocalProperty(
  */
 fun CommonExtension<*, *, *, *, *, *>.addComposeConfig() {
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 
@@ -176,6 +177,11 @@ fun CommonExtension<*, *, *, *, *, *>.addLibDefaultConfig() {
     compileOptions {
         this.sourceCompatibility = AppConfig.sourceCompatibility
         this.targetCompatibility = AppConfig.targetCompatibility
+    }
+
+    buildFeatures {
+        buildConfig = true
+        compose = true
     }
 
     testOptions {

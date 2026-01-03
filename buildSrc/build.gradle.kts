@@ -25,7 +25,7 @@ object GlobalVersions {
     const val GOOGLE_SERVICE = "4.4.4"
     const val CRASHLYTICS = "3.0.6"
     const val VERSION_CHECKER = "0.53.0"
-    const val KTLINT = "14.0.1"
+    const val KT_LINT = "14.0.1"
     const val SPOTLESS = "8.1.0"
     const val DETEKT = "1.23.8"
 }
@@ -48,7 +48,7 @@ object GlobalDeps {
         "com.google.firebase:firebase-crashlytics-gradle:${GlobalVersions.CRASHLYTICS}"
     const val VERSION_CHECKER =
         "com.github.ben-manes:gradle-versions-plugin:${GlobalVersions.VERSION_CHECKER}"
-    const val KTLINT = "org.jlleitschuh.gradle:ktlint-gradle:${GlobalVersions.KTLINT}"
+    const val KTLINT = "org.jlleitschuh.gradle:ktlint-gradle:${GlobalVersions.KT_LINT}"
     const val SPOTLESS = "com.diffplug.spotless:spotless-plugin-gradle:${GlobalVersions.SPOTLESS}"
     const val DETEKT = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${GlobalVersions.DETEKT}"
     const val COMPOSE_GRADLE = "org.jetbrains.kotlin:compose-compiler-gradle-plugin:${GlobalVersions.KOTLIN}"

@@ -22,5 +22,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidDigitalWallet"
 include(":app")
+include(":libraries:framework")
+include(":libraries:jetframework")
 include(":libraries:testutils")
 include(":libraries:components")

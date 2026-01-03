@@ -21,7 +21,7 @@ object AppConfig {
     const val proguardOptimizedFileName = "proguard-android-optimize.txt"
     const val proguardConsumerRules = "proguard-rules.pro"
     val jvmTarget = JvmTarget.JVM_21
-    const val kotlinCompilerExtensionVersion = "1.5.15"
+    const val kotlinCompilerExtensionVersion = "1.6.13"
     const val kotlinVersion = "2.1"
 
     val sourceCompatibility = JavaVersion.VERSION_21

@@ -12,10 +12,9 @@ import org.robolectric.annotation.Config
 @Config(
     manifest = "AndroidManifest.xml",
     application = TestRobolectric.ApplicationStub::class,
-    sdk = [Build.VERSION_CODES.M]
+    sdk = [Build.VERSION_CODES.M],
 )
 open class TestRobolectric : MockkUnitTest() {
-
     protected val application: Application by lazy {
         ApplicationProvider.getApplicationContext<ApplicationStub>()
     }

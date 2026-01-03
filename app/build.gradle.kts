@@ -45,8 +45,10 @@ android {
         }
     }
 
-    kotlin.compilerOptions {
-        jvmTarget.set(AppConfig.jvmTarget)
+    kotlinOptions {
+        languageVersion = AppConfig.kotlinVersion
+        jvmTarget = AppConfig.jvmTarget.target
+        freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
     }
 
     lint {
@@ -55,6 +57,8 @@ android {
         htmlOutput = File("${project.rootDir}/build/reports/lint/lint-results-debug.html")
         textOutput = File("${project.rootDir}/build/reports/lint/lint-results-debug.txt")
     }
+
+    hilt { enableAggregatingTask = true }
 
     addDefaultConfig()
 

@@ -1,3 +1,4 @@
+import commons.addLibDefaultConfig
 import extensions.addFirebaseDependencies
 
 plugins {
@@ -7,6 +8,7 @@ plugins {
 
 android {
     namespace = "com.danhdue.libraries.components"
+    addLibDefaultConfig()
 }
 
 dependencies {

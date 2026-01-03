@@ -8,7 +8,6 @@ import org.junit.Before
 import org.junit.Rule
 
 open class MockkUnitTest {
-
     open fun onCreate() {}
 
     open fun onDestroy() {}
@@ -17,13 +16,13 @@ open class MockkUnitTest {
     var testCoroutineRule = TestCoroutineRule()
 
     @Before
-    fun setUp() {
+    open fun setUp() {
         MockKAnnotations.init(this)
         onCreate()
     }
 
     @After
-    fun tearDown() {
+    open fun tearDown() {
         onDestroy()
         unmockkAll()
         clearAllMocks()
