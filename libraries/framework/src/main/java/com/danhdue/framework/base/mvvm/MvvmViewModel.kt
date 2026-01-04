@@ -18,7 +18,7 @@ import timber.log.Timber
 abstract class MvvmViewModel : ViewModel() {
     private val handler =
         CoroutineExceptionHandler { _, exception ->
-            Timber.Forest.tag(SAFE_LAUNCH_EXCEPTION).e(exception)
+            Timber.tag(SAFE_LAUNCH_EXCEPTION).e(exception)
             handleError(exception)
         }
 

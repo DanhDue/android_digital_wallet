@@ -4,7 +4,7 @@
  */
 package com.danhdue.jetcleanarch.jetframework
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**

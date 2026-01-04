@@ -7,6 +7,7 @@ plugins {
     id(Deps.ANDROID_COMPOSE_PLUGIN_ID) apply false
     id(Deps.GOOGLE_SERVICE_GRADLE_PLUGIN_ID) version Versions.GOOGLE_SERVICE apply false
     id(Deps.SONAR_CLOUD) version Versions.SONAR_CLOUD apply true
+//    alias(libs.plugins.android.dynamic.feature) apply false
 }
 
 apply<codequality.DependencyUpdatePlugin>()

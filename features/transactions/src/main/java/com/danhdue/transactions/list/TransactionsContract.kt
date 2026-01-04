@@ -9,5 +9,7 @@ data class TransactionsViewState(
 )
 
 sealed class TransactionsViewEvent {
-    data class LoadTransactions(val page: Int) : TransactionsViewEvent()
+    data class LoadTransactions(
+        val page: Int,
+    ) : TransactionsViewEvent()
 }
