@@ -20,23 +20,27 @@ Một số khái niệm sử dụng được quy ước sau:
 Luồng đi là **Một chiều (Unidirectional Data Flow)**:
 
 ```mermaid
+%%{init: {'flowchart': {'subGraphTitleMargin': 40, 'diagramPadding': 30}}}%%
 graph LR
     %% --- ĐỊNH NGHĨA CÁC LỚP (LAYERS) ---
-    subgraph Presentation_Layer [Presentation Layer]
-        View[Compose Screen]
-        ViewModel[ViewModel]
+    subgraph Presentation_Layer ["<font size='6' color='#F70A06'>Presentation</font>"]
+        p_pad[ ]:::hidden
+        View["<font size='4' color='#F70400'>Compose Screen</font>"]
+        ViewModel["<font size='4' color='#FA0501'>ViewModel</font>"]
     end
 
-    subgraph Domain_Layer [Domain Layer]
-        UseCase[Use Case]
+    subgraph Domain_Layer ["<font size='6' color='#5E01B0'>Domain</font>"]
+        dom_pad[ ]:::hidden
+        UseCase["<font size='4' color='#5E01B0'>Use Case</font>"]
         %% Interface nằm ở Domain để đảm bảo Dependency Rule
-        RepoInterface([Repository Interface])
+        RepoInterface(["<font size='4' color='#5E01B0'>Repository Interface</font>"])
     end
 
-    subgraph Data_Layer [Data Layer]
+    subgraph Data_Layer ["<font size='6' color='#FB7D00'>Data</font>"]
+        data_pad[ ]:::hidden
         %% Impl nằm ở Data, phụ thuộc vào Interface ở Domain
-        RepoImpl[Repository Impl]
-        DataSource[Remote/Local Data Source]
+        RepoImpl["<font size='4' color='#FB7D00'>Repository Impl</font>"]
+        DataSource["<font size='4' color='#FB7D00'>Remote/Local Data Source</font>"]
     end
 
     %% --- LUỒNG DỮ LIỆU (DATA FLOW) ---
@@ -64,6 +68,7 @@ graph LR
     classDef state fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#2e7d32;
     classDef event fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#ef6c00,stroke-dasharray: 5 5;
     classDef interface fill:#fffde7,stroke:#fbc02d,stroke-width:1px,stroke-dasharray: 5 5;
+    classDef hidden fill:none,stroke:none,color:none;
 
     %% Áp dụng style cho các node đặc biệt nếu cần (ví dụ Interface)
     class RepoInterface interface;
