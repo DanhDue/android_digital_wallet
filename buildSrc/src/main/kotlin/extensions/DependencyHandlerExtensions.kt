@@ -31,8 +31,7 @@ import org.gradle.kotlin.dsl.create
  *
  * @see [DependencyHandler.add]
  */
-fun DependencyHandler.coreLibraryDesugaring(dependencyNotation: Any): Dependency? =
-    add("coreLibraryDesugaring", dependencyNotation)
+fun DependencyHandler.coreLibraryDesugaring(dependencyNotation: Any): Dependency? = add("coreLibraryDesugaring", dependencyNotation)
 
 /**
  * Adds a dependency to the 'compileOnly' configuration.
@@ -42,8 +41,7 @@ fun DependencyHandler.coreLibraryDesugaring(dependencyNotation: Any): Dependency
  *
  * @see [DependencyHandler.add]
  */
-fun DependencyHandler.compileOnly(dependencyNotation: Any): Dependency? =
-    add("compileOnly", dependencyNotation)
+fun DependencyHandler.compileOnly(dependencyNotation: Any): Dependency? = add("compileOnly", dependencyNotation)
 
 /**
  * Adds a dependency to the 'compileOnly' configuration.
@@ -56,10 +54,14 @@ fun DependencyHandler.compileOnly(dependencyNotation: Any): Dependency? =
  */
 fun DependencyHandler.compileOnly(
     dependencyNotation: String,
-    dependencyConfiguration: Action<ExternalModuleDependency>
-): ExternalModuleDependency = addDependencyTo(
-    this, "compileOnly", dependencyNotation, dependencyConfiguration
-)
+    dependencyConfiguration: Action<ExternalModuleDependency>,
+): ExternalModuleDependency =
+    addDependencyTo(
+        this,
+        "compileOnly",
+        dependencyNotation,
+        dependencyConfiguration,
+    )
 
 /**
  * Adds a dependency to the 'compileOnly' configuration.
@@ -72,10 +74,14 @@ fun DependencyHandler.compileOnly(
  */
 fun DependencyHandler.compileOnly(
     dependencyNotation: Provider<*>,
-    dependencyConfiguration: Action<ExternalModuleDependency>
-): Unit = addConfiguredDependencyTo(
-    this, "compileOnly", dependencyNotation, dependencyConfiguration
-)
+    dependencyConfiguration: Action<ExternalModuleDependency>,
+): Unit =
+    addConfiguredDependencyTo(
+        this,
+        "compileOnly",
+        dependencyNotation,
+        dependencyConfiguration,
+    )
 
 /**
  * Adds a dependency to the 'compileOnly' configuration.
@@ -88,10 +94,14 @@ fun DependencyHandler.compileOnly(
  */
 fun DependencyHandler.compileOnly(
     dependencyNotation: ProviderConvertible<*>,
-    dependencyConfiguration: Action<ExternalModuleDependency>
-): Unit = addConfiguredDependencyTo(
-    this, "compileOnly", dependencyNotation, dependencyConfiguration
-)
+    dependencyConfiguration: Action<ExternalModuleDependency>,
+): Unit =
+    addConfiguredDependencyTo(
+        this,
+        "compileOnly",
+        dependencyNotation,
+        dependencyConfiguration,
+    )
 
 /**
  * Adds a dependency to the 'compileOnly' configuration.
@@ -115,10 +125,19 @@ fun DependencyHandler.compileOnly(
     configuration: String? = null,
     classifier: String? = null,
     ext: String? = null,
-    dependencyConfiguration: Action<ExternalModuleDependency>? = null
-): ExternalModuleDependency = addExternalModuleDependencyTo(
-    this, "compileOnly", group, name, version, configuration, classifier, ext, dependencyConfiguration
-)
+    dependencyConfiguration: Action<ExternalModuleDependency>? = null,
+): ExternalModuleDependency =
+    addExternalModuleDependencyTo(
+        this,
+        "compileOnly",
+        group,
+        name,
+        version,
+        configuration,
+        classifier,
+        ext,
+        dependencyConfiguration,
+    )
 
 /**
  * Adds a dependency to the 'compileOnly' configuration.
@@ -131,7 +150,7 @@ fun DependencyHandler.compileOnly(
  */
 fun <T : ModuleDependency> DependencyHandler.compileOnly(
     dependency: T,
-    dependencyConfiguration: T.() -> Unit
+    dependencyConfiguration: T.() -> Unit,
 ): T = add("compileOnly", dependency, dependencyConfiguration)
 
 /**
@@ -143,8 +162,7 @@ fun <T : ModuleDependency> DependencyHandler.compileOnly(
  *
  * @see [DependencyConstraintHandler.add]
  */
-fun DependencyConstraintHandler.compileOnly(constraintNotation: Any): DependencyConstraint =
-    add("compileOnly", constraintNotation)
+fun DependencyConstraintHandler.compileOnly(constraintNotation: Any): DependencyConstraint = add("compileOnly", constraintNotation)
 
 /**
  * Adds a dependency constraint to the 'compileOnly' configuration.
@@ -156,8 +174,10 @@ fun DependencyConstraintHandler.compileOnly(constraintNotation: Any): Dependency
  *
  * @see [DependencyConstraintHandler.add]
  */
-fun DependencyConstraintHandler.compileOnly(constraintNotation: Any, block: DependencyConstraint.() -> Unit): DependencyConstraint =
-    add("compileOnly", constraintNotation, block)
+fun DependencyConstraintHandler.compileOnly(
+    constraintNotation: Any,
+    block: DependencyConstraint.() -> Unit,
+): DependencyConstraint = add("compileOnly", constraintNotation, block)
 
 /**
  * Adds an artifact to the 'compileOnly' configuration.
@@ -167,8 +187,7 @@ fun DependencyConstraintHandler.compileOnly(constraintNotation: Any, block: Depe
  *
  * @see [ArtifactHandler.add]
  */
-fun ArtifactHandler.compileOnly(artifactNotation: Any): PublishArtifact =
-    add("compileOnly", artifactNotation)
+fun ArtifactHandler.compileOnly(artifactNotation: Any): PublishArtifact = add("compileOnly", artifactNotation)
 
 /**
  * Adds an artifact to the 'compileOnly' configuration.
@@ -181,9 +200,8 @@ fun ArtifactHandler.compileOnly(artifactNotation: Any): PublishArtifact =
  */
 fun ArtifactHandler.compileOnly(
     artifactNotation: Any,
-    configureAction:  ConfigurablePublishArtifact.() -> Unit
-): PublishArtifact =
-    add("compileOnly", artifactNotation, configureAction)
+    configureAction: ConfigurablePublishArtifact.() -> Unit,
+): PublishArtifact = add("compileOnly", artifactNotation, configureAction)
 
 /**
  * Adds a dependency to the 'annotationProcessor' configuration.
@@ -193,9 +211,7 @@ fun ArtifactHandler.compileOnly(
  *
  * @see [DependencyHandler.add]
  */
-internal
-fun DependencyHandler.annotationProcessor(dependencyNotation: Any): Dependency? =
-    add("annotationProcessor", dependencyNotation)
+internal fun DependencyHandler.annotationProcessor(dependencyNotation: Any): Dependency? = add("annotationProcessor", dependencyNotation)
 
 /**
  * Adds a dependency to the `releaseImplementation` configuration.
@@ -204,8 +220,7 @@ fun DependencyHandler.annotationProcessor(dependencyNotation: Any): Dependency? 
  *
  * @return the dependency
  */
-fun DependencyHandler.releaseImplementation(dependencyNotation: Any): Dependency? =
-    add("releaseImplementation", dependencyNotation)
+fun DependencyHandler.releaseImplementation(dependencyNotation: Any): Dependency? = add("releaseImplementation", dependencyNotation)
 
 /**
  * Adds a dependency to the `debugImplementation` configuration.
@@ -214,8 +229,7 @@ fun DependencyHandler.releaseImplementation(dependencyNotation: Any): Dependency
  *
  * @return the dependency
  */
-fun DependencyHandler.debugImplementation(dependencyNotation: Any): Dependency? =
-    add("debugImplementation", dependencyNotation)
+fun DependencyHandler.debugImplementation(dependencyNotation: Any): Dependency? = add("debugImplementation", dependencyNotation)
 
 /**
  * Adds a dependency to the `implementation` configuration.
@@ -224,8 +238,7 @@ fun DependencyHandler.debugImplementation(dependencyNotation: Any): Dependency? 
  *
  * @return the dependency
  */
-fun DependencyHandler.implementation(dependencyNotation: Any): Dependency? =
-    add("implementation", dependencyNotation)
+fun DependencyHandler.implementation(dependencyNotation: Any): Dependency? = add("implementation", dependencyNotation)
 
 /**
  * Adds a dependency to the `api` configuration.
@@ -234,8 +247,7 @@ fun DependencyHandler.implementation(dependencyNotation: Any): Dependency? =
  *
  * @return the dependency
  */
-fun DependencyHandler.api(dependencyNotation: Any): Dependency? =
-    add("api", dependencyNotation)
+fun DependencyHandler.api(dependencyNotation: Any): Dependency? = add("api", dependencyNotation)
 
 /**
  * Adds a dependency to the `kapt` configuration.
@@ -244,8 +256,7 @@ fun DependencyHandler.api(dependencyNotation: Any): Dependency? =
  *
  * @return the dependency
  */
-fun DependencyHandler.kapt(dependencyNotation: Any): Dependency? =
-    add("kapt", dependencyNotation)
+fun DependencyHandler.kapt(dependencyNotation: Any): Dependency? = add("kapt", dependencyNotation)
 
 /**
  * Adds a dependency to the 'kaptTest' configuration.
@@ -255,8 +266,7 @@ fun DependencyHandler.kapt(dependencyNotation: Any): Dependency? =
  *
  * @see [DependencyHandler.add]
  */
-fun DependencyHandler.kaptTest(dependencyNotation: Any): Dependency? =
-    add("kaptTest", dependencyNotation)
+fun DependencyHandler.kaptTest(dependencyNotation: Any): Dependency? = add("kaptTest", dependencyNotation)
 
 /**
  * Adds a dependency to the 'kaptAndroidTest' configuration.
@@ -266,8 +276,7 @@ fun DependencyHandler.kaptTest(dependencyNotation: Any): Dependency? =
  *
  * @see [DependencyHandler.add]
  */
-fun DependencyHandler.kaptAndroidTest(dependencyNotation: Any): Dependency? =
-    add("kaptAndroidTest", dependencyNotation)
+fun DependencyHandler.kaptAndroidTest(dependencyNotation: Any): Dependency? = add("kaptAndroidTest", dependencyNotation)
 
 /**
  * Adds a dependency to the `testImplementation` configuration.
@@ -276,9 +285,7 @@ fun DependencyHandler.kaptAndroidTest(dependencyNotation: Any): Dependency? =
  *
  * @return the dependency
  */
-fun DependencyHandler.testImplementation(dependencyNotation: Any): Dependency? =
-    add("testImplementation", dependencyNotation)
-
+fun DependencyHandler.testImplementation(dependencyNotation: Any): Dependency? = add("testImplementation", dependencyNotation)
 
 /**
  * Adds a dependency to the `androidTestImplementation` configuration.
@@ -287,8 +294,7 @@ fun DependencyHandler.testImplementation(dependencyNotation: Any): Dependency? =
  *
  * @return the dependency
  */
-fun DependencyHandler.androidTestImplementation(dependencyNotation: Any): Dependency? =
-    add("androidTestImplementation", dependencyNotation)
+fun DependencyHandler.androidTestImplementation(dependencyNotation: Any): Dependency? = add("androidTestImplementation", dependencyNotation)
 
 /**
  * Adds a dependency to the `ksp` configuration.
@@ -297,8 +303,7 @@ fun DependencyHandler.androidTestImplementation(dependencyNotation: Any): Depend
  *
  * @return the dependency
  */
-fun DependencyHandler.ksp(dependencyNotation: Any): Dependency? =
-    add("ksp", dependencyNotation)
+fun DependencyHandler.ksp(dependencyNotation: Any): Dependency? = add("ksp", dependencyNotation)
 
 /**
  * Adds a dependency to the 'kspTest' configuration.
@@ -308,8 +313,7 @@ fun DependencyHandler.ksp(dependencyNotation: Any): Dependency? =
  *
  * @see [DependencyHandler.add]
  */
-fun DependencyHandler.kspTest(dependencyNotation: Any): Dependency? =
-    add("kspTest", dependencyNotation)
+fun DependencyHandler.kspTest(dependencyNotation: Any): Dependency? = add("kspTest", dependencyNotation)
 
 /**
  * Adds a dependency to the 'kspAndroidTest' configuration.
@@ -319,8 +323,7 @@ fun DependencyHandler.kspTest(dependencyNotation: Any): Dependency? =
  *
  * @see [DependencyHandler.add]
  */
-fun DependencyHandler.kspAndroidTest(dependencyNotation: Any): Dependency? =
-    add("kspAndroidTest", dependencyNotation)
+fun DependencyHandler.kspAndroidTest(dependencyNotation: Any): Dependency? = add("kspAndroidTest", dependencyNotation)
 
 fun BuildType.addDebugBuildTypeConfigs() {
     enableUnitTestCoverage = false
@@ -436,7 +439,7 @@ fun DependencyHandler.addComposeDependencies() {
     debugImplementation(Deps.Test.uiTestManifest)
     androidTestImplementation(Deps.Test.uiTestJunit4)
 
-    //ExcelReader
+    // ExcelReader
     implementation(Deps.ExcelReader.excelReader)
 }
 
@@ -453,6 +456,7 @@ fun DependencyHandler.addNavigationDependencies() {
     implementation(Deps.Navigation.nav3ViewModel)
     implementation(Deps.Navigation.nav3Adaptive)
     implementation(Deps.Navigation.nav3SerializationCore)
+    implementation(Deps.Navigation.navigationCommonKtx)
 }
 
 fun DependencyHandler.addFirebaseDependencies() {
@@ -519,7 +523,6 @@ fun DependencyHandler.addOpenTelemetryDependencies() {
 //    implementation(Deps.OpenTelemetry.otelAndroidOkhttpAgent)
 //    implementation(Deps.OpenTelemetry.otelAndroidOkhttpLibrary)
 //    implementation(Deps.OpenTelemetry.otelAndroidInstrumentationSlowrendering)
-
 }
 
 // Modules
@@ -555,3 +558,6 @@ val DependencyHandler.FEATURE_HOME
 
 val DependencyHandler.FEATURE_SETTINGS
     get() = implementation(project(mapOf(PATH to Modules.featureSettings)))
+
+val DependencyHandler.FEATURE_AUTHENTICATION
+    get() = implementation(project(mapOf(PATH to Modules.featureAuthentication)))

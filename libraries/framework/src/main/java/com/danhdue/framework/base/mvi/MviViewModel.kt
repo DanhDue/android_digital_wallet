@@ -24,6 +24,11 @@ abstract class MviViewModel<STATE : BaseViewState<*>, ACTION, EVENT> : MvvmViewM
             _uiState.emit(state)
         }
 
+    protected fun sendEvent(event: EVENT) =
+        safeLaunch {
+            _event.send(event)
+        }
+
     override fun startLoading() {
         super.startLoading()
         _uiState.value = BaseViewState.Loading

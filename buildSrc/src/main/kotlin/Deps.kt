@@ -89,6 +89,7 @@ object Deps {
         const val nav3ViewModel = "androidx.lifecycle:lifecycle-viewmodel-navigation3:${Versions.lifecycleViewmodelNav3}"
         const val nav3SerializationCore = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinxSerializationCore}"
         const val nav3Adaptive = "androidx.compose.material3.adaptive:adaptive-navigation3:${Versions.material3AdaptiveNav3}"
+        const val navigationCommonKtx = "androidx.navigation:navigation-common-ktx:${Versions.navigationCommonKtx}"
         const val nav3Plugin = "org.jetbrains.kotlin.plugin.serialization:${Versions.kotlinSerialization}"
     }
 
@@ -239,4 +240,5 @@ object Modules {
     const val featureDashboard = ":features:dashboard"
     const val featureHome = ":features:home"
     const val featureSettings = ":features:settings"
+    const val featureAuthentication = ":features:authentication"
 }

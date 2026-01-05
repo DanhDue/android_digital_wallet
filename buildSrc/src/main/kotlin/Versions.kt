@@ -46,6 +46,7 @@ object Versions {
     const val kotlinSerialization = "2.0.21"
     const val kotlinxSerializationCore = "1.8.0"
     const val material3AdaptiveNav3 = "1.3.0-alpha05"
+    const val navigationCommonKtx = "2.9.6"
     const val paging = "3.4.0-beta01"
     const val firebase = "34.7.0"
     const val lifecycleViewmodelCompose = "2.10.0"

@@ -6,7 +6,11 @@ import extensions.addNavigationDependencies
 import extensions.addNetworkDependencies
 import extensions.addStorageDependencies
 import extensions.addWorkManagerDependencies
+import extensions.FRAMEWORK
+import extensions.FEATURE_AUTHENTICATION
 import extensions.implementation
+import Modules
+import PATH
 
 plugins {
     id(Deps.ANDROID_GRADLE_PLUGIN_ID)
@@ -97,6 +101,9 @@ dependencies {
     addStorageDependencies()
 
     addWorkManagerDependencies()
+
+    FRAMEWORK
+    FEATURE_AUTHENTICATION
 
     // Testing
 //    TEST
