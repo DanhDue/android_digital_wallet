@@ -17,8 +17,6 @@ configure<DetektExtension> {
     buildUponDefaultConfig = true
     allRules = false
     config.setFrom(
-        "src/main/kotlin",
-        "src/main/java",
         "${project.rootDir}/buildSrc/src/main/kotlin/codeanalyzetools/config/detekt/detekt.yml"
     )
     baseline =
@@ -27,6 +25,8 @@ configure<DetektExtension> {
 
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-rules-libraries:1.23.8")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-rules-ruleauthors:1.23.8")
 }
 
 tasks.withType<Detekt>().configureEach {
@@ -39,6 +39,9 @@ tasks.withType<Detekt>().configureEach {
 }
 
 tasks.withType<Detekt>().configureEach {
+    // Only verify existing source directories to avoid "path does not exist" errors
+    setSource(project.files("src/main/kotlin", "src/main/java").filter { it.exists() })
+
     include("**/*.kt", "**/*.kts")
     exclude("**/build/**", ".*/resources/.*", ".*test.*,.*/resources/.*,.*/tmp/.*")
 

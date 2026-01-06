@@ -12,9 +12,8 @@ import com.danhdue.authentication.domain.model.Authenticator
  *
  * @return The mapped Authenticator object.
  */
-fun AuthenticatorDto.toDomain(): Authenticator {
-    return Authenticator(
+fun AuthenticatorDto.toDomain(): Authenticator =
+    Authenticator(
         id = this.uniqueId,
-        data = this.payload ?: "Data not available"
+        data = this.payload ?: "Data not available",
     )
-}

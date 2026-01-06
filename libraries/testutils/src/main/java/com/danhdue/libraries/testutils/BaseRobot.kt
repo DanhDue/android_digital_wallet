@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
+@file:Suppress("ktlint:standard:function-naming", "FunctionNaming")
+
 package com.danhdue.libraries.testutils
 
 import java.util.concurrent.TimeUnit
@@ -10,11 +16,11 @@ open class BaseRobot {
      * Use the method to setup stuff in your Robot class before each test run
      */
     open fun setup() {
-        //no base implementation
+        // no base implementation
     }
 
     open fun tearsDown() {
-        //no base implementation
+        // no base implementation
     }
 }
 
@@ -23,10 +29,8 @@ open class BaseRobot {
  * @param block - the block of code which needs to be executed in the GIVEN step
  * @return - robot instance of the test robot, it allows us to call robot methods directly
  */
-fun <T : BaseRobot> TestRun<T>.GIVEN(
-    block: T.() -> Unit
-): T {
-    //you can print something here
+fun <T : BaseRobot> TestRun<T>.GIVEN(block: T.() -> Unit): T {
+    // you can print something here
     return robot.apply(block)
 }
 
@@ -35,10 +39,8 @@ fun <T : BaseRobot> TestRun<T>.GIVEN(
  * @param block - the block of code which needs to be executed in the WHEN step
  * @return - robot instance of the unit test, it allows us to call robot methods directly
  */
-fun <T : BaseRobot> TestRun<T>.WHEN(
-    block: T.() -> Unit
-): T {
-    //you can print something here too
+fun <T : BaseRobot> TestRun<T>.WHEN(block: T.() -> Unit): T {
+    // you can print something here too
     return robot.apply(block)
 }
 
@@ -47,10 +49,8 @@ fun <T : BaseRobot> TestRun<T>.WHEN(
  * @param block - the block of code which needs to be executed in the AND step
  * @return - robot instance of the unit test, it allows us to call robot methods directly
  */
-fun <T : BaseRobot> TestRun<T>.AND(
-    block: T.() -> Unit
-): T {
-    //you can print something here too
+fun <T : BaseRobot> TestRun<T>.AND(block: T.() -> Unit): T {
+    // you can print something here too
     return robot.apply(block)
 }
 
@@ -59,10 +59,8 @@ fun <T : BaseRobot> TestRun<T>.AND(
  * @param block - the block of code which needs to be executed in the THEN step
  * @return - robot instance of the unit test, it allows us to call robot methods directly
  */
-fun <T : BaseRobot> TestRun<T>.THEN(
-    block: T.() -> Unit
-): T {
-    //you can print something here too
+fun <T : BaseRobot> TestRun<T>.THEN(block: T.() -> Unit): T {
+    // you can print something here too
     return robot.apply(block)
 }
 
@@ -71,7 +69,7 @@ fun <T : BaseRobot> TestRun<T>.THEN(
  */
 data class TestRun<T : BaseRobot>(
     val robot: T,
-    val isUnitTest: Boolean
+    val isUnitTest: Boolean,
 )
 
 /**
@@ -82,7 +80,7 @@ data class TestRun<T : BaseRobot>(
  */
 fun <T : BaseRobot> RUN_UNIT_TEST(
     robot: T,
-    block: TestRun<T>.() -> Unit
+    block: TestRun<T>.() -> Unit,
 ): TestRun<T> {
     val startTime = System.nanoTime()
 
@@ -107,7 +105,7 @@ fun <T : BaseRobot> RUN_UNIT_TEST(
  */
 fun <T : BaseRobot> RUN_UI_TEST(
     robot: T,
-    block: TestRun<T>.() -> Unit
+    block: TestRun<T>.() -> Unit,
 ): TestRun<T> {
     val startTime = System.nanoTime()
 

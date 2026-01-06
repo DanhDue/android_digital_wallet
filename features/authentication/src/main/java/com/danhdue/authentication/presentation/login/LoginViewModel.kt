@@ -4,7 +4,6 @@
  */
 package com.danhdue.authentication.presentation.login
 
-import com.danhdue.authentication.domain.usecase.GetLoginDataUseCase
 import com.danhdue.framework.base.mvi.BaseViewState
 import com.danhdue.framework.base.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +17,9 @@ import javax.inject.Inject
 class LoginViewModel
     @Inject
     constructor(
-        private val getLoginDataUseCase: GetLoginDataUseCase,
-    ) : MviViewModel<BaseViewState<LoginState>, LoginAction, LoginEvent>() {
+//        private val getLoginDataUseCase: GetLoginDataUseCase,
+    ) :
+    MviViewModel<BaseViewState<LoginState>, LoginAction, LoginEvent>() {
         init {
             Timber.d("LoginViewModel init")
             setState(BaseViewState.Data(LoginState()))
@@ -54,7 +54,7 @@ class LoginViewModel
                 }
 
                 LoginAction.OnLoginClicked -> {
-                    // TODO: Trigger login use case
+                    // Trigger login use case
                     startLoading()
                 }
 
@@ -67,7 +67,7 @@ class LoginViewModel
                 }
 
                 LoginAction.OnForgotPasswordClicked -> {
-                    // TODO: Handle forgot password navigation
+                    // Handle forgot password navigation
                 }
             }
         }

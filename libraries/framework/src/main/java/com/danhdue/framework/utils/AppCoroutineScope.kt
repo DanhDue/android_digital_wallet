@@ -111,7 +111,7 @@ open class AppCoroutineScope
                         cancelJob.cancelAndJoin()
                     }
                 } catch (e: Exception) {
-                    // Do nothing
+                    Timber.d(e.toString())
                 }
                 try {
                     val job = task.invoke()
@@ -131,7 +131,7 @@ open class AppCoroutineScope
                     }
                     return true
                 } catch (e: Exception) {
-                    // Do nothing
+                    Timber.d(e.toString())
                 }
                 return false
             }
@@ -162,7 +162,7 @@ open class AppCoroutineScope
                         cancelDeferred.cancelAndJoin()
                     }
                 } catch (e: Exception) {
-                    // Do nothing
+                    Timber.d(e.toString())
                 }
                 return try {
                     val deferred = task.invoke()
@@ -185,7 +185,7 @@ open class AppCoroutineScope
                     }
                     return true
                 } catch (e: Exception) {
-                    // Do nothing
+                    Timber.d(e.toString())
                 }
                 return false
             }
@@ -205,7 +205,10 @@ open class AppCoroutineScope
             fun createCancelableJob(runTask: () -> Job): CancelableJob = CancelableJob(runTask)
 
             @JvmStatic
-            fun <T> createCancelableDeferred(runTask: () -> Deferred<T>): CancelableDeferred<T> = CancelableDeferred(runTask)
+            fun <T> createCancelableDeferred(runTask: () -> Deferred<T>): CancelableDeferred<T> =
+                CancelableDeferred(
+                    runTask,
+                )
         }
     }
 

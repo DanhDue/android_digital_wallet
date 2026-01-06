@@ -1,4 +1,7 @@
+
 import commons.addDefaultConfig
+import extensions.FEATURE_AUTHENTICATION
+import extensions.FRAMEWORK
 import extensions.addCommonDependencies
 import extensions.addComposeDependencies
 import extensions.addHiltDependencies
@@ -6,11 +9,7 @@ import extensions.addNavigationDependencies
 import extensions.addNetworkDependencies
 import extensions.addStorageDependencies
 import extensions.addWorkManagerDependencies
-import extensions.FRAMEWORK
-import extensions.FEATURE_AUTHENTICATION
 import extensions.implementation
-import Modules
-import PATH
 
 plugins {
     id(Deps.ANDROID_GRADLE_PLUGIN_ID)
@@ -18,7 +17,6 @@ plugins {
     id(Deps.KOTLIN_SYMBOL_PROCESSING_PLUGIN_ID)
     id(Deps.ANDROID_HILT_PLUGIN_ID)
     id(Deps.KOTLIN_PARCELIZE)
-    id(Deps.ANDROID_HILT_PLUGIN)
     id(Deps.ANDROID_COMPOSE_PLUGIN_ID)
     id(Deps.CODE_ANALYZE_TOOLS_QUALITY)
     id(Deps.CODE_ANALYZE_TOOLS_JACOCO)
@@ -63,24 +61,6 @@ android {
     }
 
     addDefaultConfig()
-}
-
-android.applicationVariants.all {
-    val variantName = name
-    kotlin.sourceSets {
-        getByName("main") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
-        }
-        getByName("test") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
-        }
-        getByName("debug") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
-        }
-        getByName("release") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
-        }
-    }
 }
 
 dependencies {

@@ -60,22 +60,19 @@ android {
         jvmTarget = AppConfig.jvmTarget.target
         freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
     }
-}
 
-android.libraryVariants.all {
-    val variantName = name
-    kotlin.sourceSets {
+    sourceSets {
         getByName("main") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
+            kotlin.srcDirs("src/main/java", "src/main/kotlin")
+            java.srcDirs("src/main/java", "src/main/kotlin")
         }
         getByName("test") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
+            kotlin.srcDirs("src/main/java", "src/main/kotlin")
+            java.srcDirs("src/test/java", "src/test/kotlin")
         }
-        getByName("debug") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
-        }
-        getByName("release") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
+        getByName("androidTest") {
+            kotlin.srcDirs("src/main/java", "src/main/kotlin")
+            java.srcDirs("src/androidTest/java", "src/androidTest/kotlin")
         }
     }
 }

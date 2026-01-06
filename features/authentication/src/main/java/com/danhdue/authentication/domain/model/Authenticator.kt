@@ -13,5 +13,5 @@ package com.danhdue.authentication.domain.model
  */
 data class Authenticator(
     val id: String,
-    val data: String
+    val data: String,
 )

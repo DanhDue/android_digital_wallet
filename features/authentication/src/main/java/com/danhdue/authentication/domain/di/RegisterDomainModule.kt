@@ -23,5 +23,8 @@ object RegisterDomainModule {
      */
     @Provides
     @ViewModelScoped
-    fun provideGetRegisterDataUseCase(repository: RegisterRepository): GetRegisterDataUseCase = GetRegisterDataUseCase(repository)
+    fun provideGetRegisterDataUseCase(repository: RegisterRepository): GetRegisterDataUseCase =
+        GetRegisterDataUseCase(
+            repository,
+        )
 }

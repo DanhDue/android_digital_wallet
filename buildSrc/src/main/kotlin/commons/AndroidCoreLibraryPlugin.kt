@@ -10,6 +10,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -27,16 +28,6 @@ class AndroidCoreLibraryPlugin : Plugin<Project> {
         plugins.apply("com.google.devtools.ksp")
     }
 
-    private fun Project.configureKotlin() =
-        extensions.getByType(KotlinAndroidProjectExtension::class).run {
-            sourceSets.apply {
-                getByName("main").kotlin.srcDir("build/generated/ksp/main/kotlin")
-                getByName("test").kotlin.srcDir("build/generated/ksp/test/kotlin")
-                getByName("debug").kotlin.srcDir("build/generated/ksp/debug/kotlin")
-                getByName("release").kotlin.srcDir("build/generated/ksp/release/kotlin")
-            }
-        }
-
     private fun Project.configureAndroid() =
         extensions.getByType(LibraryExtension::class).run {
             compileSdk = AppConfig.compileSdk
@@ -51,10 +42,15 @@ class AndroidCoreLibraryPlugin : Plugin<Project> {
                 targetCompatibility = AppConfig.targetCompatibility
             }
 
-            project.tasks.withType<KotlinCompile>().configureEach {
+            project.tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
                 compilerOptions {
                     languageVersion.set(KotlinVersion.fromVersion(AppConfig.kotlinVersion))
                     apiVersion.set(KotlinVersion.fromVersion(AppConfig.kotlinVersion))
+                }
+            }
+
+            project.tasks.withType<KotlinCompile>().configureEach {
+                compilerOptions {
                     jvmTarget.set(AppConfig.jvmTarget)
                     freeCompilerArgs.addAll(EnvConfigs.FreeCoroutineCompilerArgs)
                 }
@@ -87,6 +83,15 @@ class AndroidCoreLibraryPlugin : Plugin<Project> {
                         EnvConfigs.Debug.analyticsEnable,
                     )
                 }
+            }
+        }
+
+    private fun Project.configureKotlin() =
+        extensions.getByType(KotlinAndroidProjectExtension::class).run {
+            compilerOptions {
+                languageVersion.set(KotlinVersion.fromVersion(AppConfig.kotlinVersion))
+                apiVersion.set(KotlinVersion.fromVersion(AppConfig.kotlinVersion))
+                jvmTarget.set(AppConfig.jvmTarget)
             }
         }
 }

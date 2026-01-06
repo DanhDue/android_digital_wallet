@@ -2,6 +2,8 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
+@file:Suppress("MatchingDeclarationName")
+
 package com.danhdue.framework.network
 
 import retrofit2.HttpException

@@ -54,9 +54,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danhdue.authentication.R
+import com.danhdue.components.ui.theme.BlueDark
+import com.danhdue.components.ui.theme.BluePrimary
+import com.danhdue.components.ui.theme.GrayText
+import com.danhdue.components.ui.theme.PurpleHeading
 import com.danhdue.framework.base.mvi.BaseViewState
 import com.danhdue.framework.extension.cast
-
 
 /**
  * Composable entry point for the Register feature.
@@ -124,38 +127,40 @@ private fun RegisterContent(
     onAction: (RegisterAction) -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier =
+            Modifier
+                .fillMaxSize(),
     ) {
         Image(
             painter = painterResource(id = R.drawable.login_background),
             contentDescription = "Background Image",
-            contentScale = ContentScale.Crop, // Scales the image to fill the bounds
-            modifier = Modifier.fillMaxSize()
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize(),
         )
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Logo
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Icon(
                     imageVector = Icons.Default.AccountBalanceWallet,
                     contentDescription = null,
-                    tint = Color(0xFF2962FF),
-                    modifier = Modifier.size(32.dp)
+                    tint = BluePrimary,
+                    modifier = Modifier.size(32.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "Logoipsum",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF0D47A1)
+                    color = BlueDark,
                 )
             }
 
@@ -163,52 +168,54 @@ private fun RegisterContent(
 
             // Card Container
             Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
                 shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-                color = Color.White
+                color = Color.White,
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(24.dp)
-                        .verticalScroll(rememberScrollState())
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(24.dp)
+                            .verticalScroll(rememberScrollState()),
                 ) {
                     IconButton(
                         onClick = { onAction(RegisterAction.OnBackClicked) },
-                        modifier = Modifier.align(Alignment.Start)
+                        modifier = Modifier.align(Alignment.Start),
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
                         )
                     }
 
                     Text(
                         text = stringResource(R.string.sign_up),
                         style = MaterialTheme.typography.headlineMedium,
-                        color = Color(0xFF9C27B0),
+                        color = PurpleHeading,
                         modifier = Modifier.align(Alignment.CenterHorizontally),
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = stringResource(R.string.already_have_an_account),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = Color.Gray
+                            color = GrayText,
                         )
                         Text(
                             text = stringResource(R.string.login),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = Color(0xFF2962FF),
+                            color = BluePrimary,
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier.clickable { onAction(RegisterAction.OnLoginClicked) }
+                            modifier = Modifier.clickable { onAction(RegisterAction.OnLoginClicked) },
                         )
                     }
 
@@ -217,39 +224,55 @@ private fun RegisterContent(
                     // Form Fields
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(text = stringResource(R.string.first_name), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                            Text(
+                                text = stringResource(R.string.first_name),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = GrayText,
+                            )
                             OutlinedTextField(
                                 value = state.firstName,
                                 onValueChange = { onAction(RegisterAction.OnFirstNameChanged(it)) },
                                 modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp)
+                                shape = RoundedCornerShape(12.dp),
                             )
                         }
                         Spacer(modifier = Modifier.width(16.dp))
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(text = stringResource(R.string.last_name), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                            Text(
+                                text = stringResource(R.string.last_name),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = GrayText,
+                            )
                             OutlinedTextField(
                                 value = state.lastName,
                                 onValueChange = { onAction(RegisterAction.OnLastNameChanged(it)) },
                                 modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp)
+                                shape = RoundedCornerShape(12.dp),
                             )
                         }
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(text = stringResource(R.string.email), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                    Text(
+                        text = stringResource(R.string.email),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = GrayText,
+                    )
                     OutlinedTextField(
                         value = state.email,
                         onValueChange = { onAction(RegisterAction.OnEmailChanged(it)) },
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(text = stringResource(R.string.birth_of_date), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                    Text(
+                        text = stringResource(R.string.birth_of_date),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = GrayText,
+                    )
                     OutlinedTextField(
                         value = state.birthDate,
                         onValueChange = { onAction(RegisterAction.OnBirthDateChanged(it)) },
@@ -257,12 +280,16 @@ private fun RegisterContent(
                         shape = RoundedCornerShape(12.dp),
                         trailingIcon = {
                             Icon(imageVector = Icons.Default.CalendarToday, contentDescription = null)
-                        }
+                        },
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(text = stringResource(R.string.phone_number), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                    Text(
+                        text = stringResource(R.string.phone_number),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = GrayText,
+                    )
                     OutlinedTextField(
                         value = state.phoneNumber,
                         onValueChange = { onAction(RegisterAction.OnPhoneNumberChanged(it)) },
@@ -276,12 +303,16 @@ private fun RegisterContent(
                                 VerticalDivider(modifier = Modifier.height(24.dp))
                                 Spacer(modifier = Modifier.width(8.dp))
                             }
-                        }
+                        },
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(text = stringResource(R.string.set_password), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                    Text(
+                        text = stringResource(R.string.set_password),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = GrayText,
+                    )
                     OutlinedTextField(
                         value = state.password,
                         onValueChange = { onAction(RegisterAction.OnPasswordChanged(it)) },
@@ -292,23 +323,28 @@ private fun RegisterContent(
                             IconButton(onClick = { onAction(RegisterAction.OnTogglePasswordVisibility) }) {
                                 Icon(
                                     imageVector = if (state.isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                    contentDescription = null
+                                    contentDescription = null,
                                 )
                             }
-                        }
+                        },
                     )
 
                     Spacer(modifier = Modifier.height(32.dp))
 
                     Button(
                         onClick = { onAction(RegisterAction.OnRegisterClicked) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
                         shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2962FF))
+                        colors = ButtonDefaults.buttonColors(containerColor = BluePrimary),
                     ) {
-                        Text(text = stringResource(R.string.register), color = Color.White, fontWeight = FontWeight.Bold)
+                        Text(
+                            text = stringResource(R.string.register),
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                        )
                     }
                 }
             }
@@ -319,7 +355,6 @@ private fun RegisterContent(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

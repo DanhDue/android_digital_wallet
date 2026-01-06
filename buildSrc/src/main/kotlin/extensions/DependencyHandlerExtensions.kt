@@ -391,6 +391,7 @@ fun DependencyHandler.addStorageDependencies() {
     implementation(Deps.Storage.dataStorePref)
     implementation(Deps.Storage.dataStore)
     implementation(Deps.Storage.securePref)
+    implementation(Deps.Storage.tink)
 }
 
 fun DependencyHandler.addRoomDependencies() {

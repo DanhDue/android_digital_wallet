@@ -117,8 +117,8 @@ private fun LoginContent(
         Image(
             painter = painterResource(id = R.drawable.login_background),
             contentDescription = "Background Image",
-            contentScale = ContentScale.Crop, // Scales the image to fill the bounds
-            modifier = Modifier.fillMaxSize()
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize(),
         )
         Scaffold(
             modifier = Modifier.background(color = Color.Transparent),
@@ -129,7 +129,7 @@ private fun LoginContent(
                         IconButton(onClick = { onAction(LoginAction.OnBackClicked) }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back"
+                                contentDescription = "Back",
                             )
                         }
                     },

@@ -145,6 +145,7 @@ object Deps {
         const val dataStore = "androidx.datastore:datastore:${Versions.dataStore}"
         const val dataStorePref = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
         const val securePref = "androidx.security:security-crypto-ktx:${Versions.securePref}"
+        const val tink = "com.google.crypto.tink:tink-android:${Versions.tink}"
     }
 
     object Kotlin {

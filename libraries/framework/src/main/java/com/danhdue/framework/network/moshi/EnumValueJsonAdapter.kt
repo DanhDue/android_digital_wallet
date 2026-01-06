@@ -27,7 +27,12 @@ class EnumValueJsonAdapter<T : IValueEnum>
          * null, absent, or not a string. Also, the string values are case-sensitive, and this fallback
          * value will be used even on case mismatches.
          */
-        fun withUnknownFallback(fallbackValue: T?): EnumValueJsonAdapter<T> = EnumValueJsonAdapter(enumType, fallbackValue, true)
+        fun withUnknownFallback(fallbackValue: T?): EnumValueJsonAdapter<T> =
+            EnumValueJsonAdapter(
+                enumType,
+                fallbackValue,
+                true,
+            )
 
         @Throws(IOException::class)
         override fun fromJson(reader: JsonReader): T? {

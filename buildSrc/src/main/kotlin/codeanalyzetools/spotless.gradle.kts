@@ -24,7 +24,7 @@ configure<SpotlessExtension> {
         )
         licenseHeaderFile(
             file("$rootDir/buildSrc/src/main/kotlin/codeanalyzetools/copyright.kt"),
-            "^(package|object|import|interface)",
+            "^(package|object|import|interface|@file:)",
         )
         googleJavaFormat().aosp()
         removeUnusedImports()
@@ -45,9 +45,10 @@ configure<SpotlessExtension> {
         )
         licenseHeaderFile(
             file("$rootDir/buildSrc/src/main/kotlin/codeanalyzetools/copyright.kt"),
-            "^(package|object|import|interface)",
+            "^(package|object|import|interface|@file:)",
         )
         trimTrailingWhitespace()
         leadingTabsToSpaces()
+        ktlint("1.1.1").setEditorConfigPath("$rootDir/buildSrc/src/main/kotlin/codeanalyzetools/config/ktlint/.editorconfig")
     }
 }

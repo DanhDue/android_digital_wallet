@@ -43,23 +43,6 @@ android {
 
 }
 
-android.libraryVariants.all {
-    val variantName = name
-    kotlin.sourceSets {
-        getByName("main") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
-        }
-        getByName("test") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
-        }
-        getByName("debug") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
-        }
-        getByName("release") {
-            kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
-        }
-    }
-}
 
 dependencies {
     coreLibraryDesugaring(Deps.OpenTelemetry.desugaring)

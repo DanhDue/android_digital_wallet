@@ -11,8 +11,9 @@ tasks.getByName("check") {
         listOf(
             tasks.getByName("ktlintFormat"),
             tasks.getByName("ktlintCheck"),
+            tasks.getByName("spotlessApply"),
+            tasks.getByName("spotlessCheck"),
             tasks.getByName("detekt"),
-            tasks.getByName("spotlessApply")
         )
     )
 }

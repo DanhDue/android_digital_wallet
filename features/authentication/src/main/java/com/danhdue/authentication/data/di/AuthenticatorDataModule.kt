@@ -18,13 +18,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AuthenticatorDataModule {
-
     /**
      * Binds the repository implementation to its interface.
      */
     @Binds
     @Singleton
-    abstract fun bindAuthenticatorRepository(
-        repository: DefaultAuthenticatorRepository
-    ): AuthenticatorRepository
+    abstract fun bindAuthenticatorRepository(repository: DefaultAuthenticatorRepository): AuthenticatorRepository
 }

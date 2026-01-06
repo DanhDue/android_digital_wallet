@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.libraries.testutils
 
 import com.squareup.moshi.JsonAdapter
@@ -44,7 +48,7 @@ abstract class BaseModelTest<T> : MockkUnitTest() {
         val model = jsonAdapter.fromJson(json)
         Assert.assertNotNull("Model should not be null", model)
 
-        val jsonMap = moshi.adapter(Map::class.java).fromJson(json) as Map<String, Any>
+        val jsonMap = moshi.adapter(Map::class.java).fromJson(json) as Map<*, *>
         val modelFields = getModelFields(model!!.javaClass)
 
         jsonMap.keys.forEach { key ->
@@ -73,6 +77,7 @@ abstract class BaseModelTest<T> : MockkUnitTest() {
      * Get generic type of model
      * @return generic type of model
      */
+    @Suppress("TooGenericExceptionThrown")
     protected fun getGenericType(): Type {
         val superclass = javaClass.genericSuperclass
         if (superclass is ParameterizedType) {

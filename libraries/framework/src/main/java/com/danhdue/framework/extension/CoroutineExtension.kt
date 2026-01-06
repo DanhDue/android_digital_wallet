@@ -55,6 +55,7 @@ fun <T> CoroutineScope.lazyAsync(block: suspend CoroutineScope.() -> T): Lazy<De
 /**
  * Alias to stateIn with defaults
  */
+@Suppress("MagicNumber")
 fun <T> Flow<T>.stateInDefault(
     scope: CoroutineScope,
     initialValue: T,

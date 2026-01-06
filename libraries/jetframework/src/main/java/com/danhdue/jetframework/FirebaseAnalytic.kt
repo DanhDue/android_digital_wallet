@@ -2,6 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
+@file:Suppress("MatchingDeclarationName")
 package com.danhdue.jetframework
 
 import android.annotation.SuppressLint

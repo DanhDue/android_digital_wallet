@@ -8,6 +8,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import timber.log.Timber
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
@@ -32,6 +33,7 @@ fun Context.isInternetAvailable(): Boolean {
     return result
 }
 
+@Suppress("MagicNumber")
 fun isInternetAvailableWithSocket(): Boolean =
     try {
         val timeoutMs = 1500
@@ -43,5 +45,6 @@ fun isInternetAvailableWithSocket(): Boolean =
 
         true
     } catch (e: IOException) {
+        Timber.d(e.toString())
         false
     }

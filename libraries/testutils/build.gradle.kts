@@ -3,19 +3,13 @@ import extensions.addNetworkDependencies
 import extensions.addTestDependencies
 
 plugins {
-    id("android.core.library.plugin")
-    id("org.jetbrains.kotlin.plugin.compose")
+    id(Deps.COMMONS_ANDROID_LIBRARY)
+    id(Deps.COMMONS_ANDROID_COMPOSE)
 }
 
 android {
     namespace = "com.danhdue.libraries.testutils"
     addLibDefaultConfig()
-
-    kotlinOptions {
-        languageVersion = AppConfig.kotlinVersion
-        jvmTarget = AppConfig.jvmTarget.target
-        freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
-    }
 }
 
 dependencies {

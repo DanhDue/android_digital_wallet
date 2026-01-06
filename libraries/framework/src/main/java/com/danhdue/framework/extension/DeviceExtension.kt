@@ -10,7 +10,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresApi
+import timber.log.Timber
 
+@Suppress("StringLiteralDuplication")
 fun isEmulator(): Boolean =
     (
         Build.FINGERPRINT.startsWith("generic") ||
@@ -43,6 +45,7 @@ fun Context.appVersion(): String? =
     try {
         packageManager.getPackageInfo(packageName, 0).versionName
     } catch (ex: PackageManager.NameNotFoundException) {
+        Timber.d(ex.toString())
         ""
     }
 
@@ -51,5 +54,6 @@ fun Context.appVersionCode(): Long =
     try {
         packageManager.getPackageInfo(packageName, 0).longVersionCode
     } catch (ex: PackageManager.NameNotFoundException) {
+        Timber.d(ex.toString())
         0L
     }

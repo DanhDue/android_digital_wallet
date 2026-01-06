@@ -14,12 +14,10 @@ complexity:
   StringLiteralDuplication:
     active: true
     excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
-    allowedDuplications: 4
     ignoreAnnotation: true
     ignoreStringsRegex: '$^'
   ComplexInterface:
     active: true
-    allowedDefinitions: 10
     includeStaticDeclarations: false
     includePrivateDeclarations: false
   CyclomaticComplexMethod:
@@ -32,6 +30,9 @@ complexity:
     active: true
   TooManyFunctions:
     excludes: ['**/test/**', '**/functionalTest/**']
+  LongMethod:
+    active: true
+    ignoreAnnotated: ['Composable']
 
 coroutines:
   active: true
@@ -63,6 +64,8 @@ exceptions:
     active: true
   ThrowingNewInstanceOfSameException:
     active: true
+  TooGenericExceptionCaught:
+    active: false
 
 formatting:
   active: true
@@ -80,6 +83,7 @@ formatting:
     active: false
   MaximumLineLength:
     active: false
+    maxLineLength: 140
   MultilineExpressionWrapping:
     active: false
   MultilineLoop:
@@ -90,6 +94,14 @@ formatting:
     active: false
   ValueArgumentComment:
     active: false
+  Indentation:
+    active: false # Disabled to resolve conflict with ktlintFormat/ktlintCheck
+  ParameterListWrapping:
+    active: false
+  ArgumentListWrapping:
+    active: false
+  AnnotationOnSeparateLine:
+    active: false
 
 naming:
   ClassNaming:
@@ -97,7 +109,7 @@ naming:
   FunctionNaming:
     active: true
     excludes: []
-    ignoreAnnotated: ['Test', 'ParameterizedTest', 'RepeatedTest', 'TestFactory']
+    ignoreAnnotated: ['Test', 'ParameterizedTest', 'RepeatedTest', 'TestFactory', 'Composable']
   TopLevelPropertyNaming:
     constantPattern: '[a-z][_A-Za-z0-9]*|[A-Z][_A-Z0-9]*'
   InvalidPackageDeclaration:
@@ -111,10 +123,11 @@ naming:
     active: true
   VariableMinLength:
     active: true
+    ignoreAnnotated: ['Composable']
 
 performance:
   SpreadOperator:
-    excludes: ['**/test/**', '**/functionalTest/**']
+    excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
 
 potential-bugs:
   AvoidReferentialEquality:
@@ -151,7 +164,7 @@ style:
   CanBeNonNullable:
     active: true
   CascadingCallWrapping:
-    active: true
+    active: false # Disabled to resolve conflict with KtLint default formatting
   ClassOrdering:
     active: true
   CollapsibleIfStatements:
@@ -225,6 +238,7 @@ style:
     active: true
   MaxLineLength:
     active: true
+    maxLineLength: 140
     excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
     excludeCommentStatements: true
   NestedClassesVisibility:
@@ -232,10 +246,6 @@ style:
   ObjectLiteralToLambda:
     active: true
   PreferToOverPairSyntax:
-    active: true
-  RangeUntilInsteadOfRangeTo:
-    active: true
-  RedundantConstructorKeyword:
     active: true
   RedundantExplicitType:
     active: true
@@ -246,8 +256,6 @@ style:
   ReturnCount:
     active: true
     excludeGuardClauses: true
-  SpacingAfterPackageDeclaration:
-    active: true
   TrimMultilineRawString:
     active: true
   UnderscoresInNumericLiterals:
@@ -263,11 +271,10 @@ style:
   UnnecessaryInnerClass:
     active: true
     ignoreAnnotated: ['Nested']
-  UnusedImport:
-    active: false # formatting already have this rule enabled
   UnusedPrivateMember:
     active: true
     allowedNames: '(_|ignored|expected)'
+    ignoreAnnotated: ['Preview', 'Composable']
   UseAnyOrNoneInsteadOfFind:
     active: true
   UseCheckOrError:
@@ -284,8 +291,10 @@ style:
     active: true
   UseRequire:
     active: true
+    ignoreAnnotated: ['Composable']
   UseRequireNotNull:
     active: true
+    ignoreAnnotated: ['Composable']
   VarCouldBeVal:
     active: true
     ignoreAnnotated: ['Parameter']

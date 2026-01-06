@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.libraries.testutils
 
 import io.mockk.MockKAnnotations
@@ -7,6 +11,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 
+@Suppress("ClassOrdering")
 open class MockkUnitTest {
     open fun onCreate() {}
 

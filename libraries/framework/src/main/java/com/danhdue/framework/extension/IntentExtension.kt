@@ -13,6 +13,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.ShareCompat
+import timber.log.Timber
 
 inline fun <reified T : Any> Activity.launchActivity(
     requestCode: Int = -1,
@@ -112,6 +113,7 @@ fun Context.openAppOnPlayStore() =
             ),
         )
     } catch (ex: ActivityNotFoundException) {
+        Timber.d(ex.toString())
         startActivity(
             Intent(
                 Intent.ACTION_VIEW,
@@ -131,6 +133,7 @@ fun Context.openAppOnAppGallery() {
             ),
         )
     } catch (ex: ActivityNotFoundException) {
+        Timber.d(ex.toString())
         startActivity(
             Intent(
                 Intent.ACTION_VIEW,

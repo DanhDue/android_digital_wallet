@@ -19,5 +19,5 @@ data class AuthenticatorDto(
     @SerialName("remote_id")
     val uniqueId: String,
     @SerialName("raw_data")
-    val payload: String?
+    val payload: String?,
 )

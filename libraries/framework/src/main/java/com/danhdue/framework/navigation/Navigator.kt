@@ -16,8 +16,10 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class Navigator
     @Inject
-    constructor(startDestination: Any) {
-        val backStack : SnapshotStateList<Any> = mutableStateListOf(startDestination)
+    constructor(
+        startDestination: Any,
+    ) {
+        val backStack: SnapshotStateList<Any> = mutableStateListOf(startDestination)
 
         /**
          * Navigates to a new destination by adding it to the backstack.

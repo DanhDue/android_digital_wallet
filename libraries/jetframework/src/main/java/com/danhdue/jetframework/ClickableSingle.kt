@@ -2,6 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
+@file:Suppress("MatchingDeclarationName")
 package com.danhdue.jetframework
 
 import androidx.compose.foundation.LocalIndication
@@ -27,6 +28,7 @@ private class MultipleEventsCutterImpl : MultipleEventsCutter {
 
     private var lastEventTimeMs: Long = 0
 
+    @Suppress("MagicNumber")
     override fun processEvent(event: () -> Unit) {
         if (now - lastEventTimeMs >= 300L) {
             event.invoke()

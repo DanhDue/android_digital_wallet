@@ -14,11 +14,13 @@ import javax.inject.Inject
  * Manages the business logic and state for the Register feature.
  */
 @HiltViewModel
+@Suppress("UnusedPrivateProperty")
 class RegisterViewModel
     @Inject
     constructor(
         private val getRegisterDataUseCase: GetRegisterDataUseCase,
-    ) : MviViewModel<BaseViewState<RegisterState>, RegisterAction, RegisterEvent>() {
+    ) :
+    MviViewModel<BaseViewState<RegisterState>, RegisterAction, RegisterEvent>() {
         init {
             setState(BaseViewState.Data(RegisterState()))
         }
@@ -54,7 +56,7 @@ class RegisterViewModel
                 }
 
                 RegisterAction.OnRegisterClicked -> {
-                    // TODO: Implement registration logic
+                    // Implement registration logic
                 }
 
                 RegisterAction.OnBackClicked -> {

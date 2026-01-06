@@ -108,6 +108,7 @@ class NetworkDetection(
                 pingConnection.disconnect()
                 resolveProbeResult(responseLength, responseCode)
             } catch (e: java.lang.Exception) {
+                Timber.d(e.toString())
                 pingConnection?.disconnect()
                 InternetStatus.NO_INTERNET
             }

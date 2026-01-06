@@ -1,18 +1,28 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.libraries.testutils
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.*
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
 class TestCoroutineRule : TestRule {
-
     private val testCoroutineDispatcher = UnconfinedTestDispatcher()
 
     val testCoroutineScope = TestScope(testCoroutineDispatcher)
 
-    override fun apply(base: Statement, description: Description?) = object : Statement() {
+    override fun apply(
+        base: Statement,
+        description: Description?,
+    ) = object : Statement() {
         @Throws(Throwable::class)
         override fun evaluate() {
             Dispatchers.setMain(testCoroutineDispatcher)
@@ -23,6 +33,5 @@ class TestCoroutineRule : TestRule {
         }
     }
 
-    fun runTest(block: suspend TestScope.() -> Unit) =
-        testCoroutineScope.runTest { block() }
+    fun runTest(block: suspend TestScope.() -> Unit) = testCoroutineScope.runTest { block() }
 }

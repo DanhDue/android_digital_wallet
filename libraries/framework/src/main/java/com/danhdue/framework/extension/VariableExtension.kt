@@ -2,6 +2,8 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
+@file:Suppress("TooManyFunctions")
+
 package com.danhdue.framework.extension
 
 import java.math.BigDecimal

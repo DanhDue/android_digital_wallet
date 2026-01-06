@@ -9,6 +9,7 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import timber.log.Timber
 import java.io.IOException
 
 val moshi: Moshi =
@@ -22,6 +23,7 @@ inline fun <reified T> String.fromJson(): T? =
         val jsonAdapter = moshi.adapter(T::class.java)
         jsonAdapter.fromJson(this)
     } catch (ex: Exception) {
+        Timber.d(ex.toString())
         null
     }
 
@@ -31,6 +33,7 @@ inline fun <reified T> String.fromJsonList(): List<T>? =
         val jsonAdapter: JsonAdapter<List<T>> = moshi.adapter(type)
         jsonAdapter.fromJson(this)
     } catch (ex: Exception) {
+        Timber.d(ex.toString())
         null
     }
 
@@ -43,6 +46,7 @@ inline fun <reified T> T.toJson(): String =
                 .lenient()
         jsonAdapter.toJson(this)
     } catch (ex: Exception) {
+        Timber.d(ex.toString())
         ""
     }
 
@@ -56,6 +60,7 @@ inline fun <reified T> T.toJsonString(): String? =
                 .indent("   ")
         jsonAdapter.toJson(this)
     } catch (ex: Exception) {
+        Timber.d(ex.toString())
         null
     }
 
@@ -72,7 +77,7 @@ inline fun <reified T> getObjectFromJsonFile(
         inputStream.close()
         json = String(buffer, Charsets.UTF_8)
     } catch (e: IOException) {
-        e.printStackTrace()
+        Timber.d(e.toString())
     }
 
     return json?.let {
@@ -98,7 +103,7 @@ fun getJsonStringFromFile(
         inputStream.close()
         json = String(buffer, Charsets.UTF_8)
     } catch (e: IOException) {
-        e.printStackTrace()
+        Timber.d(e.toString())
     }
     return json
 }

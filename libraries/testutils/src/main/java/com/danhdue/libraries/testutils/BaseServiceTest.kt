@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.libraries.testutils
 
 import okhttp3.mockwebserver.MockResponse

@@ -18,15 +18,11 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @Module
 @InstallIn(ViewModelComponent::class)
 object AuthenticatorDomainModule {
-
     /**
      * Provides the GetAuthenticatorDataUseCase instance.
      */
     @Provides
     @ViewModelScoped
-    fun provideGetAuthenticatorDataUseCase(
-        repository: AuthenticatorRepository
-    ): GetAuthenticatorDataUseCase {
-        return GetAuthenticatorDataUseCase(repository)
-    }
+    fun provideGetAuthenticatorDataUseCase(repository: AuthenticatorRepository): GetAuthenticatorDataUseCase =
+        GetAuthenticatorDataUseCase(repository)
 }

@@ -78,4 +78,5 @@ object Versions {
     const val excelReader = "5.5.1"
     const val libPhoneNumber = "9.0.21"
     const val gson = "2.13.2"
+    const val tink = "1.16.0"
 }

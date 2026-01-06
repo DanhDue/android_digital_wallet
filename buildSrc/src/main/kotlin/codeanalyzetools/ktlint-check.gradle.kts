@@ -22,6 +22,7 @@ ktlint {
 			"ktlint_code_style" to "ktlint_official",
 			"ktlint_experimental" to "enabled",
 			"ktlint_ignore_back_ticked_identifier" to "true",
+			"ktlint_standard_annotation" to "disabled",
         )
     )
     reporters {

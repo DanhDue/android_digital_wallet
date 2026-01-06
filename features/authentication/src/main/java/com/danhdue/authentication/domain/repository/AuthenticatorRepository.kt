@@ -10,7 +10,6 @@ import com.danhdue.authentication.domain.model.Authenticator
  * Interface defining the contract for the Authenticator feature's repository.
  */
 interface AuthenticatorRepository {
-
     /**
      * Retrieves data for the Authenticator feature.
      *
