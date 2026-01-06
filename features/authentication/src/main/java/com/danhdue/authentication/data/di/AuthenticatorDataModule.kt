@@ -4,12 +4,12 @@
  */
 package com.danhdue.authentication.data.di
 
+import com.danhdue.authentication.data.repository.DefaultAuthenticatorRepository
+import com.danhdue.authentication.domain.repository.AuthenticatorRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import com.danhdue.authentication.data.repository.DefaultAuthenticatorRepository
-import com.danhdue.authentication.domain.repository.AuthenticatorRepository
 import javax.inject.Singleton
 
 /**

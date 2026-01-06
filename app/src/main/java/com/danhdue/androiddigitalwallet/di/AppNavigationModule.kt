@@ -19,7 +19,7 @@ annotation class ExecutorNetworkIO
 
 @Module
 @InstallIn(ActivityRetainedComponent::class)
-class NavigationModule {
+class AppNavigationModule {
 
     @Provides
     @ActivityRetainedScoped

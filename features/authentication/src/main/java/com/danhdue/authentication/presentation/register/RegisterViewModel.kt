@@ -4,8 +4,6 @@
  */
 package com.danhdue.authentication.presentation.register
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.danhdue.authentication.domain.usecase.GetRegisterDataUseCase
 import com.danhdue.framework.base.mvi.BaseViewState
 import com.danhdue.framework.base.mvi.MviViewModel

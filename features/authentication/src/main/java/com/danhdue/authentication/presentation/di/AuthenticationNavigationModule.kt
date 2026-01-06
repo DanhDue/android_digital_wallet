@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.authentication.presentation
+package com.danhdue.authentication.presentation.di
 
 import com.danhdue.authentication.presentation.login.LoginEvent
 import com.danhdue.authentication.presentation.login.LoginRoot
