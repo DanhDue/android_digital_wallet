@@ -19,8 +19,7 @@ class RegisterViewModel
     @Inject
     constructor(
         private val getRegisterDataUseCase: GetRegisterDataUseCase,
-    ) :
-    MviViewModel<BaseViewState<RegisterState>, RegisterAction, RegisterEvent>() {
+    ) : MviViewModel<BaseViewState<RegisterState>, RegisterAction, RegisterEvent>() {
         init {
             setState(BaseViewState.Data(RegisterState()))
         }

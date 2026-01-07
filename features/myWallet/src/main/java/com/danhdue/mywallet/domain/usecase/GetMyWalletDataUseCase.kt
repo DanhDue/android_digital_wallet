@@ -1,0 +1,21 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
+package com.danhdue.mywallet.domain.usecase
+
+import com.danhdue.mywallet.domain.model.MyWallet
+import com.danhdue.mywallet.domain.repository.MyWalletRepository
+import javax.inject.Inject
+
+/**
+ * Use case that encapsulates the business logic for fetching the MyWallet feature data.
+ */
+class GetMyWalletDataUseCase @Inject constructor(
+    private val repository: MyWalletRepository,
+) {
+    /**
+     * Executes the use case.
+     */
+    suspend operator fun invoke(): Result<MyWallet> = repository.getMyWalletData()
+}
