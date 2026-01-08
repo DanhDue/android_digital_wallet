@@ -1,0 +1,17 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
+package com.danhdue.settings.domain.model
+
+/**
+ * Represents the main domain model for the Profile feature.
+ * This is the "clean" class used within the app (domain, presentation).
+ *
+ * @property id The unique identifier of the model.
+ * @property data An example data field for the model.
+ */
+data class Profile(
+    val id: String,
+    val data: String,
+)

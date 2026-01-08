@@ -4,6 +4,7 @@
  */
 package com.danhdue.settings.domain.repository
 
+import com.danhdue.settings.domain.model.Profile
 import com.danhdue.settings.domain.model.Settings
 
 /**
@@ -17,4 +18,12 @@ interface SettingsRepository {
      * or an exception on failure.
      */
     suspend fun getSettingsData(): Result<Settings>
+
+    /**
+     * Retrieves data for the Profile feature.
+     *
+     * @return A Result object containing the Profile domain model on success,
+     * or an exception on failure.
+     */
+    suspend fun getProfileData(): Result<Profile>
 }

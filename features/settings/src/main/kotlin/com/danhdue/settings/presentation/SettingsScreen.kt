@@ -65,7 +65,9 @@ private fun SettingsScreen(
             CircularProgressIndicator()
         } else {
             Column(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -85,7 +87,7 @@ private fun SettingsScreen(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
-                    onClick = { onAction(SettingsAction.OpenProfile) },
+                    onClick = { onAction(SettingsAction.Logout) },
                     modifier =
                         Modifier
                             .fillMaxWidth()
@@ -95,7 +97,7 @@ private fun SettingsScreen(
                     if (state.isLoading) {
                         CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
                     } else {
-                        Text("Log Out")
+                        Text("Logout")
                     }
                 }
             }

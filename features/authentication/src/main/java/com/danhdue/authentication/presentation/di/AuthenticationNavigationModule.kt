@@ -6,12 +6,12 @@ package com.danhdue.authentication.presentation.di
 
 import com.danhdue.authentication.presentation.login.LoginEvent
 import com.danhdue.authentication.presentation.login.LoginRoot
-import com.danhdue.authentication.presentation.login.LoginRoute
 import com.danhdue.authentication.presentation.register.RegisterEvent
 import com.danhdue.authentication.presentation.register.RegisterRoot
 import com.danhdue.authentication.presentation.register.RegisterRoute
 import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.HomeRoute
+import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
 import dagger.Module
 import dagger.Provides

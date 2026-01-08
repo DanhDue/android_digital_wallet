@@ -37,7 +37,15 @@ class SettingsViewModel
 
         fun onAction(action: SettingsAction) {
             when (action) {
-                else -> {
+                is SettingsAction.OpenProfile -> {
+                    viewModelScope.launch {
+                        _event.emit(SettingsEvent.NavigateToProfile)
+                    }
+                }
+                is SettingsAction.Logout -> {
+                    viewModelScope.launch {
+                        _event.emit(SettingsEvent.NavigateToLogin)
+                    }
                 }
             }
         }

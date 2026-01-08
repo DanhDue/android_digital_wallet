@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.danhdue.androiddigitalwallet.ui.theme.AndroidDigitalWalletTheme
-import com.danhdue.authentication.presentation.login.LoginRoute
 import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.LocalEntryProviderInstallers
+import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Ensure backstack is not empty before content is set
         if (navigator.backStack.isEmpty()) {
             navigator.navigateTo(LoginRoute)
         }
@@ -51,18 +52,22 @@ class MainActivity : ComponentActivity() {
                     }
 
                     Scaffold { paddingValues ->
-                        NavDisplay(
-                            backStack = navigator.backStack,
-                            modifier = Modifier.padding(paddingValues),
-                            onBack = {
-                                if (navigator.backStack.size > 1) {
-                                    navigator.popBackStack()
-                                } else {
-                                    handleExit()
-                                }
-                            },
-                            entryProvider = entryProvider { installers.forEach { it() } },
-                        )
+                        // NavDisplay throws an exception if the backstack is empty.
+                        // We guard against this by checking the size.
+                        if (navigator.backStack.isNotEmpty()) {
+                            NavDisplay(
+                                backStack = navigator.backStack,
+                                modifier = Modifier.padding(paddingValues),
+                                onBack = {
+                                    if (navigator.backStack.size > 1) {
+                                        navigator.popBackStack()
+                                    } else {
+                                        handleExit()
+                                    }
+                                },
+                                entryProvider = entryProvider { installers.forEach { it() } },
+                            )
+                        }
                     }
                 }
             }

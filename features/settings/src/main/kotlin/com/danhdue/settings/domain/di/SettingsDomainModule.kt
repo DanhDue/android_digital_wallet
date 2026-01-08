@@ -5,6 +5,7 @@
 package com.danhdue.settings.domain.di
 
 import com.danhdue.settings.domain.repository.SettingsRepository
+import com.danhdue.settings.domain.usecase.GetProfileDataUseCase
 import com.danhdue.settings.domain.usecase.GetSettingsDataUseCase
 import dagger.Module
 import dagger.Provides
@@ -23,8 +24,12 @@ object SettingsDomainModule {
      */
     @Provides
     @ViewModelScoped
-    fun provideGetSettingsDataUseCase(repository: SettingsRepository): GetSettingsDataUseCase =
-        GetSettingsDataUseCase(
-            repository,
-        )
+    fun provideGetSettingsDataUseCase(repository: SettingsRepository): GetSettingsDataUseCase = GetSettingsDataUseCase(repository)
+
+    /**
+     * Provides the GetProfileDataUseCase instance.
+     */
+    @Provides
+    @ViewModelScoped
+    fun provideGetProfileDataUseCase(repository: SettingsRepository): GetProfileDataUseCase = GetProfileDataUseCase(repository)
 }

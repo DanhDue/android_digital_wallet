@@ -4,6 +4,7 @@
  */
 package com.danhdue.settings.data.repository
 
+import com.danhdue.settings.domain.model.Profile
 import com.danhdue.settings.domain.model.Settings
 import com.danhdue.settings.domain.repository.SettingsRepository
 import javax.inject.Inject
@@ -17,6 +18,14 @@ class DefaultSettingsRepository
         override suspend fun getSettingsData(): Result<Settings> =
             try {
                 val domainModel = Settings(id = "1", data = "Sample data from repository")
+                Result.success(domainModel)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+        override suspend fun getProfileData(): Result<Profile> =
+            try {
+                val domainModel = Profile(id = "1", data = "Sample data from repository")
                 Result.success(domainModel)
             } catch (e: Exception) {
                 Result.failure(e)

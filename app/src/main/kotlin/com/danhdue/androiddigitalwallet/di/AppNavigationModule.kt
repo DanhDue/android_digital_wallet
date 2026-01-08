@@ -4,7 +4,7 @@
  */
 package com.danhdue.androiddigitalwallet.di
 
-import com.danhdue.authentication.presentation.login.LoginRoute
+import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
 import dagger.Module
 import dagger.Provides

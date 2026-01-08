@@ -10,4 +10,6 @@ package com.danhdue.settings.presentation
  */
 sealed interface SettingsAction {
     data object OpenProfile : SettingsAction
+
+    data object Logout : SettingsAction
 }

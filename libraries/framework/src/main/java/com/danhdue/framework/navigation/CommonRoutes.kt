@@ -11,8 +11,15 @@ import kotlinx.serialization.Serializable
 data object CommonRoutes
 
 /**
- * Defines the navigation route for the Home screen (the main tabbed container).
+ * Defines the navigation route for the Dashboard (Main) screen.
  * Moved to framework to allow cross-module navigation without circular dependencies.
  */
 @Serializable
 data object HomeRoute : NavKey
+
+/**
+ * Defines the navigation route for the Login screen.
+ * Moved to framework to allow cross-module navigation without circular dependencies.
+ */
+@Serializable
+data object LoginRoute : NavKey

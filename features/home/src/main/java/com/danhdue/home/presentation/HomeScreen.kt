@@ -32,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -52,6 +53,8 @@ import com.danhdue.components.ui.theme.HomeGrayText
 import com.danhdue.components.ui.theme.HomePrimaryBlue
 import com.danhdue.components.ui.theme.ScannerFabGradient
 import com.danhdue.framework.navigation.LocalEntryProviderInstallers
+import com.danhdue.framework.navigation.LocalNestedNavigator
+import com.danhdue.framework.navigation.NestedNavigator
 
 @Composable
 fun HomeRoot(viewModel: HomeViewModel = hiltViewModel()) {
@@ -92,33 +95,38 @@ private fun HomeScreen(
             // Nested navigation for each tab
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Wallet,
+                tab = HomeTab.Wallet,
                 backStack = state.walletBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Wallet)) },
+                onAction = onAction,
             )
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Transactions,
+                tab = HomeTab.Transactions,
                 backStack = state.transactionsBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Transactions)) },
+                onAction = onAction,
             )
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Scanner,
+                tab = HomeTab.Scanner,
                 backStack = state.scannerBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Scanner)) },
+                onAction = onAction,
             )
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Trends,
+                tab = HomeTab.Trends,
                 backStack = state.trendsBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Trends)) },
+                onAction = onAction,
             )
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Settings,
+                tab = HomeTab.Settings,
                 backStack = state.settingsBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Settings)) },
+                onAction = onAction,
             )
         }
     }
@@ -127,16 +135,32 @@ private fun HomeScreen(
 @Composable
 private fun HomeTabContent(
     isVisible: Boolean,
+    tab: HomeTab,
     backStack: List<Any>,
     entryProvider: (Any) -> NavEntry<Any>,
-    onBack: () -> Unit,
+    onAction: (HomeAction) -> Unit,
 ) {
     if (isVisible) {
-        NavDisplay(
-            backStack = backStack,
-            onBack = onBack,
-            entryProvider = entryProvider,
-        )
+        val nestedNavigator =
+            remember(tab) {
+                object : NestedNavigator {
+                    override fun navigate(destination: Any) {
+                        onAction(HomeAction.NavigateInTab(tab, destination))
+                    }
+
+                    override fun popBackStack() {
+                        onAction(HomeAction.PopInTab(tab))
+                    }
+                }
+            }
+
+        CompositionLocalProvider(LocalNestedNavigator provides nestedNavigator) {
+            NavDisplay(
+                backStack = backStack,
+                onBack = { nestedNavigator.popBackStack() },
+                entryProvider = entryProvider,
+            )
+        }
     }
 }
 

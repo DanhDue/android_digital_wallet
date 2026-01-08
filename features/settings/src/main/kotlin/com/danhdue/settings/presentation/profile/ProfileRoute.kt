@@ -2,14 +2,14 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.authentication.presentation.login
+package com.danhdue.settings.presentation.profile
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 /**
- * Defines the navigation route for the Login screen.
+ * Defines the navigation route for the Profile screen.
  * Used by a type-safe navigation library.
  */
 @Serializable
-data object LoginRoute : NavKey
+data object ProfileRoute : NavKey
