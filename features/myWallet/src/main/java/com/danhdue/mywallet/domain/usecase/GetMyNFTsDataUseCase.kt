@@ -4,18 +4,19 @@
  */
 package com.danhdue.mywallet.domain.usecase
 
+import com.danhdue.framework.network.NetworkResult
 import com.danhdue.mywallet.domain.model.MyNFTs
-import com.danhdue.mywallet.presentation.mynfts.domain.repository.MyNFTsRepository
+import com.danhdue.mywallet.domain.repository.MyWalletRepository
 import javax.inject.Inject
 
 /**
  * Use case that encapsulates the business logic for fetching the MyNFTs feature data.
  */
 class GetMyNFTsDataUseCase @Inject constructor(
-    private val repository: MyNFTsRepository,
+    private val repository: MyWalletRepository,
 ) {
     /**
      * Executes the use case.
      */
-    suspend operator fun invoke(): Result<MyNFTs> = repository.getMyNFTsData()
+    suspend operator fun invoke(): NetworkResult<MyNFTs> = repository.getMyNFTsData()
 }

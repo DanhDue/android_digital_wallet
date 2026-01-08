@@ -10,6 +10,7 @@ package com.danhdue.mywallet.presentation.model
  */
 data class MyNFTsUiModel(
     val id: String,
-    val title: String,
-    val description: String,
+    val name: String,
+    val collectionName: String,
+    val imageUrl: String,
 )

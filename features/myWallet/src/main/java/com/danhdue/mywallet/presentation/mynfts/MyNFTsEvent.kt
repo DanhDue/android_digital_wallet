@@ -9,5 +9,7 @@ package com.danhdue.mywallet.presentation.mynfts
  * These events are meant to be consumed only once (e.g., navigation, snackbar).
  */
 sealed interface MyNFTsEvent {
-    // Example: data class NavigateToDetails(val screenId: String) : MyNFTsEvent
+    data class ShowSnackbar(
+        val message: String,
+    ) : MyNFTsEvent
 }

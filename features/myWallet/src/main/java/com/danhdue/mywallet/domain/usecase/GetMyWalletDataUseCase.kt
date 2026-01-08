@@ -4,6 +4,7 @@
  */
 package com.danhdue.mywallet.domain.usecase
 
+import com.danhdue.framework.network.NetworkResult
 import com.danhdue.mywallet.domain.model.MyWallet
 import com.danhdue.mywallet.domain.repository.MyWalletRepository
 import javax.inject.Inject
@@ -17,5 +18,5 @@ class GetMyWalletDataUseCase @Inject constructor(
     /**
      * Executes the use case.
      */
-    suspend operator fun invoke(): Result<MyWallet> = repository.getMyWalletData()
+    suspend operator fun invoke(): NetworkResult<MyWallet> = repository.getMyWalletData()
 }

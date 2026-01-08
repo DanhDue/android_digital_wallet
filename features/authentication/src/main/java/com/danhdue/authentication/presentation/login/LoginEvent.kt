@@ -11,5 +11,7 @@ package com.danhdue.authentication.presentation.login
 sealed interface LoginEvent {
     data object NavigateToRegister : LoginEvent
 
+    data object NavigateToHome : LoginEvent
+
     data object NavigateBack : LoginEvent
 }

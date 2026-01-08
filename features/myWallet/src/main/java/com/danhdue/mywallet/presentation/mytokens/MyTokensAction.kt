@@ -9,5 +9,5 @@ package com.danhdue.mywallet.presentation.mytokens
  * for the MyTokens feature.
  */
 sealed interface MyTokensAction {
-    // Example: data class ButtonClicked(val itemId: String) : MyTokensAction
+    data object Refresh : MyTokensAction
 }

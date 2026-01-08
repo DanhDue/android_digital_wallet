@@ -1,6 +1,7 @@
 
 import commons.addDefaultConfig
 import extensions.FEATURE_AUTHENTICATION
+import extensions.FEATURE_MY_WALLET
 import extensions.FRAMEWORK
 import extensions.addCommonDependencies
 import extensions.addComposeDependencies
@@ -84,6 +85,7 @@ dependencies {
 
     FRAMEWORK
     FEATURE_AUTHENTICATION
+    FEATURE_MY_WALLET
 
     // Testing
 //    TEST

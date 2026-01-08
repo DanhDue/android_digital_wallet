@@ -49,6 +49,8 @@ object Deps {
             "androidx.lifecycle:lifecycle-service:${Versions.lifecycleService}"
         const val lifecycleRuntimeKtx =
             "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntimeKtx}"
+        const val lifecycleViewmodelKtx =
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleViewmodelKtx}"
     }
 
     object Compose {
@@ -242,4 +244,5 @@ object Modules {
     const val featureHome = ":features:home"
     const val featureSettings = ":features:settings"
     const val featureAuthentication = ":features:authentication"
+    const val featureMyWallet = ":features:myWallet"
 }

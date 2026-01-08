@@ -14,5 +14,12 @@ import com.danhdue.mywallet.presentation.model.MyWalletUiModel
  */
 data class MyWalletState(
     val isLoading: Boolean = false,
+    val accountName: String = "Account 1",
+    val totalBalance: String = "$0.00",
+    val isBalanceVisible: Boolean = true,
+    val walletAddress: String = "",
+    val profileImageUrl: String = "",
+    val networkName: String = "Smart Chain",
+    val selectedTabIndex: Int = 0,
     val items: List<MyWalletUiModel> = emptyList(),
 )

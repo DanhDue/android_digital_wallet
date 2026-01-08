@@ -342,13 +342,14 @@ fun BuildType.addReleaseBuildTypeConfigs() {
 }
 
 fun DependencyHandler.addCommonDependencies() {
-    implementation(Deps.timber)
-    implementation(Deps.coreKtx)
-    implementation(Deps.Appcompat.appCompat)
-    implementation(Deps.Kotlin.coroutineCore)
-    implementation(Deps.Kotlin.coroutine)
-    implementation(Deps.AndroidX.lifecycleRuntimeKtx)
-    implementation(Deps.Appcompat.activityKtx)
+    api(Deps.timber)
+    api(Deps.coreKtx)
+    api(Deps.Appcompat.appCompat)
+    api(Deps.Kotlin.coroutineCore)
+    api(Deps.Kotlin.coroutine)
+    api(Deps.AndroidX.lifecycleRuntimeKtx)
+    api(Deps.AndroidX.lifecycleViewmodelKtx)
+    api(Deps.Appcompat.activityKtx)
     compileOnly(Deps.LOMBOK)
     annotationProcessor(Deps.LOMBOK)
 }
@@ -562,3 +563,6 @@ val DependencyHandler.FEATURE_SETTINGS
 
 val DependencyHandler.FEATURE_AUTHENTICATION
     get() = implementation(project(mapOf(PATH to Modules.featureAuthentication)))
+
+val DependencyHandler.FEATURE_MY_WALLET
+    get() = implementation(project(mapOf(PATH to Modules.featureMyWallet)))

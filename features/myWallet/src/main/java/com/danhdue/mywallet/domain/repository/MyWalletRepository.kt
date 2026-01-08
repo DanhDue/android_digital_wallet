@@ -4,6 +4,7 @@
  */
 package com.danhdue.mywallet.domain.repository
 
+import com.danhdue.framework.network.NetworkResult
 import com.danhdue.mywallet.domain.model.MyNFTs
 import com.danhdue.mywallet.domain.model.MyTokens
 import com.danhdue.mywallet.domain.model.MyWallet
@@ -14,25 +15,16 @@ import com.danhdue.mywallet.domain.model.MyWallet
 interface MyWalletRepository {
     /**
      * Retrieves data for the MyWallet feature.
-     *
-     * @return A Result object containing the MyWallet domain model on success,
-     * or an exception on failure.
      */
-    suspend fun getMyWalletData(): Result<MyWallet>
+    suspend fun getMyWalletData(): NetworkResult<MyWallet>
 
     /**
      * Retrieves data for the MyNFTs feature.
-     *
-     * @return A Result object containing the MyNFTs domain model on success,
-     * or an exception on failure.
      */
-    suspend fun getMyNFTsData(): Result<MyNFTs>
+    suspend fun getMyNFTsData(): NetworkResult<MyNFTs>
 
     /**
      * Retrieves data for the MyTokens feature.
-     *
-     * @return A Result object containing the MyTokens domain model on success,
-     * or an exception on failure.
      */
-    suspend fun getMyTokensData(): Result<MyTokens>
+    suspend fun getMyTokensData(): NetworkResult<MyTokens>
 }

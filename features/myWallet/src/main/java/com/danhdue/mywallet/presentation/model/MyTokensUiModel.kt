@@ -10,6 +10,13 @@ package com.danhdue.mywallet.presentation.model
  */
 data class MyTokensUiModel(
     val id: String,
-    val title: String,
-    val description: String,
+    val symbol: String,
+    val name: String,
+    val iconUrl: String,
+    val balance: String,
+    val fiatBalance: String,
+    val price: String,
+    val priceChange: String,
+    val isPositive: Boolean,
+    val sparklineData: List<Float>,
 )

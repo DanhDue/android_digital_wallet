@@ -9,5 +9,11 @@ package com.danhdue.mywallet.presentation
  * for the MyWallet feature.
  */
 sealed interface MyWalletAction {
-    // Example: data class ButtonClicked(val itemId: String) : MyWalletAction
+    data object ToggleBalanceVisibility : MyWalletAction
+
+    data object CopyAddress : MyWalletAction
+
+    data class TabChanged(
+        val index: Int,
+    ) : MyWalletAction
 }

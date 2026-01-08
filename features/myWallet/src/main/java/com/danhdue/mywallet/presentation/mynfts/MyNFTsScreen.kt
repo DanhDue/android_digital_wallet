@@ -4,8 +4,22 @@
  */
 package com.danhdue.mywallet.presentation.mynfts
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,9 +27,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.danhdue.mywallet.presentation.model.MyNFTsUiModel
+import com.danhdue.mywallet.presentation.theme.MyWalletColors
 
 /**
  * Composable entry point for the MyNFTs feature.
@@ -48,14 +68,67 @@ private fun MyNFTsScreen(
     state: MyNFTsState,
     onAction: (MyNFTsAction) -> Unit,
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        if (state.isLoading) {
+    if (state.isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
-        } else {
-            Text(text = "Feature: MyNFTs")
+        }
+    } else {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(vertical = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            items(state.items) { nft ->
+                NFTGridItem(nft = nft, onClick = { /* TODO */ })
+            }
+        }
+    }
+}
+
+@Composable
+fun NFTGridItem(
+    nft: MyNFTsUiModel,
+    onClick: () -> Unit,
+) {
+    Card(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MyWalletColors.NeutralGray),
+    ) {
+        Column {
+            // NFT Image Placeholder
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                        .background(Color.LightGray),
+            ) {
+                Text(
+                    text = "NFT",
+                    modifier = Modifier.align(Alignment.Center),
+                    color = Color.Gray,
+                )
+            }
+
+            Column(modifier = Modifier.padding(12.dp)) {
+                Text(
+                    text = nft.name,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MyWalletColors.DarkText,
+                )
+                Text(
+                    text = nft.collectionName,
+                    fontSize = 12.sp,
+                    color = MyWalletColors.LightText,
+                )
+            }
         }
     }
 }
@@ -64,7 +137,25 @@ private fun MyNFTsScreen(
 @Composable
 private fun PreviewMyNFTsScreen() {
     MyNFTsScreen(
-        state = MyNFTsState(isLoading = false),
+        state =
+            MyNFTsState(
+                isLoading = false,
+                items =
+                    listOf(
+                        MyNFTsUiModel(
+                            id = "1",
+                            name = "Ape #1",
+                            collectionName = "Bored Ape Yacht Club",
+                            imageUrl = "",
+                        ),
+                        MyNFTsUiModel(
+                            id = "2",
+                            name = "Punk #2",
+                            collectionName = "CryptoPunks",
+                            imageUrl = "",
+                        ),
+                    ),
+            ),
         onAction = {},
     )
 }

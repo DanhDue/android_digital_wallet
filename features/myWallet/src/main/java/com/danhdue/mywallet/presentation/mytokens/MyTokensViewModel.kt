@@ -4,16 +4,15 @@
  */
 package com.danhdue.mywallet.presentation.mytokens
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.danhdue.framework.base.mvvm.MvvmViewModel
+import com.danhdue.framework.network.NetworkResult
 import com.danhdue.mywallet.domain.usecase.GetMyTokensDataUseCase
+import com.danhdue.mywallet.presentation.model.MyTokensUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -22,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MyTokensViewModel @Inject constructor(
     private val getMyTokensDataUseCase: GetMyTokensDataUseCase,
-) : ViewModel() {
+) : MvvmViewModel() {
     private val _state = MutableStateFlow(MyTokensState())
     val state = _state.asStateFlow()
 
@@ -35,21 +34,39 @@ class MyTokensViewModel @Inject constructor(
 
     fun onAction(action: MyTokensAction) {
         when (action) {
-            else -> {
-            }
+            MyTokensAction.Refresh -> loadInitialData()
         }
     }
 
+    @Suppress("MagicNumber", "UnusedPrivateProperty")
     private fun loadInitialData() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
+        safeLaunch {
+            _state.value = _state.value.copy(isLoading = true)
 
-            getMyTokensDataUseCase()
-                .onSuccess {
-                }.onFailure {
+            when (val result = getMyTokensDataUseCase()) {
+                is NetworkResult.Success -> {
+                    val mockTokens = listOf(
+                        MyTokensUiModel(
+                            id = "1",
+                            symbol = "ETH",
+                            name = "Ethereum",
+                            iconUrl = "",
+                            balance = "1.3135 ETH",
+                            fiatBalance = "$2,430.34",
+                            price = "$1,850.45",
+                            priceChange = "+4.86%",
+                            isPositive = true,
+                            sparklineData = listOf(0.1f, 0.3f, 0.2f, 0.5f, 0.4f, 0.7f, 0.6f, 0.9f)
+                        )
+                    )
+                    _state.value = _state.value.copy(items = mockTokens)
                 }
+                is NetworkResult.Error -> {
+                    _event.emit(MyTokensEvent.ShowSnackbar("Failed to load tokens"))
+                }
+            }
 
-            _state.update { it.copy(isLoading = false) }
+            _state.value = _state.value.copy(isLoading = false)
         }
     }
 }

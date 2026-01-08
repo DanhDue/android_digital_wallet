@@ -9,5 +9,7 @@ package com.danhdue.mywallet.presentation.mytokens
  * These events are meant to be consumed only once (e.g., navigation, snackbar).
  */
 sealed interface MyTokensEvent {
-    // Example: data class NavigateToDetails(val screenId: String) : MyTokensEvent
+    data class ShowSnackbar(
+        val message: String,
+    ) : MyTokensEvent
 }

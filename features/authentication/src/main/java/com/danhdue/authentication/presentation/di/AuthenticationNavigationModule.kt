@@ -34,6 +34,7 @@ object AuthenticationNavigationModule {
                         when (event) {
                             LoginEvent.NavigateToRegister -> navigator.navigateTo(RegisterRoute)
                             LoginEvent.NavigateBack -> navigator.popBackStack()
+                            else -> {}
                         }
                     },
                 )

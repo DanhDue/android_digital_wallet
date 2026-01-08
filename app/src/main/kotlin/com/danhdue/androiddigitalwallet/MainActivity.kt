@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.danhdue.androiddigitalwallet.ui.theme.AndroidDigitalWalletTheme
-import com.danhdue.authentication.presentation.login.LoginRoute
 import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.Navigator
+import com.danhdue.mywallet.presentation.MyWalletRoute
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         if (navigator.backStack.isEmpty()) {
-            navigator.navigateTo(LoginRoute)
+            navigator.navigateTo(MyWalletRoute)
         }
 
         enableEdgeToEdge()

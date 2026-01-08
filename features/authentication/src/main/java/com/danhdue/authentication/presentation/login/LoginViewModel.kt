@@ -4,9 +4,12 @@
  */
 package com.danhdue.authentication.presentation.login
 
+import androidx.lifecycle.viewModelScope
 import com.danhdue.framework.base.mvi.BaseViewState
 import com.danhdue.framework.base.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,8 +57,13 @@ class LoginViewModel
                 }
 
                 LoginAction.OnLoginClicked -> {
-                    // Trigger login use case
-                    startLoading()
+                    viewModelScope.launch {
+                        startLoading()
+                        // Simulate network call
+                        delay(1000)
+                        stopLoading()
+                        sendEvent(LoginEvent.NavigateToHome)
+                    }
                 }
 
                 LoginAction.OnBackClicked -> {
@@ -76,5 +84,13 @@ class LoginViewModel
             val currentState = (uiState.value as? BaseViewState.Data<*>)?.value as? LoginState ?: LoginState()
             val newState = currentState.reducer()
             setState(BaseViewState.Data(newState))
+        }
+
+        override fun startLoading() {
+            updateState { copy(isLoading = true) }
+        }
+
+        private fun stopLoading() {
+            updateState { copy(isLoading = false) }
         }
     }

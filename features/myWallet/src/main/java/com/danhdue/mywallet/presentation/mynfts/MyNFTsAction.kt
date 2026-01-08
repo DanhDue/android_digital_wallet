@@ -9,5 +9,5 @@ package com.danhdue.mywallet.presentation.mynfts
  * for the MyNFTs feature.
  */
 sealed interface MyNFTsAction {
-    // Example: data class ButtonClicked(val itemId: String) : MyNFTsAction
+    data object Refresh : MyNFTsAction
 }
