@@ -39,10 +39,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.danhdue.components.ui.theme.DarkText
+import com.danhdue.components.ui.theme.ErrorRed
+import com.danhdue.components.ui.theme.LightText
+import com.danhdue.components.ui.theme.NeutralGray
+import com.danhdue.components.ui.theme.PrimaryBlue
+import com.danhdue.components.ui.theme.SuccessGreen
 import com.danhdue.mywallet.presentation.model.MyTokensUiModel
-import com.danhdue.mywallet.presentation.theme.MyWalletColors
 
 /**
  * Composable entry point for the MyTokens feature.
@@ -110,14 +115,14 @@ fun TokenListItem(
                 Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(MyWalletColors.NeutralGray),
+                    .background(NeutralGray),
         ) {
             // Icon placeholder
             Text(
                 text = token.symbol.take(1),
                 modifier = Modifier.align(Alignment.Center),
                 fontWeight = FontWeight.Bold,
-                color = MyWalletColors.PrimaryBlue,
+                color = PrimaryBlue,
             )
         }
 
@@ -129,19 +134,19 @@ fun TokenListItem(
                 text = token.balance,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
-                color = MyWalletColors.DarkText,
+                color = DarkText,
             )
             Text(
                 text = token.fiatBalance,
                 fontSize = 13.sp,
-                color = MyWalletColors.LightText,
+                color = LightText,
             )
         }
 
         // Sparkline Chart
         SparklineChart(
             data = token.sparklineData,
-            color = if (token.isPositive) MyWalletColors.SuccessGreen else MyWalletColors.ErrorRed,
+            color = if (token.isPositive) SuccessGreen else ErrorRed,
             modifier =
                 Modifier
                     .width(60.dp)
@@ -156,12 +161,12 @@ fun TokenListItem(
                 text = token.price,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
-                color = MyWalletColors.DarkText,
+                color = DarkText,
             )
             Text(
                 text = token.priceChange,
                 fontSize = 13.sp,
-                color = if (token.isPositive) MyWalletColors.SuccessGreen else MyWalletColors.ErrorRed,
+                color = if (token.isPositive) SuccessGreen else ErrorRed,
                 fontWeight = FontWeight.Medium,
             )
         }
@@ -171,7 +176,7 @@ fun TokenListItem(
         Icon(
             imageVector = Icons.Default.ChevronRight,
             contentDescription = null,
-            tint = MyWalletColors.NeutralGray,
+            tint = NeutralGray,
             modifier = Modifier.size(20.dp),
         )
     }

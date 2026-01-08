@@ -6,14 +6,39 @@ package com.danhdue.mywallet.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallReceived
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,11 +51,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.danhdue.components.ui.theme.DarkText
+import com.danhdue.components.ui.theme.LightText
+import com.danhdue.components.ui.theme.NeutralGray
+import com.danhdue.components.ui.theme.PrimaryBlue
+import com.danhdue.components.ui.theme.WalletCardGradient
 import com.danhdue.mywallet.presentation.mynfts.MyNFTsRoot
 import com.danhdue.mywallet.presentation.mytokens.MyTokensRoot
-import com.danhdue.mywallet.presentation.theme.MyWalletColors
 
 /**
  * Composable entry point for the MyWallet feature.
@@ -132,13 +161,13 @@ fun WalletHeader(
                 Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(MyWalletColors.NeutralGray),
+                    .background(NeutralGray),
         ) {
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "Profile",
                 modifier = Modifier.align(Alignment.Center),
-                tint = MyWalletColors.LightText,
+                tint = LightText,
             )
         }
 
@@ -146,7 +175,7 @@ fun WalletHeader(
         Surface(
             onClick = { /* TODO */ },
             shape = RoundedCornerShape(20.dp),
-            color = MyWalletColors.NeutralGray,
+            color = NeutralGray,
             modifier = Modifier.height(36.dp),
         ) {
             Row(
@@ -160,21 +189,21 @@ fun WalletHeader(
                         Modifier
                             .size(20.dp)
                             .clip(CircleShape)
-                            .background(MyWalletColors.PrimaryBlue),
+                            .background(PrimaryBlue),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = networkName,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
-                    color = MyWalletColors.DarkText,
+                    color = DarkText,
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,
                     contentDescription = null,
                     modifier = Modifier.size(16.dp),
-                    tint = MyWalletColors.DarkText,
+                    tint = DarkText,
                 )
             }
         }
@@ -184,7 +213,7 @@ fun WalletHeader(
             Icon(
                 imageVector = Icons.Default.Search,
                 contentDescription = "Search",
-                tint = MyWalletColors.DarkText,
+                tint = DarkText,
             )
         }
     }
@@ -210,7 +239,7 @@ fun WalletCard(
             modifier =
                 Modifier
                     .fillMaxSize()
-                    .background(MyWalletColors.WalletCardGradient)
+                    .background(WalletCardGradient)
                     .padding(24.dp),
         ) {
             Column {
@@ -308,7 +337,7 @@ fun QuickActionButton(
                 Modifier
                     .size(56.dp)
                     .clip(CircleShape)
-                    .background(MyWalletColors.PrimaryBlue)
+                    .background(PrimaryBlue)
                     .clickable { /* TODO */ },
         ) {
             Icon(
@@ -322,7 +351,7 @@ fun QuickActionButton(
         Text(
             text = label,
             fontSize = 12.sp,
-            color = MyWalletColors.DarkText,
+            color = DarkText,
             fontWeight = FontWeight.Medium,
         )
     }
@@ -336,7 +365,7 @@ fun TokenNFTTabs(
     val tabs = listOf("TOKENS", "NFTs")
 
     Surface(
-        color = MyWalletColors.NeutralGray,
+        color = NeutralGray,
         shape = RoundedCornerShape(12.dp),
         modifier =
             Modifier
@@ -355,13 +384,13 @@ fun TokenNFTTabs(
                             .weight(1f)
                             .fillMaxHeight()
                             .clip(RoundedCornerShape(8.dp))
-                            .background(if (isSelected) MyWalletColors.PrimaryBlue else Color.Transparent)
+                            .background(if (isSelected) PrimaryBlue else Color.Transparent)
                             .clickable { onTabSelected(index) },
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = title,
-                        color = if (isSelected) Color.White else MyWalletColors.LightText,
+                        color = if (isSelected) Color.White else LightText,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                     )

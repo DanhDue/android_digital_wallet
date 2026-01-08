@@ -5,7 +5,9 @@
 package com.danhdue.androiddigitalwallet
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
@@ -30,6 +32,8 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var installers: Set<@JvmSuppressWildcards EntryProviderInstaller>
 
+    private var backPressedTime = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,16 +45,45 @@ class MainActivity : ComponentActivity() {
         setContent {
             AndroidDigitalWalletTheme {
                 CompositionLocalProvider(LocalEntryProviderInstallers provides installers) {
+                    // Explicitly handle hardware back press when at the root of the app
+                    BackHandler(enabled = navigator.backStack.size <= 1) {
+                        handleExit()
+                    }
+
                     Scaffold { paddingValues ->
                         NavDisplay(
                             backStack = navigator.backStack,
                             modifier = Modifier.padding(paddingValues),
-                            onBack = { navigator.popBackStack() },
+                            onBack = {
+                                if (navigator.backStack.size > 1) {
+                                    navigator.popBackStack()
+                                } else {
+                                    handleExit()
+                                }
+                            },
                             entryProvider = entryProvider { installers.forEach { it() } },
                         )
                     }
                 }
             }
         }
+    }
+
+    private fun handleExit() {
+        if (backPressedTime + BACK_PRESS_THRESHOLD > System.currentTimeMillis()) {
+            finish()
+        } else {
+            Toast
+                .makeText(
+                    this,
+                    getString(R.string.press_back_again_to_exit),
+                    Toast.LENGTH_SHORT,
+                ).show()
+            backPressedTime = System.currentTimeMillis()
+        }
+    }
+
+    companion object {
+        private const val BACK_PRESS_THRESHOLD = 2000 // 2 seconds
     }
 }

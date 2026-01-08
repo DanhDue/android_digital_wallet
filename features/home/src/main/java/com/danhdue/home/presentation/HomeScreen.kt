@@ -7,37 +7,54 @@ package com.danhdue.home.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.TrendingUp
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.danhdue.components.ui.theme.HomeGrayText
+import com.danhdue.components.ui.theme.HomePrimaryBlue
+import com.danhdue.components.ui.theme.ScannerFabGradient
 import com.danhdue.framework.navigation.LocalEntryProviderInstallers
 
 @Composable
-fun HomeRoot(
-    viewModel: HomeViewModel = hiltViewModel(),
-) {
+fun HomeRoot(viewModel: HomeViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     HomeScreen(
@@ -52,54 +69,56 @@ private fun HomeScreen(
     onAction: (HomeAction) -> Unit,
 ) {
     val installers = LocalEntryProviderInstallers.current
-    val entryProvider = remember(installers) {
-        entryProvider { installers.forEach { it() } }
-    }
+    val entryProvider =
+        remember(installers) {
+            entryProvider { installers.forEach { it() } }
+        }
 
     Scaffold(
         bottomBar = {
             HomeBottomBar(
                 selectedTab = state.selectedTab,
-                onTabSelected = { onAction(HomeAction.TabSelected(it)) }
+                onTabSelected = { onAction(HomeAction.TabSelected(it)) },
             )
         },
-        containerColor = Color.White
+        containerColor = Color.White,
     ) { paddingValues ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
         ) {
             // Nested navigation for each tab
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Wallet,
                 backStack = state.walletBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Wallet)) }
+                onBack = { onAction(HomeAction.PopInTab(HomeTab.Wallet)) },
             )
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Transactions,
                 backStack = state.transactionsBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Transactions)) }
+                onBack = { onAction(HomeAction.PopInTab(HomeTab.Transactions)) },
             )
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Scanner,
                 backStack = state.scannerBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Scanner)) }
+                onBack = { onAction(HomeAction.PopInTab(HomeTab.Scanner)) },
             )
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Trends,
                 backStack = state.trendsBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Trends)) }
+                onBack = { onAction(HomeAction.PopInTab(HomeTab.Trends)) },
             )
             HomeTabContent(
                 isVisible = state.selectedTab == HomeTab.Settings,
                 backStack = state.settingsBackStack,
                 entryProvider = entryProvider,
-                onBack = { onAction(HomeAction.PopInTab(HomeTab.Settings)) }
+                onBack = { onAction(HomeAction.PopInTab(HomeTab.Settings)) },
             )
         }
     }
@@ -110,13 +129,13 @@ private fun HomeTabContent(
     isVisible: Boolean,
     backStack: List<Any>,
     entryProvider: (Any) -> NavEntry<Any>,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     if (isVisible) {
         NavDisplay(
             backStack = backStack,
             onBack = onBack,
-            entryProvider = entryProvider
+            entryProvider = entryProvider,
         )
     }
 }
@@ -124,136 +143,138 @@ private fun HomeTabContent(
 @Composable
 private fun HomeBottomBar(
     selectedTab: HomeTab,
-    onTabSelected: (HomeTab) -> Unit
+    onTabSelected: (HomeTab) -> Unit,
 ) {
-    val primaryBlue = Color(0xFF1E88E5)
-    val grayText = Color(0xFF757575)
-
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(110.dp)
-            .background(Color.Transparent)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(110.dp)
+                .background(Color.Transparent),
     ) {
         Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-                .align(Alignment.BottomCenter),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+                    .align(Alignment.BottomCenter),
             color = Color.White,
             tonalElevation = 8.dp,
-            shadowElevation = 16.dp
+            shadowElevation = 16.dp,
         ) {
             Row(
-                modifier = Modifier.fillMaxSize().padding(bottom = 8.dp),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 TabItem(
                     icon = Icons.Default.AccountBalanceWallet,
                     label = "Wallet",
                     isSelected = selectedTab == HomeTab.Wallet,
                     onClick = { onTabSelected(HomeTab.Wallet) },
-                    selectedColor = primaryBlue,
-                    unselectedColor = grayText
+                    selectedColor = HomePrimaryBlue,
+                    unselectedColor = HomeGrayText,
                 )
                 TabItem(
                     icon = Icons.Default.Language,
                     label = "Browser",
                     isSelected = selectedTab == HomeTab.Transactions,
                     onClick = { onTabSelected(HomeTab.Transactions) },
-                    selectedColor = primaryBlue,
-                    unselectedColor = grayText
+                    selectedColor = HomePrimaryBlue,
+                    unselectedColor = HomeGrayText,
                 )
 
                 Spacer(modifier = Modifier.width(80.dp))
 
                 TabItem(
-                    icon = Icons.Default.TrendingUp,
+                    icon = Icons.AutoMirrored.Filled.TrendingUp,
                     label = "Trends",
                     isSelected = selectedTab == HomeTab.Trends,
                     onClick = { onTabSelected(HomeTab.Trends) },
-                    selectedColor = primaryBlue,
-                    unselectedColor = grayText
+                    selectedColor = HomePrimaryBlue,
+                    unselectedColor = HomeGrayText,
                 )
                 TabItem(
                     icon = Icons.Default.Settings,
                     label = "Settings",
                     isSelected = selectedTab == HomeTab.Settings,
                     onClick = { onTabSelected(HomeTab.Settings) },
-                    selectedColor = primaryBlue,
-                    unselectedColor = grayText
+                    selectedColor = HomePrimaryBlue,
+                    unselectedColor = HomeGrayText,
                 )
             }
         }
 
         Box(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .offset(y = 4.dp)
-                .shadow(elevation = 12.dp, shape = CircleShape)
-                .size(72.dp)
-                .clip(CircleShape)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(Color(0xFF42A5F5), Color(0xFF1976D2))
-                    )
-                )
-                .clickable { onTabSelected(HomeTab.Scanner) },
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .align(Alignment.TopCenter)
+                    .offset(y = 4.dp)
+                    .shadow(elevation = 12.dp, shape = CircleShape)
+                    .size(72.dp)
+                    .clip(CircleShape)
+                    .background(brush = ScannerFabGradient)
+                    .clickable { onTabSelected(HomeTab.Scanner) },
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.Default.QrCodeScanner,
                 contentDescription = "Scanner",
                 tint = Color.White,
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(36.dp),
             )
         }
     }
 }
 
 @Composable
+@Suppress("LongParameterList")
 private fun TabItem(
     icon: ImageVector,
     label: String,
     isSelected: Boolean,
     onClick: () -> Unit,
     selectedColor: Color,
-    unselectedColor: Color
+    unselectedColor: Color,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .width(72.dp)
-            .fillMaxHeight()
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = onClick
-            )
+        modifier =
+            Modifier
+                .width(72.dp)
+                .fillMaxHeight()
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onClick,
+                ),
     ) {
         Icon(
             imageVector = icon,
             contentDescription = label,
             tint = if (isSelected) selectedColor else unselectedColor,
-            modifier = Modifier.size(28.dp)
+            modifier = Modifier.size(28.dp),
         )
         Text(
             text = label,
             fontSize = 12.sp,
             color = if (isSelected) selectedColor else unselectedColor,
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
+            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
         )
 
         if (isSelected) {
             Spacer(modifier = Modifier.height(6.dp))
             Box(
-                modifier = Modifier
-                    .size(width = 32.dp, height = 4.dp)
-                    .shadow(elevation = 4.dp, shape = CircleShape, ambientColor = selectedColor, spotColor = selectedColor)
-                    .clip(CircleShape)
-                    .background(selectedColor)
+                modifier =
+                    Modifier
+                        .size(width = 32.dp, height = 4.dp)
+                        .shadow(elevation = 4.dp, shape = CircleShape, ambientColor = selectedColor, spotColor = selectedColor)
+                        .clip(CircleShape)
+                        .background(selectedColor),
             )
         } else {
             Spacer(modifier = Modifier.height(10.dp))

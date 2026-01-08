@@ -34,13 +34,14 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 }
             }
             is HomeAction.PopInTab -> {
-                val backstack = when (action.tab) {
-                    HomeTab.Wallet -> _state.value.walletBackStack
-                    HomeTab.Transactions -> _state.value.transactionsBackStack
-                    HomeTab.Scanner -> _state.value.scannerBackStack
-                    HomeTab.Trends -> _state.value.trendsBackStack
-                    HomeTab.Settings -> _state.value.settingsBackStack
-                }
+                val backstack =
+                    when (action.tab) {
+                        HomeTab.Wallet -> _state.value.walletBackStack
+                        HomeTab.Transactions -> _state.value.transactionsBackStack
+                        HomeTab.Scanner -> _state.value.scannerBackStack
+                        HomeTab.Trends -> _state.value.trendsBackStack
+                        HomeTab.Settings -> _state.value.settingsBackStack
+                    }
                 if (backstack.size > 1) {
                     backstack.removeAt(backstack.size - 1)
                 }

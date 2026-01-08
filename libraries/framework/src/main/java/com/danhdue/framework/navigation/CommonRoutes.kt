@@ -7,6 +7,9 @@ package com.danhdue.framework.navigation
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
+@Serializable
+data object CommonRoutes
+
 /**
  * Defines the navigation route for the Home screen (the main tabbed container).
  * Moved to framework to allow cross-module navigation without circular dependencies.

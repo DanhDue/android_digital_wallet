@@ -22,13 +22,20 @@ data class HomeState(
     val transactionsBackStack: SnapshotStateList<Any> = mutableStateListOf(TransactionListRoute),
     val scannerBackStack: SnapshotStateList<Any> = mutableStateListOf(ScannerRoute),
     val trendsBackStack: SnapshotStateList<Any> = mutableStateListOf(TrendsRoute),
-    val settingsBackStack: SnapshotStateList<Any> = mutableStateListOf(SettingsRoute)
+    val settingsBackStack: SnapshotStateList<Any> = mutableStateListOf(SettingsRoute),
 )
 
-sealed class HomeTab(val index: Int) {
+@Suppress("MagicNumber")
+sealed class HomeTab(
+    val index: Int,
+) {
     data object Wallet : HomeTab(0)
+
     data object Transactions : HomeTab(1)
+
     data object Scanner : HomeTab(2)
+
     data object Trends : HomeTab(3)
+
     data object Settings : HomeTab(4)
 }

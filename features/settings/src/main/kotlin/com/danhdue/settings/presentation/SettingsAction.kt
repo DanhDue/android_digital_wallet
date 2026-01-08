@@ -9,5 +9,5 @@ package com.danhdue.settings.presentation
  * for the Settings feature.
  */
 sealed interface SettingsAction {
-    // Example: data class ButtonClicked(val itemId: String) : SettingsAction
+    data object OpenProfile : SettingsAction
 }

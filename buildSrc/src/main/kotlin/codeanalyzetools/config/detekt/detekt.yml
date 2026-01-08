@@ -241,6 +241,7 @@ style:
     maxLineLength: 140
     excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
     excludeCommentStatements: true
+    ignoreAnnotated: ['Composable']
   NestedClassesVisibility:
     active: true
   ObjectLiteralToLambda:

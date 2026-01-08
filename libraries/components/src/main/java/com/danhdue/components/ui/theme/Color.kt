@@ -4,6 +4,7 @@
  */
 package com.danhdue.components.ui.theme
 
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val BluePrimary = Color(0xFF2962FF)
@@ -61,3 +62,34 @@ val unselectedBottomItemColor = Gray500
 
 val navigationBackIconDark = White
 val navigationBackIconLight = Black
+
+// Digital Wallet Colors
+val PrimaryBlue = Color(0xFF007AFF)
+val SuccessGreen = Color(0xFF32D583)
+val ErrorRed = Color(0xFFF04438)
+val NeutralGray = Color(0xFFF2F4F7)
+val DarkText = Color(0xFF101828)
+val LightText = Color(0xFF667085)
+
+// Home Tab Colors
+val HomePrimaryBlue = Color(0xFF1E88E5)
+val HomeGrayText = Color(0xFF757575)
+
+// Scanner FAB Colors
+val ScannerGradientStart = Color(0xFF42A5F5)
+val ScannerGradientEnd = Color(0xFF1976D2)
+
+// Wallet Card Gradient
+val WalletCardGradient =
+    Brush.linearGradient(
+        colors =
+            listOf(
+                Color(0xFF2E90FA),
+                Color(0xFFF670C7),
+            ),
+    )
+
+val ScannerFabGradient =
+    Brush.verticalGradient(
+        colors = listOf(ScannerGradientStart, ScannerGradientEnd),
+    )

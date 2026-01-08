@@ -29,6 +29,15 @@ class Navigator
         }
 
         /**
+         * Navigates to a new destination and clears the current backstack.
+         * Useful for switching from auth flows to the main app flow.
+         */
+        fun navigateAndClearBackStack(destination: Any) {
+            backStack.clear()
+            backStack.add(destination)
+        }
+
+        /**
          * Removes the top destination from the backstack.
          */
         fun popBackStack() {
