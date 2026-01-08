@@ -84,13 +84,12 @@ private fun HomeScreen(
                 onTabSelected = { onAction(HomeAction.TabSelected(it)) },
             )
         },
-        containerColor = Color.White,
+        containerColor = Color.Transparent,
     ) { paddingValues ->
         Box(
             modifier =
                 Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
+                    .fillMaxSize(),
         ) {
             // Nested navigation for each tab
             HomeTabContent(

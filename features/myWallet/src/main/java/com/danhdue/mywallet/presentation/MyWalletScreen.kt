@@ -47,11 +47,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danhdue.components.ui.theme.DarkText
 import com.danhdue.components.ui.theme.LightText
@@ -132,9 +133,17 @@ private fun MyWalletScreen(
                 if (state.isLoading) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 } else {
-                    when (state.selectedTabIndex) {
-                        0 -> MyTokensRoot(onEvent = {})
-                        1 -> MyNFTsRoot(onEvent = {})
+                    if (LocalInspectionMode.current) {
+                        // In preview, just show a placeholder to avoid ViewModel instantiation crashes
+                        Text(
+                            text = if (state.selectedTabIndex == 0) "My Tokens Content" else "My NFTs Content",
+                            modifier = Modifier.align(Alignment.Center),
+                        )
+                    } else {
+                        when (state.selectedTabIndex) {
+                            0 -> MyTokensRoot(onEvent = {})
+                            1 -> MyNFTsRoot(onEvent = {})
+                        }
                     }
                 }
             }
