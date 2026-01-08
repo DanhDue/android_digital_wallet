@@ -10,8 +10,8 @@ tasks.getByName("check") {
     setDependsOn(
         listOf(
             tasks.getByName("ktlintFormat"),
-            tasks.getByName("ktlintCheck"),
             tasks.getByName("spotlessApply"),
+            tasks.getByName("ktlintCheck"),
             tasks.getByName("spotlessCheck"),
             tasks.getByName("detekt"),
         )
