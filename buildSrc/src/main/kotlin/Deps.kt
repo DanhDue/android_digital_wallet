@@ -237,6 +237,7 @@ object Modules {
     const val authenticator = ":domain:authenticator"
     const val commonComponents = ":libraries:components"
     const val librariesFramework = ":libraries:framework"
+    const val librariesJetFramework = ":libraries:jetframework"
     const val librariesTestUtils = ":libraries:testutils"
 
     const val featureSplash = ":features:splash"

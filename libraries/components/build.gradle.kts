@@ -1,3 +1,4 @@
+import extensions.JET_FRAMEWORK
 import extensions.addFirebaseDependencies
 
 plugins {
@@ -12,4 +13,5 @@ android {
 dependencies {
     addFirebaseDependencies()
     implementation(Deps.splashScreen)
+    JET_FRAMEWORK
 }

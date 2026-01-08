@@ -1,0 +1,22 @@
+# AndroidDigitalWallet Project Context
+
+## Architecture Summary
+Follow the **Feature-First Clean Architecture** with **MVI** pattern as described in `ARCHITECTURE.md`.
+- **UDF Data Flow**: View ➡️ Action ➡️ ViewModel ➡️ UseCase ➡️ Repository ➡️ State/Event ➡️ View.
+- **Layers**: Presentation (UI/VM), Domain (UseCase/Entity/Interface), Data (Impl/Source/DTO).
+
+## Core Rules
+1. **Domain Layer**: Keep it pure Kotlin. NO `android.*` imports.
+2. **Result Handling**: Always use `NetworkResult<T>` instead of `kotlin.Result` for async ops.
+3. **MVI Contract**: Use structured `State`, `Action`, and `Event` classes.
+4. **Build System**: All dependencies MUST come from `buildSrc` (Versions.kt / Deps.kt).
+5. **ViewModel**: Handle user input through a single `onAction(action)` function.
+
+## Module Map
+- `:features:*` - Business features.
+- `:libraries:framework` - Core infrastructure & Base classes.
+- `:domain:*` - Global domain logic.
+- `:data:*` - Global data sources.
+
+## Instructions
+Consult `PROJECT_RULES.md` for full implementation details before proposing any code changes.

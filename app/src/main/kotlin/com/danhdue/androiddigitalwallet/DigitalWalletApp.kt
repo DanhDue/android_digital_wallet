@@ -4,13 +4,13 @@
  */
 package com.danhdue.androiddigitalwallet
 
+import androidx.multidex.MultiDexApplication
 import com.danhdue.framework.base.app.AppInitializer
-import com.danhdue.framework.base.app.CoreApplication
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class DigitalWalletApp : CoreApplication() {
+class DigitalWalletApp : MultiDexApplication() {
     @Inject
     lateinit var initializer: AppInitializer
 }

@@ -12,7 +12,7 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import timber.log.Timber
 
-@Suppress("StringLiteralDuplication")
+@Suppress("StringLiteralDuplication", "suppressLintsFor")
 fun isEmulator(): Boolean =
     (
         Build.FINGERPRINT.startsWith("generic") ||
@@ -23,8 +23,7 @@ fun isEmulator(): Boolean =
             Build.MANUFACTURER.contains("Genymotion") ||
             Build.MODEL.startsWith("sdk_") ||
             Build.DEVICE.startsWith("emulator") ||
-            Build.BRAND.startsWith("generic") &&
-            Build.DEVICE.startsWith("generic") ||
+            (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
             "google_sdk" == Build.PRODUCT
     )
 

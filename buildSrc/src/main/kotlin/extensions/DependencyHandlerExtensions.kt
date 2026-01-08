@@ -543,6 +543,9 @@ val DependencyHandler.REPOSITORY
 val DependencyHandler.COMPONENT
     get() = implementation(project(mapOf(PATH to Modules.commonComponents)))
 
+val DependencyHandler.JET_FRAMEWORK
+    get() = implementation(project(mapOf(PATH to Modules.librariesJetFramework)))
+
 val DependencyHandler.FRAMEWORK
     get() = implementation(project(mapOf(PATH to Modules.librariesFramework)))
 

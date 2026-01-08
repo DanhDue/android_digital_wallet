@@ -45,20 +45,21 @@ class MyTokensViewModel @Inject constructor(
 
             when (val result = getMyTokensDataUseCase()) {
                 is NetworkResult.Success -> {
-                    val mockTokens = listOf(
-                        MyTokensUiModel(
-                            id = "1",
-                            symbol = "ETH",
-                            name = "Ethereum",
-                            iconUrl = "",
-                            balance = "1.3135 ETH",
-                            fiatBalance = "$2,430.34",
-                            price = "$1,850.45",
-                            priceChange = "+4.86%",
-                            isPositive = true,
-                            sparklineData = listOf(0.1f, 0.3f, 0.2f, 0.5f, 0.4f, 0.7f, 0.6f, 0.9f)
+                    val mockTokens =
+                        listOf(
+                            MyTokensUiModel(
+                                id = "1",
+                                symbol = "ETH",
+                                name = "Ethereum",
+                                iconUrl = "",
+                                balance = "1.3135 ETH",
+                                fiatBalance = "$2,430.34",
+                                price = "$1,850.45",
+                                priceChange = "+4.86%",
+                                isPositive = true,
+                                sparklineData = listOf(0.1f, 0.3f, 0.2f, 0.5f, 0.4f, 0.7f, 0.6f, 0.9f),
+                            ),
                         )
-                    )
                     _state.value = _state.value.copy(items = mockTokens)
                 }
                 is NetworkResult.Error -> {

@@ -53,9 +53,9 @@ class MyWalletViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update {
                 it.copy(
-                isLoading = true,
-                totalBalance = "$51,245.89",
-                walletAddress = "0xB38...844d"
+                    isLoading = true,
+                    totalBalance = "$51,245.89",
+                    walletAddress = "0xB38...844d",
                 )
             }
             when (val result = getMyWalletDataUseCase()) {

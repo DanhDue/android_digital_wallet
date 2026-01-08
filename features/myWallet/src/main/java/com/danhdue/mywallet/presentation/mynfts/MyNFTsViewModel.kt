@@ -45,20 +45,21 @@ class MyNFTsViewModel @Inject constructor(
             when (val result = getMyNFTsDataUseCase()) {
                 is NetworkResult.Success -> {
                     // In a real app, we'd map domain model to UI model
-                    val mockNFTs = listOf(
-                        MyNFTsUiModel(
-                            id = "1",
-                            name = "Ape #1",
-                            collectionName = "Bored Ape Yacht Club",
-                            imageUrl = ""
-                        ),
-                        MyNFTsUiModel(
-                            id = "2",
-                            name = "Punk #2",
-                            collectionName = "CryptoPunks",
-                            imageUrl = ""
+                    val mockNFTs =
+                        listOf(
+                            MyNFTsUiModel(
+                                id = "1",
+                                name = "Ape #1",
+                                collectionName = "Bored Ape Yacht Club",
+                                imageUrl = "",
+                            ),
+                            MyNFTsUiModel(
+                                id = "2",
+                                name = "Punk #2",
+                                collectionName = "CryptoPunks",
+                                imageUrl = "",
+                            ),
                         )
-                    )
                     _state.value = _state.value.copy(items = mockNFTs)
                 }
                 is NetworkResult.Error -> {
