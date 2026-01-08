@@ -491,7 +491,6 @@ fun DependencyHandler.addModuleDependencies() {
     implementation(project(mapOf(PATH to Modules.authenticator)))
 
     implementation(project(mapOf(PATH to Modules.featureSplash)))
-    implementation(project(mapOf(PATH to Modules.featureDashboard)))
     implementation(project(mapOf(PATH to Modules.featureHome)))
     implementation(project(mapOf(PATH to Modules.featureSettings)))
 }
@@ -555,9 +554,6 @@ val DependencyHandler.TEST
 val DependencyHandler.FEATURE_SPLASH
     get() = implementation(project(mapOf(PATH to Modules.featureSplash)))
 
-val DependencyHandler.FEATURE_DASHBOARD
-    get() = implementation(project(mapOf(PATH to Modules.featureDashboard)))
-
 val DependencyHandler.FEATURE_HOME
     get() = implementation(project(mapOf(PATH to Modules.featureHome)))
 
@@ -569,3 +565,12 @@ val DependencyHandler.FEATURE_AUTHENTICATION
 
 val DependencyHandler.FEATURE_MY_WALLET
     get() = implementation(project(mapOf(PATH to Modules.featureMyWallet)))
+
+val DependencyHandler.FEATURE_TRANSACTIONS
+    get() = implementation(project(mapOf(PATH to Modules.featureTransactions)))
+
+val DependencyHandler.FEATURE_SCANNER
+    get() = implementation(project(mapOf(PATH to Modules.featureScanner)))
+
+val DependencyHandler.FEATURE_TRENDS
+    get() = implementation(project(mapOf(PATH to Modules.featureTrends)))

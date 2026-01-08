@@ -6,47 +6,14 @@ package com.danhdue.mywallet.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallReceived
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.AccountBalanceWallet
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.filled.SwapHoriz
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -59,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danhdue.mywallet.presentation.mynfts.MyNFTsRoot
 import com.danhdue.mywallet.presentation.mytokens.MyTokensRoot
@@ -102,13 +69,6 @@ private fun MyWalletScreen(
                 onSearchClick = {},
             )
         },
-        bottomBar = {
-            BottomNavBar(selectedTabIndex = 0) // Wallet is selected
-        },
-        floatingActionButton = {
-            WalletFAB()
-        },
-        floatingActionButtonPosition = FabPosition.Center,
         containerColor = Color.White,
     ) { paddingValues ->
         Column(
@@ -408,76 +368,6 @@ fun TokenNFTTabs(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun BottomNavBar(selectedTabIndex: Int) {
-    val items =
-        listOf(
-            Icons.Default.AccountBalanceWallet to "Wallet",
-            Icons.Default.Language to "Browser",
-            Icons.Default.History to "Activity",
-            Icons.Default.Settings to "Settings",
-        )
-
-    BottomAppBar(
-        containerColor = Color.White,
-        contentColor = MyWalletColors.LightText,
-        tonalElevation = 8.dp,
-        modifier = Modifier.height(70.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            items.forEachIndexed { index, pair ->
-                // Leave space for FAB in the middle
-                if (index == 2) {
-                    Spacer(modifier = Modifier.width(56.dp))
-                }
-
-                val isSelected = index == selectedTabIndex
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.clickable { /* TODO */ },
-                ) {
-                    Icon(
-                        imageVector = pair.first,
-                        contentDescription = pair.second,
-                        tint = if (isSelected) MyWalletColors.PrimaryBlue else MyWalletColors.LightText,
-                        modifier = Modifier.size(24.dp),
-                    )
-                    Text(
-                        text = pair.second,
-                        fontSize = 11.sp,
-                        color = if (isSelected) MyWalletColors.PrimaryBlue else MyWalletColors.LightText,
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun WalletFAB() {
-    Box(
-        modifier =
-            Modifier
-                .offset(y = 50.dp) // Offset to sit on top of bottom bar
-                .size(56.dp)
-                .clip(CircleShape)
-                .background(MyWalletColors.PrimaryBlue)
-                .clickable { /* TODO */ },
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = "Quick Action",
-            tint = Color.White,
-            modifier = Modifier.size(32.dp),
-        )
     }
 }
 

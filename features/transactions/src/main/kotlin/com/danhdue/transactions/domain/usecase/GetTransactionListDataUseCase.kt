@@ -5,6 +5,7 @@
 package com.danhdue.transactions.domain.usecase
 
 import com.danhdue.transactions.domain.model.TransactionList
+import com.danhdue.transactions.domain.repository.TransactionsRepository
 import javax.inject.Inject
 
 /**
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class GetTransactionListDataUseCase
     @Inject
     constructor(
-        private val repository: TransactionListRepository,
+        private val repository: TransactionsRepository,
     ) {
         /**
          * Executes the use case.

@@ -241,9 +241,11 @@ object Modules {
     const val librariesTestUtils = ":libraries:testutils"
 
     const val featureSplash = ":features:splash"
-    const val featureDashboard = ":features:dashboard"
     const val featureHome = ":features:home"
     const val featureSettings = ":features:settings"
     const val featureAuthentication = ":features:authentication"
     const val featureMyWallet = ":features:myWallet"
+    const val featureTransactions = ":features:transactions"
+    const val featureScanner = ":features:scanner"
+    const val featureTrends = ":features:trends"
 }
