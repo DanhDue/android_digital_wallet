@@ -9,5 +9,6 @@ package com.danhdue.trends.presentation
  * for the Trends feature.
  */
 sealed interface TrendsAction {
-    // Example: data class ButtonClicked(val itemId: String) : TrendsAction
+    data class SearchQueryChanged(val query: String) : TrendsAction
+    data class CoinClicked(val coinId: String) : TrendsAction
 }

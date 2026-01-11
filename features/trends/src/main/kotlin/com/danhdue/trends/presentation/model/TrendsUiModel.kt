@@ -5,11 +5,15 @@
 package com.danhdue.trends.presentation.model
 
 /**
- * Represents the UI model for a single item in the Trends feature.
- * This class is optimized for display in the Presentation Layer.
+ * Represents the UI model for a single coin in the Trends feature.
  */
 data class TrendsUiModel(
     val id: String,
-    val title: String,
-    val description: String,
+    val symbol: String,
+    val name: String,
+    val iconUrl: String,
+    val price: String,
+    val marketCap: String,
+    val priceChangePercent: Double,
+    val priceChangeFormatted: String,
 )
