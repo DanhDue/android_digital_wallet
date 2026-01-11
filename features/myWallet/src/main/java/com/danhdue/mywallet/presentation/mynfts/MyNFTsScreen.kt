@@ -27,7 +27,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,6 +34,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danhdue.components.ui.theme.DarkText
+import com.danhdue.components.ui.theme.GrayText
+import com.danhdue.components.ui.theme.LightGray
 import com.danhdue.components.ui.theme.LightText
 import com.danhdue.components.ui.theme.NeutralGray
 import com.danhdue.mywallet.presentation.model.MyNFTsUiModel
@@ -109,12 +110,12 @@ fun NFTGridItem(
                     Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                        .background(Color.LightGray),
+                        .background(LightGray),
             ) {
                 Text(
                     text = "NFT",
                     modifier = Modifier.align(Alignment.Center),
-                    color = Color.Gray,
+                    color = GrayText,
                 )
             }
 

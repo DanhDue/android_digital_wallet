@@ -19,12 +19,13 @@ data class TrendsState(
     val items: List<TrendsUiModel> = emptyList(),
 ) {
     val filteredItems: List<TrendsUiModel>
-        get() = if (searchQuery.isEmpty()) {
-            items
-        } else {
-            items.filter {
-                it.name.contains(searchQuery, ignoreCase = true) ||
-                    it.symbol.contains(searchQuery, ignoreCase = true)
+        get() =
+            if (searchQuery.isEmpty()) {
+                items
+            } else {
+                items.filter {
+                    it.name.contains(searchQuery, ignoreCase = true) ||
+                        it.symbol.contains(searchQuery, ignoreCase = true)
+                }
             }
-        }
 }

@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.androiddigitalwallet.ui.theme
+package com.danhdue.components.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

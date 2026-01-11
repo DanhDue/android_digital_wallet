@@ -57,6 +57,10 @@ val Gray800 = Color(0xFF292929)
 val Gray900 = Color(0xFF212121)
 val Gray950 = Color(0xFF141414)
 
+val LightGray = Color(0xFFD3D3D3)
+val Green = Color(0xFF4CAF50)
+val RedError = Color(0xFFF44336)
+
 val selectedBottomItemColor = Red
 val unselectedBottomItemColor = Gray500
 

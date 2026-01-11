@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.androiddigitalwallet
+package com.danhdue.androiddigitalwallet.ui
 
 import android.os.Bundle
 import android.widget.Toast
@@ -10,13 +10,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.danhdue.androiddigitalwallet.ui.theme.AndroidDigitalWalletTheme
+import com.danhdue.androiddigitalwallet.R
+import com.danhdue.components.ui.theme.AndroidDigitalWalletTheme
 import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.LocalEntryProviderInstallers
 import com.danhdue.framework.navigation.LoginRoute
@@ -51,13 +54,15 @@ class MainActivity : ComponentActivity() {
                         handleExit()
                     }
 
-                    Scaffold { paddingValues ->
+                    Scaffold(
+                        contentWindowInsets = WindowInsets(bottom = 0.dp),
+                    ) { paddingValues ->
                         // NavDisplay throws an exception if the backstack is empty.
                         // We guard against this by checking the size.
                         if (navigator.backStack.isNotEmpty()) {
                             NavDisplay(
                                 backStack = navigator.backStack,
-                                modifier = Modifier.padding(paddingValues),
+                                modifier = Modifier.Companion.padding(paddingValues),
                                 onBack = {
                                     if (navigator.backStack.size > 1) {
                                         navigator.popBackStack()

@@ -3,17 +3,20 @@
  * All Rights Reserved.
  */
 @file:Suppress("MatchingDeclarationName")
+
 package com.danhdue.jetframework
 
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.withLink
 
 data class LinkTextData(
     val text: String,
@@ -28,26 +31,10 @@ fun LinkText(
     modifier: Modifier = Modifier,
 ) {
     val annotatedString = createAnnotatedString(linkTextData)
-
-    ClickableText(
+    BasicText(
+        modifier = modifier,
         text = annotatedString,
         style = MaterialTheme.typography.bodyLarge,
-        onClick = { offset ->
-            linkTextData.forEach { annotatedStringData ->
-                if (annotatedStringData.tag != null && annotatedStringData.annotation != null) {
-                    annotatedString
-                        .getStringAnnotations(
-                            tag = annotatedStringData.tag,
-                            start = offset,
-                            end = offset,
-                        ).firstOrNull()
-                        ?.let {
-                            annotatedStringData.onClick?.invoke(it)
-                        }
-                }
-            }
-        },
-        modifier = modifier,
     )
 }
 
@@ -56,20 +43,32 @@ private fun createAnnotatedString(data: List<LinkTextData>): AnnotatedString =
     buildAnnotatedString {
         data.forEach { linkTextData ->
             if (linkTextData.tag != null && linkTextData.annotation != null) {
-                pushStringAnnotation(
-                    tag = linkTextData.tag,
-                    annotation = linkTextData.annotation,
-                )
-                withStyle(
-                    style =
-                        SpanStyle(
-                            color = MaterialTheme.colorScheme.primary,
-                            textDecoration = TextDecoration.Underline,
-                        ),
-                ) {
+                val link =
+                    LinkAnnotation.Clickable(
+                        tag = linkTextData.tag,
+                        styles =
+                            TextLinkStyles(
+                                style =
+                                    SpanStyle(
+                                        color = MaterialTheme.colorScheme.primary,
+                                        textDecoration = TextDecoration.Underline,
+                                    ),
+                            ),
+                        linkInteractionListener = {
+                            linkTextData.onClick?.invoke(
+                                AnnotatedString.Range(
+                                    item = linkTextData.annotation,
+                                    // This range is context-dependent, but for simple callback it works
+                                    start = 0,
+                                    end = 0,
+                                    tag = linkTextData.tag,
+                                ),
+                            )
+                        },
+                    )
+                withLink(link) {
                     append(linkTextData.text)
                 }
-                pop()
             } else {
                 append(linkTextData.text)
             }

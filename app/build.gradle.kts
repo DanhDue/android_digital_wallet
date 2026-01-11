@@ -1,5 +1,6 @@
 
 import commons.addDefaultConfig
+import extensions.COMPONENT
 import extensions.FEATURE_AUTHENTICATION
 import extensions.FEATURE_HOME
 import extensions.FEATURE_MY_WALLET
@@ -88,6 +89,7 @@ dependencies {
 
     addWorkManagerDependencies()
 
+    COMPONENT
     FRAMEWORK
     FEATURE_AUTHENTICATION
     FEATURE_HOME

@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.authentication.presentation.register.model
+package com.danhdue.authentication.presentation.registration.model
 
 /**
  * Represents the UI model for a single item in the Register feature.

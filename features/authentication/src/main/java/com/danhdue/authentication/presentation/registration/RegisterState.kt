@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.authentication.presentation.register
+package com.danhdue.authentication.presentation.registration
 
 /**
  * Represents the state of the Register screen.

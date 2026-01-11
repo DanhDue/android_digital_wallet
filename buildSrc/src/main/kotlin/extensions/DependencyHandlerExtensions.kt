@@ -406,7 +406,6 @@ fun DependencyHandler.addHiltDependencies() {
     androidTestImplementation(Deps.Hilt.testing)
     kspAndroidTest(Deps.Hilt.compiler)
     testImplementation(Deps.Hilt.testing)
-    kspTest(Deps.Hilt.compiler)
 }
 
 fun DependencyHandler.addComposeDependencies() {

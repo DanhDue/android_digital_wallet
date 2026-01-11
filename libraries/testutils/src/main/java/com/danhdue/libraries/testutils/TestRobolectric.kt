@@ -18,7 +18,7 @@ import org.robolectric.annotation.Config
     application = TestRobolectric.ApplicationStub::class,
     sdk = [Build.VERSION_CODES.M],
 )
-open class TestRobolectric : MockkUnitTest() {
+abstract class TestRobolectric : MockkUnitTest() {
     protected val application: Application by lazy {
         ApplicationProvider.getApplicationContext<ApplicationStub>()
     }

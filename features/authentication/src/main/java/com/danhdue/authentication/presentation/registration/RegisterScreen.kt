@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.authentication.presentation.register
+package com.danhdue.authentication.presentation.registration
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -66,7 +66,7 @@ import com.danhdue.framework.extension.cast
  */
 @Composable
 fun RegisterRoot(
-    viewModel: RegisterViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel = hiltViewModel(),
     onEvent: (RegisterEvent) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()

@@ -6,6 +6,7 @@ package com.danhdue.authentication.domain.usecase
 
 import com.danhdue.authentication.domain.model.Register
 import com.danhdue.authentication.domain.repository.RegisterRepository
+import com.danhdue.framework.network.DataState
 import javax.inject.Inject
 
 /**
@@ -19,5 +20,5 @@ class GetRegisterDataUseCase
         /**
          * Executes the use case.
          */
-        suspend operator fun invoke(): Result<Register> = repository.getRegisterData()
+        suspend operator fun invoke(): DataState<Register> = repository.getRegisterData()
     }

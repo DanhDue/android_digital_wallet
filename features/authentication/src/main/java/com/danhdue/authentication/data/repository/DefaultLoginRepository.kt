@@ -6,6 +6,7 @@ package com.danhdue.authentication.data.repository
 
 import com.danhdue.authentication.domain.model.Login
 import com.danhdue.authentication.domain.repository.LoginRepository
+import com.danhdue.framework.network.DataState
 import javax.inject.Inject
 
 /**
@@ -14,11 +15,11 @@ import javax.inject.Inject
 class DefaultLoginRepository
     @Inject
     constructor() : LoginRepository {
-        override suspend fun getLoginData(): Result<Login> =
+        override suspend fun getLoginData(): DataState<Login> =
             try {
                 val domainModel = Login(id = "1", data = "Sample data from repository")
-                Result.success(domainModel)
+                DataState.Success(domainModel)
             } catch (e: Exception) {
-                Result.failure(e)
+                DataState.Error(e)
             }
     }

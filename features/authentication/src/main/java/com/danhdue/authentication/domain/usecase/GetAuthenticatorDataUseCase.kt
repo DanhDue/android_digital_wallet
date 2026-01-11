@@ -6,6 +6,7 @@ package com.danhdue.authentication.domain.usecase
 
 import com.danhdue.authentication.domain.model.Authenticator
 import com.danhdue.authentication.domain.repository.AuthenticatorRepository
+import com.danhdue.framework.network.DataState
 import javax.inject.Inject
 
 /**
@@ -19,5 +20,5 @@ class GetAuthenticatorDataUseCase
         /**
          * Executes the use case.
          */
-        suspend operator fun invoke(): Result<Authenticator> = repository.getAuthenticatorData()
+        suspend operator fun invoke(): DataState<Authenticator> = repository.getAuthenticatorData()
     }

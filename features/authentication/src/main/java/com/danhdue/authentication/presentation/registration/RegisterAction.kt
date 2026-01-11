@@ -2,12 +2,8 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.authentication.presentation.register
+package com.danhdue.authentication.presentation.registration
 
-/**
- * Defines the actions that can be sent from the UI to the ViewModel
- * for the Register feature.
- */
 sealed interface RegisterAction {
     data class OnFirstNameChanged(
         val value: String,

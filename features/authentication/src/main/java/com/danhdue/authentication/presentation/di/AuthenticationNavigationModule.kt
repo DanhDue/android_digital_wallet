@@ -6,9 +6,9 @@ package com.danhdue.authentication.presentation.di
 
 import com.danhdue.authentication.presentation.login.LoginEvent
 import com.danhdue.authentication.presentation.login.LoginRoot
-import com.danhdue.authentication.presentation.register.RegisterEvent
-import com.danhdue.authentication.presentation.register.RegisterRoot
-import com.danhdue.authentication.presentation.register.RegisterRoute
+import com.danhdue.authentication.presentation.registration.RegisterEvent
+import com.danhdue.authentication.presentation.registration.RegisterRoot
+import com.danhdue.authentication.presentation.registration.RegisterRoute
 import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.HomeRoute
 import com.danhdue.framework.navigation.LoginRoute
