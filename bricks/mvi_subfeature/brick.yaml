@@ -1,0 +1,13 @@
+name: mvi_subfeature
+description: Generates MVI presentation layer files (Action, Event, State, ViewModel, Screen, UiModel) for a sub-feature screen within a module.
+version: 0.4.0+1
+
+vars:
+  module:
+    type: string
+    description: Feature module name in snake_case (e.g., sample, my_wallet)
+    prompt: What is the feature module name? (snake_case)
+  name:
+    type: string
+    description: Screen name in PascalCase (e.g., Detail, Settings)
+    prompt: What is the subfeature name? (PascalCase)

@@ -1,0 +1,9 @@
+name: remove_feature
+description: Removes an MVI feature module and its configurations from the project.
+version: 0.1.0+1
+
+vars:
+  name:
+    type: string
+    description: Feature name to remove (PascalCase, e.g., Sample, Payment)
+    prompt: What is the feature name to remove? (PascalCase)

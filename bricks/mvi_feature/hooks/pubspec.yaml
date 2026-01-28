@@ -1,0 +1,8 @@
+name: mvi_feature_hooks
+description: Post-generation hooks for mvi_feature brick
+
+environment:
+  sdk: '>=2.19.0 <4.0.0'
+
+dependencies:
+  mason: ^0.1.0-dev.52

@@ -5,9 +5,5 @@
 /.kotlin
 .DS_Store
 /build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
-.kotlin
-google-services.json
+build
+.dart_tool

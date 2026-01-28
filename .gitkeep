@@ -1,0 +1,2 @@
+# This file exists to ensure the __brick__ directory is not empty.
+# The actual work is done by the post_gen.dart hook.

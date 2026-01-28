@@ -1,0 +1,13 @@
+name: remove_subfeature
+description: Removes MVI presentation layer files for a sub-feature screen from a module.
+version: 0.1.0+1
+
+vars:
+  module:
+    type: string
+    description: Feature module name in snake_case (e.g., sample, my_wallet)
+    prompt: What is the feature module name? (snake_case)
+  name:
+    type: string
+    description: Screen name to remove (PascalCase, e.g., Detail, Settings)
+    prompt: What is the screen name to remove? (PascalCase)

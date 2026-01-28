@@ -1,0 +1,18 @@
+name: mvi_feature
+description: Generates a complete Android feature module with Clean Architecture layers (data, domain, presentation) following MVI pattern.
+version: 0.2.0+1
+
+vars:
+  name:
+    type: string
+    description: Feature name in PascalCase (e.g., Wallet, Payment)
+    prompt: What is the feature name? (PascalCase)
+  package:
+    type: string
+    description: Base package path (e.g., com.danhdue.wallet)
+    prompt: What is the package name?
+  screen:
+    type: string
+    description: Initial screen name in PascalCase (e.g., Home, Main)
+    prompt: What is the initial screen name? (PascalCase)
+    default: Main
