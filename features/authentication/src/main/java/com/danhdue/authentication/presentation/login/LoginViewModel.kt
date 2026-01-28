@@ -4,12 +4,8 @@
  */
 package com.danhdue.authentication.presentation.login
 
-import androidx.lifecycle.viewModelScope
-import com.danhdue.framework.base.mvi.BaseViewState
 import com.danhdue.framework.base.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -21,17 +17,17 @@ class LoginViewModel
     @Inject
     constructor(
 //        private val getLoginDataUseCase: GetLoginDataUseCase,
-    ) :
-    MviViewModel<BaseViewState<LoginState>, LoginAction, LoginEvent>() {
+    ) : MviViewModel<LoginState, LoginAction, LoginEvent>(
+        initialState = LoginState(),
+    ) {
         init {
             Timber.d("LoginViewModel init")
-            setState(BaseViewState.Data(LoginState()))
         }
 
         override fun onAction(action: LoginAction) {
             when (action) {
                 is LoginAction.OnEmailChanged -> {
-                    updateState {
+                    reduce {
                         copy(
                             email = action.email,
                             emailError = null,
@@ -42,7 +38,7 @@ class LoginViewModel
                 }
 
                 is LoginAction.OnPasswordChanged -> {
-                    updateState {
+                    reduce {
                         copy(
                             password = action.password,
                             passwordError = null,
@@ -53,18 +49,10 @@ class LoginViewModel
                 }
 
                 LoginAction.OnTogglePasswordVisibility -> {
-                    updateState { copy(isPasswordVisible = !isPasswordVisible) }
+                    reduce { copy(isPasswordVisible = !isPasswordVisible) }
                 }
 
-                LoginAction.OnLoginClicked -> {
-                    viewModelScope.launch {
-                        startLoading()
-                        // Simulate network call
-                        delay(1000)
-                        stopLoading()
-                        sendEvent(LoginEvent.NavigateToHome)
-                    }
-                }
+                LoginAction.OnLoginClicked -> performLogin()
 
                 LoginAction.OnBackClicked -> {
                     sendEvent(LoginEvent.NavigateBack)
@@ -80,17 +68,13 @@ class LoginViewModel
             }
         }
 
-        private fun updateState(reducer: LoginState.() -> LoginState) {
-            val currentState = (uiState.value as? BaseViewState.Data<*>)?.value as? LoginState ?: LoginState()
-            val newState = currentState.reducer()
-            setState(BaseViewState.Data(newState))
-        }
-
-        override fun startLoading() {
-            updateState { copy(isLoading = true) }
-        }
-
-        private fun stopLoading() {
-            updateState { copy(isLoading = false) }
+        private fun performLogin() {
+            safeLaunch {
+                reduce { copy(isLoading = true) }
+                // Simulate network call
+                kotlinx.coroutines.delay(1000)
+                reduce { copy(isLoading = false) }
+                sendEvent(LoginEvent.NavigateToHome)
+            }
         }
     }

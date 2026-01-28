@@ -254,3 +254,53 @@ fun LoginScreen(
 
 ```
 
+## 4. Cấu trúc thư mục (Folder Structure)
+
+Dưới đây là cấu trúc thư mục thực tế của module authentication (`features/authentication`), minh họa cách ánh xạ kiến trúc Clean Architecture vào dự án.
+
+```
+features/authentication/src/main/java/com/danhdue/authentication/
+├── data/                               # 🔵 DATA LAYER
+│   ├── di/                             # Dependency Injection (Data Module)
+│   ├── mappers/                        # Mapper (DTO <-> Domain Model)
+│   ├── model/                          # DTOs (Data Transfer Objects - Json/Room)
+│   └── repository/                     # Repository Implementation
+│
+├── domain/                             # 🟡 DOMAIN LAYER
+│   ├── di/                             # Dependency Injection (Domain Module)
+│   ├── model/                          # Entities (Business Models - Pure Kotlin)
+│   ├── repository/                     # Repository Interfaces
+│   └── usecase/                        # Use Cases (Business Logic)
+│
+└── presentation/                       # 🟢 PRESENTATION LAYER
+    ├── di/                             # Dependency Injection (Presentation Module)
+    ├── login/                          # Feature: Login
+    │   ├── LoginAction.kt              # Action (Input)
+    │   ├── LoginEvent.kt               # Event (Side Effect)
+    │   ├── LoginState.kt               # State (UI Data)
+    │   ├── LoginViewModel.kt           # ViewModel
+    │   └── LoginScreen.kt              # Compose UI
+    │
+    └── registration/                   # Feature: Registration
+        ├── RegisterAction.kt
+        ├── RegisterEvent.kt
+        ├── RegisterState.kt
+        ├── RegisterViewModel.kt
+        └── RegisterScreen.kt
+```
+
+### Giải thích chi tiết
+
+1. **`data/`**: Chứa mọi thứ liên quan đến dữ liệu bên ngoài.
+    - `model/`: Các class DTO như `LoginDto`, `RegisterDto` dùng để parse JSON từ API.
+    - `repository/`: Các class `DefaultLoginRepository` implement interface từ Domain.
+    - `mappers/`: Chuyển đổi `LoginDto` thành `Login` (Domain Entity).
+
+2. **`domain/`**: Chứa logic cốt lõi, không phụ thuộc Android.
+    - `model/`: Các class data thuần như `Login`, `Register`.
+    - `usecase/`: Các class xử lý logic như `GetLoginDataUseCase`.
+    - `repository/`: Interface `LoginRepository` định nghĩa rules.
+
+3. **`presentation/`**: Chứa UI và State management.
+    - Được chia nhỏ theo từng màn hình (feature con) như `login`, `registration` để dễ quản lý (Package by Feature).
+    - Mỗi màn hình tuân thủ chặt chẽ mô hình MVI với `State`, `Action`, `Event`.

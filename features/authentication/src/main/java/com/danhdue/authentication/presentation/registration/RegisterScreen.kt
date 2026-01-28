@@ -58,8 +58,6 @@ import com.danhdue.components.ui.theme.BlueDark
 import com.danhdue.components.ui.theme.BluePrimary
 import com.danhdue.components.ui.theme.GrayText
 import com.danhdue.components.ui.theme.PurpleHeading
-import com.danhdue.framework.base.mvi.BaseViewState
-import com.danhdue.framework.extension.cast
 
 /**
  * Composable entry point for the Register feature.
@@ -79,50 +77,15 @@ fun RegisterRoot(
 
     RegisterScreen(
         state = state,
-        onAction = viewModel::onAction,
+        onAction = viewModel::dispatch,
     )
-}
-
-/**
- * A stateless composable that handles the UI state for the Register feature.
- */
-@Composable
-private fun RegisterScreen(
-    state: BaseViewState<*>,
-    onAction: (RegisterAction) -> Unit,
-) {
-    when (state) {
-        is BaseViewState.Data<*> -> {
-            val data = state.cast<BaseViewState.Data<RegisterState>>().value
-            RegisterContent(
-                state = data,
-                onAction = onAction,
-            )
-        }
-
-        is BaseViewState.Empty -> {
-            Spacer(modifier = Modifier.height(0.dp))
-        }
-
-        is BaseViewState.Loading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
-        }
-
-        is BaseViewState.Error -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "Feature: Register is fail")
-            }
-        }
-    }
 }
 
 /**
  * A stateless composable that draws the UI for the Register feature.
  */
 @Composable
-private fun RegisterContent(
+private fun RegisterScreen(
     state: RegisterState,
     onAction: (RegisterAction) -> Unit,
 ) {
@@ -359,7 +322,7 @@ private fun RegisterContent(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewRegisterScreen() {
-    RegisterContent(
+    RegisterScreen(
         state = RegisterState(isLoading = false),
         onAction = {},
     )

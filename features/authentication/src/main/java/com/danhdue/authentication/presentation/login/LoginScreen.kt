@@ -47,8 +47,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danhdue.authentication.R
-import com.danhdue.framework.base.mvi.BaseViewState
-import com.danhdue.framework.extension.cast
 
 /**
  * Composable entry point for the Login feature.
@@ -68,48 +66,16 @@ fun LoginRoot(
 
     LoginScreen(
         state = state,
-        onAction = viewModel::onAction,
+        onAction = viewModel::dispatch,
     )
 }
 
 /**
  * A stateless composable that draws the UI for the Login feature.
  */
-@Composable
-private fun LoginScreen(
-    state: BaseViewState<*>,
-    onAction: (LoginAction) -> Unit,
-) {
-    when (state) {
-        is BaseViewState.Data<*> -> {
-            val data = state.cast<BaseViewState.Data<LoginState>>().value
-            LoginContent(
-                state = data,
-                onAction = onAction,
-            )
-        }
-
-        is BaseViewState.Empty -> {
-            Spacer(modifier = Modifier.height(0.dp))
-        }
-
-        is BaseViewState.Loading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
-        }
-
-        is BaseViewState.Error -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "Feature: Login is fail")
-            }
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun LoginContent(
+private fun LoginScreen(
     state: LoginState,
     onAction: (LoginAction) -> Unit,
 ) {
@@ -222,7 +188,7 @@ private fun LoginContent(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewLoginScreen() {
-    LoginContent(
+    LoginScreen(
         state = LoginState(email = "test@example.com", isLoginButtonEnabled = true),
         onAction = {},
     )
