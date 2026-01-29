@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.danhdue.mywallet"
+    namespace = "com.danhdue.wallet"
 }
 
 dependencies {

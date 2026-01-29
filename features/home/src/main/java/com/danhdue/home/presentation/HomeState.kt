@@ -6,11 +6,11 @@ package com.danhdue.home.presentation
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import com.danhdue.mywallet.presentation.MyWalletRoute
 import com.danhdue.scanner.presentation.ScannerRoute
 import com.danhdue.settings.presentation.SettingsRoute
 import com.danhdue.transactions.presentation.transactionlist.TransactionListRoute
 import com.danhdue.trends.presentation.TrendsRoute
+import com.danhdue.wallet.presentation.MyWalletRoute
 
 /**
  * Represents the state of the Home (Main Tabbed) screen.
