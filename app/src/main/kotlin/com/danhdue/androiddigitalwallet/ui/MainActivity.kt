@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
         // Ensure backstack is not empty before content is set
         if (navigator.backStack.isEmpty()) {
             navigator.navigateTo(LoginRoute)
@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                         if (navigator.backStack.isNotEmpty()) {
                             NavDisplay(
                                 backStack = navigator.backStack,
-                                modifier = Modifier.Companion.padding(paddingValues),
+                                modifier = Modifier.padding(paddingValues),
                                 onBack = {
                                     if (navigator.backStack.size > 1) {
                                         navigator.popBackStack()

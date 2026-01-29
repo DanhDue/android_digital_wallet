@@ -100,7 +100,7 @@ private fun MyWalletScreen(
             WalletHomeHeaderBar()
         },
         containerColor = Color.White,
-        contentWindowInsets = WindowInsets(bottom = 0.dp),
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
     ) { paddingValues ->
         Column(
             modifier =

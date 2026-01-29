@@ -4,6 +4,7 @@
  */
 package com.danhdue.home.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -42,7 +43,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -56,6 +59,7 @@ import com.danhdue.components.ui.theme.ScannerFabGradient
 import com.danhdue.framework.navigation.LocalEntryProviderInstallers
 import com.danhdue.framework.navigation.LocalNestedNavigator
 import com.danhdue.framework.navigation.NestedNavigator
+import com.danhdue.libraries.components.R
 
 @Composable
 fun HomeRoot(viewModel: HomeViewModel = hiltViewModel()) {
@@ -293,16 +297,25 @@ private fun TabItem(
 
         if (isSelected) {
             Spacer(modifier = Modifier.height(6.dp))
-            Box(
-                modifier =
-                    Modifier
-                        .size(width = 32.dp, height = 4.dp)
-                        .shadow(elevation = 4.dp, shape = CircleShape, ambientColor = selectedColor, spotColor = selectedColor)
-                        .clip(CircleShape)
-                        .background(selectedColor),
+            Image(
+                painter = painterResource(id = R.drawable.ic_selected_bot_tab_indicator),
+                contentDescription = null,
             )
         } else {
             Spacer(modifier = Modifier.height(10.dp))
         }
     }
+}
+
+@Preview
+@Composable
+fun TabItemPreview() {
+    TabItem(
+        icon = Icons.Default.AccountBalanceWallet,
+        label = "Wallet",
+        isSelected = true,
+        onClick = { },
+        selectedColor = HomePrimaryBlue,
+        unselectedColor = HomeGrayText,
+    )
 }
