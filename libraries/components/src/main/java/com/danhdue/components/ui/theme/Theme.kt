@@ -5,6 +5,9 @@
 package com.danhdue.components.ui.theme
 
 import android.os.Build
+import androidx.compose.foundation.IndicationNodeFactory
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -12,7 +15,20 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.node.DelegatableNode
 import androidx.compose.ui.platform.LocalContext
+
+// No Ripple Indication - Disables ripple effects globally using modern Indication API
+private object NoRippleIndication : IndicationNodeFactory {
+    override fun create(interactionSource: InteractionSource): DelegatableNode {
+        return object : Modifier.Node() {}
+    }
+
+    override fun equals(other: Any?): Boolean = other === this
+    override fun hashCode(): Int = -1
+}
 
 private val DarkColorScheme =
     darkColorScheme(
@@ -63,6 +79,11 @@ fun AndroidDigitalWalletTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content,
-    )
+    ) {
+        CompositionLocalProvider(
+            LocalIndication provides NoRippleIndication
+        ) {
+            content()
+        }
+    }
 }

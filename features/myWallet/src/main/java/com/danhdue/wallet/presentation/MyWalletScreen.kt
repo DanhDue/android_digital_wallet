@@ -4,6 +4,9 @@
  */
 package com.danhdue.wallet.presentation
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +27,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -58,6 +62,7 @@ import com.danhdue.components.ui.theme.DarkText
 import com.danhdue.components.ui.theme.LightText
 import com.danhdue.components.ui.theme.NeutralGray
 import com.danhdue.components.ui.theme.PrimaryBlue
+import com.danhdue.components.ui.theme.TrueBlue
 import com.danhdue.components.ui.theme.WalletCardGradient
 import com.danhdue.components.ui.widgets.WalletActionBar
 import com.danhdue.components.ui.widgets.WalletHomeHeaderBar
@@ -374,36 +379,56 @@ fun TokenNFTTabs(
 ) {
     val tabs = listOf("TOKENS", "NFTs")
 
+    // Animate the horizontal bias from -1f (left) to 1f (right)
+    val animatedBias by animateFloatAsState(
+        targetValue = if (selectedTabIndex == 0) -1f else 1f,
+        animationSpec = tween(durationMillis = 300),
+        label = "tabIndicatorAnimation"
+    )
+
     Surface(
-        color = NeutralGray,
+        color = Color.White,
         shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(2.dp, TrueBlue),
         modifier =
             Modifier
                 .fillMaxWidth()
-                .height(48.dp),
+                .height(56.dp),
     ) {
-        Row(
-            modifier = Modifier.padding(4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            tabs.forEachIndexed { index, title ->
-                val isSelected = selectedTabIndex == index
-                Box(
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(if (isSelected) PrimaryBlue else Color.Transparent)
-                            .clickable { onTabSelected(index) },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(
-                        text = title,
-                        color = if (isSelected) Color.White else LightText,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                    )
+        Box(modifier = Modifier.padding(6.dp)) {
+            // Animated sliding indicator
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxWidth(0.5f)
+                        .fillMaxHeight()
+                        .align(BiasAlignment(animatedBias, 0f))
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(TrueBlue)
+            )
+
+            // Tab buttons
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    val isSelected = selectedTabIndex == index
+                    Box(
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                                .clickable { onTabSelected(index) },
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = title,
+                            color = if (isSelected) Color.White else LightText,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
                 }
             }
         }
