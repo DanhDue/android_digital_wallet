@@ -7,7 +7,6 @@ import extensions.addCommonDependencies
 import extensions.addTestDependencies
 import extensions.buildBooleanConfigField
 import extensions.buildStringConfigField
-import gradle.kotlin.dsl.accessors._01b08877eb0139cc8c320b8760ecef58.kotlinOptions
 
 plugins {
     id("com.android.library")
