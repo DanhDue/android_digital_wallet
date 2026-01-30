@@ -13,26 +13,28 @@ Future<void> run(HookContext context) async {
 
   context.logger.info('🗑️  Removing subfeature: $pascalCase from $module');
 
-  // 1. Remove presentation folder (camelCase)
-  _removeDirectory('$basePath/presentation/$camelCase', context.logger);
-  _removeFile('$basePath/presentation/$camelCase/${pascalCase}Route.kt',
-      context.logger);
+  _removeDirectory(
+      '$basePath/com/danhdue/$module/presentation/$camelCase', context.logger);
 
   // 2. Remove data layer files
-  _removeFile('$basePath/data/di/${pascalCase}DataModule.kt', context.logger);
-  _removeFile('$basePath/data/models/${pascalCase}Dto.kt', context.logger);
-  _removeFile('$basePath/data/mappers/${pascalCase}Mapper.kt', context.logger);
-  _removeFile('$basePath/data/repository/${pascalCase}RepositoryImpl.kt',
+  _removeFile('$basePath/com/danhdue/$module/data/models/${pascalCase}Dto.kt',
+      context.logger);
+  _removeFile(
+      '$basePath/com/danhdue/$module/data/mappers/${pascalCase}Mapper.kt',
+      context.logger);
+  _removeFile(
+      '$basePath/com/danhdue/$module/data/repository/${pascalCase}RepositoryImpl.kt',
       context.logger);
 
   // 3. Remove domain layer files
   _removeFile(
-      '$basePath/domain/di/${pascalCase}DomainModule.kt', context.logger);
+      '$basePath/com/danhdue/$module/domain/entities/${pascalCase}Entity.kt',
+      context.logger);
   _removeFile(
-      '$basePath/domain/entities/${pascalCase}Entity.kt', context.logger);
+      '$basePath/com/danhdue/$module/domain/repository/${pascalCase}Repository.kt',
+      context.logger);
   _removeFile(
-      '$basePath/domain/repository/${pascalCase}Repository.kt', context.logger);
-  _removeFile('$basePath/domain/usecase/Get${pascalCase}DataUseCase.kt',
+      '$basePath/com/danhdue/$module/domain/usecase/Get${pascalCase}DataUseCase.kt',
       context.logger);
 
   context.logger.success('✅ Subfeature removal complete!');
@@ -70,7 +72,7 @@ Future<void> _removeFromNavigationModule(HookContext context) async {
   final modulePascal = _toPascalCase(module);
 
   final file = File(
-      'features/$module/src/main/kotlin/presentation/di/${modulePascal}NavigationModule.kt');
+      'features/$module/src/main/kotlin/com/danhdue/$module/presentation/di/${modulePascal}NavigationModule.kt');
 
   if (!file.existsSync()) {
     return;
@@ -134,7 +136,7 @@ Future<void> _removeFromDataModule(HookContext context) async {
   final modulePascal = _toPascalCase(module);
 
   final file = File(
-      'features/$module/src/main/kotlin/data/di/${modulePascal}DataModule.kt');
+      'features/$module/src/main/kotlin/com/danhdue/$module/data/di/${modulePascal}DataModule.kt');
 
   if (!file.existsSync()) {
     return;
@@ -154,13 +156,11 @@ Future<void> _removeFromDataModule(HookContext context) async {
   }
 
   final bindingCodeRegex = RegExp(
-    r'\s+@Binds\s+@Singleton\s+abstract\s+fun\s+bind' +
+    r'\n[ \t]*@Binds\s+@Singleton\s+abstract\s+fun\s+bind' +
         pascalCase +
-        r'Repository\(\s+impl:\s+' +
+        r'Repository\([^)]+\):\s*' +
         pascalCase +
-        r'RepositoryImpl,\s+\):\s+' +
-        pascalCase +
-        r'Repository\n',
+        r'Repository',
     multiLine: true,
   );
 
@@ -177,7 +177,7 @@ Future<void> _removeFromDomainModule(HookContext context) async {
   final modulePascal = _toPascalCase(module);
 
   final file = File(
-      'features/$module/src/main/kotlin/domain/di/${modulePascal}DomainModule.kt');
+      'features/$module/src/main/kotlin/com/danhdue/$module/domain/di/${modulePascal}DomainModule.kt');
 
   if (!file.existsSync()) {
     return;
@@ -197,15 +197,13 @@ Future<void> _removeFromDomainModule(HookContext context) async {
   }
 
   final providerCodeRegex = RegExp(
-    r'\s+@Provides\s+@ViewModelScoped\s+fun\s+provideGet' +
+    r'\n[ \t]*@Provides\s+@ViewModelScoped\s+fun\s+provideGet' +
         pascalCase +
-        r'DataUseCase\(repository:\s+' +
+        r'DataUseCase\([^)]+\):\s*Get' +
         pascalCase +
-        r'Repository\):\s+Get' +
+        r'DataUseCase\s*=\s*Get' +
         pascalCase +
-        r'DataUseCase\s+=\s+Get' +
-        pascalCase +
-        r'DataUseCase\(repository\)\n',
+        r'DataUseCase\([^)]+\)',
     multiLine: true,
   );
 

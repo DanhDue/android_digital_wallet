@@ -40,7 +40,7 @@ Future<void> _injectNavigationModule(HookContext context) async {
   final modulePascal = _toPascalCase(module);
 
   final file = File(
-      'features/$module/src/main/kotlin/presentation/di/${modulePascal}NavigationModule.kt');
+      'features/$module/src/main/kotlin/com/danhdue/$module/presentation/di/${modulePascal}NavigationModule.kt');
 
   if (!file.existsSync()) {
     context.logger.warn('NavigationModule not found at ${file.path}');
@@ -57,9 +57,7 @@ Future<void> _injectNavigationModule(HookContext context) async {
   ];
 
   for (final importLine in imports) {
-    if (!content.contains(importLine)) {
-      content = content.replaceFirst('import', '$importLine\nimport');
-    }
+    content = _addImport(content, importLine);
   }
 
   // Add entry
@@ -72,12 +70,11 @@ Future<void> _injectNavigationModule(HookContext context) async {
                 ${pascalCase}Root(
                     onEvent = { event ->
                         when (event) {
-                             ${pascalCase}Event.NavigateBack -> navigator.popBackStack()
+                            ${pascalCase}Event.NavigateBack -> navigator.popBackStack()
                         }
                     },
                 )
-            }
-''';
+            }''';
 
   if (!content.contains('entry<${pascalCase}Route>')) {
     // Naive injection: find the last closing brace of the lambda.
@@ -139,7 +136,7 @@ Future<void> _injectDataModule(HookContext context) async {
   final modulePascal = _toPascalCase(module);
 
   final file = File(
-      'features/$module/src/main/kotlin/data/di/${modulePascal}DataModule.kt');
+      'features/$module/src/main/kotlin/com/danhdue/$module/data/di/${modulePascal}DataModule.kt');
 
   if (!file.existsSync()) {
     context.logger.warn('DataModule not found at ${file.path}');
@@ -155,15 +152,12 @@ Future<void> _injectDataModule(HookContext context) async {
   ];
 
   for (final importLine in imports) {
-    if (!content.contains(importLine)) {
-      content = content.replaceFirst('import', '$importLine\nimport');
-    }
+    content = _addImport(content, importLine);
   }
 
   // Add binding
   const bindingMarker = 'abstract class';
-  final bindingCode = '''
-    @Binds
+  final bindingCode = '''@Binds
     @Singleton
     abstract fun bind${pascalCase}Repository(
         impl: ${pascalCase}RepositoryImpl,
@@ -176,7 +170,7 @@ Future<void> _injectDataModule(HookContext context) async {
       final braceIndex = content.indexOf('{', classIndex);
       if (braceIndex != -1) {
         content = content.replaceRange(
-            braceIndex + 1, braceIndex + 1, '\n$bindingCode');
+            braceIndex + 1, braceIndex + 1, '\n    $bindingCode');
       }
     }
   }
@@ -192,7 +186,7 @@ Future<void> _injectDomainModule(HookContext context) async {
   final modulePascal = _toPascalCase(module);
 
   final file = File(
-      'features/$module/src/main/kotlin/domain/di/${modulePascal}DomainModule.kt');
+      'features/$module/src/main/kotlin/com/danhdue/$module/domain/di/${modulePascal}DomainModule.kt');
 
   if (!file.existsSync()) {
     context.logger.warn('DomainModule not found at ${file.path}');
@@ -208,15 +202,12 @@ Future<void> _injectDomainModule(HookContext context) async {
   ];
 
   for (final importLine in imports) {
-    if (!content.contains(importLine)) {
-      content = content.replaceFirst('import', '$importLine\nimport');
-    }
+    content = _addImport(content, importLine);
   }
 
   // Add provider
   const providerMarker = 'object';
-  final providerCode = '''
-    @Provides
+  final providerCode = '''@Provides
     @ViewModelScoped
     fun provideGet${pascalCase}DataUseCase(repository: ${pascalCase}Repository): Get${pascalCase}DataUseCase =
         Get${pascalCase}DataUseCase(repository)
@@ -228,7 +219,7 @@ Future<void> _injectDomainModule(HookContext context) async {
       final braceIndex = content.indexOf('{', objectIndex);
       if (braceIndex != -1) {
         content = content.replaceRange(
-            braceIndex + 1, braceIndex + 1, '\n$providerCode');
+            braceIndex + 1, braceIndex + 1, '\n    $providerCode');
       }
     }
   }
@@ -251,4 +242,63 @@ String _toCamelCase(String input) {
   if (input.isEmpty) return input;
   final pascal = _toPascalCase(input);
   return '${pascal[0].toLowerCase()}${pascal.substring(1)}';
+}
+
+String _addImport(String content, String importLine) {
+  if (content.contains(importLine)) return content;
+
+  final lines = content.split('\n');
+  final importLines = <String>[];
+  int firstImportIndex = -1;
+  int lastImportIndex = -1;
+
+  for (int i = 0; i < lines.length; i++) {
+    if (lines[i].trim().startsWith('import ')) {
+      if (firstImportIndex == -1) firstImportIndex = i;
+      lastImportIndex = i;
+      importLines.add(lines[i]);
+    } else if (firstImportIndex != -1 &&
+        lastImportIndex == -1 &&
+        lines[i].trim().isEmpty) {
+      // Skip empty lines between imports but keep tracking provided we find more imports
+    } else if (firstImportIndex != -1 && lines[i].trim().isEmpty) {
+      // potential gap
+    }
+  }
+
+  // Re-scanning to handle gaps correctly or assume contiguous.
+  // Detekt enforces contiguous. So we can just find any range covering all imports.
+  // A safer parser: find block of imports.
+
+  firstImportIndex = lines.indexWhere((l) => l.startsWith('import '));
+  lastImportIndex = lines.lastIndexWhere((l) => l.startsWith('import '));
+
+  if (firstImportIndex == -1) {
+    // No imports found. Insert after package declaration.
+    final packageIndex = lines.indexWhere((l) => l.startsWith('package '));
+    if (packageIndex != -1) {
+      lines.insert(packageIndex + 2, importLine); // +1 blank line
+      return lines.join('\n');
+    }
+    return '$importLine\n$content';
+  }
+
+  // Extract all lines between first and last, filter only imports, add new one, sort.
+  // Note: this erases comments or other things in between imports if any.
+
+  final existingImports = lines
+      .sublist(firstImportIndex, lastImportIndex + 1)
+      .where((l) => l.startsWith('import '))
+      .toList();
+
+  existingImports.add(importLine);
+  existingImports.sort();
+
+  final newContent = [
+    ...lines.sublist(0, firstImportIndex),
+    ...existingImports,
+    ...lines.sublist(lastImportIndex + 1)
+  ].join('\n');
+
+  return newContent;
 }

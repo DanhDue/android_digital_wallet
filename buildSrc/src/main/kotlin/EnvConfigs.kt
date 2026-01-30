@@ -3,7 +3,7 @@ object EnvConfigs {
     val FreeCompilerArgs = listOf(
         "-Xjvm-default=all",
         "-opt-in=kotlin.RequiresOptIn",
-        "-opt-in=kotlin.Experimental",
+
         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         "-opt-in=kotlinx.coroutines.InternalCoroutinesApi",
         "-opt-in=kotlinx.coroutines.FlowPreview",
@@ -15,7 +15,7 @@ object EnvConfigs {
     val FreeCoroutineCompilerArgs = listOf(
         "-Xjvm-default=all",
         "-opt-in=kotlin.RequiresOptIn",
-        "-opt-in=kotlin.Experimental",
+
         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         "-opt-in=kotlinx.coroutines.InternalCoroutinesApi",
         "-opt-in=kotlinx.coroutines.FlowPreview"
