@@ -5,8 +5,8 @@ import com.danhdue.authentication.data.models.LoginResponseDto
 import com.danhdue.framework.network.calladapter.NetworkResponse
 import javax.inject.Inject
 
-class AuthenticationRemoteDataSource @Inject constructor(private val authApi: AuthApi) {
+class AuthenticationRemoteDataSource @Inject constructor(private val authApiService: AuthApiService) {
     suspend fun login(loginRequest: LoginRequestDto): NetworkResponse<LoginResponseDto> {
-        return authApi.login(loginRequest)
+        return authApiService.login(loginRequest)
     }
 }

@@ -1,15 +1,15 @@
 package com.danhdue.authentication.data.di
 
-import com.danhdue.authentication.data.datasources.remote.AuthApi
+import com.danhdue.authentication.data.datasources.remote.AuthApiService
 import com.danhdue.authentication.data.datasources.remote.TokenAuthenticator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
-import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -30,17 +30,18 @@ object AuthNetworkModule {
     @Named("AuthRetrofit")
     fun provideAuthRetrofit(
             retrofitBuilder: Retrofit.Builder,
-            @Named("AuthClient") authClient: OkHttpClient
+            @Named("AuthClient") authClient: OkHttpClient,
+            @Named("BaseUrl") baseUrl: String
     ): Retrofit {
         return retrofitBuilder
-                .baseUrl("https://digital-wallet-93c4ba68a41d.herokuapp.com/")
+                .baseUrl(baseUrl)
                 .client(authClient)
                 .build()
     }
 
     @Provides
     @Singleton
-    fun provideAuthApi(@Named("AuthRetrofit") retrofit: Retrofit): AuthApi {
-        return retrofit.create(AuthApi::class.java)
+    fun provideAuthApiService(@Named("AuthRetrofit") retrofit: Retrofit): AuthApiService {
+        return retrofit.create(AuthApiService::class.java)
     }
 }

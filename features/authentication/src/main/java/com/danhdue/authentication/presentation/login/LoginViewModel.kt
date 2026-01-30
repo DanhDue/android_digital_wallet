@@ -8,8 +8,8 @@ import com.danhdue.authentication.domain.usecase.LoginUseCase
 import com.danhdue.framework.base.mvi.MviViewModel
 import com.danhdue.framework.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import timber.log.Timber
+import javax.inject.Inject
 
 /** Manages the business logic and state for the Login feature. */
 @HiltViewModel

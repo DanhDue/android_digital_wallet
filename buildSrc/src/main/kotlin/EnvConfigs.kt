@@ -42,6 +42,7 @@ object EnvConfigs {
         const val crashlyticsEnable = true
         const val analyticsEnable = true
         const val openTelemetryEndPoint = "http://10.0.2.2:4317"
+        const val BASE_URL = "https://digital-wallet-93c4ba68a41d.herokuapp.com/api/v1/"
     }
 
     object Debug {
@@ -50,5 +51,6 @@ object EnvConfigs {
         const val crashlyticsEnable = false
         const val analyticsEnable = false
         const val openTelemetryEndPoint = "http://10.0.2.2:4317"
+        const val BASE_URL = "https://digital-wallet-93c4ba68a41d.herokuapp.com/api/v1/"
     }
 }

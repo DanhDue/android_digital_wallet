@@ -25,7 +25,7 @@ If the network module does not exist, create it.
 *   **Location**: `features/{feature_name_lowercase}/src/main/kotlin/com/danhdue/{feature_name_lowercase}/data/di/{FEATURE_NAME}NetworkModule.kt`
     *   Inject `Retrofit.Builder` from `:libraries:framework`.
     *   Provide a Singleton `Retrofit` instance (specific to the feature).
-*   **API Interface**: `features/{feature_name_lowercase}/src/main/kotlin/com/danhdue/{feature_name_lowercase}/data/datasources/remote/{FEATURE_NAME}Api.kt`
+*   **API Interface**: `features/{feature_name_lowercase}/src/main/kotlin/com/danhdue/{feature_name_lowercase}/data/datasources/remote/{FEATURE_NAME}ApiService.kt`
     *   Return `NetworkResponse<T>`.
     *   Include `@Tag` with `FeatureConfig(appId = "...", featureName = "${FEATURE_NAME}")`.
 *   **Remote Data Source**: `features/{feature_name_lowercase}/src/main/kotlin/com/danhdue/{feature_name_lowercase}/data/datasources/remote/{FEATURE_NAME}RemoteDataSource.kt`

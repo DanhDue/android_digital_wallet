@@ -12,6 +12,17 @@ plugins {
 
 android {
     namespace = "com.danhdue.framework"
+    buildFeatures {
+        buildConfig = true
+    }
+    buildTypes {
+        getByName("release") {
+            buildConfigField("String", "BASE_URL", "\"${EnvConfigs.Release.BASE_URL}\"")
+        }
+        getByName("debug") {
+            buildConfigField("String", "BASE_URL", "\"${EnvConfigs.Debug.BASE_URL}\"")
+        }
+    }
 }
 
 dependencies {
