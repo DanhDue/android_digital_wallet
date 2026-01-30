@@ -4,7 +4,7 @@
  */
 package com.danhdue.authentication.data.di
 
-import com.danhdue.authentication.data.repository.DefaultLoginRepository
+import com.danhdue.authentication.data.repository.LoginRepositoryImpl
 import com.danhdue.authentication.domain.repository.LoginRepository
 import dagger.Binds
 import dagger.Module
@@ -23,5 +23,5 @@ abstract class LoginDataModule {
      */
     @Binds
     @Singleton
-    abstract fun bindLoginRepository(repository: DefaultLoginRepository): LoginRepository
+    abstract fun bindLoginRepository(repository: LoginRepositoryImpl): LoginRepository
 }

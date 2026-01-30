@@ -4,7 +4,7 @@
  */
 package com.danhdue.authentication.domain.usecase
 
-import com.danhdue.authentication.domain.model.Register
+import com.danhdue.authentication.domain.entities.Register
 import com.danhdue.authentication.domain.repository.RegisterRepository
 import com.danhdue.framework.network.DataState
 import javax.inject.Inject

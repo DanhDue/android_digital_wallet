@@ -4,8 +4,8 @@
  */
 package com.danhdue.authentication.data.mappers
 
-import com.danhdue.authentication.data.model.RegisterDto
-import com.danhdue.authentication.domain.model.Register
+import com.danhdue.authentication.data.models.RegisterDto
+import com.danhdue.authentication.domain.entities.Register
 
 /**
  * Maps a RegisterDto (Data Layer) object to a Register (Domain Layer) object.

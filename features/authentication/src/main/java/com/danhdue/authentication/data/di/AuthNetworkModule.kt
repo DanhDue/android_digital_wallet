@@ -32,7 +32,10 @@ object AuthNetworkModule {
             retrofitBuilder: Retrofit.Builder,
             @Named("AuthClient") authClient: OkHttpClient
     ): Retrofit {
-        return retrofitBuilder.baseUrl("https://api.wallet.com/auth/").client(authClient).build()
+        return retrofitBuilder
+                .baseUrl("https://digital-wallet-93c4ba68a41d.herokuapp.com/")
+                .client(authClient)
+                .build()
     }
 
     @Provides

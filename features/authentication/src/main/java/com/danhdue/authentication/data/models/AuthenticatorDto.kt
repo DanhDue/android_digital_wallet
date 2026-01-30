@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.authentication.data.model
+package com.danhdue.authentication.data.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

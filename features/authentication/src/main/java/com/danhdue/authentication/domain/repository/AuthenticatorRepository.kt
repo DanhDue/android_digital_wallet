@@ -4,7 +4,7 @@
  */
 package com.danhdue.authentication.domain.repository
 
-import com.danhdue.authentication.domain.model.Authenticator
+import com.danhdue.authentication.domain.entities.Authenticator
 import com.danhdue.framework.network.DataState
 
 /**

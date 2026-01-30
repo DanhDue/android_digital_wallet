@@ -4,8 +4,8 @@
  */
 package com.danhdue.authentication.data.mappers
 
-import com.danhdue.authentication.data.model.AuthenticatorDto
-import com.danhdue.authentication.domain.model.Authenticator
+import com.danhdue.authentication.data.models.AuthenticatorDto
+import com.danhdue.authentication.domain.entities.Authenticator
 
 /**
  * Maps a AuthenticatorDto (Data Layer) object to a Authenticator (Domain Layer) object.

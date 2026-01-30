@@ -4,7 +4,7 @@
  */
 package com.danhdue.authentication.data.repository
 
-import com.danhdue.authentication.domain.model.Authenticator
+import com.danhdue.authentication.domain.entities.Authenticator
 import com.danhdue.authentication.domain.repository.AuthenticatorRepository
 import com.danhdue.framework.network.DataState
 import javax.inject.Inject
