@@ -1,6 +1,7 @@
 import extensions.COMPONENT
 import extensions.FRAMEWORK
 import extensions.addNavigationDependencies
+import extensions.addNetworkDependencies
 
 plugins {
     id(Deps.COMMONS_ANDROID_FEATURE)
@@ -15,5 +16,6 @@ dependencies {
     FRAMEWORK
     COMPONENT
 
+    addNetworkDependencies()
     addNavigationDependencies()
 }
