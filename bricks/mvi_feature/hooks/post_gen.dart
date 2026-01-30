@@ -42,9 +42,6 @@ void run(HookContext context) {
     context.logger.warn(
         '⚠️ Gradle sync failed. Run manually: ./gradlew --refresh-dependencies');
   }
-
-  context.logger.info('');
-  context.logger.info('Build module: ./gradlew $gradlePath:compileDebugKotlin');
 }
 
 void _updateSettingsGradle(String gradlePath, Logger logger) {
