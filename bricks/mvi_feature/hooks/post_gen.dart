@@ -32,7 +32,7 @@ void run(HookContext context) {
   context.logger.info('🔄 Running Gradle sync...');
   final result = Process.runSync(
     './gradlew',
-    ['--refresh-dependencies'],
+    [':prepareKotlinBuildScriptModel', '--console=plain'],
     runInShell: true,
   );
 
@@ -40,7 +40,7 @@ void run(HookContext context) {
     context.logger.success('✅ Gradle sync complete!');
   } else {
     context.logger.warn(
-        '⚠️ Gradle sync failed. Run manually: ./gradlew --refresh-dependencies');
+        '⚠️ Gradle sync failed. Run manually: ./gradlew :prepareKotlinBuildScriptModel --console=plain');
   }
 }
 
