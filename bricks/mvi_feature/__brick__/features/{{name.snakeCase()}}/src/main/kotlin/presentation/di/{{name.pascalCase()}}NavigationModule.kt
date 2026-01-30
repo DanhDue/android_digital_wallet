@@ -14,6 +14,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.multibindings.IntoSet
 
+import {{package}}.presentation.{{screen.camelCase()}}.{{screen.pascalCase()}}Route
+
 /**
  * Hilt module that provides navigation entries for the {{name.pascalCase()}} feature.
  */
@@ -24,15 +26,14 @@ object {{name.pascalCase()}}NavigationModule {
     @IntoSet
     fun provide{{name.pascalCase()}}Entries(navigator: Navigator): EntryProviderInstaller =
         {
-            // TODO: Define route and uncomment
-            // entry<{{name.pascalCase()}}Route> {
-            //     {{screen.pascalCase()}}Root(
-            //         onEvent = { event ->
-            //             when (event) {
-            //                 {{screen.pascalCase()}}Event.NavigateBack -> navigator.popBackStack()
-            //             }
-            //         },
-            //     )
-            // }
+            entry<{{screen.pascalCase()}}Route> {
+                {{screen.pascalCase()}}Root(
+                    onEvent = { event ->
+                        when (event) {
+                            {{screen.pascalCase()}}Event.NavigateBack -> navigator.popBackStack()
+                        }
+                    },
+                )
+            }
         }
 }

@@ -4,6 +4,7 @@
  */
 package com.danhdue.{{module}}.presentation.{{name.camelCase()}}
 
+import com.danhdue.{{module}}.domain.usecase.Get{{name.pascalCase()}}DataUseCase
 import com.danhdue.framework.base.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
@@ -16,7 +17,7 @@ import javax.inject.Inject
 class {{name.pascalCase()}}ViewModel
     @Inject
     constructor(
-        // TODO: Inject use cases here
+        private val get{{name.pascalCase()}}DataUseCase: Get{{name.pascalCase()}}DataUseCase,
     ) : MviViewModel<{{name.pascalCase()}}State, {{name.pascalCase()}}Action, {{name.pascalCase()}}Event>(
         initialState = {{name.pascalCase()}}State(),
     ) {

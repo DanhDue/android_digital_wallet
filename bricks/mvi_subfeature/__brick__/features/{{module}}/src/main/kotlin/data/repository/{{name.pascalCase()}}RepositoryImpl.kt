@@ -4,6 +4,7 @@
  */
 package com.danhdue.{{module}}.data.repository
 
+import com.danhdue.{{module}}.domain.entities.{{name.pascalCase()}}Entity
 import com.danhdue.{{module}}.domain.repository.{{name.pascalCase()}}Repository
 import javax.inject.Inject
 
@@ -13,5 +14,7 @@ import javax.inject.Inject
 class {{name.pascalCase()}}RepositoryImpl
     @Inject
     constructor() : {{name.pascalCase()}}Repository {
-        // TODO: Implement repository methods
+        override suspend fun get{{name.pascalCase()}}Data(): Result<{{name.pascalCase()}}Entity> {
+            return Result.success({{name.pascalCase()}}Entity())
+        }
     }

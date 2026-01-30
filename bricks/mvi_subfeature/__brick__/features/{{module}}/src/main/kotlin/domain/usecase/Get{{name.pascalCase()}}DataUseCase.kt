@@ -5,6 +5,7 @@
 package com.danhdue.{{module}}.domain.usecase
 
 import com.danhdue.{{module}}.domain.entities.{{name.pascalCase()}}Entity
+import com.danhdue.{{module}}.domain.repository.{{name.pascalCase()}}Repository
 import javax.inject.Inject
 
 /**
@@ -13,10 +14,9 @@ import javax.inject.Inject
 class Get{{name.pascalCase()}}DataUseCase
     @Inject
     constructor(
-        // TODO: Inject repository
+        private val repository: {{name.pascalCase()}}Repository,
     ) {
         suspend operator fun invoke(): Result<{{name.pascalCase()}}Entity> {
-            // TODO: Implement use case logic
-            return Result.success({{name.pascalCase()}}Entity())
+            return repository.get{{name.pascalCase()}}Data()
         }
     }
