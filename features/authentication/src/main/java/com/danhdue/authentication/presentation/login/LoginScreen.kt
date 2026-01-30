@@ -58,9 +58,10 @@ fun LoginRoot(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val currentOnEvent by androidx.compose.runtime.rememberUpdatedState(onEvent)
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
-            onEvent(event)
+            currentOnEvent(event)
         }
     }
 

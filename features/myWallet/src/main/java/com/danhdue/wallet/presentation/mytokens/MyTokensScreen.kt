@@ -59,9 +59,10 @@ fun MyTokensRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    val currentOnEvent by androidx.compose.runtime.rememberUpdatedState(onEvent)
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
-            onEvent(event)
+            currentOnEvent(event)
         }
     }
 
@@ -99,11 +100,12 @@ private fun MyTokensScreen(
 @Composable
 fun TokenListItem(
     token: MyTokensUiModel,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
     Row(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .clickable(onClick = onClick)
                 .padding(vertical = 12.dp),

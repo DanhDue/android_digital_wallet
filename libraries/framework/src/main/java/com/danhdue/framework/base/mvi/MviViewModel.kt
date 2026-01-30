@@ -44,7 +44,6 @@ import kotlinx.coroutines.flow.update
 abstract class MviViewModel<STATE : Any, ACTION, EVENT>(
     initialState: STATE,
 ) : MvvmViewModel() {
-
     // ==================== UI State Management ====================
 
     private val _uiState = MutableStateFlow(initialState)
@@ -227,12 +226,16 @@ sealed interface ViewState<out T> {
      *
      * @property throwable The error that occurred
      */
-    data class Error(val throwable: Throwable) : ViewState<Nothing>
+    data class Error(
+        val throwable: Throwable,
+    ) : ViewState<Nothing>
 
     /**
      * Content state - show the actual data.
      *
      * @property data The domain state to display
      */
-    data class Content<T>(val data: T) : ViewState<T>
+    data class Content<T>(
+        val data: T,
+    ) : ViewState<T>
 }

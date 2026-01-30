@@ -25,8 +25,8 @@ import com.danhdue.libraries.components.R
 
 @Composable
 fun LottieErrorView(
-    modifier: Modifier = Modifier,
     e: Throwable,
+    modifier: Modifier = Modifier,
     action: () -> Unit,
 ) {
     Column(
@@ -38,7 +38,7 @@ fun LottieErrorView(
         LottieView(
             file = "error.json",
             modifier =
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .height(200.dp),
         )
@@ -46,7 +46,7 @@ fun LottieErrorView(
         Text(
             text = e.localizedMessage ?: "",
             modifier =
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
             textAlign = TextAlign.Center,
@@ -54,7 +54,7 @@ fun LottieErrorView(
         SmallSpacer()
         Button(
             modifier =
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .wrapContentSize(Alignment.Center),
             onClick = action,
@@ -74,6 +74,6 @@ fun LottieErrorView(
     name = "Dark Mode",
 )
 @Composable
-fun LottieErrorViewPreview() {
+private fun LottieErrorViewPreview() {
     MaterialTheme { LottieErrorView(e = Exception("Cannot load lottie file")) {} }
 }

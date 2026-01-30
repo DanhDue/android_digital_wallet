@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.BiasAlignment
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -47,6 +46,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.danhdue.components.ui.theme.BalanceTrendText
 import com.danhdue.components.ui.theme.DarkText
 import com.danhdue.components.ui.theme.LightText
 import com.danhdue.components.ui.theme.NeutralGray
@@ -70,9 +71,7 @@ import com.danhdue.libraries.components.R
 import com.danhdue.wallet.presentation.mynfts.MyNFTsRoot
 import com.danhdue.wallet.presentation.mytokens.MyTokensRoot
 
-/**
- * Composable entry point for the MyWallet feature.
- */
+/** Composable entry point for the MyWallet feature. */
 @Composable
 fun MyWalletRoot(
     viewModel: MyWalletViewModel = hiltViewModel(),
@@ -80,11 +79,8 @@ fun MyWalletRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        viewModel.event.collect { event ->
-            onEvent(event)
-        }
-    }
+    val currentOnEvent by androidx.compose.runtime.rememberUpdatedState(onEvent)
+    LaunchedEffect(Unit) { viewModel.event.collect { event -> currentOnEvent(event) } }
 
     MyWalletScreen(
         state = state,
@@ -92,18 +88,14 @@ fun MyWalletRoot(
     )
 }
 
-/**
- * A stateless composable that draws the UI for the MyWallet feature.
- */
+/** A stateless composable that draws the UI for the MyWallet feature. */
 @Composable
 private fun MyWalletScreen(
     state: MyWalletState,
     onAction: (MyWalletAction) -> Unit,
 ) {
     Scaffold(
-        topBar = {
-            WalletHomeHeaderBar()
-        },
+        topBar = { WalletHomeHeaderBar() },
         containerColor = Color.White,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
     ) { paddingValues ->
@@ -127,7 +119,7 @@ private fun MyWalletScreen(
             Spacer(modifier = Modifier.height(16.dp))
             TokenNFTTabs(
                 selectedTabIndex = state.selectedTabIndex,
-                onTabSelected = { onAction(MyWalletAction.TabChanged(it)) },
+                onTabSelect = { onAction(MyWalletAction.TabChanged(it)) },
             )
 
             Box(modifier = Modifier.weight(1.0f)) {
@@ -135,9 +127,15 @@ private fun MyWalletScreen(
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 } else {
                     if (LocalInspectionMode.current) {
-                        // In preview, just show a placeholder to avoid ViewModel instantiation crashes
+                        // In preview, just show a placeholder to avoid ViewModel instantiation
+                        // crashes
                         Text(
-                            text = if (state.selectedTabIndex == 0) "My Tokens Content" else "My NFTs Content",
+                            text =
+                                if (state.selectedTabIndex == 0) {
+                                    "My Tokens Content"
+                                } else {
+                                    "My NFTs Content"
+                                },
                             modifier = Modifier.align(Alignment.Center),
                         )
                     } else {
@@ -155,11 +153,12 @@ private fun MyWalletScreen(
 @Composable
 fun WalletHeader(
     networkName: String,
+    modifier: Modifier = Modifier,
     onSearchClick: () -> Unit,
 ) {
     Row(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -230,18 +229,20 @@ fun WalletHeader(
 }
 
 @Composable
+@Suppress("LongParameterList")
 fun WalletCard(
     totalBalance: String,
     walletAddress: String,
     isBalanceVisible: Boolean,
     onToggleVisibility: () -> Unit,
+    modifier: Modifier = Modifier,
     onCopyAddress: () -> Unit,
 ) {
     Card(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
-                .wrapContentHeight(), // Increased height to accommodate new content
+                .wrapContentHeight(),
         shape = RoundedCornerShape(24.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
     ) {
@@ -283,9 +284,7 @@ fun WalletCard(
             )
 
             Column(
-                modifier =
-                    Modifier
-                        .padding(24.dp),
+                modifier = Modifier.padding(24.dp),
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -319,7 +318,12 @@ fun WalletCard(
                         modifier = Modifier.size(24.dp),
                     ) {
                         Icon(
-                            imageVector = if (isBalanceVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                            imageVector =
+                                if (isBalanceVisible) {
+                                    Icons.Default.Visibility
+                                } else {
+                                    Icons.Default.VisibilityOff
+                                },
                             contentDescription = "Toggle Balance",
                             tint = Color.White.copy(alpha = 0.8f),
                         )
@@ -332,17 +336,23 @@ fun WalletCard(
                         shape = RoundedCornerShape(8.dp),
                     ) {
                         Row(
-                            modifier = Modifier.padding(start = 2.dp, top = 2.dp, end = 6.dp, bottom = 2.dp),
+                            modifier =
+                                Modifier.padding(
+                                    start = 2.dp,
+                                    top = 2.dp,
+                                    end = 6.dp,
+                                    bottom = 2.dp,
+                                ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_arrow_alt_ldown),
                                 contentDescription = "Balance",
-                                tint = Color(0xFF8A0000),
+                                tint = BalanceTrendText,
                             )
                             Text(
-                                text = "$29358926.27 (-6.03%)", // Hardcoded as per request/image
-                                color = Color(0xFF8A0000), // Dark Red text
+                                text = "$29358926.27 (-6.03%)",
+                                color = BalanceTrendText,
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Medium,
                             )
@@ -375,23 +385,25 @@ fun WalletCard(
 @Composable
 fun TokenNFTTabs(
     selectedTabIndex: Int,
-    onTabSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    onTabSelect: (Int) -> Unit,
 ) {
     val tabs = listOf("TOKENS", "NFTs")
 
     // Animate the horizontal bias from -1f (left) to 1f (right)
-    val animatedBias by animateFloatAsState(
-        targetValue = if (selectedTabIndex == 0) -1f else 1f,
-        animationSpec = tween(durationMillis = 300),
-        label = "tabIndicatorAnimation"
-    )
+    val animatedBias by
+        animateFloatAsState(
+            targetValue = if (selectedTabIndex == 0) -1f else 1f,
+            animationSpec = tween(durationMillis = 300),
+            label = "tabIndicatorAnimation",
+        )
 
     Surface(
         color = Color.White,
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(2.dp, TrueBlue),
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .height(56.dp),
     ) {
@@ -400,11 +412,11 @@ fun TokenNFTTabs(
             Box(
                 modifier =
                     Modifier
-                        .fillMaxWidth(0.5f)
+                        .fillMaxWidth(TAB_INDICATOR_WIDTH_RATIO)
                         .fillMaxHeight()
                         .align(BiasAlignment(animatedBias, 0f))
                         .clip(RoundedCornerShape(12.dp))
-                        .background(TrueBlue)
+                        .background(TrueBlue),
             )
 
             // Tab buttons
@@ -419,7 +431,9 @@ fun TokenNFTTabs(
                             Modifier
                                 .weight(1f)
                                 .fillMaxHeight()
-                                .clickable { onTabSelected(index) },
+                                .clickable {
+                                    onTabSelect(index)
+                                },
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
@@ -437,13 +451,14 @@ fun TokenNFTTabs(
 
 @Preview
 @Composable
-fun WalletCardPreview() {
+private fun WalletCardPreview() {
     WalletCard(
         totalBalance = "$51,245.89",
         walletAddress = "0xB38...844d",
         isBalanceVisible = true,
         onToggleVisibility = {},
-        onCopyAddress = {})
+        onCopyAddress = {},
+    )
 }
 
 @Preview(showBackground = true)
@@ -459,3 +474,5 @@ private fun PreviewMyWalletScreen() {
         onAction = {},
     )
 }
+
+private const val TAB_INDICATOR_WIDTH_RATIO = 0.5f

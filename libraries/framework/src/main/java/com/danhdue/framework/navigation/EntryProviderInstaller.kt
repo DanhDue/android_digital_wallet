@@ -15,6 +15,7 @@ typealias EntryProviderInstaller = EntryProviderScope<Any>.() -> Unit
 /**
  * CompositionLocal to provide the set of navigation installers throughout the app.
  */
+@Suppress("CompositionLocalAllowlist")
 val LocalEntryProviderInstallers =
     staticCompositionLocalOf<Set<EntryProviderInstaller>> {
         emptySet()

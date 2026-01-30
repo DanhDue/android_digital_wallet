@@ -84,14 +84,14 @@ private val BACKGROUND_SHAPE = RoundedCornerShape(8.dp)
 fun <T : Any> SegmentedControl(
     segments: List<T>,
     selectedSegment: T,
-    onSegmentSelected: (T) -> Unit,
+    onSegmentSelect: (T) -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable (T) -> Unit,
 ) {
     val state = remember { SegmentedControlState() }
     state.segmentCount = segments.size
     state.selectedSegment = segments.indexOf(selectedSegment)
-    state.onSegmentSelected = { onSegmentSelected(segments[it]) }
+    state.onSegmentSelect = { onSegmentSelect(segments[it]) }
 
     // Animate between whole-number indices so we don't need to do pixel calculations.
     val selectedIndexOffset by animateFloatAsState(state.selectedSegment.toFloat(), label = "")
@@ -153,8 +153,11 @@ fun <T : Any> SegmentedControl(
  * Wrapper around [Text] that is configured to display appropriately inside of a [SegmentedControl].
  */
 @Composable
-fun SegmentText(text: String) {
-    Text(text, maxLines = 1, overflow = Ellipsis)
+fun SegmentText(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(text, maxLines = 1, overflow = Ellipsis, modifier = modifier)
 }
 
 /**
@@ -236,7 +239,7 @@ private fun <T> Segments(
                         selected = isSelected
                         role = Role.Button
                         onClick {
-                            state.onSegmentSelected(i)
+                            state.onSegmentSelect(i)
                             true
                         }
                         stateDescription = if (isSelected) "Selected" else "Not selected"
@@ -265,7 +268,7 @@ private fun <T> Segments(
 private class SegmentedControlState {
     var segmentCount by mutableIntStateOf(0)
     var selectedSegment by mutableIntStateOf(0)
-    var onSegmentSelected: (Int) -> Unit by mutableStateOf({})
+    var onSegmentSelect: (Int) -> Unit by mutableStateOf({})
     var pressedSegment by mutableIntStateOf(NO_SEGMENT_INDEX)
 
     /**
@@ -315,7 +318,7 @@ private class SegmentedControlState {
 
                         // Notify the SegmentedControl caller when the pointer changes segments.
                         if (pressedSegment != selectedSegment) {
-                            onSegmentSelected(pressedSegment)
+                            onSegmentSelect(pressedSegment)
                         }
                     }
                 } else {
@@ -323,7 +326,7 @@ private class SegmentedControlState {
                     // the pointer is down. No dragging is supported.
                     waitForUpOrCancellation(inBounds = segmentBounds)
                         // Null means the gesture was cancelled (e.g. dragged out of bounds).
-                        ?.let { onSegmentSelected(pressedSegment) }
+                        ?.let { onSegmentSelect(pressedSegment) }
                 }
 
                 // In either case, once the gesture is cancelled, stop showing the pressed indication.

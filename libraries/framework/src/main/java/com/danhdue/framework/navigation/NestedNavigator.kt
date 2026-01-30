@@ -18,6 +18,7 @@ interface NestedNavigator {
 /**
  * CompositionLocal to provide a nested navigator for tabs.
  */
+@Suppress("CompositionLocalAllowlist")
 val LocalNestedNavigator =
     staticCompositionLocalOf<NestedNavigator> {
         object : NestedNavigator {

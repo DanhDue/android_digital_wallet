@@ -1,3 +1,11 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.authentication.domain.entities
 
-data class Login(val accessToken: String, val refreshToken: String, val user: User)
+data class Login(
+    val accessToken: String,
+    val refreshToken: String,
+    val user: User,
+)

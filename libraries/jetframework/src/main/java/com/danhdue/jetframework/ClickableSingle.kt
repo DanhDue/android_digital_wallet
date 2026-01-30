@@ -37,6 +37,7 @@ private class MultipleEventsCutterImpl : MultipleEventsCutter {
     }
 }
 
+@Suppress("ModifierComposed")
 fun Modifier.clickableSingle(
     enabled: Boolean = true,
     onClickLabel: String? = null,

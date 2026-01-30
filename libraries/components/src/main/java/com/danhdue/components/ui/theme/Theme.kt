@@ -22,11 +22,10 @@ import androidx.compose.ui.platform.LocalContext
 
 // No Ripple Indication - Disables ripple effects globally using modern Indication API
 private object NoRippleIndication : IndicationNodeFactory {
-    override fun create(interactionSource: InteractionSource): DelegatableNode {
-        return object : Modifier.Node() {}
-    }
+    override fun create(interactionSource: InteractionSource): DelegatableNode = object : Modifier.Node() {}
 
     override fun equals(other: Any?): Boolean = other === this
+
     override fun hashCode(): Int = -1
 }
 
@@ -81,7 +80,7 @@ fun AndroidDigitalWalletTheme(
         typography = Typography,
     ) {
         CompositionLocalProvider(
-            LocalIndication provides NoRippleIndication
+            LocalIndication provides NoRippleIndication,
         ) {
             content()
         }

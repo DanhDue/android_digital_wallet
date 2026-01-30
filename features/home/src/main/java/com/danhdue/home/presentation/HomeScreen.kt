@@ -86,7 +86,7 @@ private fun HomeScreen(
         bottomBar = {
             HomeBottomBar(
                 selectedTab = state.selectedTab,
-                onTabSelected = { onAction(HomeAction.TabSelected(it)) },
+                onTabSelect = { onAction(HomeAction.TabSelected(it)) },
             )
         },
         containerColor = Color.Transparent,
@@ -172,7 +172,7 @@ private fun HomeTabContent(
 @Composable
 private fun HomeBottomBar(
     selectedTab: HomeTab,
-    onTabSelected: (HomeTab) -> Unit,
+    onTabSelect: (HomeTab) -> Unit,
 ) {
     Box(
         modifier =
@@ -203,7 +203,7 @@ private fun HomeBottomBar(
                     icon = Icons.Default.AccountBalanceWallet,
                     label = "Wallet",
                     isSelected = selectedTab == HomeTab.Wallet,
-                    onClick = { onTabSelected(HomeTab.Wallet) },
+                    onClick = { onTabSelect(HomeTab.Wallet) },
                     selectedColor = HomePrimaryBlue,
                     unselectedColor = HomeGrayText,
                 )
@@ -211,7 +211,7 @@ private fun HomeBottomBar(
                     icon = Icons.Default.Language,
                     label = "Browser",
                     isSelected = selectedTab == HomeTab.Transactions,
-                    onClick = { onTabSelected(HomeTab.Transactions) },
+                    onClick = { onTabSelect(HomeTab.Transactions) },
                     selectedColor = HomePrimaryBlue,
                     unselectedColor = HomeGrayText,
                 )
@@ -222,7 +222,7 @@ private fun HomeBottomBar(
                     icon = Icons.AutoMirrored.Filled.TrendingUp,
                     label = "Trends",
                     isSelected = selectedTab == HomeTab.Trends,
-                    onClick = { onTabSelected(HomeTab.Trends) },
+                    onClick = { onTabSelect(HomeTab.Trends) },
                     selectedColor = HomePrimaryBlue,
                     unselectedColor = HomeGrayText,
                 )
@@ -230,7 +230,7 @@ private fun HomeBottomBar(
                     icon = Icons.Default.Settings,
                     label = "Settings",
                     isSelected = selectedTab == HomeTab.Settings,
-                    onClick = { onTabSelected(HomeTab.Settings) },
+                    onClick = { onTabSelect(HomeTab.Settings) },
                     selectedColor = HomePrimaryBlue,
                     unselectedColor = HomeGrayText,
                 )
@@ -246,7 +246,7 @@ private fun HomeBottomBar(
                     .size(72.dp)
                     .clip(CircleShape)
                     .background(brush = ScannerFabGradient)
-                    .clickable { onTabSelected(HomeTab.Scanner) },
+                    .clickable { onTabSelect(HomeTab.Scanner) },
             contentAlignment = Alignment.Center,
         ) {
             Icon(
@@ -309,7 +309,7 @@ private fun TabItem(
 
 @Preview
 @Composable
-fun TabItemPreview() {
+private fun TabItemPreview() {
     TabItem(
         icon = Icons.Default.AccountBalanceWallet,
         label = "Wallet",

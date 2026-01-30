@@ -36,9 +36,10 @@ fun SettingsRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    val currentOnEvent by androidx.compose.runtime.rememberUpdatedState(onEvent)
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
-            onEvent(event)
+            currentOnEvent(event)
         }
     }
 

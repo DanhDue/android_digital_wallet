@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.authentication.data.datasources.remote
 
 import com.danhdue.authentication.data.models.LoginRequestDto
@@ -8,14 +12,13 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthApiService {
-
     @POST("users/login")
     suspend fun login(
-        @Body loginRequest: LoginRequestDto
+        @Body loginRequest: LoginRequestDto,
     ): NetworkResponse<LoginResponseDto>
 
     @POST("users/register")
     suspend fun register(
-        @Body registerRequest: Map<String, String>
+        @Body registerRequest: Map<String, String>,
     ): Response<Unit>
 }

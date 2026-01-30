@@ -13,55 +13,55 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DefaultSpacer() =
+fun DefaultSpacer(modifier: Modifier = Modifier) =
     Spacer(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .height(4.dp),
     )
 
 @Composable
-fun ExtraSmallSpacer() =
+fun ExtraSmallSpacer(modifier: Modifier = Modifier) =
     Spacer(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .height(6.dp),
     )
 
 @Composable
-fun SmallSpacer() =
+fun SmallSpacer(modifier: Modifier = Modifier) =
     Spacer(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .height(12.dp),
     )
 
 @Composable
-fun MediumSpacer() =
+fun MediumSpacer(modifier: Modifier = Modifier) =
     Spacer(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .height(18.dp),
     )
 
 @Composable
-fun LargeSpacer() =
+fun LargeSpacer(modifier: Modifier = Modifier) =
     Spacer(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .height(24.dp),
     )
 
 @Composable
-fun ExtraLargeSpacer() =
+fun ExtraLargeSpacer(modifier: Modifier = Modifier) =
     Spacer(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .height(30.dp),
     )

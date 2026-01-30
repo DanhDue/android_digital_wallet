@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.authentication.data.models
 
 import androidx.annotation.Keep
@@ -7,7 +11,7 @@ import com.squareup.moshi.JsonClass
 @Keep
 @JsonClass(generateAdapter = true)
 data class UserDto(
-        @Json(name = "email") val email: String? = null,
-        @Json(name = "id") val id: Int? = null,
-        @Json(name = "username") val username: String? = null
+    @Json(name = "email") val email: String? = null,
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "username") val username: String? = null,
 )

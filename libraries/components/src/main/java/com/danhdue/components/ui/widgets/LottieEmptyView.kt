@@ -33,7 +33,7 @@ fun LottieEmptyView(modifier: Modifier = Modifier) {
         LottieView(
             file = "empty.json",
             modifier =
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .height(200.dp),
         )
@@ -42,7 +42,7 @@ fun LottieEmptyView(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             modifier =
-                modifier
+                Modifier
                     .fillMaxWidth(),
         )
     }
@@ -58,6 +58,6 @@ fun LottieEmptyView(modifier: Modifier = Modifier) {
     name = "Dark Mode",
 )
 @Composable
-fun LottieEmptyViewPreview() {
+private fun LottieEmptyViewPreview() {
     MaterialTheme { LottieEmptyView() }
 }

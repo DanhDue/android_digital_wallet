@@ -41,6 +41,6 @@ fun LoadingView(
     name = "Dark Mode",
 )
 @Composable
-fun LoadingViewPreview() {
+private fun LoadingViewPreview() {
     MaterialTheme { LoadingView() }
 }

@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.components.ui.widgets
 
 import androidx.annotation.DrawableRes
@@ -83,7 +87,7 @@ private fun WalletActionButton(
             contentDescription = stringResource(id = labelRes),
             modifier =
                 Modifier
-                    .size(68.dp)
+                    .size(68.dp),
         )
         Text(
             text = stringResource(id = labelRes),
@@ -99,6 +103,6 @@ private fun WalletActionButton(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-fun WalletActionBarPreview() {
+private fun WalletActionBarPreview() {
     WalletActionBar()
 }

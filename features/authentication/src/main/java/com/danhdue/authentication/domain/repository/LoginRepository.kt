@@ -15,5 +15,8 @@ interface LoginRepository {
      * @return A DataState object containing the Login domain model on success, or an exception on
      * failure.
      */
-    suspend fun login(email: String, password: String): DataState<Login>
+    suspend fun login(
+        email: String,
+        password: String,
+    ): DataState<Login>
 }

@@ -1,6 +1,7 @@
 package commons
 
 import AppConfig
+import Deps
 import EnvConfigs
 import extensions.TEST
 import extensions.addCommonDependencies
@@ -34,7 +35,7 @@ android {
 
             proguardFiles(
                 getDefaultProguardFile(AppConfig.proguardOptimizedFileName),
-                AppConfig.proguardConsumerRules
+                AppConfig.proguardConsumerRules,
             )
 
             buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Release.dbName)
@@ -66,11 +67,11 @@ android {
             java.srcDirs("src/main/java", "src/main/kotlin")
         }
         getByName("test") {
-            kotlin.srcDirs("src/main/java", "src/main/kotlin")
+            kotlin.srcDirs("src/test/java", "src/test/kotlin")
             java.srcDirs("src/test/java", "src/test/kotlin")
         }
         getByName("androidTest") {
-            kotlin.srcDirs("src/main/java", "src/main/kotlin")
+            kotlin.srcDirs("src/androidTest/java", "src/androidTest/kotlin")
             java.srcDirs("src/androidTest/java", "src/androidTest/kotlin")
         }
     }

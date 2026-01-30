@@ -20,9 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
  * - Disabled: 38% opacity (disabled/inactive content)
  */
 object TextEmphasis {
-    const val High = 1.00f
-    const val Medium = 0.60f
-    const val Disabled = 0.38f
+    const val HIGH = 1.00f
+    const val MEDIUM = 0.60f
+    const val DISABLED = 0.38f
 }
 
 /**
@@ -30,18 +30,15 @@ object TextEmphasis {
  */
 @Composable
 @ReadOnlyComposable
-fun TextStyle.withEmphasis(emphasis: Float): TextStyle {
-    return this.copy(
-        color = LocalContentColor.current.copy(alpha = emphasis)
+fun TextStyle.withEmphasis(emphasis: Float): TextStyle =
+    this.copy(
+        color = LocalContentColor.current.copy(alpha = emphasis),
     )
-}
 
 /**
  * Apply font weight emphasis to any TextStyle
  */
-fun TextStyle.withFontWeight(fontWeight: FontWeight): TextStyle {
-    return this.copy(fontWeight = fontWeight)
-}
+fun TextStyle.withFontWeight(fontWeight: FontWeight): TextStyle = this.copy(fontWeight = fontWeight)
 
 /**
  * Common emphasis variations for body text
@@ -49,25 +46,22 @@ fun TextStyle.withFontWeight(fontWeight: FontWeight): TextStyle {
 object BodyTextEmphasis {
     @Composable
     @ReadOnlyComposable
-    fun bodyLargeEmphasis(): TextStyle {
-        return MaterialTheme.typography.bodyLarge.copy(
-            fontWeight = FontWeight.Bold
+    fun bodyLargeEmphasis(): TextStyle =
+        MaterialTheme.typography.bodyLarge.copy(
+            fontWeight = FontWeight.Bold,
         )
-    }
 
     @Composable
     @ReadOnlyComposable
-    fun bodyMediumEmphasis(): TextStyle {
-        return MaterialTheme.typography.bodyMedium.copy(
-            fontWeight = FontWeight.SemiBold
+    fun bodyMediumEmphasis(): TextStyle =
+        MaterialTheme.typography.bodyMedium.copy(
+            fontWeight = FontWeight.SemiBold,
         )
-    }
 
     @Composable
     @ReadOnlyComposable
-    fun bodySmallEmphasis(): TextStyle {
-        return MaterialTheme.typography.bodySmall.copy(
-            fontWeight = FontWeight.Medium
+    fun bodySmallEmphasis(): TextStyle =
+        MaterialTheme.typography.bodySmall.copy(
+            fontWeight = FontWeight.Medium,
         )
-    }
 }

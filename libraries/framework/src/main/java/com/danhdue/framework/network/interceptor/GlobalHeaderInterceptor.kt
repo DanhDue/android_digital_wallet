@@ -1,9 +1,13 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.framework.network.interceptor
 
 import com.danhdue.framework.network.model.FeatureConfig
-import javax.inject.Inject
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
 /**
  * Interceptor that looks for a [FeatureConfig] tag on the request. If found, it injects "X-App-ID"
@@ -16,11 +20,11 @@ class GlobalHeaderInterceptor @Inject constructor() : Interceptor {
 
         return if (featureConfig != null) {
             val newRequest =
-                    originalRequest
-                            .newBuilder()
-                            .header("X-App-ID", featureConfig.appId)
-                            .header("X-Feature-Name", featureConfig.featureName)
-                            .build()
+                originalRequest
+                    .newBuilder()
+                    .header("X-App-ID", featureConfig.appId)
+                    .header("X-Feature-Name", featureConfig.featureName)
+                    .build()
             chain.proceed(newRequest)
         } else {
             chain.proceed(originalRequest)

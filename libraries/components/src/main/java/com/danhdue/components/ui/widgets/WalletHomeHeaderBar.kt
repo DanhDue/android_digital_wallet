@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
 package com.danhdue.components.ui.widgets
 
 import androidx.compose.foundation.Image
@@ -35,10 +39,8 @@ import com.danhdue.components.ui.theme.WalletCardGradient
 import com.danhdue.libraries.components.R
 
 @Composable
-
-fun WalletHomeHeaderBar(
-    modifier: Modifier = Modifier,
-) {
+@Suppress("MagicNumber")
+fun WalletHomeHeaderBar(modifier: Modifier = Modifier) {
     Row(
         modifier =
             modifier
@@ -60,14 +62,16 @@ fun WalletHomeHeaderBar(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = "Search",
-                    tint = TrueBlue, // Matching the blue outline style in image
+                    // Matching the blue outline style in image
+                    tint = TrueBlue,
                     modifier = Modifier.size(28.dp),
                 )
 
                 Icon(
                     painter = painterResource(id = R.drawable.ic_bitcoin_card),
                     contentDescription = "Card",
-                    tint = TrueBlue, // Assuming original colors for the card icon
+                    // Assuming original colors for the card icon
+                    tint = TrueBlue,
                     modifier = Modifier.size(28.dp),
                 )
             }
@@ -89,8 +93,7 @@ fun WalletHomeHeaderBar(
                     .background(
                         brush = WalletCardGradient,
                         shape = RoundedCornerShape(50),
-                    )
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    ).padding(horizontal = 16.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center,
         ) {
             Row(
@@ -131,23 +134,24 @@ fun WalletHomeHeaderBar(
             Icon(
                 painter = painterResource(id = R.drawable.ic_search),
                 contentDescription = "Search",
-                tint = TrueBlue, // Matching the blue outline style in image
+                // Matching the blue outline style in image
+                tint = TrueBlue,
                 modifier = Modifier.size(28.dp),
             )
 
             Icon(
                 painter = painterResource(id = R.drawable.ic_bitcoin_card),
                 contentDescription = "Card",
-                tint = TrueBlue, // Assuming original colors for the card icon
+                // Assuming original colors for the card icon
+                tint = TrueBlue,
                 modifier = Modifier.size(28.dp),
             )
         }
     }
 }
 
-
 @Preview
 @Composable
-fun WalletHomeHeaderBarPreview() {
+private fun WalletHomeHeaderBarPreview() {
     WalletHomeHeaderBar()
 }

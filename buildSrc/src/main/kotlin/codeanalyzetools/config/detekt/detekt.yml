@@ -227,6 +227,7 @@ style:
     ignorePropertyDeclaration: true
     ignoreAnnotation: true
     ignoreEnums: true
+    ignoreAnnotated: ['Composable']
     ignoreNumbers:
       - '-1'
       - '0'
@@ -317,3 +318,5 @@ ruleauthors:
   ViolatesTypeResolutionRequirements:
     active: true
     excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
+
+

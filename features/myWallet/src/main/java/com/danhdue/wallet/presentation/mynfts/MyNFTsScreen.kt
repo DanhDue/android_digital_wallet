@@ -50,9 +50,10 @@ fun MyNFTsRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    val currentOnEvent by androidx.compose.runtime.rememberUpdatedState(onEvent)
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
-            onEvent(event)
+            currentOnEvent(event)
         }
     }
 
@@ -93,11 +94,12 @@ private fun MyNFTsScreen(
 @Composable
 fun NFTGridItem(
     nft: MyNFTsUiModel,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
     Card(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),

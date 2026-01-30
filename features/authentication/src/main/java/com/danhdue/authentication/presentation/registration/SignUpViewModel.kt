@@ -20,8 +20,8 @@ class SignUpViewModel
     constructor(
         private val getRegisterDataUseCase: GetRegisterDataUseCase,
     ) : MviViewModel<RegisterState, RegisterAction, RegisterEvent>(
-        initialState = RegisterState(),
-    ) {
+            initialState = RegisterState(),
+        ) {
         init {
             Timber.d("SignUpViewModel init")
         }

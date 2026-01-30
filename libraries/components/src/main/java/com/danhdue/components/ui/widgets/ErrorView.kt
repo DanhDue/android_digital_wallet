@@ -29,8 +29,8 @@ import com.danhdue.libraries.components.R
 @Suppress("ForbiddenComment")
 @Composable
 fun ErrorView(
-    modifier: Modifier = Modifier,
     e: Throwable,
+    modifier: Modifier = Modifier,
     action: () -> Unit,
 ) {
     // handleThrowable- create extension method
@@ -46,7 +46,7 @@ fun ErrorView(
             contentDescription = null,
             tint = Red,
             modifier =
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .wrapContentSize(Alignment.Center),
         )
@@ -54,7 +54,7 @@ fun ErrorView(
         Text(
             text = "${e.localizedMessage}",
             modifier =
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
             textAlign = TextAlign.Center,
@@ -62,7 +62,7 @@ fun ErrorView(
         SmallSpacer()
         Button(
             modifier =
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .wrapContentSize(Alignment.Center),
             onClick = action,
@@ -82,6 +82,6 @@ fun ErrorView(
     name = "Dark Mode",
 )
 @Composable
-fun ErrorPageViewPreview() {
+private fun ErrorPageViewPreview() {
     MaterialTheme { ErrorView(e = Exception("There is an error")) {} }
 }

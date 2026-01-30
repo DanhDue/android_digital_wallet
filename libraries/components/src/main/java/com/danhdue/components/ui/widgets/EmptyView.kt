@@ -37,14 +37,14 @@ fun EmptyView(modifier: Modifier = Modifier) {
             painter = rememberVectorPainter(Icons.Default.HourglassEmpty),
             contentDescription = null,
             tint = Red,
-            modifier = modifier,
+            modifier = Modifier,
         )
         Text(
             text = stringResource(id = R.string.text_no_data_found),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             modifier =
-                modifier
+                Modifier
                     .fillMaxWidth(),
         )
     }
@@ -53,6 +53,6 @@ fun EmptyView(modifier: Modifier = Modifier) {
 @Preview(showBackground = true, name = "Light Mode")
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
 @Composable
-fun EmptyPageViewPreview() {
+private fun EmptyPageViewPreview() {
     MaterialTheme { EmptyView() }
 }

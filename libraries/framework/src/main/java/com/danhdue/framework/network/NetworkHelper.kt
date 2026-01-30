@@ -21,7 +21,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 private const val CONTENT_LENGTH = 250_000L
-private const val CLIENT_TIME_OUT = 60L
+const val CLIENT_TIME_OUT = 60L
 private const val CLIENT_CACHE_SIZE = 10 * 1024 * 1024L
 private const val CLIENT_CACHE_DIRECTORY = "http"
 

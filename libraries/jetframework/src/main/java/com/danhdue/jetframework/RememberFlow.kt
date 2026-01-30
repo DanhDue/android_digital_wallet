@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -59,17 +60,20 @@ fun <T> rememberFlowWithLifecycle(
     ).collectAsState(initial = stateFlow.value)
 
 @SuppressLint("ComposableNaming")
+@Suppress("ComposableNaming")
 @Composable
 fun <T> collectEvent(
     flow: Flow<T>,
     lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
     collector: suspend (T) -> Unit,
-): Unit =
+) {
+    val currentCollectorState = rememberUpdatedState(collector)
     LaunchedEffect(lifecycle, flow) {
         lifecycle.repeatOnLifecycle(minActiveState) {
             flow.collectLatest {
-                collector(it)
+                currentCollectorState.value(it)
             }
         }
     }
+}
