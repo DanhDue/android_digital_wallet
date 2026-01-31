@@ -4,18 +4,23 @@
  */
 package com.danhdue.androiddigitalwallet.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.danhdue.androiddigitalwallet.R
@@ -37,9 +42,15 @@ class MainActivity : ComponentActivity() {
 
     private var backPressedTime = 0L
 
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { /* Permission result handled silently for Chucker */ }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        requestNotificationPermission()
+
         // Ensure backstack is not empty before content is set
         if (navigator.backStack.isEmpty()) {
             navigator.navigateTo(LoginRoute)
@@ -79,6 +90,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val permission = Manifest.permission.POST_NOTIFICATIONS
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                notificationPermissionLauncher.launch(permission)
+            }
+        }
+    }
+
     private fun handleExit() {
         if (backPressedTime + BACK_PRESS_THRESHOLD > System.currentTimeMillis()) {
             finish()
@@ -97,3 +117,4 @@ class MainActivity : ComponentActivity() {
         private const val BACK_PRESS_THRESHOLD = 2000 // 2 seconds
     }
 }
+
