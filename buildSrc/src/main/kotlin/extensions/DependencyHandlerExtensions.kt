@@ -467,6 +467,18 @@ fun DependencyHandler.addFirebaseDependencies() {
     implementation(Deps.Firebase.remoteConfig)
 }
 
+fun DependencyHandler.addFlipperDependencies() {
+    debugImplementation(Deps.Flipper.core)
+    debugImplementation(Deps.Flipper.network)
+    debugImplementation(Deps.Flipper.soLoader)
+    releaseImplementation(Deps.Flipper.noOp)
+}
+
+fun DependencyHandler.addLeakCanaryDependencies() {
+    debugImplementation(Deps.LeakCanary.android)
+    debugImplementation(Deps.FlipperPlugins.leakCanary)
+}
+
 fun DependencyHandler.addJacksonMsgPackDependencies() {
     implementation(Deps.Jackson.core)
     implementation(Deps.Jackson.annotations)

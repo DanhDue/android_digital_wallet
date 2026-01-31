@@ -59,6 +59,7 @@ import com.danhdue.components.ui.theme.ScannerFabGradient
 import com.danhdue.framework.navigation.LocalEntryProviderInstallers
 import com.danhdue.framework.navigation.LocalNestedNavigator
 import com.danhdue.framework.navigation.NestedNavigator
+import com.danhdue.framework.navigation.ObserveBackstackForFlipper
 import com.danhdue.libraries.components.R
 
 @Composable
@@ -146,6 +147,10 @@ private fun HomeTabContent(
     onAction: (HomeAction) -> Unit,
 ) {
     if (isVisible) {
+        // Observe backstack changes and report to Flipper
+        val tabName = tab::class.simpleName ?: "Tab"
+        ObserveBackstackForFlipper(backStack = backStack, prefix = tabName)
+
         val nestedNavigator =
             remember(tab) {
                 object : NestedNavigator {

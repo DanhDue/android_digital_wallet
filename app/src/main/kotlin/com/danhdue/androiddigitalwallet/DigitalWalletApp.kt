@@ -4,13 +4,19 @@
  */
 package com.danhdue.androiddigitalwallet
 
-import androidx.multidex.MultiDexApplication
 import com.danhdue.framework.base.app.AppInitializer
+import com.danhdue.framework.base.app.CoreApplication
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class DigitalWalletApp : MultiDexApplication() {
+class DigitalWalletApp : CoreApplication() {
     @Inject
     lateinit var initializer: AppInitializer
+
+    override fun onCreate() {
+        super.onCreate()
+        // Initialize all app initializers including Flipper
+        initializer.init(this)
+    }
 }

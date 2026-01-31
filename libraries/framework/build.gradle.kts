@@ -1,4 +1,5 @@
 import extensions.addFirebaseDependencies
+import extensions.addFlipperDependencies
 import extensions.addNavigationDependencies
 import extensions.addNetworkDependencies
 import extensions.addStorageDependencies
@@ -33,4 +34,5 @@ dependencies {
     addStorageDependencies()
     addFirebaseDependencies()
     addNavigationDependencies()
+    addFlipperDependencies()
 }

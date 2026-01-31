@@ -4,13 +4,13 @@
  */
 package com.danhdue.framework.base.app
 
-import android.app.Application
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.multidex.MultiDexApplication
 
 abstract class CoreApplication :
-    Application(),
+    MultiDexApplication(),
     LifecycleEventObserver {
     var isAppInForeground: Boolean = true
 

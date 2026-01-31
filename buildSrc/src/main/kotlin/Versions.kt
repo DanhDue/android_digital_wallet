@@ -80,4 +80,7 @@ object Versions {
     const val libPhoneNumber = "9.0.21"
     const val gson = "2.13.2"
     const val tink = "1.16.0"
+    const val flipper = "0.273.0"
+    const val soLoader = "0.11.0"
+    const val leakCanary = "2.14"
 }

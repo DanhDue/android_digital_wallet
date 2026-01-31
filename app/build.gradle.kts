@@ -13,6 +13,7 @@ import extensions.JET_FRAMEWORK
 import extensions.addCommonDependencies
 import extensions.addComposeDependencies
 import extensions.addHiltDependencies
+import extensions.addLeakCanaryDependencies
 import extensions.addNavigationDependencies
 import extensions.addNetworkDependencies
 import extensions.addStorageDependencies
@@ -68,6 +69,13 @@ android {
         textOutput = File("${project.rootDir}/build/reports/lint/lint-results-debug.txt")
     }
 
+    // Required for Flipper native libs on Android 15+ (16KB page alignment)
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
     addDefaultConfig()
 }
 
@@ -89,6 +97,8 @@ dependencies {
     addStorageDependencies()
 
     addWorkManagerDependencies()
+
+    addLeakCanaryDependencies()
 
     COMPONENT
     FRAMEWORK
