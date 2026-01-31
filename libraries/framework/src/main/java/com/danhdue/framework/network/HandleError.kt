@@ -63,31 +63,35 @@ sealed class Failure : IOException() {
     ) : Failure()
 }
 
-fun Throwable.handleThrowable(): Failure {
-    // Timber.e(this)
-    return if (this is UnknownHostException) {
-        Failure.ConnectivityError
-    } else if (this is HttpException && this.code() == HttpStatusCode.Unauthorized.code) {
-        Failure.UnAuthorizedException
-    } else if (this is SocketTimeoutException) {
-        Failure.SocketTimeoutError(this.message!!)
-    } else if (this.message != null) {
-        Failure.NotFoundException(this.message!!)
-    } else {
-        Failure.UnknownError
+@Suppress("MagicNumber")
+fun Throwable.handleThrowable(): Failure =
+    when (this) {
+        is UnknownHostException -> Failure.ConnectivityError
+        is HttpException ->
+            when (code()) {
+                HttpStatusCode.Unauthorized.code -> Failure.UnAuthorizedException
+                HttpStatusCode.NotFound.code -> Failure.NotFoundException(message ?: "Not found")
+                in 400..499 -> Failure.ApiError(code(), message ?: "Client error")
+                in 500..599 -> Failure.ServerError(code(), message ?: "Server error")
+                else -> Failure.HttpError(code(), message ?: "HTTP error")
+            }
+        is SocketTimeoutException -> Failure.SocketTimeoutError(message ?: "Timeout")
+        else -> message?.let { Failure.NotFoundException(it) } ?: Failure.UnknownError
     }
-}
 
-// fun Exception.toCustomExceptions() = when (this) {
-//    is ServerResponseException -> Failure.HttpErrorInternalServerError(this)
-//    is ClientRequestException ->
-//        when (this.response.status.value) {
-//            400 -> Failure.HttpErrorBadRequest(this)
-//            401 -> Failure.HttpErrorUnauthorized(this)
-//            403 -> Failure.HttpErrorForbidden(this)
-//            404 -> Failure.HttpErrorNotFound(this)
-//            else -> Failure.HttpError(this)
-//        }
-//    is RedirectResponseException -> Failure.HttpError(this)
-//    else -> Failure.GenericError(this)
-// }
+/**
+ * Converts an HTTP status code and optional message to a [Failure].
+ * Used by NetworkResponse.ApiError to create appropriate Failure instances.
+ */
+@Suppress("MagicNumber")
+fun httpCodeToFailure(
+    code: Int,
+    message: String?,
+): Failure =
+    when (code) {
+        HttpStatusCode.Unauthorized.code -> Failure.UnAuthorizedException
+        HttpStatusCode.NotFound.code -> Failure.NotFoundException(message ?: "Not found")
+        in 400..499 -> Failure.ApiError(code, message ?: "Client error")
+        in 500..599 -> Failure.ServerError(code, message ?: "Server error")
+        else -> Failure.HttpError(code, message ?: "HTTP error")
+    }

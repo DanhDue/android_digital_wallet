@@ -4,7 +4,7 @@
  */
 package com.danhdue.wallet.domain.repository
 
-import com.danhdue.framework.network.NetworkResult
+import com.danhdue.framework.network.DataState
 import com.danhdue.wallet.domain.model.MyNFTs
 import com.danhdue.wallet.domain.model.MyTokens
 import com.danhdue.wallet.domain.model.MyWallet
@@ -16,15 +16,15 @@ interface MyWalletRepository {
     /**
      * Retrieves data for the MyWallet feature.
      */
-    suspend fun getMyWalletData(): NetworkResult<MyWallet>
+    suspend fun getMyWalletData(): DataState<MyWallet>
 
     /**
      * Retrieves data for the MyNFTs feature.
      */
-    suspend fun getMyNFTsData(): NetworkResult<MyNFTs>
+    suspend fun getMyNFTsData(): DataState<MyNFTs>
 
     /**
      * Retrieves data for the MyTokens feature.
      */
-    suspend fun getMyTokensData(): NetworkResult<MyTokens>
+    suspend fun getMyTokensData(): DataState<MyTokens>
 }

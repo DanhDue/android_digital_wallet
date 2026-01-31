@@ -4,7 +4,7 @@
  */
 package com.danhdue.wallet.data.repository
 
-import com.danhdue.framework.network.NetworkResult
+import com.danhdue.framework.network.DataState
 import com.danhdue.wallet.domain.model.MyNFTs
 import com.danhdue.wallet.domain.model.MyTokens
 import com.danhdue.wallet.domain.model.MyWallet
@@ -16,27 +16,27 @@ import javax.inject.Inject
  */
 @Suppress("StringLiteralDuplication")
 class DefaultMyWalletRepository @Inject constructor() : MyWalletRepository {
-    override suspend fun getMyWalletData(): NetworkResult<MyWallet> =
+    override suspend fun getMyWalletData(): DataState<MyWallet> =
         try {
             val domainModel = MyWallet(id = "1", data = "Sample data from repository")
-            NetworkResult.Success(domainModel)
+            DataState.Success(domainModel)
         } catch (e: Exception) {
-            NetworkResult.Error(e)
+            DataState.Error(e)
         }
 
-    override suspend fun getMyNFTsData(): NetworkResult<MyNFTs> =
+    override suspend fun getMyNFTsData(): DataState<MyNFTs> =
         try {
             val domainModel = MyNFTs(id = "1", data = "Sample data from repository")
-            NetworkResult.Success(domainModel)
+            DataState.Success(domainModel)
         } catch (e: Exception) {
-            NetworkResult.Error(e)
+            DataState.Error(e)
         }
 
-    override suspend fun getMyTokensData(): NetworkResult<MyTokens> =
+    override suspend fun getMyTokensData(): DataState<MyTokens> =
         try {
             val domainModel = MyTokens(id = "1", data = "Sample data from repository")
-            NetworkResult.Success(domainModel)
+            DataState.Success(domainModel)
         } catch (e: Exception) {
-            NetworkResult.Error(e)
+            DataState.Error(e)
         }
 }

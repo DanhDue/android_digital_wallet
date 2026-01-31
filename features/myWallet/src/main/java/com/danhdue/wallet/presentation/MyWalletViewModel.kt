@@ -6,7 +6,7 @@ package com.danhdue.wallet.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.danhdue.framework.network.NetworkResult
+import com.danhdue.framework.network.DataState
 import com.danhdue.wallet.domain.usecase.GetMyWalletDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -59,10 +59,10 @@ class MyWalletViewModel @Inject constructor(
                 )
             }
             when (val result = getMyWalletDataUseCase()) {
-                is NetworkResult.Success -> {
+                is DataState.Success -> {
                     // Handle success
                 }
-                is NetworkResult.Error -> {
+                is DataState.Error -> {
                     // Handle error
                 }
             }

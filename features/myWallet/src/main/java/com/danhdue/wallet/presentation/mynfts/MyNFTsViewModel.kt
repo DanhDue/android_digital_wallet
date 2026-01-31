@@ -5,7 +5,7 @@
 package com.danhdue.wallet.presentation.mynfts
 
 import com.danhdue.framework.base.mvvm.MvvmViewModel
-import com.danhdue.framework.network.NetworkResult
+import com.danhdue.framework.network.DataState
 import com.danhdue.wallet.domain.usecase.GetMyNFTsDataUseCase
 import com.danhdue.wallet.presentation.model.MyNFTsUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,7 +43,7 @@ class MyNFTsViewModel @Inject constructor(
         safeLaunch {
             _state.value = _state.value.copy(isLoading = true)
             when (val result = getMyNFTsDataUseCase()) {
-                is NetworkResult.Success -> {
+                is DataState.Success -> {
                     // In a real app, we'd map domain model to UI model
                     val mockNFTs =
                         listOf(
@@ -62,7 +62,7 @@ class MyNFTsViewModel @Inject constructor(
                         )
                     _state.value = _state.value.copy(items = mockNFTs)
                 }
-                is NetworkResult.Error -> {
+                is DataState.Error -> {
                     _event.emit(MyNFTsEvent.ShowSnackbar("Failed to load NFTs"))
                 }
             }

@@ -5,7 +5,7 @@
 package com.danhdue.wallet.presentation.mytokens
 
 import com.danhdue.framework.base.mvvm.MvvmViewModel
-import com.danhdue.framework.network.NetworkResult
+import com.danhdue.framework.network.DataState
 import com.danhdue.wallet.domain.usecase.GetMyTokensDataUseCase
 import com.danhdue.wallet.presentation.model.MyTokensUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,7 +44,7 @@ class MyTokensViewModel @Inject constructor(
             _state.value = _state.value.copy(isLoading = true)
 
             when (val result = getMyTokensDataUseCase()) {
-                is NetworkResult.Success -> {
+                is DataState.Success -> {
                     val mockTokens =
                         listOf(
                             MyTokensUiModel(
@@ -62,7 +62,7 @@ class MyTokensViewModel @Inject constructor(
                         )
                     _state.value = _state.value.copy(items = mockTokens)
                 }
-                is NetworkResult.Error -> {
+                is DataState.Error -> {
                     _event.emit(MyTokensEvent.ShowSnackbar("Failed to load tokens"))
                 }
             }
