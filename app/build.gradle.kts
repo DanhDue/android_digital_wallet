@@ -9,6 +9,7 @@ import extensions.FEATURE_SETTINGS
 import extensions.FEATURE_TRANSACTIONS
 import extensions.FEATURE_TRENDS
 import extensions.FRAMEWORK
+import extensions.JET_FRAMEWORK
 import extensions.addCommonDependencies
 import extensions.addComposeDependencies
 import extensions.addHiltDependencies
@@ -91,6 +92,7 @@ dependencies {
 
     COMPONENT
     FRAMEWORK
+    JET_FRAMEWORK
     FEATURE_AUTHENTICATION
     FEATURE_HOME
     FEATURE_MY_WALLET
