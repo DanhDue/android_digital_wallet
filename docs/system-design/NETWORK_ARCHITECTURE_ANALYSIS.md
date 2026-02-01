@@ -89,7 +89,7 @@ suspend fun <T, R> NetworkResponse<T>.toDataStateSuspend(transform: suspend (T) 
 Uses `okhttp3.Authenticator` to handle `401 Unauthorized` responses directly at the network layer.
 
 - **Automated Refresh:** Automatically attempts to refresh the access token using the stored refresh token.
-- **Concurrency Safety:** Uses synchronization to prevent multiple threads from refreshing the token simultaneously (only one refresh request is sent).
+- **Concurrency Safety:** Uses synchronization (`synchronized(this)`) to prevent multiple threads from refreshing the token simultaneously. It checks `isRequestTokenStale` to see if another thread already refreshed the token while waiting for the lock.
 - **Staleness Check:** Before refreshing, checks if the token has already been updated by another matching thread.
 - **Token Rotation:** Automatically captures and saves the new `refresh_token` from the response, ensuring the rolling window of the session is maintained.
 
@@ -169,15 +169,45 @@ To understand why this system is safe, look at the journey of a Request:
 
 ## 8. Error Type Hierarchy
 
-The system provides clear exception types:
+The system provides clear exception types that flow through the architecture:
+
+```mermaid
+classDiagram
+    class Throwable
+    class Exception
+    class IOException
+    class Failure
+
+    Throwable <|-- Exception
+    Exception <|-- IOException
+    Exception <|-- Failure
+    
+    Failure <|-- ApiException : HTTP 4xx/5xx
+    Failure <|-- ConnectivityError : No Internet
+    Failure <|-- SocketTimeoutError : Timeout
+    Failure <|-- UnAuthorizedException : HTTP 401
+    Failure <|-- UnknownNetworkException : Parsing/Other
+    
+    class ApiException {
+        +Int code
+        +String message
+    }
+```
 
 | Exception Type | Description |
 |:---|:---|
-| `ApiException(code, message)` | HTTP Error from server (4xx, 5xx) |
-| `UnknownNetworkException` | Unknown Error |
-| `Failure.ConnectivityError` | Network Connection Lost |
-| `Failure.SocketTimeoutError` | Timeout |
-| `Failure.UnAuthorizedException` | 401 Unauthorized |
+| `Failure.ApiException(code, message)` | HTTP Error from server (4xx, 5xx) |
+| `Failure.UnknownNetworkException` | Unknown Error or Parsing Error |
+| `Failure.ConnectivityError` | Network Connection Lost (IOException) |
+| `Failure.SocketTimeoutError` | Timeout (SocketTimeoutException) |
+| `Failure.UnAuthorizedException` | 401 Unauthorized (Exhausted retries) |
+
+**Error Mapping Flow:**
+(These conversions occur when Repository calls `toDataState()` to bridge transport → domain layers)
+
+`OkHttp IOException` -> `NetworkResponse.NetworkError` -> `Failure.ConnectivityError`
+`HTTP 401` -> `TokenAuthenticator` (Retry Fail) -> `Failure.UnAuthorizedException`
+`HTTP 500` -> `NetworkResponse.ApiError` -> `Failure.ApiException`
 
 Utility function to convert HTTP code to Failure:
 ```kotlin
@@ -223,3 +253,21 @@ network/
 ├── HttpStatusCode.kt
 └── NetworkHelper.kt                 # OkHttp/Retrofit factories
 ```
+
+## 11. DataState Definition
+
+The `DataState` class is the standard wrapper for all Repository operations, determining the UI state.
+
+```kotlin
+sealed class DataState<out T> {
+    data class Success<out T>(val data: T) : DataState<T>()
+    data class Error(val exception: Failure) : DataState<Nothing>()
+    object Loading : DataState<Nothing>()
+}
+```
+
+**Key Differences from NetworkResponse:**
+- `NetworkResponse` is a **Transport Layer** object (Retrofit specific).
+- `DataState` is a **Domain Layer** object (UI/Business Logic specific).
+- `NetworkResponse` contains raw DTOs.
+- `DataState` usually contains Domain Models (mapped from DTOs).

@@ -74,6 +74,30 @@ class SecureCacheStore(
     }
 
     /**
+     * Encrypts and writes multiple values to DataStore in a single transaction.
+     * @param keyValues A map of keys to values to write.
+     * @return Set of keys that were successfully encrypted and written.
+     */
+    suspend fun writeBatch(keyValues: Map<String, Any>): Set<String> {
+        val encryptedMap = mutableMapOf<String, String>()
+        keyValues.forEach { (key, value) ->
+            val stringValue = value.toString()
+            encrypt(stringValue)?.let { encryptedValue ->
+                encryptedMap[key] = encryptedValue
+            }
+        }
+
+        if (encryptedMap.isNotEmpty()) {
+            dataStore.edit { preferences ->
+                encryptedMap.forEach { (key, value) ->
+                    preferences[stringPreferencesKey(key)] = value
+                }
+            }
+        }
+        return encryptedMap.keys
+    }
+
+    /**
      * Clears a specific key.
      */
     suspend fun clear(key: String) {

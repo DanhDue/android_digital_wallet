@@ -18,7 +18,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.danhdue.androiddigitalwallet.R
@@ -52,8 +54,10 @@ class MainActivity : ComponentActivity() {
 
         // Observe logout events
         lifecycleScope.launch {
-            sessionManager.logoutEvent.collect {
-                navigator.navigateAndClearBackStack(LoginRoute)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                sessionManager.logoutEvent.collect {
+                    navigator.navigateAndClearBackStack(LoginRoute)
+                }
             }
         }
 

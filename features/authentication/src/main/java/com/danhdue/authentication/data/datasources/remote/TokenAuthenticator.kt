@@ -38,13 +38,13 @@ class TokenAuthenticator @Inject constructor(
     ): Request? {
         Timber.d("Authentication failed for ${response.request.url}. Attempting to refresh token.")
 
-        if (shouldGiveUp(response)) {
-            Timber.e("Failed to authenticate $MAX_RETRY_COUNT times, giving up.")
-            sessionManager.logout()
-            return null
-        }
-
         return synchronized(this) {
+            if (shouldGiveUp(response)) {
+                Timber.e("Failed to authenticate $MAX_RETRY_COUNT times, giving up.")
+                sessionManager.logout()
+                return null
+            }
+
             attemptRefresh(response)
         }
     }
@@ -105,7 +105,7 @@ class TokenAuthenticator @Inject constructor(
                 if (refreshResponse is NetworkResponse.Success) {
                     handleRefreshSuccess(refreshResponse.body, response)
                 } else {
-                    Timber.e("Failed to refresh token: $refreshResponse")
+                    Timber.e("Failed to refresh token: ${refreshResponse::class.simpleName}")
                     handleRefreshFailure()
                     null
                 }
@@ -123,11 +123,16 @@ class TokenAuthenticator @Inject constructor(
         val newAccessToken = tokens.access
         val newRefreshToken = tokens.refresh
 
+        val updates = mutableMapOf<String, Any>()
         if (newAccessToken.isNotEmpty()) {
-            secureCacheStore.write<String>(KEY_ACCESS_TOKEN, newAccessToken)
+            updates[KEY_ACCESS_TOKEN] = newAccessToken
         }
         if (newRefreshToken.isNotEmpty()) {
-            secureCacheStore.write<String>(KEY_REFRESH_TOKEN, newRefreshToken)
+            updates[KEY_REFRESH_TOKEN] = newRefreshToken
+        }
+
+        if (updates.isNotEmpty()) {
+            secureCacheStore.writeBatch(updates)
         }
 
         return if (newAccessToken.isNotEmpty()) {
