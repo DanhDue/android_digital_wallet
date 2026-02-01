@@ -18,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.danhdue.androiddigitalwallet.R
@@ -29,6 +30,7 @@ import com.danhdue.framework.navigation.Navigator
 import com.danhdue.framework.navigation.ObserveBackstackForFlipper
 import com.danhdue.jetframework.permission.RequestPermissionOnMount
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,18 +41,27 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var installers: Set<@JvmSuppressWildcards EntryProviderInstaller>
 
+    @Inject
+    lateinit var sessionManager: com.danhdue.framework.session.SessionManager
+
     private var backPressedTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Observe logout events
+        lifecycleScope.launch {
+            sessionManager.logoutEvent.collect {
+                navigator.navigateAndClearBackStack(LoginRoute)
+            }
+        }
+
         // Ensure backstack is not empty before content is set
         if (navigator.backStack.isEmpty()) {
             navigator.navigateTo(LoginRoute)
         }
 
-        enableEdgeToEdge()
         setContent {
             AndroidDigitalWalletTheme {
                 // Request notification permission on Android 13+ for Chucker

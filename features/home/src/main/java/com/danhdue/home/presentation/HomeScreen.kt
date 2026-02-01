@@ -92,7 +92,7 @@ private fun HomeScreen(
         },
         containerColor = Color.Transparent,
         contentWindowInsets = WindowInsets(bottom = 0.dp),
-    ) { paddingValues ->
+    ) {
         Box(
             modifier =
                 Modifier
@@ -299,15 +299,11 @@ private fun TabItem(
             color = if (isSelected) selectedColor else unselectedColor,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
         )
-
         if (isSelected) {
-            Spacer(modifier = Modifier.height(6.dp))
             Image(
                 painter = painterResource(id = R.drawable.ic_selected_bot_tab_indicator),
                 contentDescription = null,
             )
-        } else {
-            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }

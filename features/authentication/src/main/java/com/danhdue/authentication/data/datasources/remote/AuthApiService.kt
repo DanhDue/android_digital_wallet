@@ -6,6 +6,8 @@ package com.danhdue.authentication.data.datasources.remote
 
 import com.danhdue.authentication.data.models.LoginRequestDto
 import com.danhdue.authentication.data.models.LoginResponseDto
+import com.danhdue.authentication.data.models.RefreshTokenRequestDto
+import com.danhdue.authentication.data.models.RefreshTokenResponseDto
 import com.danhdue.framework.network.calladapter.NetworkResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,4 +23,9 @@ interface AuthApiService {
     suspend fun register(
         @Body registerRequest: Map<String, String>,
     ): Response<Unit>
+
+    @POST("users/refresh")
+    suspend fun refresh(
+        @Body refreshTokenRequest: RefreshTokenRequestDto,
+    ): NetworkResponse<RefreshTokenResponseDto>
 }
