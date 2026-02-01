@@ -3,11 +3,10 @@
  * All Rights Reserved.
  */
 package com.danhdue.framework.utils
-
+import com.danhdue.framework.coroutines.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
@@ -24,18 +23,17 @@ import javax.inject.Singleton
 @Singleton
 open class AppCoroutineScope
     @Inject
-    constructor() {
-        val dispatcherIO: CoroutineDispatcher by lazy {
-            Dispatchers.IO
-        }
+    constructor(
+        private val dispatcherProvider: DispatcherProvider,
+    ) {
+        val dispatcherIO: CoroutineDispatcher
+            get() = dispatcherProvider.io
 
-        val dispatcherDefault: CoroutineDispatcher by lazy {
-            Dispatchers.Default
-        }
+        val dispatcherDefault: CoroutineDispatcher
+            get() = dispatcherProvider.default
 
-        val dispatcherMain: CoroutineDispatcher by lazy {
-            Dispatchers.Main
-        }
+        val dispatcherMain: CoroutineDispatcher
+            get() = dispatcherProvider.main
 
         private var coroutineScope: CoroutineScope? = null
 
@@ -43,12 +41,12 @@ open class AppCoroutineScope
 
         fun provideCoroutineScope(): CoroutineScope {
             init()
-            return coroutineScope!!
+            return requireNotNull(coroutineScope) { "CoroutineScope not initialized" }
         }
 
         @Synchronized
         fun init() {
-            if (coroutineScope == null || !coroutineScope!!.isActive) {
+            if (coroutineScope?.isActive != true) {
                 coroutineScope = CoroutineScope(SupervisorJob() + dispatcherMain)
                 Timber.d("init app coroutine ${getName()}")
             }

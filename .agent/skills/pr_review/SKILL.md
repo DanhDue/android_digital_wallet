@@ -11,7 +11,10 @@ description: Performs comprehensive Pull Request reviews for the Android_Digital
 
 > [!IMPORTANT]
 > **Role**: You are a Principal Android Engineer specializing in Mobile Security and Clean Architecture.
-> Your task is to review Pull Requests for the "Android_Digital_Wallet" project.
+> Your task is to review Pull Requests for this project.
+
+> [!TIP]
+> **Pro Tip**: Update/Load all principles immediately after triggering the local `@quality_check` skill to ensure you have the latest context.
 
 ## Project Context
 
@@ -19,13 +22,13 @@ description: Performs comprehensive Pull Request reviews for the Android_Digital
 project: "android_digital_wallet"
 stack: "Android Kotlin, Jetpack Compose, Clean Architecture, Feature-First"
 principles:
-  - "Clean Code (Robert C. Martin)"
-  - "SOLID Design Principles"
-  - "Android Kotlin-First (Expressive, Safe, Structured Concurrency)"
-  - "Modern Android Development (MAD)"
-  - "Reactive Programming (Coroutines & Flow)"
-  - "OWASP Mobile Top 10 (2024)"
-  - "Official Kotlin Style Guide"
+  - "Effective Kotlin (https://github.com/VitekKlugi/Effective-Kotlin-Examples)"
+  - "Code Smells (https://refactoring.guru/refactoring/smells)"
+  - "OWASP Mobile Top 10 (https://owasp.org/www-project-mobile-top-10/)"
+  - "Clean Code (https://www.oreilly.com/library/view/clean-code-a/9780132350884/)"
+  - "SOLID Principles (https://en.wikipedia.org/wiki/SOLID)"
+  - "Defensive Programming (https://en.wikipedia.org/wiki/Defensive_programming)"
+  - "Reactive Programming (https://www.reactivemanifesto.org/)"
 ```
 
 ---
@@ -403,34 +406,75 @@ val key = keyStore.getKey("alias", null)
 
 ---
 
-### 9. Android Kotlin Standards (Coroutines & Flow)
+### 9. Android Kotlin-First Standards
+(Reference: [Android Kotlin-First Guide](https://developer.android.com/kotlin/first))
 
-| Concept | Best Practice |
-|---------|---------------|
-| **Dispatcher Injection** | ALWAYS inject Dispatchers (e.g., `CoroutineDispatcher`) into ViewModels/Repositories for testing. **NEVER** hardcode `Dispatchers.IO`. |
-| **ViewModel Scope** | Launch coroutines in `viewModelScope`. The UI layer should be "dumb" and not manage coroutine lifecycles. |
-| **Suspend vs Flow** | Use `suspend` for one-shot operations. Use `Flow` for streams of data. **Don't** return `Flow` from a `suspend` function. |
-| **StateFlow** | Use `StateFlow` (hot, immutable default) for UI State. Expose as `StateFlow`, not `MutableStateFlow`. |
-| **GlobalScope** | **NEVER** use `GlobalScope`. It breaks structured concurrency and leads to leaks. |
+#### 9.1 Expressive and Concise
+(Reference: [Docs](https://developer.android.com/kotlin/first#expressive))
+Kotlin reduces boilerplate. Ensure code utilizes modern language features effectively.
+| Check | Requirement |
+|-------|-------------|
+| **Data Classes** | Use `data class` for model objects to get `equals`, `hashCode`, `toString` for free. |
+| **Extension Functions** | Use extension functions to extend existing classes without inheriting (e.g., `View.visible()`). |
+| **String Templates** | Use `$var` or `${expression}` instead of `String.format` or concatenation. |
+| **SAM Conversions** | Use lambda syntax for single-abstract-method interfaces (e.g., `OnClickListener { ... }`). |
+| **Default Arguments** | Use default parameter values to avoid method overloading boilerplate. |
 
-**Coroutines Patterns to Flag:**
 ```kotlin
-// ❌ BAD - Hardcoded Dispatcher
-val scope = CoroutineScope(Dispatchers.IO)
+// ❌ BAD (Java style)
+val str = String.format("Hello %s", name)
 
-// ✅ CORRECT - Injected Dispatcher
-class MyRepository @Inject constructor(
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
-)
+// ✅ CORRECT (Expressive)
+val str = "Hello $name"
+```
 
-// ❌ BAD - Flow from Suspend
-suspend fun getUsers(): Flow<User>
+#### 9.2 Safer Code
+(Reference: [Docs](https://developer.android.com/kotlin/first#safer-code))
+Kotlin's type system is designed to eliminate `NullPointerException` and common errors.
+| Check | Requirement |
+|-------|-------------|
+| **Null Safety** | Define variables as non-nullable (`String`) whenever possible. Use `String?` only when necessary. |
+| **Safe Calls** | Use `?.` for safe access and `?:` (Elvis operator) for fallback values. |
+| **No Force Unwrap** | **Strictly Ban** the use of `!!`. Use `requireNotNull` or standard scoping functions (`let`, `run`) if needed. |
+| **Immutability** | Prefer `val` (read-only) over `var` (mutable). |
 
-// ✅ CORRECT - Suspend for one-shot
-suspend fun getUsers(): List<User>
+```kotlin
+// ❌ BAD
+val len = text!!.length
 
-// ✅ CORRECT - Flow for streams
-fun observeUserUpdates(): Flow<User>
+// ✅ CORRECT
+val len = text?.length ?: 0
+```
+
+#### 9.3 Interoperable
+(Reference: [Docs](https://developer.android.com/kotlin/first#interoperable))
+Code should be interoperable with Java where necessary, but idiomatic Kotlin is prioritized.
+| Check | Requirement |
+|-------|-------------|
+| **Jvm Overloads** | Use `@JvmOverloads` for functions with default arguments called from Java. |
+| **Object/Static** | Use `companion object` for static members. Use `@JvmStatic` if exposing to Java. |
+
+#### 9.4 Structured Concurrency (Coroutines)
+(Reference: [Docs](https://developer.android.com/kotlin/first#structured-concurrency))
+Use Kotlin Coroutines for asynchronous programming, simpler and cleaner than RxJava or AsyncTasks.
+
+| Check | Best Practice |
+|-------|---------------|
+| **Dispatcher Injection** | ALWAYS inject Dispatchers (e.g., `CoroutineDispatcher`) into ViewModels/Repositories. **NEVER** hardcode `Dispatchers.IO`. |
+| **Scopes** | Use `viewModelScope` or `lifecycleScope`. **NEVER** use `GlobalScope`. |
+| **Suspend Functions** | Use `suspend` for one-shot operations. Do NOT return `Flow` from a `suspend` function. |
+| **Flow vs LiveData** | Prefer `StateFlow` and `SharedFlow` over `LiveData` for architectural layers. |
+
+```kotlin
+// ❌ BAD - Unstructured & Hardcoded
+GlobalScope.launch { ... }
+
+// ✅ CORRECT - Structured & Injected
+class MyViewModel(private val ioDispatcher: CoroutineDispatcher) : ViewModel() {
+    fun load() {
+        viewModelScope.launch(ioDispatcher) { ... }
+    }
+}
 ```
 
 ---

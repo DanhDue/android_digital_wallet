@@ -58,7 +58,7 @@ object MobileService {
             AccessibleObject.setAccessible(arrayOf(field), true)
             returnObj = field.get(targetClass)
             if (null != returnObj) {
-                emuiVersionCode = (returnObj as Int?)!!
+                emuiVersionCode = returnObj as Int
             }
         } catch (e: ClassNotFoundException) {
             Timber.tag(TAG).e("ClassNotFoundException: ")
@@ -71,7 +71,7 @@ object MobileService {
                 .tag(TAG)
                 .e("ClassCastException: getEMUIVersionCode is not a number $returnObj")
         }
-        Timber.tag(TAG).i("emuiVersionCodeValue: %s", emuiVersionCode)
+        Timber.tag(TAG).i("emuiVersionCodeValue: $emuiVersionCode")
         return emuiVersionCode
     }
 }

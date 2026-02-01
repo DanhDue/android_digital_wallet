@@ -15,6 +15,8 @@ import com.danhdue.framework.base.app.FlipperInitializer
 import com.danhdue.framework.base.app.MultiDexInitializer
 import com.danhdue.framework.base.app.NetworkConfig
 import com.danhdue.framework.base.app.TimberInitializer
+import com.danhdue.framework.coroutines.DefaultDispatcherProvider
+import com.danhdue.framework.coroutines.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -90,4 +92,8 @@ object AppModule {
                     .maxSizePercent(IMAGE_DISK_CACHE_MAX_SIZE_PERCENT)
                     .build()
             }.build()
+
+    @Provides
+    @Singleton
+    fun providesDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 }
