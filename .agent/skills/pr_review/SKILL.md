@@ -6,7 +6,7 @@ description: Performs comprehensive Pull Request reviews for the Android_Digital
 # PR Review Skill
 
 > [!IMPORTANT]
-> **Prerequisite**: Before reviewing any PR, **run local quality tools first** using `./gradlew check`.
+> **Prerequisite**: Before reviewing any PR, use the `@quality_check` skill to run local quality tools.
 > This ensures code passes ktlint, detekt, and Spotless before manual review begins.
 
 > [!IMPORTANT]

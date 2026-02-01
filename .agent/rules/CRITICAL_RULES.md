@@ -5,4 +5,7 @@
 
 
 > [!IMPORTANT]
-> After completing any workflow or skill, you **MUST** run `./gradlew check` and fix any issues that arise. This is critical to maintain the quality of the project.
+> After completing any workflow or skill, you **MUST** use the `@quality_check` skill to run quality checks and fix any issues that arise. This is critical to maintain the quality of the project.
+> 
+> See: [Quality Check Skill](../skills/quality_check/SKILL.md)
+
