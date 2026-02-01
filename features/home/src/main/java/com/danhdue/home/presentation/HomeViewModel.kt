@@ -4,48 +4,76 @@
  */
 package com.danhdue.home.presentation
 
-import androidx.lifecycle.ViewModel
+import com.danhdue.framework.base.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
  * Manages the business logic and state for the Home screen (the main tabbed container).
+ * Follows MVI pattern with immutable state updates.
  */
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
-    private val _state = MutableStateFlow(HomeState())
-    val state = _state.asStateFlow()
-
-    fun onAction(action: HomeAction) {
-        when (action) {
-            is HomeAction.TabSelected -> {
-                _state.update { it.copy(selectedTab = action.tab) }
-            }
-            is HomeAction.NavigateInTab -> {
-                when (action.tab) {
-                    HomeTab.Wallet -> _state.value.walletBackStack.add(action.destination)
-                    HomeTab.Transactions -> _state.value.transactionsBackStack.add(action.destination)
-                    HomeTab.Scanner -> _state.value.scannerBackStack.add(action.destination)
-                    HomeTab.Trends -> _state.value.trendsBackStack.add(action.destination)
-                    HomeTab.Settings -> _state.value.settingsBackStack.add(action.destination)
+class HomeViewModel @Inject constructor() :
+    MviViewModel<HomeState, HomeAction, HomeEvent>(
+        initialState = HomeState(),
+    ) {
+        override fun onAction(action: HomeAction) {
+            when (action) {
+                is HomeAction.TabSelected -> {
+                    reduce { copy(selectedTab = action.tab) }
                 }
-            }
-            is HomeAction.PopInTab -> {
-                val backstack =
-                    when (action.tab) {
-                        HomeTab.Wallet -> _state.value.walletBackStack
-                        HomeTab.Transactions -> _state.value.transactionsBackStack
-                        HomeTab.Scanner -> _state.value.scannerBackStack
-                        HomeTab.Trends -> _state.value.trendsBackStack
-                        HomeTab.Settings -> _state.value.settingsBackStack
+                is HomeAction.NavigateInTab -> {
+                    reduce {
+                        when (action.tab) {
+                            HomeTab.Wallet -> copy(walletBackStack = walletBackStack + action.destination)
+                            HomeTab.Transactions -> copy(transactionsBackStack = transactionsBackStack + action.destination)
+                            HomeTab.Scanner -> copy(scannerBackStack = scannerBackStack + action.destination)
+                            HomeTab.Trends -> copy(trendsBackStack = trendsBackStack + action.destination)
+                            HomeTab.Settings -> copy(settingsBackStack = settingsBackStack + action.destination)
+                        }
                     }
-                if (backstack.size > 1) {
-                    backstack.removeAt(backstack.size - 1)
+                }
+                is HomeAction.PopInTab -> {
+                    reduce {
+                        when (action.tab) {
+                            HomeTab.Wallet -> {
+                                if (walletBackStack.size > 1) {
+                                    copy(walletBackStack = walletBackStack.dropLast(1))
+                                } else {
+                                    this
+                                }
+                            }
+                            HomeTab.Transactions -> {
+                                if (transactionsBackStack.size > 1) {
+                                    copy(transactionsBackStack = transactionsBackStack.dropLast(1))
+                                } else {
+                                    this
+                                }
+                            }
+                            HomeTab.Scanner -> {
+                                if (scannerBackStack.size > 1) {
+                                    copy(scannerBackStack = scannerBackStack.dropLast(1))
+                                } else {
+                                    this
+                                }
+                            }
+                            HomeTab.Trends -> {
+                                if (trendsBackStack.size > 1) {
+                                    copy(trendsBackStack = trendsBackStack.dropLast(1))
+                                } else {
+                                    this
+                                }
+                            }
+                            HomeTab.Settings -> {
+                                if (settingsBackStack.size > 1) {
+                                    copy(settingsBackStack = settingsBackStack.dropLast(1))
+                                } else {
+                                    this
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-}

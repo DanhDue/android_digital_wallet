@@ -4,13 +4,11 @@
  */
 package com.danhdue.authentication.data.datasources.remote
 
-import android.content.Context
 import com.danhdue.authentication.data.models.RefreshTokenRequestDto
 import com.danhdue.authentication.data.models.RefreshTokenResponseDto
 import com.danhdue.framework.network.calladapter.NetworkResponse
 import com.danhdue.framework.pref.SecureCacheStore
 import com.danhdue.framework.session.SessionManager
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -18,20 +16,20 @@ import okhttp3.Response
 import okhttp3.Route
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Provider
 
 /**
  * Authenticator that handles 401 Unauthorized responses by refreshing the access token.
+ *
+ * Note: This class uses [runBlocking] because OkHttp's [Authenticator] runs on a dedicated
+ * I/O thread from OkHttp's dispatcher, not the Main thread. This is acceptable and documented.
  */
 class TokenAuthenticator @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @Named("AuthSecureCacheStore") private val secureCacheStore: SecureCacheStore,
     private val apiServiceProvider: Provider<AuthApiService>,
     private val sessionManager: SessionManager,
 ) : Authenticator {
-    private val secureCacheStore by lazy {
-        SecureCacheStore(context, PREFS_NAME)
-    }
-
     override fun authenticate(
         route: Route?,
         response: Response,
@@ -160,7 +158,6 @@ class TokenAuthenticator @Inject constructor(
     }
 
     companion object {
-        private const val PREFS_NAME = "auth_prefs"
         private const val KEY_ACCESS_TOKEN = "access_token"
         private const val KEY_REFRESH_TOKEN = "refresh_token"
         private const val HEADER_AUTHORIZATION = "Authorization"

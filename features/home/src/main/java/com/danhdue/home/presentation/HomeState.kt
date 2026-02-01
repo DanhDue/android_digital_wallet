@@ -4,8 +4,6 @@
  */
 package com.danhdue.home.presentation
 
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.danhdue.scanner.presentation.ScannerRoute
 import com.danhdue.settings.presentation.SettingsRoute
 import com.danhdue.transactions.presentation.transactionlist.TransactionListRoute
@@ -14,15 +12,16 @@ import com.danhdue.wallet.presentation.MyWalletRoute
 
 /**
  * Represents the state of the Home (Main Tabbed) screen.
+ * All properties are immutable to follow MVI pattern.
  */
 data class HomeState(
     val selectedTab: HomeTab = HomeTab.Wallet,
-    // Store backstacks for each tab to support nested navigation
-    val walletBackStack: SnapshotStateList<Any> = mutableStateListOf(MyWalletRoute),
-    val transactionsBackStack: SnapshotStateList<Any> = mutableStateListOf(TransactionListRoute),
-    val scannerBackStack: SnapshotStateList<Any> = mutableStateListOf(ScannerRoute),
-    val trendsBackStack: SnapshotStateList<Any> = mutableStateListOf(TrendsRoute),
-    val settingsBackStack: SnapshotStateList<Any> = mutableStateListOf(SettingsRoute),
+    // Immutable backstacks for each tab to support nested navigation
+    val walletBackStack: List<Any> = listOf(MyWalletRoute),
+    val transactionsBackStack: List<Any> = listOf(TransactionListRoute),
+    val scannerBackStack: List<Any> = listOf(ScannerRoute),
+    val trendsBackStack: List<Any> = listOf(TrendsRoute),
+    val settingsBackStack: List<Any> = listOf(SettingsRoute),
 )
 
 @Suppress("MagicNumber")

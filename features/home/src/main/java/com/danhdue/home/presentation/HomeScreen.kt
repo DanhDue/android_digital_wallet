@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -47,7 +48,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavEntry
@@ -64,11 +64,11 @@ import com.danhdue.libraries.components.R
 
 @Composable
 fun HomeRoot(viewModel: HomeViewModel = hiltViewModel()) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         state = state,
-        onAction = viewModel::onAction,
+        onAction = viewModel::dispatch,
     )
 }
 
@@ -192,7 +192,7 @@ private fun HomeBottomBar(
                     .fillMaxWidth()
                     .height(80.dp)
                     .align(Alignment.BottomCenter),
-            color = Color.White,
+            color = MaterialTheme.colorScheme.surface,
             tonalElevation = 8.dp,
             shadowElevation = 16.dp,
         ) {
@@ -295,7 +295,7 @@ private fun TabItem(
         )
         Text(
             text = label,
-            fontSize = 12.sp,
+            style = MaterialTheme.typography.labelSmall,
             color = if (isSelected) selectedColor else unselectedColor,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
         )
