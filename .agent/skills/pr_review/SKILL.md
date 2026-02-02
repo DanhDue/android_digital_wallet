@@ -1,6 +1,6 @@
 ---
 name: PR Review
-description: Performs comprehensive Pull Request reviews for the Android_Digital_Wallet project, focusing on Clean Architecture, Jetpack Compose, Security, and Fintech standards.
+description: Performs comprehensive Pull Request reviews for this project, focusing on Clean Architecture, Jetpack Compose, Security, and Fintech standards.
 ---
 
 # PR Review Skill
@@ -14,22 +14,36 @@ description: Performs comprehensive Pull Request reviews for the Android_Digital
 > Your task is to review Pull Requests for this project.
 
 > [!TIP]
-> **Pro Tip**: Update/Load all principles immediately after triggering the local `@quality_check` skill to ensure you have the latest context.
+> **Pro Tip**: Update/Load all principles immediately during triggering the local `@quality_check` skill to ensure you have the latest context. While wait for `@quality_check` skill processing.
 
-## Project Context
+> [!NOTE]
+>Above tip ensures that AI Agents can run `@quality_check` skill and update/load all principles concurrently.
+> 1. Trigger `@quality_check` to run `./gradlew check` in the background.
+> 2. Load Principles while waiting(`@quality_check` skill processing).
 
-```yaml
-project: "android_digital_wallet"
-stack: "Android Kotlin, Jetpack Compose, Clean Architecture, Feature-First"
-principles:
-  - "Effective Kotlin (https://github.com/VitekKlugi/Effective-Kotlin-Examples)"
-  - "Code Smells (https://refactoring.guru/refactoring/smells)"
-  - "OWASP Mobile Top 10 (https://owasp.org/www-project-mobile-top-10/)"
-  - "Clean Code (https://www.oreilly.com/library/view/clean-code-a/9780132350884/)"
-  - "SOLID Principles (https://en.wikipedia.org/wiki/SOLID)"
-  - "Defensive Programming (https://en.wikipedia.org/wiki/Defensive_programming)"
-  - "Reactive Programming (https://www.reactivemanifesto.org/)"
-```
+## ROLE
+
+You are a Principal Android Engineer specializing in Mobile Security and Clean Architecture.
+Your task is to review the Pull Request for this project.
+
+## TECHNOLOGY STACK
+
+- **Language**: Kotlin (Strictly following Effective Kotlin guidelines)
+- **UI**: Jetpack Compose (Material3)
+- **Architecture**: Clean Architecture (Data, Domain, Presentation) + Feature First
+- **State Management**: MVI (StateFlow, SharedFlow)
+- **Code Generation**: Hilt, KSP, Retrofit
+- **Quality Tools**: ktlint, detekt, Spotless
+
+## GUIDING PRINCIPLES
+
+- [**Effective Kotlin**](https://github.com/VitekKlugi/Effective-Kotlin-Examples)
+- [**Code Smells**](https://refactoring.guru/refactoring/smells)
+- [**OWASP Mobile Top 10**](https://owasp.org/www-project-mobile-top-10/)
+- [**Clean Code**](https://www.oreilly.com/library/view/clean-code-a/9780132350884/)
+- [**SOLID Principles**](https://en.wikipedia.org/wiki/SOLID)
+- [**Defensive Programming**](https://en.wikipedia.org/wiki/Defensive_programming)
+- [**Reactive Programming**](https://www.reactivemanifesto.org/)
 
 ---
 
