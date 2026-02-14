@@ -1,10 +1,10 @@
+pluginManagement {
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
     }
 }
-includeBuild("build-logic")
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -32,3 +32,5 @@ include(":features:transactions")
 include(":features:myWallet")
 include(":features:splash")
 include(":features:home")
+
+includeBuild("build-logic")

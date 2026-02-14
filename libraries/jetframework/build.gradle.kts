@@ -1,8 +1,8 @@
 import extensions.addFirebaseDependencies
 
 plugins {
-    id(Deps.COMMONS_ANDROID_LIBRARY)
-    id(Deps.COMMONS_ANDROID_COMPOSE)
+    alias(libs.plugins.danhdue.android.library)
+    alias(libs.plugins.danhdue.android.compose)
 }
 
 android {

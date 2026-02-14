@@ -5,6 +5,7 @@ plugins {
 repositories {
     gradlePluginPortal()
     google()
+    // Initial check, no change yet
     mavenCentral()
 }
 

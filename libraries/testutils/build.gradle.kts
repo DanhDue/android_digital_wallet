@@ -1,15 +1,13 @@
-import commons.addLibDefaultConfig
 import extensions.addNetworkDependencies
 import extensions.addTestDependencies
 
 plugins {
-    id(Deps.COMMONS_ANDROID_LIBRARY)
-    id(Deps.COMMONS_ANDROID_COMPOSE)
+    alias(libs.plugins.danhdue.android.library)
+    alias(libs.plugins.danhdue.android.compose)
 }
 
 android {
     namespace = "com.danhdue.libraries.testutils"
-    addLibDefaultConfig()
 }
 
 dependencies {

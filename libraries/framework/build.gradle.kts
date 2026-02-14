@@ -6,12 +6,16 @@ import extensions.addStorageDependencies
 import extensions.implementation
 
 plugins {
-    id(Deps.COMMONS_ANDROID_LIBRARY)
-    id(Deps.COMMONS_ANDROID_COMPOSE)
-    id(Deps.COMMONS_DAGGER_HILT)
+    alias(libs.plugins.danhdue.android.library)
+    alias(libs.plugins.danhdue.android.compose)
+    alias(libs.plugins.danhdue.android.hilt)
 }
 
 android {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=warning"
+    }
+
     namespace = "com.danhdue.framework"
     buildFeatures {
         buildConfig = true
@@ -33,6 +37,11 @@ dependencies {
     addNetworkDependencies()
     addStorageDependencies()
     addFirebaseDependencies()
-    addNavigationDependencies()
+    // addNavigationDependencies()
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.androidx.navigation.common.ktx)
+    implementation(libs.kotlinx.serialization.core)
+
     addFlipperDependencies()
 }

@@ -1,9 +1,8 @@
-import extensions.JET_FRAMEWORK
 import extensions.addFirebaseDependencies
 
 plugins {
-    id(Deps.COMMONS_ANDROID_LIBRARY)
-    id(Deps.COMMONS_ANDROID_COMPOSE)
+    alias(libs.plugins.danhdue.android.library)
+    alias(libs.plugins.danhdue.android.compose)
 }
 
 android {
@@ -13,5 +12,5 @@ android {
 dependencies {
     addFirebaseDependencies()
     implementation(Deps.splashScreen)
-    JET_FRAMEWORK
+    implementation(project(":libraries:jetframework"))
 }
