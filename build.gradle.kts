@@ -3,11 +3,11 @@ import java.security.MessageDigest
 import java.util.Properties
 
 plugins {
-    id(Deps.ANDROID_GRADLE_PLUGIN_ID) apply false
-    id(Deps.KOTLIN_GRADLE_PLUGIN_ID) apply false
-    id(Deps.ANDROID_COMPOSE_PLUGIN_ID) apply false
-    id(Deps.GOOGLE_SERVICE_GRADLE_PLUGIN_ID) version Versions.GOOGLE_SERVICE apply false
-    id(Deps.SONAR_CLOUD) version Versions.SONAR_CLOUD apply true
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.sonarqube) apply true
 //    alias(libs.plugins.android.dynamic.feature) apply false
 }
 
