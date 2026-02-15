@@ -24,24 +24,33 @@ android {
 
     buildTypes {
         release {
-            buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Release.dbName)
-            buildBooleanConfigField(EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE, EnvConfigs.Release.crashlyticsEnable)
-            buildBooleanConfigField(EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE, EnvConfigs.Release.analyticsEnable)
+            buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Production.dbName)
+            buildBooleanConfigField(EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE, EnvConfigs.Production.crashlyticsEnable)
+            buildBooleanConfigField(EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE, EnvConfigs.Production.analyticsEnable)
         }
 
         debug {
-            buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Debug.dbName)
-            buildBooleanConfigField(EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE, EnvConfigs.Debug.crashlyticsEnable)
-            buildBooleanConfigField(EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE, EnvConfigs.Debug.analyticsEnable)
+            buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Development.dbName)
+            buildBooleanConfigField(EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE, EnvConfigs.Development.crashlyticsEnable)
+            buildBooleanConfigField(EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE, EnvConfigs.Development.analyticsEnable)
         }
     }
 
-    kotlinOptions {
-        languageVersion = AppConfig.kotlinVersion
-        jvmTarget = AppConfig.jvmTarget.target
-        freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
+    /*
+    compilerOptions {
+        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(AppConfig.kotlinVersion))
+        jvmTarget.set(AppConfig.jvmTarget)
+        freeCompilerArgs.addAll(EnvConfigs.FreeCoroutineCompilerArgs)
     }
+    */
+}
 
+kotlin {
+    compilerOptions {
+        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(AppConfig.kotlinVersion))
+        jvmTarget.set(AppConfig.jvmTarget)
+        freeCompilerArgs.addAll(EnvConfigs.FreeCoroutineCompilerArgs)
+    }
 }
 
 
@@ -61,11 +70,11 @@ dependencies {
     "annotationProcessor"("org.projectlombok:lombok:1.18.30")
 
     // Hilt
-    "implementation"("com.google.dagger:hilt-android:2.55")
-    "ksp"("com.google.dagger:hilt-android-compiler:2.55")
-    "androidTestImplementation"("com.google.dagger:hilt-android-testing:2.55")
-    "kspAndroidTest"("com.google.dagger:hilt-android-compiler:2.55")
-    "testImplementation"("com.google.dagger:hilt-android-testing:2.55")
+    "implementation"("com.google.dagger:hilt-android:2.57.2")
+    "ksp"("com.google.dagger:hilt-android-compiler:2.57.2")
+    "androidTestImplementation"("com.google.dagger:hilt-android-testing:2.57.2")
+    "kspAndroidTest"("com.google.dagger:hilt-android-compiler:2.57.2")
+    "testImplementation"("com.google.dagger:hilt-android-testing:2.57.2")
     
     // Compose Navigation
     // "implementation"("androidx.navigation3:navigation3-ui:2.9.0-alpha04")

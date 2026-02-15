@@ -1,8 +1,6 @@
-import extensions.addFirebaseDependencies
-
 plugins {
-    alias(libs.plugins.danhdue.android.library)
-    alias(libs.plugins.danhdue.android.compose)
+    id("danhdue.android.library")
+    id("danhdue.android.compose")
 }
 
 android {
@@ -10,5 +8,8 @@ android {
 }
 
 dependencies {
-    addFirebaseDependencies()
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.config)
 }

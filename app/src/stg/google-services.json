@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "912198850043",
+    "project_id": "wallet-61308",
+    "storage_bucket": "wallet-61308.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912198850043:android:6c479eaa4aadb74337a75e",
+        "android_client_info": {
+          "package_name": "com.danhdue.wallet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCj3kNfgZPRMGZJGc-bryjqoV2y4Ry998"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912198850043:android:f2f147c02ada89c637a75e",
+        "android_client_info": {
+          "package_name": "com.danhdue.wallet.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCj3kNfgZPRMGZJGc-bryjqoV2y4Ry998"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912198850043:android:aa4ba561df05b9e137a75e",
+        "android_client_info": {
+          "package_name": "com.danhdue.wallet.stg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCj3kNfgZPRMGZJGc-bryjqoV2y4Ry998"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

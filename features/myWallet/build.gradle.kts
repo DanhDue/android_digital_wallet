@@ -1,10 +1,10 @@
 plugins {
-    alias(libs.plugins.danhdue.android.feature)
-    alias(libs.plugins.danhdue.android.compose)
+    id("danhdue.android.feature")
+    id("danhdue.android.compose")
 }
 
 android {
-    namespace = "com.danhdue.wallet"
+    namespace = "com.danhdue.mywallet"
 }
 
 dependencies {

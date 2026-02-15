@@ -7,14 +7,14 @@ package com.danhdue.framework.pref
 import android.content.Context
 import com.google.crypto.tink.Aead
 import com.google.crypto.tink.KeyTemplates
-import com.google.crypto.tink.RegistryConfiguration
 import com.google.crypto.tink.aead.AeadConfig
 import com.google.crypto.tink.integration.android.AndroidKeysetManager
+import com.google.crypto.tink.internal.RegistryConfiguration
 
 /**
  * Manages Tink AEAD (Authenticated Encryption with Associated Data) initialization.
  */
-object AeadManager {
+public object AeadManager {
     private const val KEYSET_NAME = "encrypted_store_keyset"
     private const val PREFERENCE_FILE_NAME = "tink_keystore_pref"
     private const val MASTER_KEY_URI = "android-keystore://tink_master_key"
@@ -28,7 +28,7 @@ object AeadManager {
      * @param context Application context
      * @return Aead instance
      */
-    fun getAead(context: Context): Aead =
+    public fun getAead(context: Context): Aead =
         AndroidKeysetManager
             .Builder()
             .withSharedPref(context, KEYSET_NAME, PREFERENCE_FILE_NAME)

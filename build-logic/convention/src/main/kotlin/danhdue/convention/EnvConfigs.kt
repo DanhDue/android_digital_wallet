@@ -38,21 +38,30 @@ object EnvConfigs {
         const val ANALYTIC_IS_ENABLE = "ANALYTIC_IS_ENABLE"
     }
 
-    object Release {
-        const val dbName = "ZenoDb"
-
+    object Development {
+        const val dbName = "ZenoDbDev"
         const val crashlyticsEnable = true
         const val analyticsEnable = true
         const val openTelemetryEndPoint = "http://10.0.2.2:4317"
         const val BASE_URL = "https://digital-wallet-93c4ba68a41d.herokuapp.com/api/v1/"
+        const val signingConfigName = BuildConfigKey.debugSigningConfigName
     }
 
-    object Debug {
-        const val dbName = "ZenoDb"
-
-        const val crashlyticsEnable = false
-        const val analyticsEnable = false
+    object Staging {
+        const val dbName = "ZenoDbStg"
+        const val crashlyticsEnable = true
+        const val analyticsEnable = true
         const val openTelemetryEndPoint = "http://10.0.2.2:4317"
         const val BASE_URL = "https://digital-wallet-93c4ba68a41d.herokuapp.com/api/v1/"
+        const val signingConfigName = BuildConfigKey.debugSigningConfigName
+    }
+
+    object Production {
+        const val dbName = "ZenoDb"
+        const val crashlyticsEnable = true
+        const val analyticsEnable = true
+        const val openTelemetryEndPoint = "http://10.0.2.2:4317"
+        const val BASE_URL = "https://digital-wallet-93c4ba68a41d.herokuapp.com/api/v1/"
+        const val signingConfigName = BuildConfigKey.debugSigningConfigName
     }
 }

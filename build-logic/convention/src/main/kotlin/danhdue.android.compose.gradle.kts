@@ -2,27 +2,27 @@ import danhdue.convention.AppConfig
 import danhdue.convention.EnvConfigs
 import danhdue.convention.addLibDefaultConfig
 import danhdue.convention.addComposeConfig
+import com.android.build.api.dsl.CommonExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
-    id("com.google.devtools.ksp")
-    // id("codeanalyzetools.quality")
-    // id("codeanalyzetools.jacoco-report")
-    // id("codeanalyzetools.spotless")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
-android {
+// Apply parcelize
+pluginManager.apply("kotlin-parcelize")
 
+// Configure Android extension generically (App or Lib)
+extensions.configure<CommonExtension<*, *, *, *, *, *>>("android") {
     addLibDefaultConfig()
     addComposeConfig()
+}
 
-    kotlinOptions {
-        languageVersion = AppConfig.kotlinVersion
-        jvmTarget = AppConfig.jvmTarget.target
-        freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(AppConfig.jvmTarget)
+        freeCompilerArgs.addAll(EnvConfigs.FreeCoroutineCompilerArgs)
     }
 }
 
@@ -68,6 +68,7 @@ dependencies {
 
     // Compose Testing
     "debugImplementation"("androidx.compose.ui:ui-tooling")
+    "debugImplementation"("androidx.compose.ui:ui-tooling-preview")
     "debugImplementation"("androidx.compose.ui:ui-test-manifest")
     "androidTestImplementation"("androidx.compose.ui:ui-test-junit4")
     

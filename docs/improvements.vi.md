@@ -36,9 +36,9 @@ Chúng tôi đã giới thiệu quy trình Tích hợp Liên tục (CI) và Phâ
 Chúng tôi đã cấu trúc lại logic build từ `buildSrc` thành một **Composite Build** tiêu chuẩn có tên là `build-logic`. Module này chứa các convention plugins của chúng tôi (ví dụ: `android-library.gradle.kts` được chuyển đổi thành một plugin).
 
 ### Tại sao?
-- **Hiệu suất Build**: `buildSrc` được coi là một đơn vị thay đổi duy nhất. Bất kỳ thay đổi nào trong `buildSrc` đều làm mất hiệu lực toàn bộ cache build cho cả dự án. Composite builds là các bản build riêng biệt; các thay đổi trong `build-logic` chỉ làm mất hiệu lực các tác vụ phụ thuộc chặt chẽ vào plugin đã thay đổi.
-- **Đóng gói**: Thúc đẩy sự phân tách các mối quan tâm tốt hơn. `build-logic` có thể được phát triển, kiểm thử và lập phiên bản độc lập nếu cần.
-- **Khả năng mở rộng**: Khi dự án phát triển, composite builds xử lý độ phức tạp tốt hơn nhiều so với `buildSrc`.
+- **Tách biệt & Cô lập**: `buildSrc` tự động thêm mã nguồn của nó vào classpath của *mọi* module trong dự án, dẫn đến sự liên kết chặt chẽ và làm mất đi tính gọn gàng của classpath. `build-logic` (dưới dạng composite build) hoàn toàn tách biệt; các plugin phải được áp dụng một cách rõ ràng, đảm bảo các module chỉ truy cập những gì chúng cần.
+- **Hiệu suất Build (Lý do chính)**: `buildSrc` là một nút thắt cổ chai. Một thay đổi đối với *bất kỳ* dòng mã nào trong `buildSrc` sẽ làm mất hiệu lực bộ nhớ cache build cho **toàn bộ dự án**, buộc phải xây dựng lại tất cả. Với `build-logic`, các thay đổi được cô lập. Nếu bạn thay đổi một plugin Kotlin chung, chỉ các module sử dụng plugin đó mới được xây dựng lại. Điều này rất quan trọng để mở rộng quy mô.
+- **Khả năng mở rộng**: Khi dự án phát triển, việc tách biệt logic build ngăn "build" trở thành một tập lệnh nguyên khối, khó bảo trì.
 
 ### Build Logic (Composite Build) so với buildSrc
 
@@ -46,7 +46,7 @@ Chúng tôi đã cấu trúc lại logic build từ `buildSrc` thành một **Co
 | :--- | :--- | :--- |
 | **Biên dịch (Compilation)** | Biên dịch lại khi có *bất kỳ* thay đổi nào trong `buildSrc`. | Chỉ biên dịch lại khi plugin cụ thể thay đổi. |
 | **Vô hiệu hóa bộ nhớ đệm (Cache Invalidation)** | Vô hiệu hóa bộ nhớ đệm build của **toàn bộ dự án**. | Chỉ vô hiệu hóa các tác vụ phụ thuộc vào logic đã thay đổi. |
-| **Classpath** | Tự động được thêm vào classpath của **tất cả** các module. | Phải được bao gồm và áp dụng một cách rõ ràng. |
+| **Classpath** | Tự động được thêm vào classpath của **tất cả** các module. | Phải được thêm vào module và áp dụng một cách rõ ràng. |
 | **Phân tách mối quan tâm** | Có xu hướng trở thành "bãi rác" cho tất cả các tập lệnh build. | Khuyến khích mô-đun hóa logic build (ví dụ: các plugin riêng biệt cho Android, Kotlin, v.v.). |
 | **Hiệu suất** | Kém đối với các dự án lớn do vô hiệu hóa thường xuyên. | Tuyệt vời, vì nó hoạt động như một dự án độc lập. |
 
@@ -58,7 +58,7 @@ Chúng tôi đã cấu trúc lại logic build từ `buildSrc` thành một **Co
     ```kotlin
     includeBuild("build-logic")
     ```
-2.  **Áp dụng Plugins**: Trong các module tính năng hoặc thư viện của bạn (ví dụ: `libraries/framework/build.gradle.kts`), áp dụng các convention plugins sử dụng bí danh Version Catalog:
+2.  **Áp dụng Plugins**: Trong các module tính năng hoặc thư viện của bạn (ví dụ: `libraries/framework/build.gradle.kts`), áp dụng các convention plugins sử dụng tên gọi có ý khơi gợi trong Version Catalog:
     ```kotlin
     plugins {
         alias(libs.plugins.danhdue.android.library)

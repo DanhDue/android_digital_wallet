@@ -1,8 +1,8 @@
-import extensions.addNetworkDependencies
+
 
 plugins {
-    alias(libs.plugins.danhdue.android.feature)
-    alias(libs.plugins.danhdue.android.compose)
+    id("danhdue.android.feature")
+    id("danhdue.android.compose")
 }
 
 android {
@@ -40,7 +40,7 @@ dependencies {
     // Let's rely on what framework provides or add explicit deps if needed.
     // For now, valid strategy:
     // implementation(libs.retrofit)
-    // implementation(libs.retrofit.converter.moshi)
+    // implementation(libs.converter.moshi)
     // implementation(libs.okhttp)
     // implementation(libs.okhttp.logging.interceptor)
     // implementation(libs.moshi.kotlin)
@@ -48,11 +48,12 @@ dependencies {
     // But to be safe and quick, I will just replicate the logic with libs aliases.
     
     implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.converter.moshi)
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.moshi.kotlin)
+    ksp(libs.moshi.codegen)
 
     // addNavigationDependencies() was commented out in previous steps for framework, but feature might need them?
     // Feature plugin already adds navigation dependencies! (danhdue.android.feature)

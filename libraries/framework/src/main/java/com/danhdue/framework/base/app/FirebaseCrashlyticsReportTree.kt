@@ -9,9 +9,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.crashlytics
 import timber.log.Timber
 
-class FirebaseCrashlyticsReportTree : Timber.Tree() {
+public class FirebaseCrashlyticsReportTree : Timber.Tree() {
     init {
-        Firebase.crashlytics.isCrashlyticsCollectionEnabled = true
+        Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
     }
 
     override fun log(

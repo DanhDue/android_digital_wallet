@@ -1,255 +1,197 @@
-Starting a Gradle Daemon, 1 stopped Daemon could not be reused, use --status for details
-> Task :buildSrc:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :buildSrc:generateExternalPluginSpecBuilders UP-TO-DATE
-> Task :buildSrc:extractPrecompiledScriptPluginPlugins UP-TO-DATE
-> Task :buildSrc:compilePluginsBlocks UP-TO-DATE
-> Task :buildSrc:generatePrecompiledScriptPluginAccessors UP-TO-DATE
-> Task :buildSrc:generateScriptPluginAdapters UP-TO-DATE
-> Task :buildSrc:compileKotlin UP-TO-DATE
-> Task :buildSrc:compileJava NO-SOURCE
-> Task :buildSrc:compileGroovy NO-SOURCE
-> Task :buildSrc:pluginDescriptors UP-TO-DATE
-> Task :buildSrc:processResources UP-TO-DATE
-> Task :buildSrc:classes UP-TO-DATE
-> Task :buildSrc:jar UP-TO-DATE
+> Task :build-logic:convention:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :build-logic:convention:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :build-logic:convention:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :build-logic:convention:compilePluginsBlocks UP-TO-DATE
+> Task :build-logic:convention:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :build-logic:convention:generateScriptPluginAdapters UP-TO-DATE
+> Task :build-logic:convention:compileKotlin UP-TO-DATE
+> Task :build-logic:convention:compileJava NO-SOURCE
+> Task :build-logic:convention:pluginDescriptors UP-TO-DATE
+> Task :build-logic:convention:processResources UP-TO-DATE
+> Task :build-logic:convention:classes UP-TO-DATE
+> Task :build-logic:convention:jar UP-TO-DATE
 
 > Configure project :
 The 'sonarqube' task depends on compile tasks. This behavior is now deprecated and will be removed in version 5.x. To avoid implicit compilation, set property 'sonar.gradle.skipCompile' to 'true' and make sure your project is compiled, before analysis has started.
 The 'sonar' task depends on compile tasks. This behavior is now deprecated and will be removed in version 5.x. To avoid implicit compilation, set property 'sonar.gradle.skipCompile' to 'true' and make sure your project is compiled, before analysis has started.
 
-> Configure project :app
-project: project ':app'; variantName: debug
-project: project ':app'; testTaskName: testDebugUnitTest
-project: project ':app'; variantName: release
-project: project ':app'; testTaskName: testReleaseUnitTest
-
-> Configure project :features:authentication
-project: project ':features:authentication'; variantName: debug
-project: project ':features:authentication'; testTaskName: testDebugUnitTest
-project: project ':features:authentication'; variantName: release
-project: project ':features:authentication'; testTaskName: testReleaseUnitTest
-
-> Configure project :features:home
-project: project ':features:home'; variantName: debug
-project: project ':features:home'; testTaskName: testDebugUnitTest
-project: project ':features:home'; variantName: release
-project: project ':features:home'; testTaskName: testReleaseUnitTest
-
-> Configure project :features:myWallet
-project: project ':features:myWallet'; variantName: debug
-project: project ':features:myWallet'; testTaskName: testDebugUnitTest
-project: project ':features:myWallet'; variantName: release
-project: project ':features:myWallet'; testTaskName: testReleaseUnitTest
-
-> Configure project :features:scanner
-project: project ':features:scanner'; variantName: debug
-project: project ':features:scanner'; testTaskName: testDebugUnitTest
-project: project ':features:scanner'; variantName: release
-project: project ':features:scanner'; testTaskName: testReleaseUnitTest
-
-> Configure project :features:settings
-project: project ':features:settings'; variantName: debug
-project: project ':features:settings'; testTaskName: testDebugUnitTest
-project: project ':features:settings'; variantName: release
-project: project ':features:settings'; testTaskName: testReleaseUnitTest
-
-> Configure project :features:splash
-project: project ':features:splash'; variantName: debug
-project: project ':features:splash'; testTaskName: testDebugUnitTest
-project: project ':features:splash'; variantName: release
-project: project ':features:splash'; testTaskName: testReleaseUnitTest
-
-> Configure project :features:transactions
-project: project ':features:transactions'; variantName: debug
-project: project ':features:transactions'; testTaskName: testDebugUnitTest
-project: project ':features:transactions'; variantName: release
-project: project ':features:transactions'; testTaskName: testReleaseUnitTest
-
-> Configure project :features:trends
-project: project ':features:trends'; variantName: debug
-project: project ':features:trends'; testTaskName: testDebugUnitTest
-project: project ':features:trends'; variantName: release
-project: project ':features:trends'; testTaskName: testReleaseUnitTest
-
-> Configure project :libraries:components
-project: project ':libraries:components'; variantName: debug
-project: project ':libraries:components'; testTaskName: testDebugUnitTest
-project: project ':libraries:components'; variantName: release
-project: project ':libraries:components'; testTaskName: testReleaseUnitTest
-
-> Configure project :libraries:framework
-project: project ':libraries:framework'; variantName: debug
-project: project ':libraries:framework'; testTaskName: testDebugUnitTest
-project: project ':libraries:framework'; variantName: release
-project: project ':libraries:framework'; testTaskName: testReleaseUnitTest
-
-> Configure project :libraries:jetframework
-project: project ':libraries:jetframework'; variantName: debug
-project: project ':libraries:jetframework'; testTaskName: testDebugUnitTest
-project: project ':libraries:jetframework'; variantName: release
-project: project ':libraries:jetframework'; testTaskName: testReleaseUnitTest
-
-> Configure project :libraries:testutils
-project: project ':libraries:testutils'; variantName: debug
-project: project ':libraries:testutils'; testTaskName: testDebugUnitTest
-project: project ':libraries:testutils'; variantName: release
-project: project ':libraries:testutils'; testTaskName: testReleaseUnitTest
-
-> Task :libraries:components:preBuild UP-TO-DATE
-> Task :libraries:testutils:preBuild UP-TO-DATE
-> Task :features:splash:preBuild UP-TO-DATE
-> Task :libraries:framework:preBuild UP-TO-DATE
-> Task :libraries:jetframework:preBuild UP-TO-DATE
-> Task :features:transactions:preBuild UP-TO-DATE
-> Task :features:trends:preBuild UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
 > Task :features:settings:preBuild UP-TO-DATE
-> Task :features:scanner:preBuild UP-TO-DATE
-> Task :features:myWallet:preBuild UP-TO-DATE
-> Task :features:home:preBuild UP-TO-DATE
+> Task :domain:authenticator:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:preDevDebugBuild UP-TO-DATE
 > Task :features:authentication:preBuild UP-TO-DATE
-> Task :libraries:jetframework:preDebugBuild UP-TO-DATE
-> Task :libraries:components:preDebugBuild UP-TO-DATE
-> Task :features:splash:preDebugBuild UP-TO-DATE
-> Task :libraries:testutils:preDebugBuild UP-TO-DATE
-> Task :libraries:framework:preDebugBuild UP-TO-DATE
-> Task :features:transactions:preDebugBuild UP-TO-DATE
 > Task :features:settings:preDebugBuild UP-TO-DATE
-> Task :features:trends:preDebugBuild UP-TO-DATE
+> Task :libraries:jetframework:preBuild UP-TO-DATE
+> Task :features:home:preBuild UP-TO-DATE
+> Task :features:transactions:preBuild UP-TO-DATE
+> Task :libraries:components:preBuild UP-TO-DATE
+> Task :features:trends:preBuild UP-TO-DATE
+> Task :features:splash:preBuild UP-TO-DATE
+> Task :features:myWallet:preBuild UP-TO-DATE
+> Task :libraries:framework:preBuild UP-TO-DATE
+> Task :libraries:testutils:preBuild UP-TO-DATE
+> Task :features:scanner:preBuild UP-TO-DATE
+> Task :features:scanner:preDebugBuild UP-TO-DATE
 > Task :features:authentication:preDebugBuild UP-TO-DATE
 > Task :features:home:preDebugBuild UP-TO-DATE
-> Task :features:scanner:preDebugBuild UP-TO-DATE
-> Task :features:transactions:writeDebugAarMetadata UP-TO-DATE
-> Task :libraries:components:writeDebugAarMetadata UP-TO-DATE
+> Task :app:mergeDevDebugNativeDebugMetadata NO-SOURCE
+> Task :features:transactions:preDebugBuild UP-TO-DATE
 > Task :features:myWallet:preDebugBuild UP-TO-DATE
-> Task :app:preBuild UP-TO-DATE
-> Task :app:preDebugBuild UP-TO-DATE
-> Task :libraries:framework:writeDebugAarMetadata UP-TO-DATE
-> Task :features:splash:mergeDebugJniLibFolders UP-TO-DATE
-> Task :features:settings:writeDebugAarMetadata UP-TO-DATE
-> Task :features:home:writeDebugAarMetadata UP-TO-DATE
-> Task :features:trends:writeDebugAarMetadata UP-TO-DATE
-> Task :libraries:jetframework:writeDebugAarMetadata UP-TO-DATE
-> Task :features:myWallet:writeDebugAarMetadata UP-TO-DATE
 > Task :features:authentication:writeDebugAarMetadata UP-TO-DATE
-> Task :features:scanner:writeDebugAarMetadata UP-TO-DATE
-> Task :features:transactions:processDebugNavigationResources UP-TO-DATE
-> Task :features:home:processDebugNavigationResources UP-TO-DATE
-> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
-> Task :libraries:framework:processDebugNavigationResources UP-TO-DATE
-> Task :libraries:jetframework:processDebugNavigationResources UP-TO-DATE
-> Task :features:scanner:processDebugNavigationResources UP-TO-DATE
+> Task :features:settings:writeDebugAarMetadata UP-TO-DATE
+> Task :features:trends:preDebugBuild UP-TO-DATE
+> Task :domain:authenticator:compileKotlin NO-SOURCE
+> Task :features:splash:preDebugBuild UP-TO-DATE
 > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :features:transactions:generateDebugResValues UP-TO-DATE
-> Task :features:settings:processDebugNavigationResources UP-TO-DATE
-> Task :features:trends:processDebugNavigationResources UP-TO-DATE
-> Task :libraries:jetframework:generateDebugResValues UP-TO-DATE
-> Task :features:home:generateDebugResValues UP-TO-DATE
-> Task :libraries:framework:generateDebugResValues UP-TO-DATE
-> Task :features:authentication:processDebugNavigationResources UP-TO-DATE
-> Task :features:myWallet:processDebugNavigationResources UP-TO-DATE
-> Task :features:transactions:generateDebugResources UP-TO-DATE
-> Task :features:settings:generateDebugResValues UP-TO-DATE
-> Task :features:trends:generateDebugResValues UP-TO-DATE
-> Task :features:scanner:generateDebugResValues UP-TO-DATE
-> Task :app:generateDebugBuildConfig UP-TO-DATE
-> Task :libraries:jetframework:generateDebugResources UP-TO-DATE
-> Task :features:myWallet:generateDebugResValues UP-TO-DATE
-> Task :features:scanner:generateDebugResources UP-TO-DATE
-> Task :libraries:framework:generateDebugResources UP-TO-DATE
-> Task :libraries:components:processDebugNavigationResources UP-TO-DATE
-> Task :features:settings:generateDebugResources UP-TO-DATE
-> Task :features:trends:generateDebugResources UP-TO-DATE
+> Task :libraries:components:preDebugBuild UP-TO-DATE
+> Task :features:home:writeDebugAarMetadata UP-TO-DATE
+> Task :libraries:testutils:preDebugBuild UP-TO-DATE
+> Task :features:splash:writeDebugAarMetadata UP-TO-DATE
+> Task :libraries:jetframework:preDebugBuild UP-TO-DATE
+> Task :features:scanner:writeDebugAarMetadata UP-TO-DATE
+> Task :libraries:framework:preDebugBuild UP-TO-DATE
+> Task :features:myWallet:writeDebugAarMetadata UP-TO-DATE
+> Task :features:transactions:writeDebugAarMetadata UP-TO-DATE
+> Task :libraries:framework:writeDebugAarMetadata UP-TO-DATE
+> Task :domain:authenticator:compileJava NO-SOURCE
+> Task :libraries:testutils:writeDebugAarMetadata UP-TO-DATE
+> Task :libraries:jetframework:writeDebugAarMetadata UP-TO-DATE
 > Task :features:authentication:generateDebugResValues UP-TO-DATE
+> Task :app:generateDevDebugBuildConfig UP-TO-DATE
+> Task :features:home:generateDebugResValues UP-TO-DATE
+> Task :features:splash:generateDebugResValues UP-TO-DATE
+> Task :features:settings:generateDebugResValues UP-TO-DATE
+> Task :features:myWallet:generateDebugResValues UP-TO-DATE
+> Task :domain:authenticator:processResources NO-SOURCE
+> Task :app:generateDevDebugResValues UP-TO-DATE
+> Task :features:scanner:generateDebugResValues UP-TO-DATE
+> Task :features:trends:writeDebugAarMetadata UP-TO-DATE
 > Task :features:home:generateDebugResources UP-TO-DATE
-> Task :libraries:components:generateDebugResValues UP-TO-DATE
+> Task :libraries:jetframework:generateDebugResValues UP-TO-DATE
+> Task :features:transactions:generateDebugResValues UP-TO-DATE
+> Task :libraries:components:writeDebugAarMetadata UP-TO-DATE
+> Task :libraries:framework:generateDebugResValues UP-TO-DATE
 > Task :features:myWallet:generateDebugResources UP-TO-DATE
 > Task :features:authentication:generateDebugResources UP-TO-DATE
-> Task :features:transactions:packageDebugResources UP-TO-DATE
-> Task :libraries:components:generateDebugResources UP-TO-DATE
-> Task :features:transactions:extractDeepLinksDebug UP-TO-DATE
-> Task :features:authentication:extractDeepLinksDebug UP-TO-DATE
-> Task :libraries:framework:packageDebugResources UP-TO-DATE
-> Task :features:scanner:packageDebugResources UP-TO-DATE
-> Task :libraries:jetframework:packageDebugResources UP-TO-DATE
-> Task :features:trends:packageDebugResources UP-TO-DATE
+> Task :features:scanner:generateDebugResources UP-TO-DATE
+> Task :features:settings:generateDebugResources UP-TO-DATE
+> Task :domain:authenticator:classes UP-TO-DATE
+> Task :libraries:testutils:generateDebugResValues UP-TO-DATE
+> Task :libraries:components:generateDebugResValues UP-TO-DATE
+> Task :libraries:framework:generateDebugResources UP-TO-DATE
+> Task :libraries:jetframework:generateDebugResources UP-TO-DATE
+> Task :features:transactions:generateDebugResources UP-TO-DATE
+> Task :features:splash:generateDebugResources UP-TO-DATE
+> Task :features:trends:generateDebugResValues UP-TO-DATE
+> Task :libraries:testutils:generateDebugResources UP-TO-DATE
+> Task :features:trends:generateDebugResources UP-TO-DATE
 > Task :features:home:packageDebugResources UP-TO-DATE
-> Task :features:settings:packageDebugResources UP-TO-DATE
-> Task :features:myWallet:packageDebugResources UP-TO-DATE
-> Task :libraries:jetframework:extractDeepLinksDebug UP-TO-DATE
-> Task :libraries:framework:extractDeepLinksDebug UP-TO-DATE
-> Task :features:transactions:processDebugManifest UP-TO-DATE
-> Task :features:trends:extractDeepLinksDebug UP-TO-DATE
-> Task :features:home:extractDeepLinksDebug UP-TO-DATE
-> Task :features:myWallet:extractDeepLinksDebug UP-TO-DATE
+> Task :domain:authenticator:jar UP-TO-DATE
 > Task :features:settings:extractDeepLinksDebug UP-TO-DATE
-> Task :features:scanner:extractDeepLinksDebug UP-TO-DATE
+> Task :libraries:framework:packageDebugResources UP-TO-DATE
+> Task :features:transactions:packageDebugResources UP-TO-DATE
 > Task :features:authentication:packageDebugResources UP-TO-DATE
-> Task :features:transactions:compileDebugLibraryResources UP-TO-DATE
-> Task :features:myWallet:processDebugManifest UP-TO-DATE
+> Task :features:scanner:packageDebugResources UP-TO-DATE
+> Task :libraries:components:generateDebugResources UP-TO-DATE
+> Task :features:splash:packageDebugResources UP-TO-DATE
+> Task :libraries:jetframework:packageDebugResources UP-TO-DATE
+> Task :features:trends:extractDeepLinksDebug UP-TO-DATE
+> Task :features:myWallet:packageDebugResources UP-TO-DATE
+> Task :features:home:extractDeepLinksDebug UP-TO-DATE
+> Task :libraries:testutils:packageDebugResources UP-TO-DATE
+> Task :features:splash:extractDeepLinksDebug UP-TO-DATE
+> Task :libraries:jetframework:extractDeepLinksDebug UP-TO-DATE
+> Task :features:authentication:extractDeepLinksDebug UP-TO-DATE
+> Task :libraries:testutils:extractDeepLinksDebug UP-TO-DATE
+> Task :features:settings:packageDebugResources UP-TO-DATE
+> Task :libraries:framework:extractDeepLinksDebug UP-TO-DATE
+> Task :features:myWallet:extractDeepLinksDebug UP-TO-DATE
+> Task :features:scanner:extractDeepLinksDebug UP-TO-DATE
+> Task :features:trends:packageDebugResources UP-TO-DATE
+> Task :features:transactions:extractDeepLinksDebug UP-TO-DATE
 > Task :libraries:jetframework:processDebugManifest UP-TO-DATE
-> Task :features:home:processDebugManifest UP-TO-DATE
-> Task :libraries:framework:processDebugManifest UP-TO-DATE
-> Task :features:settings:processDebugManifest UP-TO-DATE
-> Task :features:myWallet:compileDebugLibraryResources UP-TO-DATE
-> Task :libraries:components:packageDebugResources UP-TO-DATE
-> Task :features:home:compileDebugLibraryResources UP-TO-DATE
-> Task :features:settings:compileDebugLibraryResources UP-TO-DATE
-> Task :features:trends:processDebugManifest UP-TO-DATE
-> Task :libraries:framework:compileDebugLibraryResources UP-TO-DATE
-> Task :features:scanner:processDebugManifest UP-TO-DATE
 > Task :features:authentication:processDebugManifest UP-TO-DATE
+> Task :libraries:testutils:processDebugManifest UP-TO-DATE
+> Task :features:home:processDebugManifest UP-TO-DATE
+> Task :libraries:components:packageDebugResources UP-TO-DATE
+> Task :features:splash:processDebugManifest UP-TO-DATE
+> Task :features:scanner:processDebugManifest UP-TO-DATE
+> Task :features:settings:processDebugManifest UP-TO-DATE
+> Task :libraries:framework:processDebugManifest UP-TO-DATE
+> Task :libraries:jetframework:compileDebugLibraryResources UP-TO-DATE
+> Task :features:myWallet:processDebugManifest UP-TO-DATE
+> Task :features:transactions:processDebugManifest UP-TO-DATE
+> Task :features:myWallet:compileDebugLibraryResources UP-TO-DATE
+> Task :features:authentication:compileDebugLibraryResources UP-TO-DATE
+> Task :features:transactions:compileDebugLibraryResources UP-TO-DATE
+> Task :features:splash:compileDebugLibraryResources UP-TO-DATE
+> Task :libraries:testutils:compileDebugLibraryResources UP-TO-DATE
+> Task :libraries:jetframework:parseDebugLocalResources UP-TO-DATE
+> Task :features:myWallet:parseDebugLocalResources UP-TO-DATE
 > Task :features:transactions:parseDebugLocalResources UP-TO-DATE
 > Task :libraries:components:extractDeepLinksDebug UP-TO-DATE
-> Task :features:settings:parseDebugLocalResources UP-TO-DATE
-> Task :features:myWallet:parseDebugLocalResources UP-TO-DATE
-> Task :libraries:jetframework:compileDebugLibraryResources UP-TO-DATE
-> Task :features:scanner:compileDebugLibraryResources UP-TO-DATE
-> Task :libraries:framework:parseDebugLocalResources UP-TO-DATE
-> Task :libraries:jetframework:parseDebugLocalResources UP-TO-DATE
-> Task :features:settings:generateDebugRFile UP-TO-DATE
-> Task :features:authentication:compileDebugLibraryResources UP-TO-DATE
-> Task :features:home:parseDebugLocalResources UP-TO-DATE
-> Task :features:myWallet:generateDebugRFile UP-TO-DATE
-> Task :features:transactions:generateDebugRFile UP-TO-DATE
-> Task :features:scanner:parseDebugLocalResources UP-TO-DATE
-> Task :libraries:components:processDebugManifest UP-TO-DATE
-> Task :features:trends:compileDebugLibraryResources UP-TO-DATE
-> Task :features:myWallet:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :libraries:framework:generateDebugRFile UP-TO-DATE
-> Task :features:settings:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :features:transactions:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :features:authentication:parseDebugLocalResources UP-TO-DATE
-> Task :features:home:generateDebugRFile UP-TO-DATE
-> Task :features:transactions:generateDebugBuildConfig UP-TO-DATE
-> Task :features:myWallet:generateDebugBuildConfig UP-TO-DATE
 > Task :libraries:jetframework:generateDebugRFile UP-TO-DATE
-> Task :features:home:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :libraries:framework:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :features:trends:parseDebugLocalResources UP-TO-DATE
-> Task :features:scanner:generateDebugRFile UP-TO-DATE
-> Task :features:scanner:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :features:settings:generateDebugBuildConfig UP-TO-DATE
-> Task :features:home:generateDebugBuildConfig UP-TO-DATE
+> Task :features:scanner:compileDebugLibraryResources UP-TO-DATE
+> Task :libraries:framework:compileDebugLibraryResources UP-TO-DATE
+> Task :features:settings:compileDebugLibraryResources UP-TO-DATE
 > Task :libraries:jetframework:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :features:trends:generateDebugRFile UP-TO-DATE
+> Task :libraries:components:processDebugManifest UP-TO-DATE
+> Task :features:trends:processDebugManifest UP-TO-DATE
 > Task :libraries:components:compileDebugLibraryResources UP-TO-DATE
-> Task :libraries:framework:generateDebugBuildConfig UP-TO-DATE
-> Task :libraries:jetframework:generateDebugBuildConfig UP-TO-DATE
-> Task :features:trends:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :features:home:compileDebugLibraryResources UP-TO-DATE
+> Task :libraries:testutils:parseDebugLocalResources UP-TO-DATE
+> Task :features:myWallet:generateDebugRFile UP-TO-DATE
+> Task :features:authentication:parseDebugLocalResources UP-TO-DATE
 > Task :libraries:components:parseDebugLocalResources UP-TO-DATE
-> Task :features:scanner:generateDebugBuildConfig UP-TO-DATE
-> Task :features:trends:generateDebugBuildConfig UP-TO-DATE
+> Task :libraries:testutils:generateDebugRFile UP-TO-DATE
+> Task :features:splash:parseDebugLocalResources UP-TO-DATE
 > Task :libraries:components:generateDebugRFile UP-TO-DATE
-> Task :libraries:components:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :libraries:components:generateDebugBuildConfig UP-TO-DATE
-> Task :libraries:components:javaPreCompileDebug UP-TO-DATE
+> Task :features:settings:parseDebugLocalResources UP-TO-DATE
+> Task :libraries:jetframework:generateDebugBuildConfig UP-TO-DATE
+> Task :features:transactions:generateDebugRFile UP-TO-DATE
+> Task :features:transactions:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :features:settings:generateDebugRFile UP-TO-DATE
+> Task :libraries:framework:parseDebugLocalResources UP-TO-DATE
+> Task :features:myWallet:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :features:scanner:parseDebugLocalResources UP-TO-DATE
+> Task :features:splash:generateDebugRFile UP-TO-DATE
 > Task :features:authentication:generateDebugRFile UP-TO-DATE
+> Task :features:settings:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :libraries:components:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :features:scanner:generateDebugRFile UP-TO-DATE
+> Task :libraries:testutils:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :features:myWallet:generateDebugBuildConfig UP-TO-DATE
+> Task :features:home:parseDebugLocalResources UP-TO-DATE
+> Task :libraries:framework:generateDebugRFile UP-TO-DATE
+> Task :features:splash:checkKotlinGradlePluginConfigurationErrors SKIPPED
 > Task :features:authentication:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :features:settings:generateDebugBuildConfig UP-TO-DATE
+> Task :features:scanner:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :features:authentication:generateDebugBuildConfig UP-TO-DATE
+> Task :libraries:testutils:generateDebugBuildConfig UP-TO-DATE
+> Task :features:transactions:generateDebugBuildConfig UP-TO-DATE
+> Task :libraries:components:generateDebugBuildConfig UP-TO-DATE
+> Task :features:splash:generateDebugBuildConfig UP-TO-DATE
+> Task :libraries:framework:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :libraries:components:javaPreCompileDebug UP-TO-DATE
+> Task :features:home:generateDebugRFile UP-TO-DATE
+> Task :libraries:framework:generateDebugBuildConfig UP-TO-DATE
+> Task :features:scanner:generateDebugBuildConfig UP-TO-DATE
+> Task :features:home:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :features:home:generateDebugBuildConfig UP-TO-DATE
+> Task :features:trends:compileDebugLibraryResources UP-TO-DATE
 > Task :libraries:components:mergeDebugShaders UP-TO-DATE
 > Task :libraries:components:compileDebugShaders NO-SOURCE
 > Task :libraries:components:generateDebugAssets UP-TO-DATE
-> Task :features:authentication:generateDebugBuildConfig UP-TO-DATE
 > Task :libraries:components:mergeDebugAssets UP-TO-DATE
+> Task :features:trends:parseDebugLocalResources UP-TO-DATE
+> Task :features:trends:generateDebugRFile UP-TO-DATE
+> Task :features:trends:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :libraries:components:mergeDebugJniLibFolders UP-TO-DATE
+> Task :libraries:components:mergeDebugNativeLibs NO-SOURCE
+> Task :app:checkDevDebugAarMetadata UP-TO-DATE
+> Task :libraries:components:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :features:trends:generateDebugBuildConfig UP-TO-DATE
 > Task :features:trends:javaPreCompileDebug UP-TO-DATE
 > Task :features:trends:mergeDebugShaders UP-TO-DATE
 > Task :features:trends:compileDebugShaders NO-SOURCE
@@ -258,734 +200,647 @@ project: project ':libraries:testutils'; testTaskName: testReleaseUnitTest
 > Task :features:trends:mergeDebugJniLibFolders UP-TO-DATE
 > Task :features:trends:mergeDebugNativeLibs NO-SOURCE
 > Task :features:trends:copyDebugJniLibsProjectOnly UP-TO-DATE
-> Task :libraries:components:mergeDebugJniLibFolders UP-TO-DATE
-> Task :libraries:components:mergeDebugNativeLibs NO-SOURCE
-> Task :libraries:components:copyDebugJniLibsProjectOnly UP-TO-DATE
-> Task :features:scanner:javaPreCompileDebug UP-TO-DATE
-> Task :features:scanner:mergeDebugShaders UP-TO-DATE
-> Task :features:scanner:compileDebugShaders NO-SOURCE
-> Task :features:scanner:generateDebugAssets UP-TO-DATE
-> Task :features:scanner:mergeDebugAssets UP-TO-DATE
-> Task :features:scanner:mergeDebugJniLibFolders UP-TO-DATE
-> Task :features:scanner:mergeDebugNativeLibs NO-SOURCE
-> Task :features:scanner:copyDebugJniLibsProjectOnly UP-TO-DATE
-> Task :features:myWallet:javaPreCompileDebug UP-TO-DATE
 > Task :features:settings:javaPreCompileDebug UP-TO-DATE
-> Task :features:home:javaPreCompileDebug UP-TO-DATE
 > Task :features:transactions:javaPreCompileDebug UP-TO-DATE
-> Task :features:settings:mergeDebugShaders UP-TO-DATE
-> Task :features:myWallet:mergeDebugShaders UP-TO-DATE
-> Task :features:home:mergeDebugShaders UP-TO-DATE
-> Task :features:settings:compileDebugShaders NO-SOURCE
-> Task :features:myWallet:compileDebugShaders NO-SOURCE
-> Task :features:settings:generateDebugAssets UP-TO-DATE
 > Task :features:authentication:javaPreCompileDebug UP-TO-DATE
-> Task :features:myWallet:generateDebugAssets UP-TO-DATE
-> Task :features:home:compileDebugShaders NO-SOURCE
-> Task :features:home:generateDebugAssets UP-TO-DATE
-> Task :features:settings:mergeDebugAssets UP-TO-DATE
-> Task :features:myWallet:mergeDebugAssets UP-TO-DATE
+> Task :features:splash:javaPreCompileDebug UP-TO-DATE
+> Task :features:settings:mergeDebugShaders UP-TO-DATE
+> Task :features:splash:mergeDebugShaders UP-TO-DATE
+> Task :features:scanner:javaPreCompileDebug UP-TO-DATE
+> Task :features:settings:compileDebugShaders NO-SOURCE
+> Task :features:settings:generateDebugAssets UP-TO-DATE
 > Task :features:authentication:mergeDebugShaders UP-TO-DATE
-> Task :features:home:mergeDebugAssets UP-TO-DATE
-> Task :libraries:components:checkDebugAarMetadata UP-TO-DATE
-> Task :libraries:testutils:checkDebugAarMetadata UP-TO-DATE
+> Task :features:splash:compileDebugShaders NO-SOURCE
+> Task :features:home:javaPreCompileDebug UP-TO-DATE
+> Task :features:splash:generateDebugAssets UP-TO-DATE
+> Task :features:transactions:mergeDebugShaders UP-TO-DATE
+> Task :features:myWallet:javaPreCompileDebug UP-TO-DATE
+> Task :app:mapDevDebugSourceSetPaths UP-TO-DATE
+> Task :features:scanner:mergeDebugShaders UP-TO-DATE
+> Task :app:generateDevDebugResources UP-TO-DATE
+> Task :features:splash:mergeDebugAssets UP-TO-DATE
+> Task :features:transactions:compileDebugShaders NO-SOURCE
 > Task :features:authentication:compileDebugShaders NO-SOURCE
+> Task :features:authentication:generateDebugAssets UP-TO-DATE
+> Task :features:transactions:generateDebugAssets UP-TO-DATE
+> Task :features:authentication:mergeDebugAssets UP-TO-DATE
+> Task :features:home:mergeDebugShaders UP-TO-DATE
+> Task :features:home:compileDebugShaders NO-SOURCE
+> Task :features:splash:mergeDebugJniLibFolders UP-TO-DATE
+> Task :features:authentication:mergeDebugJniLibFolders UP-TO-DATE
+> Task :features:home:generateDebugAssets UP-TO-DATE
+> Task :features:myWallet:mergeDebugShaders UP-TO-DATE
+> Task :features:settings:mergeDebugAssets UP-TO-DATE
+> Task :features:transactions:mergeDebugAssets UP-TO-DATE
+> Task :features:scanner:compileDebugShaders NO-SOURCE
+> Task :features:myWallet:compileDebugShaders NO-SOURCE
+> Task :features:scanner:generateDebugAssets UP-TO-DATE
+> Task :features:splash:mergeDebugNativeLibs NO-SOURCE
 > Task :features:settings:mergeDebugJniLibFolders UP-TO-DATE
+> Task :features:transactions:mergeDebugJniLibFolders UP-TO-DATE
+> Task :features:splash:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :features:authentication:mergeDebugNativeLibs NO-SOURCE
+> Task :features:transactions:mergeDebugNativeLibs NO-SOURCE
+> Task :features:myWallet:generateDebugAssets UP-TO-DATE
+> Task :features:authentication:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :features:settings:mergeDebugNativeLibs NO-SOURCE
+> Task :features:transactions:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :features:home:mergeDebugAssets UP-TO-DATE
+> Task :features:myWallet:mergeDebugAssets UP-TO-DATE
+> Task :libraries:testutils:kspDebugKotlin UP-TO-DATE
+> Task :features:settings:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :features:scanner:mergeDebugAssets UP-TO-DATE
+> Task :libraries:framework:kspDebugKotlin UP-TO-DATE
 > Task :features:myWallet:mergeDebugJniLibFolders UP-TO-DATE
 > Task :features:home:mergeDebugJniLibFolders UP-TO-DATE
-> Task :features:authentication:generateDebugAssets UP-TO-DATE
-> Task :libraries:components:stripDebugDebugSymbols NO-SOURCE
-> Task :features:authentication:mergeDebugAssets UP-TO-DATE
-> Task :features:settings:mergeDebugNativeLibs NO-SOURCE
-> Task :features:myWallet:mergeDebugNativeLibs NO-SOURCE
+> Task :features:scanner:mergeDebugJniLibFolders UP-TO-DATE
+> Task :features:scanner:mergeDebugNativeLibs NO-SOURCE
 > Task :features:home:mergeDebugNativeLibs NO-SOURCE
-> Task :libraries:components:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :libraries:testutils:mergeDebugJniLibFolders UP-TO-DATE
-> Task :features:authentication:mergeDebugJniLibFolders UP-TO-DATE
-> Task :features:settings:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :features:scanner:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :features:myWallet:mergeDebugNativeLibs NO-SOURCE
 > Task :features:home:copyDebugJniLibsProjectOnly UP-TO-DATE
 > Task :features:myWallet:copyDebugJniLibsProjectOnly UP-TO-DATE
-> Task :libraries:components:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :features:authentication:mergeDebugNativeLibs NO-SOURCE
-> Task :libraries:testutils:mergeDebugNativeLibs NO-SOURCE
-> Task :features:transactions:mergeDebugShaders UP-TO-DATE
-> Task :libraries:components:prepareDebugArtProfile UP-TO-DATE
-> Task :features:authentication:copyDebugJniLibsProjectOnly UP-TO-DATE
-> Task :app:checkDebugAarMetadata UP-TO-DATE
-> Task :libraries:testutils:stripDebugDebugSymbols NO-SOURCE
-> Task :features:transactions:compileDebugShaders NO-SOURCE
-> Task :libraries:components:prepareLintJarForPublish UP-TO-DATE
-> Task :features:transactions:generateDebugAssets UP-TO-DATE
-> Task :libraries:testutils:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :libraries:testutils:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :libraries:testutils:generateDebugBuildConfig UP-TO-DATE
-> Task :features:scanner:checkDebugAarMetadata UP-TO-DATE
-> Task :libraries:testutils:generateDebugResValues UP-TO-DATE
-> Task :features:transactions:mergeDebugAssets UP-TO-DATE
-> Task :features:scanner:stripDebugDebugSymbols NO-SOURCE
-> Task :features:transactions:mergeDebugJniLibFolders UP-TO-DATE
-> Task :libraries:testutils:generateDebugResources UP-TO-DATE
-> Task :features:scanner:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :features:transactions:mergeDebugNativeLibs NO-SOURCE
-> Task :features:myWallet:checkDebugAarMetadata UP-TO-DATE
-> Task :features:home:checkDebugAarMetadata UP-TO-DATE
-> Task :features:settings:checkDebugAarMetadata UP-TO-DATE
-> Task :features:transactions:copyDebugJniLibsProjectOnly UP-TO-DATE
-> Task :features:myWallet:stripDebugDebugSymbols NO-SOURCE
-> Task :features:scanner:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :features:home:stripDebugDebugSymbols NO-SOURCE
-> Task :features:authentication:checkDebugAarMetadata UP-TO-DATE
-> Task :features:myWallet:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :features:splash:checkDebugAarMetadata UP-TO-DATE
-> Task :libraries:testutils:packageDebugResources UP-TO-DATE
-> Task :features:scanner:prepareDebugArtProfile UP-TO-DATE
-> Task :features:settings:stripDebugDebugSymbols NO-SOURCE
-> Task :features:home:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :features:authentication:stripDebugDebugSymbols NO-SOURCE
-> Task :features:myWallet:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :features:scanner:prepareLintJarForPublish UP-TO-DATE
-> Task :features:home:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :features:authentication:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :features:myWallet:prepareDebugArtProfile UP-TO-DATE
-> Task :features:splash:mergeDebugNativeLibs NO-SOURCE
-> Task :libraries:testutils:processDebugNavigationResources UP-TO-DATE
-> Task :features:settings:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :features:home:prepareDebugArtProfile UP-TO-DATE
-> Task :features:authentication:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :features:splash:stripDebugDebugSymbols NO-SOURCE
-> Task :features:transactions:checkDebugAarMetadata UP-TO-DATE
-> Task :libraries:testutils:parseDebugLocalResources UP-TO-DATE
-> Task :features:settings:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :features:splash:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :features:myWallet:prepareLintJarForPublish UP-TO-DATE
-> Task :features:transactions:stripDebugDebugSymbols NO-SOURCE
-> Task :features:splash:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :features:authentication:prepareDebugArtProfile UP-TO-DATE
-> Task :features:home:prepareLintJarForPublish UP-TO-DATE
-> Task :features:transactions:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :features:splash:generateDebugBuildConfig UP-TO-DATE
-> Task :features:authentication:prepareLintJarForPublish UP-TO-DATE
-> Task :features:settings:prepareDebugArtProfile UP-TO-DATE
-> Task :libraries:testutils:generateDebugRFile UP-TO-DATE
-> Task :features:transactions:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :features:splash:generateDebugResValues UP-TO-DATE
-> Task :features:settings:prepareLintJarForPublish UP-TO-DATE
-> Task :features:transactions:prepareDebugArtProfile UP-TO-DATE
-> Task :features:splash:generateDebugResources UP-TO-DATE
-> Task :features:trends:checkDebugAarMetadata UP-TO-DATE
-> Task :features:trends:stripDebugDebugSymbols NO-SOURCE
-> Task :features:transactions:prepareLintJarForPublish UP-TO-DATE
-> Task :features:trends:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :features:trends:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :features:splash:packageDebugResources UP-TO-DATE
-> Task :features:splash:processDebugNavigationResources UP-TO-DATE
-> Task :features:trends:prepareDebugArtProfile UP-TO-DATE
-> Task :features:trends:prepareLintJarForPublish UP-TO-DATE
-> Task :features:splash:parseDebugLocalResources UP-TO-DATE
-> Task :features:splash:generateDebugRFile UP-TO-DATE
-> Task :features:splash:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :features:splash:mergeDebugShaders UP-TO-DATE
-> Task :features:splash:compileDebugShaders NO-SOURCE
-> Task :features:splash:generateDebugAssets UP-TO-DATE
-> Task :features:splash:mergeDebugAssets UP-TO-DATE
-> Task :features:splash:javaPreCompileDebug UP-TO-DATE
-> Task :features:splash:prepareDebugArtProfile UP-TO-DATE
-> Task :features:splash:prepareLintJarForPublish UP-TO-DATE
-> Task :app:processDebugNavigationResources UP-TO-DATE
-> Task :app:compileDebugNavigationResources UP-TO-DATE
-> Task :app:generateDebugResValues UP-TO-DATE
-> Task :features:splash:processDebugManifest UP-TO-DATE
-> Task :features:splash:writeDebugAarMetadata UP-TO-DATE
-> Task :libraries:testutils:kspDebugKotlin UP-TO-DATE
-> Task :app:mapDebugSourceSetPaths UP-TO-DATE
-> Task :app:generateDebugResources UP-TO-DATE
 > Task :libraries:jetframework:compileDebugKotlin UP-TO-DATE
 > Task :libraries:jetframework:javaPreCompileDebug UP-TO-DATE
-> Task :libraries:framework:kspDebugKotlin FROM-CACHE
-> Task :libraries:testutils:compileDebugKotlin UP-TO-DATE
-> Task :app:mergeDebugResources UP-TO-DATE
-> Task :app:packageDebugResources UP-TO-DATE
-> Task :app:parseDebugLocalResources UP-TO-DATE
-> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
-> Task :app:extractDeepLinksDebug UP-TO-DATE
-> Task :app:processDebugMainManifest FROM-CACHE
-> Task :app:processDebugManifest FROM-CACHE
-> Task :app:processDebugManifestForPackage FROM-CACHE
-> Task :libraries:framework:javaPreCompileDebug UP-TO-DATE
-> Task :libraries:framework:mergeDebugShaders UP-TO-DATE
-> Task :libraries:framework:compileDebugShaders NO-SOURCE
-> Task :libraries:framework:generateDebugAssets UP-TO-DATE
-> Task :libraries:framework:mergeDebugAssets UP-TO-DATE
-> Task :libraries:framework:mergeDebugJniLibFolders UP-TO-DATE
-> Task :libraries:framework:mergeDebugNativeLibs NO-SOURCE
-> Task :libraries:framework:copyDebugJniLibsProjectOnly UP-TO-DATE
-> Task :libraries:framework:checkDebugAarMetadata UP-TO-DATE
-> Task :libraries:framework:stripDebugDebugSymbols NO-SOURCE
-> Task :libraries:framework:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :libraries:framework:extractDeepLinksForAarDebug UP-TO-DATE
-> Task :libraries:framework:prepareDebugArtProfile UP-TO-DATE
-> Task :libraries:framework:prepareLintJarForPublish UP-TO-DATE
-> Task :app:javaPreCompileDebug UP-TO-DATE
-> Task :app:mergeDebugShaders UP-TO-DATE
-> Task :app:compileDebugShaders NO-SOURCE
-> Task :app:generateDebugAssets UP-TO-DATE
-> Task :app:desugarDebugFileDependencies UP-TO-DATE
-> Task :app:checkDebugDuplicateClasses UP-TO-DATE
-> Task :app:mergeExtDexDebug UP-TO-DATE
-> Task :app:mergeDebugJniLibFolders UP-TO-DATE
-> Task :app:validateSigningDebug UP-TO-DATE
-> Task :app:writeDebugAppMetadata UP-TO-DATE
-> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
-> Task :libraries:jetframework:compileDebugJavaWithJavac
+> Task :app:mergeDevDebugResources UP-TO-DATE
+> Task :app:packageDevDebugResources UP-TO-DATE
+> Task :libraries:jetframework:compileDebugJavaWithJavac UP-TO-DATE
+> Task :app:parseDevDebugLocalResources UP-TO-DATE
 > Task :libraries:jetframework:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :app:createDevDebugCompatibleScreenManifests UP-TO-DATE
 > Task :libraries:jetframework:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :app:extractDeepLinksDevDebug UP-TO-DATE
 > Task :libraries:jetframework:mergeDebugShaders UP-TO-DATE
 > Task :libraries:jetframework:compileDebugShaders NO-SOURCE
 > Task :libraries:jetframework:generateDebugAssets UP-TO-DATE
 > Task :libraries:jetframework:mergeDebugAssets UP-TO-DATE
 > Task :libraries:jetframework:processDebugJavaRes UP-TO-DATE
 > Task :libraries:jetframework:createFullJarDebug UP-TO-DATE
+> Task :libraries:testutils:compileDebugKotlin UP-TO-DATE
+> Task :libraries:testutils:javaPreCompileDebug UP-TO-DATE
 > Task :libraries:jetframework:bundleLibRuntimeToDirDebug UP-TO-DATE
 > Task :libraries:jetframework:mergeDebugJniLibFolders UP-TO-DATE
+> Task :libraries:framework:compileDebugKotlin UP-TO-DATE
 > Task :libraries:jetframework:mergeDebugNativeLibs NO-SOURCE
+> Task :libraries:framework:javaPreCompileDebug UP-TO-DATE
 > Task :libraries:jetframework:copyDebugJniLibsProjectOnly UP-TO-DATE
-> Task :libraries:jetframework:checkDebugAarMetadata UP-TO-DATE
-> Task :libraries:jetframework:stripDebugDebugSymbols NO-SOURCE
-> Task :libraries:jetframework:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :app:mergeDebugAssets UP-TO-DATE
-> Task :app:compressDebugAssets UP-TO-DATE
+> Task :libraries:testutils:compileDebugJavaWithJavac UP-TO-DATE
+> Task :libraries:testutils:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :libraries:testutils:mergeDebugShaders UP-TO-DATE
+> Task :libraries:testutils:compileDebugShaders NO-SOURCE
+> Task :libraries:testutils:generateDebugAssets UP-TO-DATE
+> Task :libraries:testutils:mergeDebugAssets UP-TO-DATE
+> Task :libraries:testutils:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :libraries:framework:compileDebugJavaWithJavac UP-TO-DATE
+> Task :libraries:testutils:processDebugJavaRes UP-TO-DATE
+> Task :libraries:testutils:createFullJarDebug UP-TO-DATE
+> Task :libraries:testutils:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :app:processDevDebugMainManifest UP-TO-DATE
+> Task :libraries:testutils:mergeDebugJniLibFolders UP-TO-DATE
+> Task :app:processDevDebugManifest UP-TO-DATE
+> Task :libraries:testutils:mergeDebugNativeLibs NO-SOURCE
+> Task :app:processDevDebugManifestForPackage UP-TO-DATE
 > Task :libraries:components:compileDebugKotlin UP-TO-DATE
-> Task :app:mergeDebugNativeLibs UP-TO-DATE
-> Task :app:stripDebugDebugSymbols UP-TO-DATE
-> Task :libraries:components:compileDebugJavaWithJavac
+> Task :libraries:testutils:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :libraries:components:compileDebugJavaWithJavac UP-TO-DATE
 > Task :libraries:components:bundleLibCompileToJarDebug UP-TO-DATE
 > Task :libraries:components:bundleLibRuntimeToJarDebug UP-TO-DATE
 > Task :libraries:components:processDebugJavaRes UP-TO-DATE
 > Task :libraries:components:createFullJarDebug UP-TO-DATE
+> Task :libraries:framework:transformDebugClassesWithAsm UP-TO-DATE
+> Task :libraries:framework:bundleLibCompileToJarDebug UP-TO-DATE
 > Task :libraries:components:bundleLibRuntimeToDirDebug UP-TO-DATE
-> Task :app:processDebugResources
+> Task :libraries:framework:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :libraries:framework:mergeDebugShaders UP-TO-DATE
+> Task :libraries:framework:compileDebugShaders NO-SOURCE
+> Task :libraries:framework:generateDebugAssets UP-TO-DATE
+> Task :libraries:framework:mergeDebugAssets UP-TO-DATE
+> Task :app:processDevDebugResources UP-TO-DATE
+> Task :features:myWallet:kspDebugKotlin UP-TO-DATE
+> Task :app:javaPreCompileDevDebug UP-TO-DATE
+> Task :features:trends:kspDebugKotlin UP-TO-DATE
+> Task :features:settings:kspDebugKotlin UP-TO-DATE
+> Task :libraries:framework:processDebugJavaRes UP-TO-DATE
+> Task :app:mergeDevDebugShaders UP-TO-DATE
+> Task :features:authentication:kspDebugKotlin UP-TO-DATE
+> Task :app:compileDevDebugShaders NO-SOURCE
+> Task :app:generateDevDebugAssets UP-TO-DATE
+> Task :libraries:framework:createFullJarDebug UP-TO-DATE
+> Task :features:splash:kspDebugKotlin UP-TO-DATE
+> Task :features:scanner:kspDebugKotlin UP-TO-DATE
+> Task :features:transactions:kspDebugKotlin UP-TO-DATE
+> Task :libraries:framework:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :libraries:framework:mergeDebugJniLibFolders UP-TO-DATE
+> Task :libraries:framework:mergeDebugNativeLibs NO-SOURCE
+> Task :app:mergeDevDebugAssets UP-TO-DATE
+> Task :libraries:framework:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :app:compressDevDebugAssets UP-TO-DATE
+> Task :features:myWallet:compileDebugKotlin UP-TO-DATE
+> Task :features:authentication:compileDebugKotlin UP-TO-DATE
+> Task :app:desugarDevDebugFileDependencies UP-TO-DATE
+> Task :features:settings:compileDebugKotlin UP-TO-DATE
+> Task :features:myWallet:compileDebugJavaWithJavac UP-TO-DATE
+> Task :features:transactions:compileDebugKotlin UP-TO-DATE
+> Task :features:splash:compileDebugKotlin UP-TO-DATE
+> Task :features:trends:compileDebugKotlin UP-TO-DATE
+> Task :features:authentication:compileDebugJavaWithJavac UP-TO-DATE
+> Task :features:scanner:compileDebugKotlin UP-TO-DATE
+> Task :features:settings:compileDebugJavaWithJavac UP-TO-DATE
+> Task :features:transactions:compileDebugJavaWithJavac UP-TO-DATE
+> Task :features:trends:compileDebugJavaWithJavac UP-TO-DATE
+> Task :features:splash:compileDebugJavaWithJavac UP-TO-DATE
+> Task :features:myWallet:transformDebugClassesWithAsm UP-TO-DATE
+> Task :app:checkDevDebugDuplicateClasses UP-TO-DATE
+> Task :features:myWallet:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :features:myWallet:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :features:authentication:transformDebugClassesWithAsm UP-TO-DATE
+> Task :features:authentication:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :features:settings:transformDebugClassesWithAsm UP-TO-DATE
+> Task :features:authentication:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :features:settings:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :features:settings:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :features:scanner:compileDebugJavaWithJavac UP-TO-DATE
+> Task :features:myWallet:processDebugJavaRes UP-TO-DATE
+> Task :features:myWallet:createFullJarDebug UP-TO-DATE
+> Task :features:authentication:processDebugJavaRes UP-TO-DATE
+> Task :features:settings:processDebugJavaRes UP-TO-DATE
+> Task :features:settings:createFullJarDebug UP-TO-DATE
+> Task :features:authentication:createFullJarDebug UP-TO-DATE
+> Task :features:trends:transformDebugClassesWithAsm UP-TO-DATE
+> Task :features:settings:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :features:myWallet:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :features:authentication:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :features:trends:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :features:transactions:transformDebugClassesWithAsm UP-TO-DATE
+> Task :features:splash:transformDebugClassesWithAsm UP-TO-DATE
+> Task :features:trends:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :features:splash:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :features:transactions:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :features:transactions:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :features:trends:processDebugJavaRes UP-TO-DATE
+> Task :features:splash:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :features:trends:createFullJarDebug UP-TO-DATE
+> Task :features:trends:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :features:transactions:processDebugJavaRes UP-TO-DATE
+> Task :features:transactions:createFullJarDebug UP-TO-DATE
+> Task :features:transactions:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :features:splash:processDebugJavaRes UP-TO-DATE
+> Task :features:splash:createFullJarDebug UP-TO-DATE
+> Task :features:splash:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :features:scanner:transformDebugClassesWithAsm UP-TO-DATE
+> Task :features:scanner:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :features:scanner:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :features:scanner:processDebugJavaRes UP-TO-DATE
+> Task :features:scanner:createFullJarDebug UP-TO-DATE
+> Task :features:scanner:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :app:mergeExtDexDevDebug UP-TO-DATE
+> Task :app:mergeDevDebugJniLibFolders UP-TO-DATE
+> Task :features:home:kspDebugKotlin UP-TO-DATE
+> Task :app:mergeDevDebugNativeLibs UP-TO-DATE
+> Task :app:stripDevDebugDebugSymbols UP-TO-DATE
+> Task :app:validateSigningDevDebug UP-TO-DATE
+> Task :app:writeDevDebugAppMetadata UP-TO-DATE
+> Task :app:writeDevDebugSigningConfigVersions UP-TO-DATE
+> Task :features:home:compileDebugKotlin UP-TO-DATE
+> Task :features:home:compileDebugJavaWithJavac UP-TO-DATE
+> Task :features:home:transformDebugClassesWithAsm UP-TO-DATE
+> Task :features:home:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :features:home:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :features:home:processDebugJavaRes UP-TO-DATE
+> Task :features:home:createFullJarDebug UP-TO-DATE
+> Task :features:home:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :app:kspDevDebugKotlin UP-TO-DATE
+> Task :app:compileDevDebugKotlin UP-TO-DATE
+> Task :app:compileDevDebugJavaWithJavac UP-TO-DATE
+> Task :app:hiltAggregateDepsDevDebug UP-TO-DATE
 
-> Task :libraries:framework:compileDebugKotlin FAILED
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/AppInitializer.kt:7:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/AppInitializer.kt:8:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/AppInitializerImpl.kt:7:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/AppLifecycleCallback.kt:21:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/AppLifecycleCallback.kt:68:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/CoreApplication.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/CoreApplication.kt:15:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/CoreApplication.kt:37:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/CoreApplication.kt:41:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/FirebaseCrashlyticsReportTree.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/FlipperInitializer.kt:17:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/MultiDexInitializer.kt:9:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/NetworkConfig.kt:7:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/NetworkConfig.kt:8:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/NetworkConfig.kt:10:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/NetworkConfig.kt:12:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/NetworkConfig.kt:12:14 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/app/TimberInitializer.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/BaseViewState.kt:7:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/BaseViewState.kt:8:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/BaseViewState.kt:10:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/BaseViewState.kt:12:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/BaseViewState.kt:16:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:44:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:56:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:73:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:84:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:84:9 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:94:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:94:9 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:107:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:217:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:222:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:229:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvi/MviViewModel.kt:238:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvvm/MvvmViewModel.kt:18:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvvm/MvvmViewModel.kt:25:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvvm/MvvmViewModel.kt:27:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/base/mvvm/MvvmViewModel.kt:59:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/coroutines/DispatcherProvider.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/coroutines/DispatcherProvider.kt:13:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/coroutines/DispatcherProvider.kt:14:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/coroutines/DispatcherProvider.kt:15:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/coroutines/DispatcherProvider.kt:16:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/coroutines/DispatcherProvider.kt:20:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/di/NetworkCoreModule.kt:30:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/di/NetworkCoreModule.kt:33:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/di/NetworkCoreModule.kt:40:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/di/NetworkCoreModule.kt:46:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/di/NetworkCoreModule.kt:71:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/di/NetworkCoreModule.kt:76:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/di/NetworkCoreModule.kt:80:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/AnyExtension.kt:7:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/AnyExtension.kt:10:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/AnyExtension.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/AnyExtension.kt:14:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/CoroutineExtension.kt:24:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/CoroutineExtension.kt:33:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/CoroutineExtension.kt:48:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/CoroutineExtension.kt:59:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/CoroutineExtension.kt:70:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/CoroutineExtension.kt:82:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/DeviceExtension.kt:16:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/DeviceExtension.kt:30:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/DeviceExtension.kt:38:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/DeviceExtension.kt:43:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/DeviceExtension.kt:52:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/FlowExtension.kt:17:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:18:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:28:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:37:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:39:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:55:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:71:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:79:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:90:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:107:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/IntentExtension.kt:127:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/InternetExtension.kt:17:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/InternetExtension.kt:37:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/MoshiExtension.kt:15:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/MoshiExtension.kt:21:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/MoshiExtension.kt:30:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/MoshiExtension.kt:40:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/MoshiExtension.kt:53:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/MoshiExtension.kt:67:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/MoshiExtension.kt:93:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/StringExtension.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/StringExtension.kt:11:11 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/StringExtension.kt:13:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/StringExtension.kt:15:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/StringExtension.kt:18:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/StringExtension.kt:25:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/ToastExtension.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/ToastExtension.kt:16:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/ToastExtension.kt:20:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/ToastExtension.kt:24:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/ToastExtension.kt:28:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/ToastExtension.kt:32:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:13:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:15:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:17:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:19:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:21:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:23:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:25:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:27:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:29:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:31:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:33:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:35:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:37:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:39:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:41:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/VariableExtension.kt:43:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/extension/ViewExtension.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/CommonRoutes.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/CommonRoutes.kt:18:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/CommonRoutes.kt:25:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/EntryProviderInstaller.kt:13:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/EntryProviderInstaller.kt:19:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/EntryProviderInstaller.kt:19:5 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/FlipperBackstackObserver.kt:25:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/FlipperBackstackObserver.kt:53:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/Navigator.kt:20:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/Navigator.kt:25:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/Navigator.kt:30:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/Navigator.kt:38:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/Navigator.kt:46:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/NestedNavigator.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/NestedNavigator.kt:13:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/NestedNavigator.kt:15:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/NestedNavigator.kt:22:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/navigation/NestedNavigator.kt:22:5 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/ApiCallExtension.kt:7:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:13:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:17:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:27:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:33:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:40:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:46:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:51:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:56:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/DataState.kt:61:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:14:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:15:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:17:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:19:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:21:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:23:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:25:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:27:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:29:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:31:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:33:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:37:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:42:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:47:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:51:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:55:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:60:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:67:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HandleError.kt:87:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HttpStatusCode.kt:7:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/HttpStatusCode.kt:8:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:24:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:24:11 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:28:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:34:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:40:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:50:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:52:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:78:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:98:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:120:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:138:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/NetworkHelper.kt:163:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:9:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:11:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:20:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:26:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:31:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:36:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:45:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:51:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:62:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:75:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:76:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponse.kt:81:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponseAdapter.kt:13:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponseAdapterFactory.kt:13:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponseExtensions.kt:24:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponseExtensions.kt:46:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/calladapter/NetworkResponseExtensions.kt:68:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/Environment.kt:15:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/Environment.kt:16:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/Environment.kt:17:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/Environment.kt:17:19 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/Environment.kt:18:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/Environment.kt:18:19 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/Environment.kt:19:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/Environment.kt:19:19 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/EnvironmentInterceptor.kt:10:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/environment/EnvironmentInterceptor.kt:42:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/flipper/FlipperNavigationObject.kt:17:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/flipper/FlipperNavigationObject.kt:25:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/flipper/FlipperNavigationObject.kt:53:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/flipper/FlipperNavigationObject.kt:109:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/flipper/FlipperNetworkObject.kt:20:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/flipper/FlipperNetworkObject.kt:27:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/flipper/FlipperNetworkObject.kt:37:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/interceptor/GlobalHeaderInterceptor.kt:16:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/interceptor/HttpRequestInterceptor.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/model/FeatureConfig.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/moshi/EnumValueJsonAdapter.kt:15:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/moshi/EnumValueJsonAdapter.kt:30:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/moshi/EnumValueJsonAdapter.kt:62:22 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/moshi/EnumValueJsonAdapter.kt:64:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/moshi/EnumValueJsonAdapter.kt:65:13 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/moshi/EnumValueJsonAdapter.kt:75:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/moshi/EnumValueJsonAdapter.kt:76:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/network/moshi/EnumValueJsonAdapter.kt:79:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/platform/MobileService.kt:16:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/platform/MobileService.kt:21:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/platform/MobileService.kt:27:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/AeadManager.kt:17:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/AeadManager.kt:31:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/CacheStore.kt:20:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/CacheStore.kt:25:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/CacheStore.kt:25:9 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/CacheStore.kt:28:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/CacheStore.kt:44:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/CacheStore.kt:59:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/SecureCacheStore.kt:22:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/SecureCacheStore.kt:37:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/SecureCacheStore.kt:65:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/SecureCacheStore.kt:81:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/SecureCacheStore.kt:103:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/pref/SecureCacheStore.kt:112:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/converter/DateTimeConverter.kt:10:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/converter/DateTimeConverter.kt:12:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/converter/DateTimeConverter.kt:15:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/converter/StringConverter.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/converter/StringConverter.kt:13:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/converter/StringConverter.kt:16:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/dao/BaseDao.kt:14:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/dao/BaseDao.kt:16:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/dao/BaseDao.kt:19:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/dao/BaseDao.kt:22:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/room/dao/BaseDao.kt:25:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/session/SessionManager.kt:17:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/session/SessionManager.kt:24:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/session/SessionManager.kt:24:9 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/session/SessionManager.kt:26:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/DataStateUseCase.kt:13:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/DataStateUseCase.kt:16:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/DataStateUseCase.kt:16:26 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/FlowPagingUseCase.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/FlowPagingUseCase.kt:15:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/LocalUseCase.kt:12:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/LocalUseCase.kt:15:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/LocalUseCase.kt:15:26 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/ReturnUseCase.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/usecase/ReturnUseCase.kt:14:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:24:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:29:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:32:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:35:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:40:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:42:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:48:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:55:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:65:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:71:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:76:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:81:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:86:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:87:13 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:89:13 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:91:13 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:93:13 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:99:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:150:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:201:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:203:13 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:206:13 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:213:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/AppCoroutineScope.kt:223:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/CrashReportingTree.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/FakeCrashLibrary.kt:11:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/FakeCrashLibrary.kt:16:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/FakeCrashLibrary.kt:17:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/FakeCrashLibrary.kt:25:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/FakeCrashLibrary.kt:29:9 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkDetection.kt:30:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkDetection.kt:51:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkDetection.kt:51:9 Return type must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkDetection.kt:133:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkDetection.kt:150:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkDetection.kt:151:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkDetection.kt:153:5 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkDetection.kt:156:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkDetection.kt:168:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkStatus.kt:7:1 Visibility must be specified in explicit API mode.
-e: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/libraries/framework/src/main/java/com/danhdue/framework/utils/NetworkStatus.kt:14:1 Visibility must be specified in explicit API mode.
+> Task :app:hiltJavaCompileDevDebug FAILED
+error: [Hilt] No property named rootComponentPackage was found in annotation AggregatedRoot: java.lang.IllegalStateException: No property named rootComponentPackage was found in annotation AggregatedRoot
+  	at dagger.spi.internal.shaded.androidx.room.compiler.processing.InternalXAnnotation.getAnnotationValue(InternalXAnnotation.kt:34)
+  	at dagger.spi.internal.shaded.androidx.room.compiler.processing.XAnnotation.getAsString(XAnnotation.kt:103)
+  	at dagger.hilt.processor.internal.root.AggregatedRootMetadata.create(AggregatedRootMetadata.java:101)
+  	at dagger.hilt.processor.internal.root.AggregatedRootMetadata.lambda$from$0(AggregatedRootMetadata.java:76)
+  	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+  	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:133)
+  	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939)
+  	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+  	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+  	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)
+  	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+  	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)
+  	at dagger.hilt.processor.internal.root.AggregatedRootMetadata.from(AggregatedRootMetadata.java:77)
+  	at dagger.hilt.processor.internal.root.ComponentTreeDepsProcessingStep.processComponentTreeDeps(ComponentTreeDepsProcessingStep.java:100)
+  	at dagger.hilt.processor.internal.root.ComponentTreeDepsProcessingStep.postProcess(ComponentTreeDepsProcessingStep.java:83)
+  	at dagger.hilt.processor.internal.BaseProcessingStep.postRoundProcess(BaseProcessingStep.java:97)
+  	at dagger.hilt.processor.internal.JavacBaseProcessingStepProcessor.postRound(JavacBaseProcessingStepProcessor.java:73)
+  	at dagger.spi.internal.shaded.androidx.room.compiler.processing.javac.JavacBasicAnnotationProcessor.process(JavacBasicAnnotationProcessor.kt:76)
+  	at org.gradle.api.internal.tasks.compile.processing.DelegatingProcessor.process(DelegatingProcessor.java:62)
+  	at org.gradle.api.internal.tasks.compile.processing.IsolatingProcessor.process(IsolatingProcessor.java:50)
+  	at org.gradle.api.internal.tasks.compile.processing.DelegatingProcessor.process(DelegatingProcessor.java:62)
+  	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor.access$401(TimeTrackingProcessor.java:37)
+  	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor$5.create(TimeTrackingProcessor.java:99)
+  	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor$5.create(TimeTrackingProcessor.java:96)
+  	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor.track(TimeTrackingProcessor.java:117)
+  	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor.process(TimeTrackingProcessor.java:96)
+  	at jdk.compiler/com.sun.tools.javac.processing.JavacProcessingEnvironment.callProcessor(JavacProcessingEnvironment.java:1021)
+  	at jdk.compiler/com.sun.tools.javac.processing.JavacProcessingEnvironment.discoverAndRunProcs(JavacProcessingEnvironment.java:937)
+  	at jdk.compiler/com.sun.tools.javac.processing.JavacProcessingEnvironment$Round.run(JavacProcessingEnvironment.java:1265)
+  	at jdk.compiler/com.sun.tools.javac.processing.JavacProcessingEnvironment.doProcessing(JavacProcessingEnvironment.java:1380)
+  	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.processAnnotations(JavaCompiler.java:1272)
+  	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:946)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0(JavacTaskImpl.java:104)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.invocationHelper(JavacTaskImpl.java:152)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.doCall(JavacTaskImpl.java:100)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.call(JavacTaskImpl.java:94)
+  	at org.gradle.internal.compiler.java.IncrementalCompileTask.call(IncrementalCompileTask.java:92)
+  	at org.gradle.api.internal.tasks.compile.AnnotationProcessingCompileTask.call(AnnotationProcessingCompileTask.java:94)
+  	at org.gradle.api.internal.tasks.compile.ResourceCleaningCompilationTask.call(ResourceCleaningCompilationTask.java:57)
+  	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:83)
+  	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:50)
+  	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.delegateAndHandleErrors(NormalizingJavaCompiler.java:98)
+  	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:52)
+  	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:38)
+  	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:52)
+  	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:38)
+  	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:46)
+  	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:36)
+  	at org.gradle.jvm.toolchain.internal.DefaultToolchainJavaCompiler.execute(DefaultToolchainJavaCompiler.java:57)
+  	at org.gradle.api.tasks.compile.JavaCompile.lambda$createToolchainCompiler$3(JavaCompile.java:206)
+  	at org.gradle.api.internal.tasks.compile.CleaningJavaCompiler.execute(CleaningJavaCompiler.java:53)
+  	at org.gradle.api.internal.tasks.compile.incremental.IncrementalCompilerFactory.lambda$createRebuildAllCompiler$0(IncrementalCompilerFactory.java:55)
+  	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:70)
+  	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:44)
+  	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:66)
+  	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:52)
+  	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:64)
+  	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:48)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+  	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler.execute(CompileJavaBuildOperationReportingCompiler.java:48)
+  	at org.gradle.api.tasks.compile.JavaCompile.performCompilation(JavaCompile.java:224)
+  	at org.gradle.api.tasks.compile.JavaCompile.performIncrementalCompilation(JavaCompile.java:165)
+  	at org.gradle.api.tasks.compile.JavaCompile.compile(JavaCompile.java:150)
+  	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+  	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+  	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+  	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.doExecute(IncrementalTaskAction.java:45)
+  	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+  	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.execute(IncrementalTaskAction.java:26)
+  	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:244)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:229)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:212)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:195)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:162)
+  	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)
+  	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
+  	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
+  	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:56)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+  	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:56)
+  	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)
+  	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
+  	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
+  	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+  	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:50)
+  	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:28)
+  	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:67)
+  	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:37)
+  	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:61)
+  	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:26)
+  	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
+  	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
+  	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:40)
+  	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:29)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.executeAndStoreInCache(BuildCacheStep.java:145)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$executeWithCache$4(BuildCacheStep.java:101)
+  	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$executeWithCache$5(BuildCacheStep.java:101)
+  	at org.gradle.internal.Try$Success.map(Try.java:175)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithCache(BuildCacheStep.java:85)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$0(BuildCacheStep.java:74)
+  	at org.gradle.internal.Either$Left.fold(Either.java:115)
+  	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:73)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:48)
+  	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:46)
+  	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:35)
+  	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
+  	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
+  	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+  	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
+  	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
+  	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+  	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+  	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:49)
+  	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:27)
+  	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:71)
+  	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:39)
+  	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:65)
+  	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:36)
+  	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:107)
+  	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:56)
+  	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:64)
+  	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
+  	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
+  	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:61)
+  	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
+  	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+  	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
+  	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
+  	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
+  	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
+  	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
+  	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
+  	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
+  	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+  	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+  	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+  	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+  	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+  	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+  	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+  	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+  	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
+  	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
+  	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
+  	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
+  	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
+  	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecuter.execute(ProblemsTaskPathTrackingTaskExecuter.java:40)
+  	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+  	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+  	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+  	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+  	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+  	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+  	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+  	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+  	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+  	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+  	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
+  	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
+  	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
+  	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+  	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
+  	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
+  	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
+  	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
+  	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+  	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+  	at java.base/java.lang.Thread.run(Thread.java:1583)
+  
+  [1;31m[Hilt] Processing did not complete. See error above for details.[0m
+warning: Kapt support in Moshi Kotlin Code Gen is deprecated and will be removed in 2.0. Please migrate to KSP. https://github.com/square/moshi#codegen
+1 error
+1 warning
 
-> Task :libraries:testutils:extractDebugAnnotations
-> Task :libraries:jetframework:extractDebugAnnotations
-> Task :libraries:components:extractDebugAnnotations
+[Incubating] Problems report is available at: file:///Users/danhdueexoictif/AllProjects/digital_wallet/android_digital_wallet/build/reports/problems/problems-report.html
 
 FAILURE: Build failed with an exception.
 
 * What went wrong:
-Execution failed for task ':libraries:framework:compileDebugKotlin'.
-> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
-   > Compilation error. See log for more details
+Execution failed for task ':app:hiltJavaCompileDevDebug'.
+> Compilation failed; see the compiler output below.
+  error: [Hilt] No property named rootComponentPackage was found in annotation AggregatedRoot: java.lang.IllegalStateException: No property named rootComponentPackage was found in annotation AggregatedRoot
+    	at dagger.spi.internal.shaded.androidx.room.compiler.processing.InternalXAnnotation.getAnnotationValue(InternalXAnnotation.kt:34)
+    	at dagger.spi.internal.shaded.androidx.room.compiler.processing.XAnnotation.getAsString(XAnnotation.kt:103)
+    	at dagger.hilt.processor.internal.root.AggregatedRootMetadata.create(AggregatedRootMetadata.java:101)
+    	at dagger.hilt.processor.internal.root.AggregatedRootMetadata.lambda$from$0(AggregatedRootMetadata.java:76)
+    	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+    	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:133)
+    	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939)
+    	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+    	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+    	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)
+    	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+    	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)
+    	at dagger.hilt.processor.internal.root.AggregatedRootMetadata.from(AggregatedRootMetadata.java:77)
+    	at dagger.hilt.processor.internal.root.ComponentTreeDepsProcessingStep.processComponentTreeDeps(ComponentTreeDepsProcessingStep.java:100)
+    	at dagger.hilt.processor.internal.root.ComponentTreeDepsProcessingStep.postProcess(ComponentTreeDepsProcessingStep.java:83)
+    	at dagger.hilt.processor.internal.BaseProcessingStep.postRoundProcess(BaseProcessingStep.java:97)
+    	at dagger.hilt.processor.internal.JavacBaseProcessingStepProcessor.postRound(JavacBaseProcessingStepProcessor.java:73)
+    	at dagger.spi.internal.shaded.androidx.room.compiler.processing.javac.JavacBasicAnnotationProcessor.process(JavacBasicAnnotationProcessor.kt:76)
+    	at org.gradle.api.internal.tasks.compile.processing.DelegatingProcessor.process(DelegatingProcessor.java:62)
+    	at org.gradle.api.internal.tasks.compile.processing.IsolatingProcessor.process(IsolatingProcessor.java:50)
+    	at org.gradle.api.internal.tasks.compile.processing.DelegatingProcessor.process(DelegatingProcessor.java:62)
+    	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor.access$401(TimeTrackingProcessor.java:37)
+    	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor$5.create(TimeTrackingProcessor.java:99)
+    	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor$5.create(TimeTrackingProcessor.java:96)
+    	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor.track(TimeTrackingProcessor.java:117)
+    	at org.gradle.api.internal.tasks.compile.processing.TimeTrackingProcessor.process(TimeTrackingProcessor.java:96)
+    	at jdk.compiler/com.sun.tools.javac.processing.JavacProcessingEnvironment.callProcessor(JavacProcessingEnvironment.java:1021)
+    	at jdk.compiler/com.sun.tools.javac.processing.JavacProcessingEnvironment.discoverAndRunProcs(JavacProcessingEnvironment.java:937)
+    	at jdk.compiler/com.sun.tools.javac.processing.JavacProcessingEnvironment$Round.run(JavacProcessingEnvironment.java:1265)
+    	at jdk.compiler/com.sun.tools.javac.processing.JavacProcessingEnvironment.doProcessing(JavacProcessingEnvironment.java:1380)
+    	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.processAnnotations(JavaCompiler.java:1272)
+    	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:946)
+    	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0(JavacTaskImpl.java:104)
+    	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.invocationHelper(JavacTaskImpl.java:152)
+    	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.doCall(JavacTaskImpl.java:100)
+    	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.call(JavacTaskImpl.java:94)
+    	at org.gradle.internal.compiler.java.IncrementalCompileTask.call(IncrementalCompileTask.java:92)
+    	at org.gradle.api.internal.tasks.compile.AnnotationProcessingCompileTask.call(AnnotationProcessingCompileTask.java:94)
+    	at org.gradle.api.internal.tasks.compile.ResourceCleaningCompilationTask.call(ResourceCleaningCompilationTask.java:57)
+    	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:83)
+    	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:50)
+    	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.delegateAndHandleErrors(NormalizingJavaCompiler.java:98)
+    	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:52)
+    	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:38)
+    	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:52)
+    	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:38)
+    	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:46)
+    	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:36)
+    	at org.gradle.jvm.toolchain.internal.DefaultToolchainJavaCompiler.execute(DefaultToolchainJavaCompiler.java:57)
+    	at org.gradle.api.tasks.compile.JavaCompile.lambda$createToolchainCompiler$3(JavaCompile.java:206)
+    	at org.gradle.api.internal.tasks.compile.CleaningJavaCompiler.execute(CleaningJavaCompiler.java:53)
+    	at org.gradle.api.internal.tasks.compile.incremental.IncrementalCompilerFactory.lambda$createRebuildAllCompiler$0(IncrementalCompilerFactory.java:55)
+    	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:70)
+    	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:44)
+    	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:66)
+    	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:52)
+    	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:64)
+    	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:48)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+    	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler.execute(CompileJavaBuildOperationReportingCompiler.java:48)
+    	at org.gradle.api.tasks.compile.JavaCompile.performCompilation(JavaCompile.java:224)
+    	at org.gradle.api.tasks.compile.JavaCompile.performIncrementalCompilation(JavaCompile.java:165)
+    	at org.gradle.api.tasks.compile.JavaCompile.compile(JavaCompile.java:150)
+    	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+    	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+    	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+    	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.doExecute(IncrementalTaskAction.java:45)
+    	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+    	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.execute(IncrementalTaskAction.java:26)
+    	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+    	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:244)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
+    	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:229)
+    	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:212)
+    	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:195)
+    	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:162)
+    	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)
+    	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
+    	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
+    	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:56)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+    	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:56)
+    	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)
+    	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
+    	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
+    	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+    	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:50)
+    	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:28)
+    	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:67)
+    	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:37)
+    	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:61)
+    	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:26)
+    	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
+    	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
+    	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:40)
+    	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:29)
+    	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
+    	at org.gradle.internal.execution.steps.BuildCacheStep.executeAndStoreInCache(BuildCacheStep.java:145)
+    	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$executeWithCache$4(BuildCacheStep.java:101)
+    	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+    	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$executeWithCache$5(BuildCacheStep.java:101)
+    	at org.gradle.internal.Try$Success.map(Try.java:175)
+    	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithCache(BuildCacheStep.java:85)
+    	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$0(BuildCacheStep.java:74)
+    	at org.gradle.internal.Either$Left.fold(Either.java:115)
+    	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+    	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:73)
+    	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:48)
+    	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:46)
+    	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:35)
+    	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
+    	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
+    	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+    	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
+    	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
+    	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+    	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+    	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:49)
+    	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:27)
+    	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:71)
+    	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:39)
+    	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:65)
+    	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:36)
+    	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:107)
+    	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:56)
+    	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:64)
+    	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
+    	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
+    	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:61)
+    	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
+    	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+    	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
+    	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
+    	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
+    	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
+    	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
+    	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
+    	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
+    	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
+    	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+    	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+    	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+    	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+    	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+    	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+    	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+    	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+    	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
+    	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
+    	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
+    	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
+    	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
+    	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecuter.execute(ProblemsTaskPathTrackingTaskExecuter.java:40)
+    	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+    	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+    	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+    	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+    	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+    	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+    	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+    	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+    	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+    	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+    	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+    	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
+    	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
+    	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
+    	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+    	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
+    	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
+    	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
+    	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
+    	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+    	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+    	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+    	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+    	at java.base/java.lang.Thread.run(Thread.java:1583)
+    
+    [1;31m[Hilt] Processing did not complete. See error above for details.[0m
+  warning: Kapt support in Moshi Kotlin Code Gen is deprecated and will be removed in 2.0. Please migrate to KSP. https://github.com/square/moshi#codegen
+  1 error
+  1 warning
 
 * Try:
-> Run with --info or --debug option to get more log output.
+> Check your code and dependencies to fix the compilation error(s)
 > Run with --scan to get full insights.
-> Get more help at https://help.gradle.org.
 
-* Exception is:
-org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':libraries:framework:compileDebugKotlin'.
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:130)
-	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:293)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:128)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
-	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecuter.execute(ProblemsTaskPathTrackingTaskExecuter.java:40)
-	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
-	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
-	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
-	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
-	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
-	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
-	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
-Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
-	at org.gradle.workers.internal.DefaultWorkerExecutor$WorkItemExecution.waitForCompletion(DefaultWorkerExecutor.java:287)
-	at org.gradle.internal.work.DefaultAsyncWorkTracker.lambda$waitForItemsAndGatherFailures$2(DefaultAsyncWorkTracker.java:130)
-	at org.gradle.internal.Factories$1.create(Factories.java:31)
-	at org.gradle.internal.work.DefaultWorkerLeaseService.withoutLocks(DefaultWorkerLeaseService.java:335)
-	at org.gradle.internal.work.DefaultWorkerLeaseService.withoutLocks(DefaultWorkerLeaseService.java:318)
-	at org.gradle.internal.work.DefaultWorkerLeaseService.withoutLock(DefaultWorkerLeaseService.java:323)
-	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForItemsAndGatherFailures(DefaultAsyncWorkTracker.java:126)
-	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForItemsAndGatherFailures(DefaultAsyncWorkTracker.java:92)
-	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForAll(DefaultAsyncWorkTracker.java:78)
-	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForCompletion(DefaultAsyncWorkTracker.java:66)
-	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:252)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:229)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:212)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:195)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:162)
-	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)
-	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
-	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
-	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:56)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
-	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:56)
-	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)
-	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
-	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
-	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
-	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:50)
-	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:28)
-	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:67)
-	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:37)
-	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:61)
-	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:26)
-	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
-	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
-	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:40)
-	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:29)
-	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
-	at org.gradle.internal.execution.steps.BuildCacheStep.executeAndStoreInCache(BuildCacheStep.java:145)
-	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$executeWithCache$4(BuildCacheStep.java:101)
-	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$executeWithCache$5(BuildCacheStep.java:101)
-	at org.gradle.internal.Try$Success.map(Try.java:175)
-	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithCache(BuildCacheStep.java:85)
-	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$0(BuildCacheStep.java:74)
-	at org.gradle.internal.Either$Left.fold(Either.java:115)
-	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
-	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:73)
-	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:48)
-	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:46)
-	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:35)
-	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
-	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
-	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
-	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
-	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
-	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
-	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:49)
-	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:27)
-	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:71)
-	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:39)
-	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:65)
-	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:36)
-	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:107)
-	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:56)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:64)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:61)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
-	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
-	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
-	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
-	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecuter.execute(ProblemsTaskPathTrackingTaskExecuter.java:40)
-	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
-	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
-	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
-	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
-	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
-	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
-	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
-Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
-	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:21)
-	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:119)
-	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
-	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:63)
-	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:66)
-	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:62)
-	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:100)
-	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:62)
-	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
-	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
-	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
-	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:59)
-	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:174)
-	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
-	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
-	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
-	at org.gradle.internal.Factories$1.create(Factories.java:31)
-	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:263)
-	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
-	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
-	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
-	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
-	... 2 more
-
-
-BUILD FAILED in 44s
-294 actionable tasks: 7 executed, 4 from cache, 283 up-to-date
+BUILD FAILED in 2s
+325 actionable tasks: 1 executed, 324 up-to-date

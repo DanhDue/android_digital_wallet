@@ -36,9 +36,9 @@ We introduced a Continuous Integration (CI) and Continuous Delivery (CD) pipelin
 We refactored the build logic from `buildSrc` into a standard **Composite Build** named `build-logic`. This module contains our convention plugins (e.g., `android-library.gradle.kts` converted to a plugin).
 
 ### Why?
-- **Build Performance**: `buildSrc` is treated as a single change unit. Any change in `buildSrc` invalidates the entire build cache for the whole project. Composite builds are separate builds; changes in `build-logic` only invalidate tasks that strictly depend on the changed plugin.
-- **Encapsulation**: Promotes better separation of concerns. `build-logic` can be developed, tested, and versioned independently if needed.
-- **Scalability**: As the project grows, composite builds handle complexity much better than `buildSrc`.
+- **Separation & Isolation**: `buildSrc` automatically adds its code to the classpath of *every* module in the project, leading to tight coupling and classpath pollution. `build-logic` (as a composite build) is completely separated; plugins must be explicitly applied, ensuring modules only access what they need.
+- **Build Performance (The Main Reason)**: `buildSrc` is a bottleneck. A change to *any* line of code in `buildSrc` invalidates the build cache for the **entire project**, forcing a full rebuild. With `build-logic`, changes are isolated. If you change a generic Kotlin plugin, only modules using that plugin are rebuilt. If you change a specific Feature plugin, only features are rebuilt. This is crucial for scaling.
+- **Scalability**: As the project grows, separating build logic prevents the "build" itself from becoming a monolithic, unmaintainable script.
 
 ### Build Logic (Composite Build) vs buildSrc
 

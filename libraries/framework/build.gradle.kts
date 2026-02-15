@@ -1,14 +1,9 @@
-import extensions.addFirebaseDependencies
-import extensions.addFlipperDependencies
-import extensions.addNavigationDependencies
-import extensions.addNetworkDependencies
-import extensions.addStorageDependencies
-import extensions.implementation
+import danhdue.convention.EnvConfigs
 
 plugins {
-    alias(libs.plugins.danhdue.android.library)
-    alias(libs.plugins.danhdue.android.compose)
-    alias(libs.plugins.danhdue.android.hilt)
+    id("danhdue.android.library")
+    id("danhdue.android.compose")
+    id("danhdue.android.hilt")
 }
 
 android {
@@ -22,26 +17,55 @@ android {
     }
     buildTypes {
         getByName("release") {
-            buildConfigField("String", "BASE_URL", "\"${EnvConfigs.Release.BASE_URL}\"")
+            buildConfigField("String", "BASE_URL", "\"${EnvConfigs.Production.BASE_URL}\"")
         }
         getByName("debug") {
-            buildConfigField("String", "BASE_URL", "\"${EnvConfigs.Debug.BASE_URL}\"")
+            buildConfigField("String", "BASE_URL", "\"${EnvConfigs.Development.BASE_URL}\"")
         }
     }
 }
 
 dependencies {
-    implementation(Deps.multidex)
+    implementation(libs.androidx.multidex)
     // Paging
-    implementation(Deps.AndroidX.paging)
-    addNetworkDependencies()
-    addStorageDependencies()
-    addFirebaseDependencies()
-    // addNavigationDependencies()
+    implementation(libs.androidx.paging.runtime)
+
+    // Network
+    implementation(libs.moshi.kotlin)
+    ksp(libs.moshi.codegen)
+    implementation(libs.moshi.lazy.adapter)
+    implementation(libs.retrofit)
+    implementation(libs.converter.moshi)
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    testImplementation(libs.okhttp.mockwebserver)
+    debugImplementation(libs.chucker.debug)
+    releaseImplementation(libs.chucker.release)
+
+    // Storage
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.security.crypto.ktx)
+    implementation(libs.tink.android)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.config)
+
+    // Navigation
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.kotlinx.serialization.core)
 
-    addFlipperDependencies()
+    // Flipper
+    debugImplementation(libs.flipper)
+    debugImplementation(libs.flipper.network.plugin)
+    debugImplementation(libs.soloader)
+    releaseImplementation(libs.flipper.noop)
 }

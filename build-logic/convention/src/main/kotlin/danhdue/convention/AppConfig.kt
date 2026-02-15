@@ -4,8 +4,8 @@ import org.gradle.api.JavaVersion
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 object AppConfig {
-    const val namespace = "com.danhdue.androiddigitalwallet"
-    const val applicationId = "com.danhdue.androiddigitalwallet"
+    const val namespace = "com.danhdue.wallet"
+    const val applicationId = "com.danhdue.wallet"
     const val compileSdk = 36
     const val buildToolsVersion = "36.0.0"
     const val minSdk = 28

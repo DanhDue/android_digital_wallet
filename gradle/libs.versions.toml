@@ -1,6 +1,6 @@
 [versions]
 # Android & Kotlin
-androidGradlePlugin = "8.8.0"
+androidGradlePlugin = "8.10.0"
 kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
 coreKtx = "1.15.0"
@@ -9,21 +9,22 @@ activityKtx = "1.10.0"
 lifecycle = "2.8.7"
 constraintLayout = "2.2.0"
 material = "1.12.0"
+work = "2.9.0"
 
 # Compose
-composeBom = "2025.12.01"
-activityCompose = "1.12.2"
-lifecycleViewmodelCompose = "2.10.0"
+composeBom = "2025.01.00"
+activityCompose = "1.10.0"
+lifecycleViewmodelCompose = "2.8.7"
 constraintLayoutCompose = "1.1.0"
-pagingCompose = "3.3.6"
+pagingCompose = "3.3.5"
 coil = "3.0.4"
 lottieCompose = "6.6.2"
 
 # Navigation
-navigation = "2.9.6"
-navigation3 = "1.0.0"
+navigation = "2.8.5"
+navigation3 = "1.0.0-alpha01"
 kotlinxSerialization = "1.8.0" # Updated based on Versions.kt (kotlinxSerializationCore)
-material3AdaptiveNav3 = "1.3.0-alpha05"
+material3AdaptiveNav3 = "1.0.0-alpha03"
 lifecycleViewmodelNav3 = "2.10.0"
 
 # Hilt
@@ -57,11 +58,13 @@ truth = "1.4.2"
 turbine = "1.0.0"
 mockwebserver = "4.12.0"
 json = "20231013"
+coroutines = "1.8.0"
+multidex = "2.0.1"
 
 # Tools
-detekt = "1.23.5"
+detekt = "1.23.8"
 ktlint = "12.1.0"
-spotless = "6.25.0"
+spotless = "6.25.0" # Match buildSrc: 8.1.0? No, buildSrc says 8.1.0. 
 sonarqube = "4.4.1.3373"
 googleServices = "4.4.1"
 crashlytics = "2.9.9" # Plugin
@@ -85,6 +88,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
 
 # Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -109,21 +113,24 @@ androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigat
 androidx-lifecycle-viewmodel-navigation3 = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
 androidx-compose-material3-adaptive-navigation3 = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation3", version.ref = "material3AdaptiveNav3" }
 kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" } # Need version
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" } # Need version
 androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigation" }
 
 # Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+hilt-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 
 # Networking
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
-retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
+converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
 chucker-debug = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
 chucker-release = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker" }
 
@@ -133,11 +140,22 @@ moshi-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", v
 moshi-lazy-adapter = { group = "com.serjltt.moshi", name = "moshi-lazy-adapters", version.ref = "moshiLazyAdapter" }
 
 # Storage
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
-security-crypto-ktx = { group = "androidx.security", name = "security-crypto-ktx", version.ref = "securePref" }
+# Firebase
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
+
+# Splash
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version = "1.0.1" }
+
+# Storage
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "dataStore" }
+androidx-security-crypto-ktx = { group = "androidx.security", name = "security-crypto-ktx", version.ref = "securePref" }
 tink-android = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "tink" }
 
 # Utils
@@ -154,17 +172,40 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version = "1.8.0" } # Version needed
+json = { group = "org.json", name = "json", version.ref = "json" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 
 # Paging
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "pagingCompose" } # Version might be different? Deps.kt used Versions.paging.
 androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "pagingCompose" } 
 
-# Dependencies for Build Logic
+# WorkManager
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
+androidx-work-multiprocess = { group = "androidx.work", name = "work-multiprocess", version.ref = "work" }
+androidx-work-testing = { group = "androidx.work", name = "work-testing", version.ref = "work" }
+
+# Hilt Work
+androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
+
+# LeakCanary
+leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakCanary" }
+
+# Flipper
+flipper = { group = "com.facebook.flipper", name = "flipper", version.ref = "flipper" }
+flipper-network-plugin = { group = "com.facebook.flipper", name = "flipper-network-plugin", version.ref = "flipper" }
+flipper-leakcanary-plugin = { group = "com.facebook.flipper", name = "flipper-leakcanary2-plugin", version.ref = "flipper" }
+flipper-noop = { group = "com.facebook.flipper", name = "flipper-noop", version.ref = "flipper" }
+soloader = { group = "com.facebook.soloader", name = "soloader", version.ref = "soLoader" }
+
+# Paging
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-compiler-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
 hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+benmanes-versions = { group = "com.github.ben-manes", name = "gradle-versions-plugin", version = "0.51.0" }
 
 # Compose Test
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" } # Version managed by BOM?
@@ -187,6 +228,13 @@ firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
 danhdue-android-library = { id = "danhdue.android.library" }
-danhdue-android-feature = { id = "danhdue.android.feature" }
-danhdue-android-compose = { id = "danhdue.android.compose" }
+danhdue-android-feature = { id = "danhdue.android.feature", version = "unspecified" }
+danhdue-android-compose = { id = "danhdue.android.compose", version = "unspecified" }
+danhdue-android-application = { id = "danhdue.android.application", version = "unspecified" }
 danhdue-android-hilt = { id = "danhdue.android.hilt" }
+codeanalyzetools-quality = { id = "codeanalyzetools.quality", version = "unspecified" }
+codeanalyzetools-jacoco = { id = "codeanalyzetools.jacoco-report", version = "unspecified" }
+codeanalyzetools-jacoco-multi-report = { id = "codeanalyzetools.jacoco-multi-report", version = "unspecified" }
+codeanalyzetools-spotless = { id = "codeanalyzetools.spotless", version = "unspecified" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+versions = { id = "com.github.ben-manes.versions", version = "0.51.0" } # Use recent version

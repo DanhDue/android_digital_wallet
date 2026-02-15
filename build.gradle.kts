@@ -2,21 +2,17 @@ import java.io.FileInputStream
 import java.security.MessageDigest
 import java.util.Properties
 
+
 plugins {
-    // alias(libs.plugins.android.application) apply false
-    // alias(libs.plugins.kotlin.android) apply false
-    // alias(libs.plugins.kotlin.compose) apply false
-    id("com.android.application") apply false
-    id("org.jetbrains.kotlin.android") apply false
-    id("org.jetbrains.kotlin.plugin.compose") apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.sonarqube) apply true
-//    alias(libs.plugins.android.dynamic.feature) apply false
+    alias(libs.plugins.versions) apply true
+    alias(libs.plugins.codeanalyzetools.jacoco.multi.report) apply true
 }
-
-apply<codequality.DependencyUpdatePlugin>()
-
-apply(plugin = "codeanalyzetools.jacoco-multi-report")
 
 /**
  * load a property from the local property files.

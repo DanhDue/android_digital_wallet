@@ -2,4 +2,4 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.danhdue.androiddigitalwallet.buildlogic"
+group = "com.danhdue.wallet.buildlogic"
