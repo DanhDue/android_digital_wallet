@@ -63,9 +63,4 @@ dependencies {
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.kotlinx.serialization.core)
 
-    // Flipper
-    debugImplementation(libs.flipper)
-    debugImplementation(libs.flipper.network.plugin)
-    debugImplementation(libs.soloader)
-    releaseImplementation(libs.flipper.noop)
 }

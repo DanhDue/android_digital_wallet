@@ -33,7 +33,7 @@ android {
 
     packaging {
         jniLibs {
-            useLegacyPackaging = true
+            useLegacyPackaging = false
         }
     }
 }
@@ -91,7 +91,6 @@ dependencies {
 
     // LeakCanary
     debugImplementation(libs.leakcanary.android)
-    debugImplementation(libs.flipper.leakcanary.plugin)
 
     // Modules
     implementation(project(":libraries:components"))

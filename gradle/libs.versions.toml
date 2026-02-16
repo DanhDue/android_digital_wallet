@@ -69,8 +69,6 @@ sonarqube = "4.4.1.3373"
 googleServices = "4.4.1"
 crashlytics = "2.9.9" # Plugin
 firebase = "32.7.2" # BOM
-flipper = "0.246.0"
-soLoader = "0.10.5"
 leakCanary = "2.13"
 timber = "5.0.1"
 lombok = "1.18.30"
@@ -190,13 +188,6 @@ androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref 
 
 # LeakCanary
 leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakCanary" }
-
-# Flipper
-flipper = { group = "com.facebook.flipper", name = "flipper", version.ref = "flipper" }
-flipper-network-plugin = { group = "com.facebook.flipper", name = "flipper-network-plugin", version.ref = "flipper" }
-flipper-leakcanary-plugin = { group = "com.facebook.flipper", name = "flipper-leakcanary2-plugin", version.ref = "flipper" }
-flipper-noop = { group = "com.facebook.flipper", name = "flipper-noop", version.ref = "flipper" }
-soloader = { group = "com.facebook.soloader", name = "soloader", version.ref = "soLoader" }
 
 # Paging
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }

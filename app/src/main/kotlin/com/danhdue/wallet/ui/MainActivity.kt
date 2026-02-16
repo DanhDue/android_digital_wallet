@@ -29,7 +29,6 @@ import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.LocalEntryProviderInstallers
 import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
-import com.danhdue.framework.navigation.ObserveBackstackForFlipper
 import com.danhdue.jetframework.permission.RequestPermissionOnMount
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -87,9 +86,6 @@ class MainActivity : ComponentActivity() {
                         // NavDisplay throws an exception if the backstack is empty.
                         // We guard against this by checking the size.
                         if (navigator.backStack.isNotEmpty()) {
-                            // Observe root backstack changes and report to Flipper
-                            ObserveBackstackForFlipper(backStack = navigator.backStack, prefix = "Root")
-
                             NavDisplay(
                                 backStack = navigator.backStack,
                                 modifier = Modifier.padding(paddingValues),

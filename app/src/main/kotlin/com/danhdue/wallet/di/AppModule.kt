@@ -11,7 +11,6 @@ import coil3.disk.directory
 import coil3.memory.MemoryCache
 import com.danhdue.framework.base.app.AppInitializer
 import com.danhdue.framework.base.app.AppInitializerImpl
-import com.danhdue.framework.base.app.FlipperInitializer
 import com.danhdue.framework.base.app.MultiDexInitializer
 import com.danhdue.framework.base.app.NetworkConfig
 import com.danhdue.framework.base.app.TimberInitializer
@@ -58,19 +57,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesFlipperInitializer() = FlipperInitializer()
-
-    @Provides
-    @Singleton
     fun providesAppInitializer(
         multiDexInitializer: MultiDexInitializer,
         timberInitializer: TimberInitializer,
-        flipperInitializer: FlipperInitializer,
     ): AppInitializer =
         AppInitializerImpl(
             timberInitializer,
             multiDexInitializer,
-            flipperInitializer,
         )
 
     @Provides
