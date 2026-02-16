@@ -1,5 +1,6 @@
 import danhdue.convention.AppConfig
 import danhdue.convention.EnvConfigs
+import danhdue.convention.LibraryDeps
 import danhdue.convention.addLibDefaultConfig
 import danhdue.convention.buildBooleanConfigField
 import danhdue.convention.buildStringConfigField
@@ -9,9 +10,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
-    // id("codeanalyzetools.quality")
-    // id("codeanalyzetools.jacoco-report")
-    // id("codeanalyzetools.spotless")
+    id("codeanalyzetools.quality")
+    id("codeanalyzetools.jacoco-report")
+    id("codeanalyzetools.spotless")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
@@ -55,15 +56,17 @@ kotlin {
     }
 }
 
+val libs = the<org.gradle.api.artifacts.VersionCatalogsExtension>().named("libs")
+
 dependencies {
-    // coreLibraryDesugaring(libs.desugar.jdk.libs) // If defined
+    // coreLibraryDesugaring(libs.findLibrary(LibraryDeps.DESUGAR_JDK_LIBS).get()) // If defined
     
     // Common
-    implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("androidx.core:core-ktx:1.15.0")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+    implementation(libs.findLibrary(LibraryDeps.TIMBER).get())
+    implementation(libs.findLibrary(LibraryDeps.ANDROIDX_CORE_KTX).get())
+    implementation(libs.findLibrary(LibraryDeps.ANDROIDX_APPCOMPAT).get())
+    implementation(libs.findLibrary(LibraryDeps.COROUTINES_TEST).get())
     
     // Test
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.findLibrary(LibraryDeps.JUNIT).get())
 }

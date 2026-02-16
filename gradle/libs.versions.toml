@@ -21,8 +21,8 @@ coil = "3.0.4"
 lottieCompose = "6.6.2"
 
 # Navigation
-navigation = "2.8.5"
-navigation3 = "1.0.0-alpha01"
+navigation = "2.9.6"
+navigation3 = "1.0.0"
 kotlinxSerialization = "1.8.0" # Updated based on Versions.kt (kotlinxSerializationCore)
 material3AdaptiveNav3 = "1.0.0-alpha03"
 lifecycleViewmodelNav3 = "2.10.0"
@@ -101,6 +101,7 @@ androidx-compose-foundation = { group = "androidx.compose.foundation", name = "f
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintLayoutCompose" }
 lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }
