@@ -9,7 +9,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.crashlytics
 import timber.log.Timber
 
-public class FirebaseCrashlyticsReportTree : Timber.Tree() {
+class FirebaseCrashlyticsReportTree : Timber.Tree() {
     init {
         Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
     }

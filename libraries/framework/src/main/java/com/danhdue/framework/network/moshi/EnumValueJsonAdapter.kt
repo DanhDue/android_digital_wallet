@@ -59,7 +59,7 @@ class EnumValueJsonAdapter<T : IValueEnum>
             writer.value(value.value)
         }
 
-        override fun toString() = "EnumJsonAdapter(" + enumType.name + ")"
+        override fun toString(): String = "EnumJsonAdapter(" + enumType.name + ")"
 
         companion object {
             fun <T : IValueEnum> create(

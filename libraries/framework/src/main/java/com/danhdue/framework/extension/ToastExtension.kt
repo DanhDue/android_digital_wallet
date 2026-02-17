@@ -9,26 +9,26 @@ import android.content.Context
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
-public fun Activity.toast(message: String) {
+fun Activity.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-public fun Activity.toastLong(message: String) {
+fun Activity.toastLong(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
-public fun Fragment.toast(message: String) {
+fun Fragment.toast(message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
-public fun Fragment.toastLong(message: String) {
+fun Fragment.toastLong(message: String) {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }
 
-public fun Context.toast(message: String) {
+fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-public fun Context.toastLong(message: String) {
+fun Context.toastLong(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }

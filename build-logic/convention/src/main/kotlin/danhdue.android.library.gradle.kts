@@ -23,16 +23,16 @@ android {
         release {
             isMinifyEnabled = false
             isShrinkResources = false
-            
+
             buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Production.dbName)
             buildBooleanConfigField(EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE, EnvConfigs.Production.crashlyticsEnable)
             buildBooleanConfigField(EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE, EnvConfigs.Production.analyticsEnable)
-        
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            proguardFiles(getDefaultProguardFile(AppConfig.proguardOptimizedFileName), AppConfig.proguardConsumerRules)
         }
         debug {
             isMinifyEnabled = false
-            
+
             buildStringConfigField(EnvConfigs.BuildConfigKey.DB_NAME, EnvConfigs.Development.dbName)
             buildBooleanConfigField(EnvConfigs.BuildConfigKey.CRASHLYTIC_IS_ENABLE, EnvConfigs.Development.crashlyticsEnable)
             buildBooleanConfigField(EnvConfigs.BuildConfigKey.ANALYTIC_IS_ENABLE, EnvConfigs.Development.analyticsEnable)
@@ -60,13 +60,13 @@ val libs = the<org.gradle.api.artifacts.VersionCatalogsExtension>().named("libs"
 
 dependencies {
     // coreLibraryDesugaring(libs.findLibrary(LibraryDeps.DESUGAR_JDK_LIBS).get()) // If defined
-    
+
     // Common
     implementation(libs.findLibrary(LibraryDeps.TIMBER).get())
     implementation(libs.findLibrary(LibraryDeps.ANDROIDX_CORE_KTX).get())
     implementation(libs.findLibrary(LibraryDeps.ANDROIDX_APPCOMPAT).get())
     implementation(libs.findLibrary(LibraryDeps.COROUTINES_TEST).get())
-    
+
     // Test
     testImplementation(libs.findLibrary(LibraryDeps.JUNIT).get())
 }

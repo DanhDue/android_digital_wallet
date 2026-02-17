@@ -48,7 +48,7 @@ class FlipperInitializer : AppInitializer {
                                     if (method.name == "onUpdate") {
                                         val stateMethod = client.javaClass.getMethod("getState")
                                         val state = stateMethod.invoke(client)
-                                        val stateString = state.toString()
+                                        val stateString = state?.toString()
 
                                         if (stateString == "CONNECTED" && navPlugin != null) {
                                             // Once connected, set the plugin to flush events

@@ -4,8 +4,8 @@
  */
 package com.danhdue.wallet.di
 
-import com.danhdue.wallet.BuildConfig
 import com.danhdue.framework.base.app.NetworkConfig
+import com.danhdue.wallet.BuildConfig
 
 class ApiNetworkConfig : NetworkConfig() {
     override fun baseUrl(): String = ""

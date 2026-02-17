@@ -65,7 +65,7 @@ inline fun <T, R> NetworkResponse<T>.toDataState(crossinline transform: (T) -> R
  * @param transform Suspend function to transform the success body.
  * @return [DataState.Success] with transformed value, or [DataState.Error] with exception.
  */
-suspend inline fun <T, R> NetworkResponse<T>.toDataStateSuspend(crossinline transform: suspend (T) -> R): DataState<R> =
+public suspend inline fun <T, R> NetworkResponse<T>.toDataStateSuspend(crossinline transform: suspend (T) -> R): DataState<R> =
     when (this) {
         is NetworkResponse.Success -> DataState.Success(transform(body))
         is NetworkResponse.ApiError -> DataState.Error(ApiException(code, body?.toString()))

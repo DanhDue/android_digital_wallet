@@ -34,11 +34,11 @@ abstract class CoreApplication :
         }
     }
 
-    open fun onAppBackgrounded() {
+    fun onAppBackgrounded() {
         isAppInForeground = false
     }
 
-    open fun onAppForegrounded() {
+    fun onAppForegrounded() {
         isAppInForeground = true
     }
 }

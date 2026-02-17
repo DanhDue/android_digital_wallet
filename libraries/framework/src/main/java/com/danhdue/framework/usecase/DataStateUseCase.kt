@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.flowOn
 abstract class DataStateUseCase<in Params, ReturnType> where ReturnType : Any {
     protected abstract suspend fun FlowCollector<DataState<ReturnType>>.execute(params: Params)
 
-    suspend operator fun invoke(params: Params) =
+    operator fun invoke(params: Params) =
         flow {
             execute(params)
         }.flowOn(Dispatchers.IO)

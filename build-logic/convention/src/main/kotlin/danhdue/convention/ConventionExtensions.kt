@@ -34,11 +34,11 @@ fun BuildType.buildBooleanConfigField(name: String, value: Boolean) {
  */
 fun CommonExtension<*, *, *, *, *, *>.addLibDefaultConfig() {
     compileSdk = AppConfig.compileSdk
-    
+
     defaultConfig {
         minSdk = AppConfig.minSdk
         testInstrumentationRunner = AppConfig.androidTestInstrumentation
-        proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
+        proguardFiles(AppConfig.proguardOptimizedFileName, AppConfig.proguardConsumerRules)
     }
 
     compileOptions {
@@ -106,7 +106,7 @@ fun CommonExtension<*, *, *, *, *, *>.addComposeConfig() {
         sourceCompatibility = AppConfig.sourceCompatibility
         targetCompatibility = AppConfig.targetCompatibility
     }
-    
+
     // Configs from addLibDefaultConfig regarding lint and packaging are commonly needed but might be duplicated if both are called.
     // android-compose calls addLibDefaultConfig AND addComposeConfig usually.
 }
