@@ -194,7 +194,7 @@ Từ vựng lifecycle event (tối thiểu, mirror bộ Flutter): `ShellTabVisib
 - [Task 1: Tạo module `:platform`](../../features/done/task_1_platform_module.md)
 - [Task 2: Cổng `:konsist-test` + Gradle feature guard](../../features/done/task_2_konsist_gate.md)
 - [Task 3: CI pipeline GitHub Actions](../../features/done/task_3_github_actions_ci.md)
-- [Task 4: Cập nhật Mason brick cho wiring mới](../../features/task_4_mason_brick_wiring.md)
+- [Task 4: Cập nhật Mason brick cho wiring mới](../../features/done/task_4_mason_brick_wiring.md)
 
 ### Phase 1 — Tách god-module
 - [Task 5: Bóc `:core`](../../features/task_5_extract_core_module.md)

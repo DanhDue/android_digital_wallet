@@ -1,20 +1,20 @@
 ---
 id: "task_4_mason_brick_wiring"
-status: "todo"
+status: "done"
 priority: "medium"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T08:21:12Z"
+completedAt: "2026-09-02T08:21:12Z"
 labels: ["tooling", "mason"]
 order: "a4"
 ---
 
 # Task 4: Update Mason bricks for the new wiring
 
-Epic: [android_super_app_template](../epic/android_super_app_template/android_super_app_template.en.md)
+Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)
 
 ## Requirement Analysis
 

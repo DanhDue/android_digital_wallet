@@ -1,6 +1,6 @@
 name: remove_feature
-description: Removes an MVI feature module and its configurations from the project.
-version: 0.1.0+1
+description: Removes an MVI feature module and unwinds every wire point mvi_feature adds — for both install-time and on-demand (dynamic-feature) deliveries.
+version: 0.2.0+1
 
 vars:
   name:

@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.{{name.snakeCase()}}.presentation.{{screen.camelCase()}}
+package {{package}}.presentation.{{screen.camelCase()}}
 
 import android.os.Parcelable
 import androidx.navigation3.runtime.NavKey

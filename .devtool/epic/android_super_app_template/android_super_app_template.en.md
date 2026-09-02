@@ -194,7 +194,7 @@ Lifecycle event vocabulary (minimal, mirrors the Flutter proposal): `ShellTabVis
 - [Task 1: Create `:platform` module](../../features/done/task_1_platform_module.md)
 - [Task 2: `:konsist-test` gate + Gradle feature guard](../../features/done/task_2_konsist_gate.md)
 - [Task 3: GitHub Actions CI pipeline](../../features/done/task_3_github_actions_ci.md)
-- [Task 4: Update Mason bricks for the new wiring](../../features/task_4_mason_brick_wiring.md)
+- [Task 4: Update Mason bricks for the new wiring](../../features/done/task_4_mason_brick_wiring.md)
 
 ### Phase 1 — Split the god-module
 - [Task 5: Extract `:core`](../../features/task_5_extract_core_module.md)

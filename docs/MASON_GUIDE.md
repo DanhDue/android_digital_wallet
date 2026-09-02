@@ -51,24 +51,63 @@ These bricks handle boiler-plate code, module registration, dependency injection
 
 ## 1. Create a New Feature Module (`mvi_feature`)
 
-Generates a fully configured Android module with `data`, `domain`, and `presentation` layers.
+Generates a fully configured Android module with `data`, `domain`, and `presentation` layers and auto-wires it into the host **the governance way** — the generated module never edits another feature's files.
 
 ### Command
 ```bash
+# install-time (default)
 mason make mvi_feature \
   --name Payment \
   --package com.danhdue.payment \
   --screen Home
+
+# on-demand Dynamic Feature Module
+mason make mvi_feature \
+  --name Kyc \
+  --package com.danhdue.kyc \
+  --screen Main \
+  --delivery on-demand
 ```
 
-### What it does:
-1.  **Generates Files**: Creates `features/payment/` with 19+ starter files.
-2.  **Updates Configs**: Automatically adds the module to:
-    *   `settings.gradle.kts`
-    *   `buildSrc/.../Deps.kt`
-    *   `buildSrc/.../DependencyHandlerExtensions.kt`
-    *   `app/build.gradle.kts`
-3.  **Syncs Project**: Runs `./gradlew --refresh-dependencies`.
+### Variables
+
+| Variable | Description | Default | Example |
+|---|---|---|---|
+| `name` | Feature name (PascalCase) | – | `Payment` |
+| `package` | Base package path | – | `com.danhdue.payment` |
+| `screen` | Initial screen name (PascalCase) | `Main` | `Home` |
+| `delivery` | `install-time` \| `on-demand` | `install-time` | `on-demand` |
+
+An unset or unrecognised `delivery` value falls back to `install-time` with a warning.
+
+### `--delivery install-time` (default)
+
+The module is a plain `com.android.library` feature. The hook:
+
+1. **Generates files** — `features/payment/` with the full Clean Architecture tree.
+2. **Wires the module** into:
+   * `settings.gradle.kts` — `include(":features:payment")`
+   * `buildSrc/.../Deps.kt` — `Modules.featurePayment`
+   * `buildSrc/.../DependencyHandlerExtensions.kt` — `FEATURE_PAYMENT` accessor
+   * `app/build.gradle.kts` — `import` + `FEATURE_PAYMENT`
+   * `shell/build.gradle.kts` — same `FEATURE_PAYMENT` (**guarded**: skipped until `:shell` exists)
+3. **Leaves `:platform` `AppRoutes` untouched** — the feature's `*Route : NavKey` stays private.
+4. Navigation entries reach the host through the generated
+   `PaymentNavigationModule` (`@Module` providing `@Provides @IntoSet EntryProviderInstaller`) — Hilt multibinding does the rest.
+5. Runs a Gradle sync.
+
+### `--delivery on-demand` (Dynamic Feature Module)
+
+The module becomes a `com.android.dynamic-feature` split. On top of `settings.gradle.kts`, the hook:
+
+* **Rewrites `features/kyc/build.gradle.kts`** to apply `com.android.dynamic-feature`; the dependency direction is inverted — the module gets `implementation(project(":app"))` and `:app` never sees it at compile time.
+* **Registers it in `:app`** — `android { dynamicFeatures += setOf(":features:kyc") }` (Konsist rule K8 reads this list to exempt the module from the "no host imports" rule).
+* **Rewrites the manifest** with `<dist:module dist:onDemand="true">` + a split-title string resource.
+* **Generates `KycFeatureEntry : com.danhdue.platform.FeatureEntry`** plus `src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry` so the host can load the entry at runtime through `ServiceLoader`.
+* **Forces the route constant into `:platform`** — appends `@Serializable data object KycRoute : NavKey` to `AppRoutes` (a DFM host cannot import the feature, so its route must live in `:platform`).
+* Drops a **guarded `// TODO(task_14)` install-branch marker** into `:shell` (skipped until `:shell` exists).
+
+> **Not done by the brick:** the `SplitInstallManager` / `SplitCompat` runtime and the `:shell` install branch that actually downloads the split are owned by **Task 14**. Until then the split is still bundled by `assembleDebug`, so an `on-demand` module compiles and runs like an install-time one. The Hilt Gradle plugin does not support `com.android.dynamic-feature`, so the generated DFM keeps `hilt-android` on the compile classpath only (no Hilt processing) — DI is Task 14's job.
 
 ### Generated Structure
 ```text
@@ -76,6 +115,9 @@ features/payment/src/main/kotlin/
 ├── data/           # RepositoryImpl, DTOs, Mappers, DI
 ├── domain/         # Entities, UseCases, Repo Interface, DI
 └── presentation/   # ViewModels, UI, State, Events, Navigation DI
+# on-demand only, additionally:
+├── <Name>FeatureEntry.kt
+└── ../resources/META-INF/services/com.danhdue.platform.FeatureEntry
 ```
 
 ---

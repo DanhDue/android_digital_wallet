@@ -1,6 +1,6 @@
 name: mvi_feature
-description: Generates a complete Android feature module with Clean Architecture layers (data, domain, presentation) following MVI pattern.
-version: 0.2.0+1
+description: Generates a complete Android feature module with Clean Architecture layers (data, domain, presentation) following MVI pattern and auto-wires it into the host the governance way (Hilt @IntoSet for install-time, ServiceLoader FeatureEntry for on-demand DFM).
+version: 0.3.0+1
 
 vars:
   name:
@@ -16,3 +16,16 @@ vars:
     description: Initial screen name in PascalCase (e.g., Home, Main)
     prompt: What is the initial screen name? (PascalCase)
     default: Main
+  delivery:
+    type: string
+    description: >-
+      How the feature is delivered. `install-time` (default) wires the module
+      into :app/:shell with `implementation(project(...))` and lets Hilt
+      `@IntoSet` multibinding aggregate its navigation entries. `on-demand`
+      turns the module into a `com.android.dynamic-feature` split: it is
+      registered in :app `android.dynamicFeatures`, depends on :app, contributes
+      its entries at runtime through `FeatureEntry` + `ServiceLoader`, ships a
+      `dist:onDemand="true"` manifest, and forces its route constant into
+      :platform `AppRoutes`.
+    prompt: "Delivery mode? (install-time | on-demand)"
+    default: install-time
