@@ -1,6 +1,6 @@
 ---
 id: "task_13_strip_domain_to_template"
-status: "backlog"
+status: "todo"
 priority: "medium"
 assignee: null
 epic: "android_super_app_template"

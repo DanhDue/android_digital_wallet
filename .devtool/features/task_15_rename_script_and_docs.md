@@ -1,6 +1,6 @@
 ---
 id: "task_15_rename_script_and_docs"
-status: "backlog"
+status: "todo"
 priority: "medium"
 assignee: null
 epic: "android_super_app_template"

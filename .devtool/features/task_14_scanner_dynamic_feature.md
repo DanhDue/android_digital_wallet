@@ -1,6 +1,6 @@
 ---
 id: "task_14_scanner_dynamic_feature"
-status: "backlog"
+status: "todo"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
