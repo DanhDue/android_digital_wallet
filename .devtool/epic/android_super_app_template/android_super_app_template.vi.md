@@ -208,7 +208,7 @@ Từ vựng lifecycle event (tối thiểu, mirror bộ Flutter): `ShellTabVisib
 - [Task 11: Dời `NavKey` dùng chéo + pilot `settings` + bật gate nghiêm](../../features/done/task_11_platform_routes_settings_pilot.md)
 
 ### Phase 3 — Dọn + template + DFM + kiểm thử
-- [Task 12: Migrate cross-import feature còn lại → whitelist rỗng](../../features/task_12_migrate_remaining_features.md)
+- [Task 12: Migrate cross-import feature còn lại → whitelist rỗng](../../features/done/task_12_migrate_remaining_features.md)
 - [Task 13: Cắt domain digital-wallet → template 3 feature](../../features/task_13_strip_domain_to_template.md)
 - [Task 14: Chuyển `scanner` → Dynamic Feature Module on-demand](../../features/task_14_scanner_dynamic_feature.md)
 - [Task 15: `rename_project.sh` + generic hoá docs/agent](../../features/task_15_rename_script_and_docs.md)

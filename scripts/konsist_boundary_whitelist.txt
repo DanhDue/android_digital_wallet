@@ -1,14 +1,14 @@
 # Konsist boundary whitelist — architecture-gate exceptions (Konsist rule K1)
 #
-# Lists currently-known, pre-existing cross-feature imports that are allowed to
-# pass the architecture gate while their migration is pending. Format: one entry
-# per line, "<source-feature>→<target-feature>" (U+2192 arrow), where each name is
-# a `:features:<name>` module directory. Blank lines and lines starting with '#'
-# are ignored; surrounding whitespace is trimmed.
+# This file lists cross-feature imports that are permitted to pass the K1 architecture gate.
+# K1 is HARD-ENFORCED: the gate is active, and an empty file (as below) means zero
+# cross-feature edges are permitted. Format: one entry per line, "<source-feature>→<target-feature>"
+# (U+2192 arrow), where each name is a `:features:<name>` module directory. Blank lines and
+# lines starting with '#' are ignored; surrounding whitespace is trimmed.
 #
-# Entries are deleted here as each cross-feature edge is removed (see epic
-# android_super_app_template, Phase 2 Task 11 and Phase 3 Task 12). Deleting an
-# entry and then reintroducing the same import will correctly fail the gate.
+# A temporary exception may be added during migration (with a documented owner) and then
+# removed; reintroducing the same import after its line is deleted will correctly fail the gate.
+# See epic android_super_app_template, Phase 2 Task 11 and Phase 3 Task 12.
 #
 # Status: EMPTY. The Phase 0 seed was the 5 cross-feature edges in
 # `features/home/build.gradle.kts` — `home` owned the tab shell and imported 5
@@ -16,4 +16,6 @@
 # module and dissolved `features/home`, so all 5 rows are gone: `home→{myWallet,
 # transactions,scanner,trends,settings}` no longer exist. `:shell`'s remaining
 # dependency on those features is Host privilege (Konsist K6), not a K1 entry.
-# Task 11 introduces no `home`-derived entry.
+# Task 11 introduced no new entries. Task 12 drove the whitelist to empty and
+# flipped K1 to hard-enforced (no longer consulting this file — any cross-feature
+# import now fails the build).

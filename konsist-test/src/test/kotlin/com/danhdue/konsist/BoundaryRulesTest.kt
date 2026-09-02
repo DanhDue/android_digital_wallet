@@ -11,7 +11,6 @@ import com.danhdue.konsist.support.FeatureEdge
 import com.danhdue.konsist.support.RepoRoot
 import com.danhdue.konsist.support.assertNoViolations
 import com.danhdue.konsist.support.packageName
-import org.junit.Ignore
 import org.junit.Test
 
 /**
@@ -22,8 +21,9 @@ import org.junit.Test
  * - K6 → ENFORCED in Task 11. Passes clean: Task 10 dissolved `features/home` and Task 11
  *   dropped `:shell`'s 5 `:features:*` deps (every tab seed `*Route` moved to
  *   `:platform.AppRoutes`), so no non-host module imports more than one feature.
- * - K1 → still report-only (`@Ignore`); Task 12 drives `konsist_boundary_whitelist.txt` to
- *   empty, then flips it to fail mode. Body is complete and correct.
+ * - K1 → ENFORCED since Task 12. The whitelist is empty; any cross-feature import fails the build.
+ *   Violations are resolved via `AppRoutes` navigation, `AppEvent` signals, or dependency inversion
+ *   with `:core` interfaces. The gate is hard-enforced and no exceptions are permitted.
  */
 class BoundaryRulesTest {
     private companion object {
@@ -33,7 +33,6 @@ class BoundaryRulesTest {
     }
 
     @Test
-    @Ignore("Phase 0: report-only — enforced in Task 12 (whitelist emptied, then fail mode). Design §9 Phase 3.")
     fun `K1 - a feature must not import another feature unless whitelisted`() {
         val whitelist: Set<FeatureEdge> = BoundaryWhitelist.parseFile(RepoRoot.resolve(WHITELIST_PATH))
 

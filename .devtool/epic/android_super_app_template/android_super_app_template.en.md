@@ -208,7 +208,7 @@ Lifecycle event vocabulary (minimal, mirrors the Flutter proposal): `ShellTabVis
 - [Task 11: Relocate cross-feature `NavKey`s + `settings` pilot + enable strict gate](../../features/done/task_11_platform_routes_settings_pilot.md)
 
 ### Phase 3 — Cleanup + template + DFM + validation
-- [Task 12: Migrate remaining feature cross-imports → empty whitelist](../../features/task_12_migrate_remaining_features.md)
+- [Task 12: Migrate remaining feature cross-imports → empty whitelist](../../features/done/task_12_migrate_remaining_features.md)
 - [Task 13: Strip digital-wallet domain → 3-feature template](../../features/task_13_strip_domain_to_template.md)
 - [Task 14: Convert `scanner` → on-demand Dynamic Feature Module](../../features/task_14_scanner_dynamic_feature.md)
 - [Task 15: `rename_project.sh` + docs/agent genericization](../../features/task_15_rename_script_and_docs.md)

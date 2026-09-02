@@ -1,20 +1,20 @@
 ---
 id: "task_12_migrate_remaining_features"
-status: "todo"
+status: "done"
 priority: "medium"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T16:52:01Z"
+completedAt: "2026-09-02T16:52:01Z"
 labels: ["architecture", "governance"]
 order: "a12"
 ---
 
 # Task 12: Migrate remaining feature cross-imports → empty whitelist
 
-Epic: [android_super_app_template](../epic/android_super_app_template/android_super_app_template.en.md)
+Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)
 
 ## Requirement Analysis
 
