@@ -14,7 +14,7 @@ order: "a3"
 
 # Task 3: GitHub Actions CI pipeline
 
-Epic: [android_super_app_template](../epic/android_super_app_template/android_super_app_template.en.md)
+Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)
 
 ## Requirement Analysis
 
