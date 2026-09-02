@@ -32,7 +32,7 @@ Về phía ứng dụng, giải pháp này giúp tối ưu hóa quản lý mã n
 
 | Lợi ích                   | Chi tiết áp dụng                                                                                                                           |
 |:--------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------|
-| **Centralized Logic**     | Mọi logic thêm Header được tập trung tại một chỗ duy nhất ở `libraries:framework`, giảm thiểu code dư thừa (DRY).                          |
+| **Centralized Logic**     | Mọi logic thêm Header được tập trung tại một chỗ duy nhất ở `:network`, giảm thiểu code dư thừa (DRY).                          |
 | **Clean Architecture**    | Tuân thủ nguyên tắc **Separation of Concerns**. Các Feature chỉ cần dán nhãn nhu cầu, không cần biết cách thức thực thi Network bên dưới.  |
 | **Resource Optimization** | Tái sử dụng một `OkHttpClient` duy nhất (Shared Connection Pool) giúp tiết kiệm RAM và giảm độ trễ khi tạo kết nối.                        |
 | **Context-Awareness**     | Framework có thể xử lý thông minh dựa trên tag (ví dụ: Tự động retry 3 lần nếu là request Thanh toán, nhưng không retry nếu là Quảng cáo). |

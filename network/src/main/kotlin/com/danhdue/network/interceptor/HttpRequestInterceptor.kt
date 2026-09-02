@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.framework.network.interceptor
+package com.danhdue.network.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response

@@ -2,9 +2,9 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.framework.network.flipper
+package com.danhdue.network.flipper
 
-import com.danhdue.framework.BuildConfig
+import com.danhdue.network.BuildConfig
 import okhttp3.Interceptor
 import timber.log.Timber
 

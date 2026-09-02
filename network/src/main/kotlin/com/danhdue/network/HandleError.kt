@@ -4,7 +4,7 @@
  */
 @file:Suppress("MatchingDeclarationName")
 
-package com.danhdue.framework.network
+package com.danhdue.network
 
 import com.danhdue.core.network.HttpStatusCode
 import retrofit2.HttpException
@@ -70,6 +70,7 @@ fun Throwable.handleThrowable(): Failure =
         is UnknownHostException -> Failure.ConnectivityError
         is HttpException ->
             when (code()) {
+                // TODO(task_11): AppEventBus.publish(UserLoggedOut) on repeated 401
                 HttpStatusCode.Unauthorized.code -> Failure.UnAuthorizedException
                 HttpStatusCode.NotFound.code -> Failure.NotFoundException(message ?: "Not found")
                 in 400..499 -> Failure.ApiError(code(), message ?: "Client error")
@@ -90,6 +91,7 @@ fun httpCodeToFailure(
     message: String?,
 ): Failure =
     when (code) {
+        // TODO(task_11): AppEventBus.publish(UserLoggedOut) on repeated 401
         HttpStatusCode.Unauthorized.code -> Failure.UnAuthorizedException
         HttpStatusCode.NotFound.code -> Failure.NotFoundException(message ?: "Not found")
         in 400..499 -> Failure.ApiError(code, message ?: "Client error")

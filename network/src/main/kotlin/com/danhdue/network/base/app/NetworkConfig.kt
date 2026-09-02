@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.framework.base.app
+package com.danhdue.network.base.app
 
 abstract class NetworkConfig {
     abstract fun baseUrl(): String

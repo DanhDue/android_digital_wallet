@@ -2,11 +2,11 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.framework.base.app
+package com.danhdue.network.base.app
 
 import android.app.Application
 import com.danhdue.core.base.app.AppInitializer
-import com.danhdue.framework.BuildConfig
+import com.danhdue.network.BuildConfig
 import timber.log.Timber
 
 /**
@@ -87,7 +87,7 @@ class FlipperInitializer : AppInitializer {
         try {
             val flipperNavigationObjectClass =
                 Class.forName(
-                    "com.danhdue.framework.network.flipper.FlipperNavigationObject",
+                    "com.danhdue.network.flipper.FlipperNavigationObject",
                 )
             val setPluginMethod =
                 flipperNavigationObjectClass.getMethod(
@@ -170,7 +170,7 @@ class FlipperInitializer : AppInitializer {
 
             val flipperNetworkObjectClass =
                 Class.forName(
-                    "com.danhdue.framework.network.flipper.FlipperNetworkObject",
+                    "com.danhdue.network.flipper.FlipperNetworkObject",
                 )
             val setPluginMethod =
                 flipperNetworkObjectClass.getMethod(

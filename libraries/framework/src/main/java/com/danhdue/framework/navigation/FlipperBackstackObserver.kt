@@ -7,7 +7,7 @@ package com.danhdue.framework.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
-import com.danhdue.framework.network.flipper.FlipperNavigationObject
+import com.danhdue.network.flipper.FlipperNavigationObject
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import timber.log.Timber

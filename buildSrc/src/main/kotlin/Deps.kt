@@ -248,6 +248,7 @@ object Deps {
 
 object Modules {
     const val core = ":core"
+    const val network = ":network"
     const val platform = ":platform"
 
     const val dataModel = ":data:model"
@@ -255,7 +256,6 @@ object Modules {
     const val dataRemote = ":data:remote"
     const val dataRepository = ":data:repository"
 
-    const val authenticator = ":domain:authenticator"
     const val commonComponents = ":libraries:components"
     const val librariesFramework = ":libraries:framework"
     const val librariesJetFramework = ":libraries:jetframework"

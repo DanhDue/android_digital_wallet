@@ -355,6 +355,11 @@ fun DependencyHandler.addCommonDependencies() {
 }
 
 fun DependencyHandler.addNetworkDependencies() {
+    // The HTTP stack now lives in `:network` (epic android_super_app_template, design §4.1):
+    // NetworkCoreModule (the Retrofit/OkHttp Hilt graph), the interceptors, `apiCall` /
+    // `Failure`, and the Flipper network tooling. A consumer that calls this helper gets the
+    // module plus its transitively-exposed Retrofit / OkHttp / Moshi libs.
+    implementation(project(mapOf(PATH to Modules.network)))
     addJsonParsingDependencies()
     // Retrofit
     implementation(Deps.Networking.retrofit)
@@ -499,8 +504,6 @@ fun DependencyHandler.addModuleDependencies() {
     implementation(project(mapOf(PATH to Modules.dataRemote)))
     implementation(project(mapOf(PATH to Modules.dataRepository)))
 
-    implementation(project(mapOf(PATH to Modules.authenticator)))
-
     implementation(project(mapOf(PATH to Modules.featureSplash)))
     implementation(project(mapOf(PATH to Modules.featureHome)))
     implementation(project(mapOf(PATH to Modules.featureSettings)))
@@ -540,6 +543,9 @@ fun DependencyHandler.addOpenTelemetryDependencies() {
 // Modules
 val DependencyHandler.CORE
     get() = implementation(project(mapOf(PATH to Modules.core)))
+
+val DependencyHandler.NETWORK
+    get() = implementation(project(mapOf(PATH to Modules.network)))
 
 val DependencyHandler.PLATFORM
     get() = implementation(project(mapOf(PATH to Modules.platform)))

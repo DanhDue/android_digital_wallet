@@ -36,6 +36,11 @@ dependencies {
     // (`api`) so existing framework consumers — :app and every :features:* — keep resolving
     // them transitively until the full rewire in Task 9.
     api(project(":core"))
+    // Task 6: the HTTP stack moved out to `:network`. `libraries/framework` still references
+    // it (`FlipperBackstackObserver` → `FlipperNavigationObject`) and re-exports it (`api`) so
+    // existing framework consumers keep resolving the network types transitively until the
+    // full rewire in Task 9.
+    api(project(":network"))
     implementation(Deps.multidex)
     // Paging
     implementation(Deps.AndroidX.paging)

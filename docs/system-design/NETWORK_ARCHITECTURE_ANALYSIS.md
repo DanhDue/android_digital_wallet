@@ -6,7 +6,7 @@
 ---
 
 ## 1. Hybrid Dependency Injection (DI) Strategy
-**Mechanism:** Provide `Retrofit.Builder` in `:libraries:framework` and complete (build) the `Retrofit` instance in each Feature Module.
+**Mechanism:** Provide `Retrofit.Builder` in `:network` and complete (build) the `Retrofit` instance in each Feature Module.
 
 ### ✅ Pros
 - **Maximum Reusability:** Share heavy components (OkHttpClient, Connection Pool, Converters).

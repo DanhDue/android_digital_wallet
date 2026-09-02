@@ -1,20 +1,20 @@
 ---
 id: "task_6_extract_network_module"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T09:33:27Z"
+completedAt: "2026-09-02T09:33:27Z"
 labels: ["architecture", "refactor", "network"]
 order: "a6"
 ---
 
 # Task 6: Extract `:network` (+ fold `domain/authenticator`)
 
-Epic: [android_super_app_template](../epic/android_super_app_template/android_super_app_template.en.md)
+Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)
 
 ## Requirement Analysis
 

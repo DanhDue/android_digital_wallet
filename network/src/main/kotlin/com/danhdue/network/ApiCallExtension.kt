@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.framework.network
+package com.danhdue.network
 
 import com.danhdue.core.network.DataState
 

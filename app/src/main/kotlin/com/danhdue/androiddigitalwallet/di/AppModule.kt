@@ -13,10 +13,10 @@ import com.danhdue.core.base.app.AppInitializer
 import com.danhdue.core.base.app.AppInitializerImpl
 import com.danhdue.core.coroutines.DefaultDispatcherProvider
 import com.danhdue.core.coroutines.DispatcherProvider
-import com.danhdue.framework.base.app.FlipperInitializer
 import com.danhdue.framework.base.app.MultiDexInitializer
-import com.danhdue.framework.base.app.NetworkConfig
 import com.danhdue.framework.base.app.TimberInitializer
+import com.danhdue.network.base.app.FlipperInitializer
+import com.danhdue.network.base.app.NetworkConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

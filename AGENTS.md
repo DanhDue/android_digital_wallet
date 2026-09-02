@@ -12,8 +12,9 @@ The project is organized into the following top-level directories:
   - **`:jetframework`**: Jetpack Compose specific utilities and base UI components.
   - **`:components`**: Reusable UI components (Compose).
   - **`:testutils`**: Shared testing utilities, mocks, and test rules.
+- **`:core`**: The dependency floor — framework-agnostic primitives (coroutines, extensions, prefs, Room, session, use-cases, `DataState` / `NetworkResponse` call-adapter).
+- **`:network`**: The HTTP stack — Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, Flipper network tooling. Depends only on `:core`.
 - **`:data`**: Data layer modules (e.g., `:data:model`, `:data:local`, `:data:remote`, `:data:repository`).
-- **`:domain`**: Domain layer modules (e.g., `:domain:authenticator`).
 - **`:features`**: Feature modules (e.g., `:features:home`, `:features:dashboard`, `:features:splash`, `:features:settings`).
 - **`buildSrc`**: Contains custom Gradle convention plugins and centralized dependency management.
 

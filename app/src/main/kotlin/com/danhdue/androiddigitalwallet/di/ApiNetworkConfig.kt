@@ -5,7 +5,7 @@
 package com.danhdue.androiddigitalwallet.di
 
 import com.danhdue.androiddigitalwallet.BuildConfig
-import com.danhdue.framework.base.app.NetworkConfig
+import com.danhdue.network.base.app.NetworkConfig
 
 class ApiNetworkConfig : NetworkConfig() {
     override fun baseUrl(): String = ""

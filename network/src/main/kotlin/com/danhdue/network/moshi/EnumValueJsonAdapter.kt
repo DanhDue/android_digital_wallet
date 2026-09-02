@@ -2,7 +2,7 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.framework.network.moshi
+package com.danhdue.network.moshi
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException

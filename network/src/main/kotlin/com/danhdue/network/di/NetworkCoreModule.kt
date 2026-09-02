@@ -2,16 +2,16 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.framework.di
+package com.danhdue.network.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.danhdue.core.network.calladapter.NetworkResponseAdapterFactory
-import com.danhdue.framework.BuildConfig
-import com.danhdue.framework.network.createChuckInterceptor
-import com.danhdue.framework.network.createOkHttpClient
-import com.danhdue.framework.network.flipper.FlipperNetworkObject
-import com.danhdue.framework.network.interceptor.GlobalHeaderInterceptor
+import com.danhdue.network.BuildConfig
+import com.danhdue.network.createChuckInterceptor
+import com.danhdue.network.createOkHttpClient
+import com.danhdue.network.flipper.FlipperNetworkObject
+import com.danhdue.network.interceptor.GlobalHeaderInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

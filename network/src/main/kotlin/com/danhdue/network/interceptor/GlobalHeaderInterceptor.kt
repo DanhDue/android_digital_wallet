@@ -2,9 +2,9 @@
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package com.danhdue.framework.network.interceptor
+package com.danhdue.network.interceptor
 
-import com.danhdue.framework.network.model.FeatureConfig
+import com.danhdue.network.model.FeatureConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
