@@ -6,7 +6,7 @@ package com.danhdue.framework.base.mvvm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow

@@ -4,6 +4,8 @@
  */
 package com.danhdue.framework.base.app
 
+import android.app.Application
+import com.danhdue.core.base.app.AppInitializer
 import com.danhdue.framework.BuildConfig
 import timber.log.Timber
 
@@ -15,14 +17,14 @@ import timber.log.Timber
  */
 @Suppress("TooManyFunctions")
 class FlipperInitializer : AppInitializer {
-    override fun init(coreApp: CoreApplication) {
+    override fun init(application: Application) {
         if (BuildConfig.DEBUG) {
-            initFlipperDebug(coreApp)
+            initFlipperDebug(application)
         }
     }
 
     @Suppress("TooGenericExceptionCaught", "NestedBlockDepth")
-    private fun initFlipperDebug(coreApp: CoreApplication) {
+    private fun initFlipperDebug(coreApp: Application) {
         try {
             if (shouldEnableFlipper(coreApp)) {
                 initSoLoader(coreApp)

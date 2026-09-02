@@ -6,8 +6,8 @@ package com.danhdue.framework.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.danhdue.core.network.calladapter.NetworkResponseAdapterFactory
 import com.danhdue.framework.BuildConfig
-import com.danhdue.framework.network.calladapter.NetworkResponseAdapterFactory
 import com.danhdue.framework.network.createChuckInterceptor
 import com.danhdue.framework.network.createOkHttpClient
 import com.danhdue.framework.network.flipper.FlipperNetworkObject

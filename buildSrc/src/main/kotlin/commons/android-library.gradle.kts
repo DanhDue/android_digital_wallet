@@ -17,7 +17,12 @@ plugins {
     id("codeanalyzetools.quality")
     id("codeanalyzetools.jacoco-report")
     id("codeanalyzetools.spotless")
-    id("org.jetbrains.kotlin.plugin.compose")
+    // NOTE: the Kotlin Compose compiler plugin is intentionally NOT applied here.
+    // It requires the Compose runtime on the classpath, which would force Compose
+    // onto every library module — including `:core`, the Compose-free dependency
+    // floor (epic android_super_app_template, Konsist K7). Modules that need
+    // Compose apply it via `commons.android-compose` / `commons.android-feature`,
+    // or explicitly (see `:platform`, `:app`).
 }
 
 android {

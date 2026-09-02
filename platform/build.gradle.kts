@@ -4,6 +4,10 @@ import extensions.api
 plugins {
     id(Deps.COMMONS_ANDROID_LIBRARY)
     id(Deps.COMMONS_DAGGER_HILT)
+    // `commons.android-library` no longer bundles the Compose compiler plugin
+    // (kept off `:core`). `:platform` needs it for the `LocalEntryProviderInstallers`
+    // CompositionLocal, so it opts in explicitly.
+    id(Deps.ANDROID_COMPOSE_PLUGIN_ID)
 }
 
 android {

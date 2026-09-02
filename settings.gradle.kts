@@ -22,6 +22,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidDigitalWallet"
 include(":app")
+// Core — the dependency floor (extracted from libraries/framework, epic android_super_app_template)
+include(":core")
 // Platform
 include(":platform")
 // Libraries

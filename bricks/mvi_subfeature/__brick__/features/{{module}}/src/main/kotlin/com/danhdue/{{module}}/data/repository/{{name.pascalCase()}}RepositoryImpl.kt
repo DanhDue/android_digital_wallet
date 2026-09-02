@@ -4,7 +4,7 @@
  */
 package com.danhdue.{{module}}.data.repository
 
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 import com.danhdue.{{module}}.domain.entities.{{name.pascalCase()}}Entity
 import com.danhdue.{{module}}.domain.repository.{{name.pascalCase()}}Repository
 import javax.inject.Inject

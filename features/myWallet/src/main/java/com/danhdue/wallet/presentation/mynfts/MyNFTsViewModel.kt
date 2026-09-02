@@ -4,8 +4,8 @@
  */
 package com.danhdue.wallet.presentation.mynfts
 
+import com.danhdue.core.network.DataState
 import com.danhdue.framework.base.mvvm.MvvmViewModel
-import com.danhdue.framework.network.DataState
 import com.danhdue.wallet.domain.usecase.GetMyNFTsDataUseCase
 import com.danhdue.wallet.presentation.model.MyNFTsUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel

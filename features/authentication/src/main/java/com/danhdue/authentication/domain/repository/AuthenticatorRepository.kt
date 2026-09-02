@@ -5,7 +5,7 @@
 package com.danhdue.authentication.domain.repository
 
 import com.danhdue.authentication.domain.entities.Authenticator
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 
 /**
  * Interface defining the contract for the Authenticator feature's repository.

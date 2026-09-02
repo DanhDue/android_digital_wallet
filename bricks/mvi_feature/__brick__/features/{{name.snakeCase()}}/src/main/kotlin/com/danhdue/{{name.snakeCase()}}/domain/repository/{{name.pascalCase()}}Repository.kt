@@ -4,7 +4,7 @@
  */
 package {{package}}.domain.repository
 
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 import {{package}}.domain.entities.{{name.pascalCase()}}Entity
 
 /**

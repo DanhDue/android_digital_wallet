@@ -7,7 +7,7 @@ package com.danhdue.authentication.data.di
 import android.content.Context
 import com.danhdue.authentication.data.datasources.remote.AuthApiService
 import com.danhdue.authentication.data.datasources.remote.TokenAuthenticator
-import com.danhdue.framework.pref.SecureCacheStore
+import com.danhdue.core.pref.SecureCacheStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

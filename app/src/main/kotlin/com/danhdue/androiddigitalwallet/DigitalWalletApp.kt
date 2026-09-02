@@ -4,7 +4,7 @@
  */
 package com.danhdue.androiddigitalwallet
 
-import com.danhdue.framework.base.app.AppInitializer
+import com.danhdue.core.base.app.AppInitializer
 import com.danhdue.framework.base.app.CoreApplication
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject

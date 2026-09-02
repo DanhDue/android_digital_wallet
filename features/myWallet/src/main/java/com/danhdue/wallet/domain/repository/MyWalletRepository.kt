@@ -4,7 +4,7 @@
  */
 package com.danhdue.wallet.domain.repository
 
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 import com.danhdue.wallet.domain.model.MyNFTs
 import com.danhdue.wallet.domain.model.MyTokens
 import com.danhdue.wallet.domain.model.MyWallet

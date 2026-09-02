@@ -4,7 +4,7 @@
  */
 package com.danhdue.wallet.domain.usecase
 
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 import com.danhdue.wallet.domain.model.MyNFTs
 import com.danhdue.wallet.domain.repository.MyWalletRepository
 import javax.inject.Inject

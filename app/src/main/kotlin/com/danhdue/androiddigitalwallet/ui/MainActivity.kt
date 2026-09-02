@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
     lateinit var installers: Set<@JvmSuppressWildcards EntryProviderInstaller>
 
     @Inject
-    lateinit var sessionManager: com.danhdue.framework.session.SessionManager
+    lateinit var sessionManager: com.danhdue.core.session.SessionManager
 
     private var backPressedTime = 0L
 

@@ -31,6 +31,11 @@ dependencies {
     // Cross-feature seam: re-exported so framework consumers keep resolving
     // com.danhdue.platform.EntryProviderInstaller / LocalEntryProviderInstallers.
     api(project(":platform"))
+    // Task 5: primitives that moved down to :core (coroutines / extension / pref / room /
+    // session / usecase / utils / DataState / calladapter / AppInitializer). Re-exported
+    // (`api`) so existing framework consumers — :app and every :features:* — keep resolving
+    // them transitively until the full rewire in Task 9.
+    api(project(":core"))
     implementation(Deps.multidex)
     // Paging
     implementation(Deps.AndroidX.paging)

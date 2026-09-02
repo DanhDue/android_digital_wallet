@@ -6,7 +6,7 @@ package com.danhdue.wallet.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 import com.danhdue.wallet.domain.usecase.GetMyWalletDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

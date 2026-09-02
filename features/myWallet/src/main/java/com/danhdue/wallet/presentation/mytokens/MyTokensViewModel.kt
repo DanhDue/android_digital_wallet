@@ -4,8 +4,8 @@
  */
 package com.danhdue.wallet.presentation.mytokens
 
+import com.danhdue.core.network.DataState
 import com.danhdue.framework.base.mvvm.MvvmViewModel
-import com.danhdue.framework.network.DataState
 import com.danhdue.wallet.domain.usecase.GetMyTokensDataUseCase
 import com.danhdue.wallet.presentation.model.MyTokensUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel

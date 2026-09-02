@@ -5,8 +5,8 @@
 package com.danhdue.transactions.presentation.transactionlist
 
 import androidx.lifecycle.viewModelScope
+import com.danhdue.core.coroutines.DispatcherProvider
 import com.danhdue.framework.base.mvi.MviViewModel
-import com.danhdue.framework.coroutines.DispatcherProvider
 import com.danhdue.transactions.domain.usecase.GetTransactionListDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

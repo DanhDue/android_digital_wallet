@@ -247,6 +247,7 @@ object Deps {
 }
 
 object Modules {
+    const val core = ":core"
     const val platform = ":platform"
 
     const val dataModel = ":data:model"

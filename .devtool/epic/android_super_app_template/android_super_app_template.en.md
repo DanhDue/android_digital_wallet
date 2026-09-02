@@ -197,7 +197,7 @@ Lifecycle event vocabulary (minimal, mirrors the Flutter proposal): `ShellTabVis
 - [Task 4: Update Mason bricks for the new wiring](../../features/done/task_4_mason_brick_wiring.md)
 
 ### Phase 1 — Split the god-module
-- [Task 5: Extract `:core`](../../features/task_5_extract_core_module.md)
+- [Task 5: Extract `:core`](../../features/done/task_5_extract_core_module.md)
 - [Task 6: Extract `:network` (+ fold `domain/authenticator`)](../../features/task_6_extract_network_module.md)
 - [Task 7: Extract `:framework` (MVI + navigation3 mechanism)](../../features/task_7_extract_framework_module.md)
 - [Task 8: Merge `components` + `jetframework` → `:ui_kit`](../../features/task_8_merge_ui_kit_module.md)

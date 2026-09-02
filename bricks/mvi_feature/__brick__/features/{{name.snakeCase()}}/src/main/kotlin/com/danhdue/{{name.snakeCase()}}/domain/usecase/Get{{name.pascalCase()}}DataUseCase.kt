@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 package {{package}}.domain.usecase
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 import {{package}}.domain.entities.{{name.pascalCase()}}Entity
 import {{package}}.domain.repository.{{name.pascalCase()}}Repository
 import javax.inject.Inject

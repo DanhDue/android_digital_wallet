@@ -6,9 +6,9 @@ package com.danhdue.authentication.data.datasources.remote
 
 import com.danhdue.authentication.data.models.RefreshTokenRequestDto
 import com.danhdue.authentication.data.models.RefreshTokenResponseDto
-import com.danhdue.framework.network.calladapter.NetworkResponse
-import com.danhdue.framework.pref.SecureCacheStore
-import com.danhdue.framework.session.SessionManager
+import com.danhdue.core.network.calladapter.NetworkResponse
+import com.danhdue.core.pref.SecureCacheStore
+import com.danhdue.core.session.SessionManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request

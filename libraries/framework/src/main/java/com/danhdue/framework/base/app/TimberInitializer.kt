@@ -4,15 +4,17 @@
  */
 package com.danhdue.framework.base.app
 
+import android.app.Application
+import com.danhdue.core.base.app.AppInitializer
+import com.danhdue.core.utils.CrashReportingTree
 import com.danhdue.framework.BuildConfig.CRASHLYTIC_IS_ENABLE
-import com.danhdue.framework.utils.CrashReportingTree
 import timber.log.Timber
 import timber.log.Timber.Forest.plant
 
 class TimberInitializer(
     private val isDev: Boolean,
 ) : AppInitializer {
-    override fun init(coreApp: CoreApplication) {
+    override fun init(application: Application) {
         if (isDev) {
             plant(Timber.DebugTree())
         } else {

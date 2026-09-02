@@ -6,7 +6,7 @@ package com.danhdue.authentication.domain.usecase
 
 import com.danhdue.authentication.domain.entities.Authenticator
 import com.danhdue.authentication.domain.repository.AuthenticatorRepository
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 import javax.inject.Inject
 
 /**

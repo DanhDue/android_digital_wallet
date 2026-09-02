@@ -5,8 +5,8 @@
 package com.danhdue.authentication.presentation.login
 
 import com.danhdue.authentication.domain.usecase.LoginUseCase
+import com.danhdue.core.network.DataState
 import com.danhdue.framework.base.mvi.MviViewModel
-import com.danhdue.framework.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject

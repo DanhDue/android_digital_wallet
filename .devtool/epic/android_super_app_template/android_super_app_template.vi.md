@@ -197,7 +197,7 @@ Từ vựng lifecycle event (tối thiểu, mirror bộ Flutter): `ShellTabVisib
 - [Task 4: Cập nhật Mason brick cho wiring mới](../../features/done/task_4_mason_brick_wiring.md)
 
 ### Phase 1 — Tách god-module
-- [Task 5: Bóc `:core`](../../features/task_5_extract_core_module.md)
+- [Task 5: Bóc `:core`](../../features/done/task_5_extract_core_module.md)
 - [Task 6: Bóc `:network` (+ gộp `domain/authenticator`)](../../features/task_6_extract_network_module.md)
 - [Task 7: Bóc `:framework` (MVI + cơ chế navigation3)](../../features/task_7_extract_framework_module.md)
 - [Task 8: Gộp `components` + `jetframework` → `:ui_kit`](../../features/task_8_merge_ui_kit_module.md)

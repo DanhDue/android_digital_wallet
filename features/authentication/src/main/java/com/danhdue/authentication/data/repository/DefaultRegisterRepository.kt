@@ -6,7 +6,7 @@ package com.danhdue.authentication.data.repository
 
 import com.danhdue.authentication.domain.entities.Register
 import com.danhdue.authentication.domain.repository.RegisterRepository
-import com.danhdue.framework.network.DataState
+import com.danhdue.core.network.DataState
 import javax.inject.Inject
 
 /**

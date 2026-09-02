@@ -8,7 +8,7 @@ import com.danhdue.authentication.data.models.LoginRequestDto
 import com.danhdue.authentication.data.models.LoginResponseDto
 import com.danhdue.authentication.data.models.RefreshTokenRequestDto
 import com.danhdue.authentication.data.models.RefreshTokenResponseDto
-import com.danhdue.framework.network.calladapter.NetworkResponse
+import com.danhdue.core.network.calladapter.NetworkResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
