@@ -4,7 +4,7 @@
  */
 package {{package}}.presentation.di
 
-import com.danhdue.framework.navigation.EntryProviderInstaller
+import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.framework.navigation.Navigator
 import {{package}}.presentation.{{screen.camelCase()}}.{{screen.pascalCase()}}Event
 import {{package}}.presentation.{{screen.camelCase()}}.{{screen.pascalCase()}}Root

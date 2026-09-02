@@ -4,10 +4,10 @@
  */
 package com.danhdue.settings.presentation.di
 
-import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.LocalNestedNavigator
 import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
+import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.settings.presentation.SettingsEvent
 import com.danhdue.settings.presentation.SettingsRoot
 import com.danhdue.settings.presentation.SettingsRoute

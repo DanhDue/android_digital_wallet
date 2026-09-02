@@ -4,9 +4,9 @@
  */
 package com.danhdue.home.presentation.di
 
-import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.HomeRoute
 import com.danhdue.home.presentation.HomeRoot
+import com.danhdue.platform.EntryProviderInstaller
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

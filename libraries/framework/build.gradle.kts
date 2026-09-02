@@ -3,6 +3,7 @@ import extensions.addFlipperDependencies
 import extensions.addNavigationDependencies
 import extensions.addNetworkDependencies
 import extensions.addStorageDependencies
+import extensions.api
 import extensions.implementation
 
 plugins {
@@ -27,6 +28,9 @@ android {
 }
 
 dependencies {
+    // Cross-feature seam: re-exported so framework consumers keep resolving
+    // com.danhdue.platform.EntryProviderInstaller / LocalEntryProviderInstallers.
+    api(project(":platform"))
     implementation(Deps.multidex)
     // Paging
     implementation(Deps.AndroidX.paging)

@@ -538,6 +538,9 @@ fun DependencyHandler.addOpenTelemetryDependencies() {
 }
 
 // Modules
+val DependencyHandler.PLATFORM
+    get() = implementation(project(mapOf(PATH to Modules.platform)))
+
 val DependencyHandler.MODEL
     get() = implementation(project(mapOf(PATH to Modules.dataModel)))
 

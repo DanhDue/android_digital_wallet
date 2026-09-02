@@ -244,6 +244,8 @@ object Deps {
 }
 
 object Modules {
+    const val platform = ":platform"
+
     const val dataModel = ":data:model"
     const val dataLocal = ":data:local"
     const val dataRemote = ":data:remote"

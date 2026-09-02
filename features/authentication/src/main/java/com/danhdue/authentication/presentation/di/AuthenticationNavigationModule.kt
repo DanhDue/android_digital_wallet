@@ -9,10 +9,10 @@ import com.danhdue.authentication.presentation.login.LoginRoot
 import com.danhdue.authentication.presentation.registration.RegisterEvent
 import com.danhdue.authentication.presentation.registration.RegisterRoot
 import com.danhdue.authentication.presentation.registration.RegisterRoute
-import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.HomeRoute
 import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
+import com.danhdue.platform.EntryProviderInstaller
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

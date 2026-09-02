@@ -4,7 +4,7 @@
  */
 package com.danhdue.scanner.presentation.di
 
-import com.danhdue.framework.navigation.EntryProviderInstaller
+import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.scanner.presentation.ScannerRoot
 import com.danhdue.scanner.presentation.ScannerRoute
 import dagger.Module

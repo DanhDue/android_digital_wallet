@@ -25,12 +25,12 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.danhdue.androiddigitalwallet.R
 import com.danhdue.components.ui.theme.AndroidDigitalWalletTheme
-import com.danhdue.framework.navigation.EntryProviderInstaller
-import com.danhdue.framework.navigation.LocalEntryProviderInstallers
 import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
 import com.danhdue.framework.navigation.ObserveBackstackForFlipper
 import com.danhdue.jetframework.permission.RequestPermissionOnMount
+import com.danhdue.platform.EntryProviderInstaller
+import com.danhdue.platform.LocalEntryProviderInstallers
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

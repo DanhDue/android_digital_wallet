@@ -1,13 +1,13 @@
 ---
 id: "task_1_platform_module"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T06:57:09Z"
+completedAt: "2026-09-02T06:57:09Z"
 labels: ["architecture", "feature"]
 order: "a1"
 ---

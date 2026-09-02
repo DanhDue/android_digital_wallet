@@ -56,11 +56,11 @@ import androidx.navigation3.ui.NavDisplay
 import com.danhdue.components.ui.theme.HomeGrayText
 import com.danhdue.components.ui.theme.HomePrimaryBlue
 import com.danhdue.components.ui.theme.ScannerFabGradient
-import com.danhdue.framework.navigation.LocalEntryProviderInstallers
 import com.danhdue.framework.navigation.LocalNestedNavigator
 import com.danhdue.framework.navigation.NestedNavigator
 import com.danhdue.framework.navigation.ObserveBackstackForFlipper
 import com.danhdue.libraries.components.R
+import com.danhdue.platform.LocalEntryProviderInstallers
 
 @Composable
 fun HomeRoot(viewModel: HomeViewModel = hiltViewModel()) {

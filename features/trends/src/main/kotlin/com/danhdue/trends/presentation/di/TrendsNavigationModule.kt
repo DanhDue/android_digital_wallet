@@ -4,7 +4,7 @@
  */
 package com.danhdue.trends.presentation.di
 
-import com.danhdue.framework.navigation.EntryProviderInstaller
+import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.trends.presentation.TrendsRoot
 import com.danhdue.trends.presentation.TrendsRoute
 import dagger.Module

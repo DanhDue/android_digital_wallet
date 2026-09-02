@@ -4,7 +4,7 @@
  */
 package com.danhdue.transactions.presentation.di
 
-import com.danhdue.framework.navigation.EntryProviderInstaller
+import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.transactions.presentation.transactionlist.TransactionListRoot
 import com.danhdue.transactions.presentation.transactionlist.TransactionListRoute
 import dagger.Module

@@ -4,8 +4,8 @@
  */
 package com.danhdue.wallet.presentation.di
 
-import com.danhdue.framework.navigation.EntryProviderInstaller
 import com.danhdue.framework.navigation.Navigator
+import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.wallet.presentation.MyWalletRoot
 import com.danhdue.wallet.presentation.MyWalletRoute
 import dagger.Module
