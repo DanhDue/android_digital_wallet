@@ -1,0 +1,23 @@
+# Konsist baseline — pre-existing architecture violations tolerated until their cleanup task.
+#
+# Format:  <RuleId> <fully-qualified declaration>            // TODO(task_N): <what to do>
+# Blank lines and lines starting with '#' are ignored; an inline '//' comment is stripped.
+# Removing a line re-arms the corresponding rule for that declaration — do that as
+# part of the referenced task, never here.
+#
+# Only rules that are ENFORCED in the current phase need entries (K5, K8). Deferred /
+# report-only rules (K1, K2, K3, K4, K6, K7, K9) are @Disabled and consult no baseline.
+
+# --- K5: `*ViewModel` must extend `MviViewModel<State, Action, Event>` (design §6.1) ---
+# These ViewModels still extend androidx `ViewModel` / `MvvmViewModel` directly and
+# hand-roll their state/event flows. Migrate each to the MVI base as its feature is
+# reworked; the settings pilot (Task 11) converts the two settings ViewModels.
+K5 com.danhdue.wallet.presentation.MyWalletViewModel                                    // TODO(task_9): extend MviViewModel
+K5 com.danhdue.wallet.presentation.mytokens.MyTokensViewModel                           // TODO(task_9): extend MviViewModel
+K5 com.danhdue.wallet.presentation.mynfts.MyNFTsViewModel                               // TODO(task_9): extend MviViewModel
+K5 com.danhdue.scanner.presentation.ScannerViewModel                                    // TODO(task_9): extend MviViewModel
+K5 com.danhdue.splash.presentation.SplashViewModel                                      // TODO(task_9): extend MviViewModel
+K5 com.danhdue.transactions.presentation.transactiondetail.TransactionDetailViewModel   // TODO(task_9): extend MviViewModel
+K5 com.danhdue.trends.presentation.TrendsViewModel                                      // TODO(task_9): extend MviViewModel
+K5 com.danhdue.settings.presentation.SettingsViewModel                                  // TODO(task_11): extend MviViewModel (settings pilot)
+K5 com.danhdue.settings.presentation.profile.ProfileViewModel                           // TODO(task_11): extend MviViewModel (settings pilot)

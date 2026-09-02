@@ -1,13 +1,13 @@
 ---
 id: "task_2_konsist_gate"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T07:31:11Z"
+completedAt: "2026-09-02T07:31:11Z"
 labels: ["architecture", "ci", "governance"]
 order: "a2"
 ---

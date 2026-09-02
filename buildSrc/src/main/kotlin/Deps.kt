@@ -185,6 +185,9 @@ object Deps {
         const val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
         const val mockwebserver = "com.squareup.okhttp3:mockwebserver:${Versions.mockWebServer}"
         const val json = "org.json:json:${Versions.json}"
+
+        // Konsist — architecture rules asserted as JUnit tests (:konsist-test only).
+        const val konsist = "com.lemonappdev:konsist:${Versions.konsist}"
     }
 
     object Google {

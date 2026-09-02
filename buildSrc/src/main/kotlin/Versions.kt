@@ -83,4 +83,8 @@ object Versions {
     const val flipper = "0.273.0"
     const val soLoader = "0.11.0"
     const val leakCanary = "2.14"
+
+    // Architecture-enforcement gate (:konsist-test). Latest stable on Maven Central:
+    // https://central.sonatype.com/artifact/com.lemonappdev/konsist
+    const val konsist = "0.17.3"
 }

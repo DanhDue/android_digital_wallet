@@ -1,0 +1,21 @@
+# Konsist boundary whitelist — architecture-gate exceptions (Konsist rule K1)
+#
+# Lists currently-known, pre-existing cross-feature imports that are allowed to
+# pass the architecture gate while their migration is pending. Format: one entry
+# per line, "<source-feature>→<target-feature>" (U+2192 arrow), where each name is
+# a `:features:<name>` module directory. Blank lines and lines starting with '#'
+# are ignored; surrounding whitespace is trimmed.
+#
+# Entries are deleted here as each cross-feature edge is removed (see epic
+# android_super_app_template, Phase 2 Task 11 and Phase 3 Task 12). Deleting an
+# entry and then reintroducing the same import will correctly fail the gate.
+#
+# Seed (Phase 0): every cross-feature edge in features/home/build.gradle.kts —
+# `home` still owns the tab shell and imports 5 sibling features. All 5 rows
+# disappear when `home` is dissolved into `:shell` (Task 10/11).
+
+home→myWallet
+home→transactions
+home→scanner
+home→trends
+home→settings
