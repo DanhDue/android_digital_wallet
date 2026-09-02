@@ -1,6 +1,6 @@
 ---
 id: "task_2_konsist_gate"
-status: "backlog"
+status: "todo"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"

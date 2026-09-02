@@ -1,6 +1,6 @@
 ---
 id: "task_3_github_actions_ci"
-status: "backlog"
+status: "todo"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
