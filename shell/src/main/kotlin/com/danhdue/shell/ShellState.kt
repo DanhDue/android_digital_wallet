@@ -23,6 +23,12 @@ import com.danhdue.shell.tabs.HomeStubRoute
  *   shell-owned label (rendered on the Settings bottom-bar tab), fed over
  *   [com.danhdue.platform.AppEventBus] without importing `com.danhdue.settings.*`.
  *   Blank until the Settings feature has loaded.
+ * @property scannerInstalling true while the on-demand `scanner` Dynamic Feature
+ *   Module split is downloading/installing (Task 14) — `ShellScreen` shows a
+ *   progress indicator in the Scanner tab.
+ * @property scannerReady true once the `scanner` split is installed and its
+ *   [com.danhdue.platform.FeatureEntry] has been folded into the entry provider;
+ *   the Scanner tab renders its real content only then.
  */
 data class ShellState(
     val selectedTab: ShellTab = ShellTab.Settings,
@@ -31,6 +37,8 @@ data class ShellState(
     val scannerBackStack: List<Any> = listOf(AppRoutes.ScannerRoute),
     val settingsBackStack: List<Any> = listOf(AppRoutes.SettingsRoute),
     val profileName: String = "",
+    val scannerInstalling: Boolean = false,
+    val scannerReady: Boolean = false,
 )
 
 @Suppress("MagicNumber")

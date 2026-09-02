@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -49,10 +50,13 @@ import androidx.navigation3.ui.NavDisplay
 import com.danhdue.framework.navigation.LocalNestedNavigator
 import com.danhdue.framework.navigation.NestedNavigator
 import com.danhdue.framework.navigation.ObserveBackstackForFlipper
+import com.danhdue.platform.EntryProviderInstaller
+import com.danhdue.platform.FeatureEntry
 import com.danhdue.platform.LocalEntryProviderInstallers
 import com.danhdue.uikit.R
 import com.danhdue.uikit.ui.theme.HomeGrayText
 import com.danhdue.uikit.ui.theme.HomePrimaryBlue
+import java.util.ServiceLoader
 
 @Composable
 fun ShellRoot(viewModel: ShellViewModel = hiltViewModel()) {
@@ -64,15 +68,35 @@ fun ShellRoot(viewModel: ShellViewModel = hiltViewModel()) {
     )
 }
 
+/**
+ * Navigation entries contributed at runtime by installed on-demand Dynamic
+ * Feature Module splits (Task 14, design §4.4). A downloaded split never joins
+ * the host Hilt graph, so its [FeatureEntry] is discovered through
+ * [ServiceLoader] once [ShellState.scannerReady] is set and merged into the set
+ * that feeds `NavDisplay` — the install-time features keep plain Hilt
+ * `@IntoSet` multibinding ([LocalEntryProviderInstallers]).
+ */
+private fun loadDynamicFeatureInstallers(): List<EntryProviderInstaller> =
+    ServiceLoader
+        .load(FeatureEntry::class.java, FeatureEntry::class.java.classLoader)
+        .iterator()
+        .asSequence()
+        .map { it.installer() }
+        .toList()
+
 @Composable
 private fun ShellScreen(
     state: ShellState,
     onAction: (ShellAction) -> Unit,
 ) {
     val installers = LocalEntryProviderInstallers.current
+    val dynamicInstallers =
+        remember(state.scannerReady) {
+            if (state.scannerReady) loadDynamicFeatureInstallers() else emptyList()
+        }
     val entryProvider =
-        remember(installers) {
-            entryProvider { installers.forEach { it() } }
+        remember(installers, dynamicInstallers) {
+            entryProvider { (installers + dynamicInstallers).forEach { it() } }
         }
 
     Scaffold(
@@ -99,13 +123,25 @@ private fun ShellScreen(
                 entryProvider = entryProvider,
                 onAction = onAction,
             )
-            ShellTabContent(
-                isVisible = state.selectedTab == ShellTab.Scanner,
-                tab = ShellTab.Scanner,
-                backStack = state.scannerBackStack,
-                entryProvider = entryProvider,
-                onAction = onAction,
-            )
+            // Scanner is an on-demand Dynamic Feature Module (Task 14): show a
+            // progress indicator while the split installs, then its real content
+            // once the `ServiceLoader`-loaded entry is in `entryProvider`.
+            if (state.selectedTab == ShellTab.Scanner && !state.scannerReady) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                ShellTabContent(
+                    isVisible = state.selectedTab == ShellTab.Scanner,
+                    tab = ShellTab.Scanner,
+                    backStack = state.scannerBackStack,
+                    entryProvider = entryProvider,
+                    onAction = onAction,
+                )
+            }
             ShellTabContent(
                 isVisible = state.selectedTab == ShellTab.Settings,
                 tab = ShellTab.Settings,

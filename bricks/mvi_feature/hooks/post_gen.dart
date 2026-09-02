@@ -14,14 +14,17 @@ import 'package:mason/mason.dart';
 ///   aggregates its navigation entries. `AppRoutes` is left untouched.
 ///
 /// * **`delivery: on-demand`** — the module is turned into a
-///   `com.android.dynamic-feature` split. The hook rewrites its
-///   `build.gradle.kts` + `AndroidManifest.xml`, registers it in `:app`
-///   `android.dynamicFeatures`, generates `<Name>FeatureEntry : FeatureEntry`
-///   plus a `META-INF/services` registration, and forces a
-///   `<Name>Route : NavKey` constant into `:platform` `AppRoutes` (the host
-///   cannot see the split at compile time). The `SplitInstallManager` /
-///   `:shell` install branch is intentionally left as a guarded no-op — it is
-///   owned by Task 14.
+///   `com.android.dynamic-feature` split, structurally identical to the
+///   template's worked example `:features:scanner` (Task 14, design §4.4). The
+///   hook rewrites its `build.gradle.kts` + `AndroidManifest.xml`, strips every
+///   Hilt annotation from the generated code (a downloaded split never joins the
+///   host Hilt graph), generates
+///   `<package>.presentation.di.<Name>FeatureEntry : FeatureEntry` plus a
+///   `META-INF/services` registration, registers the module in `:app`
+///   `android.dynamicFeatures`, forces a `<Name>Route : NavKey` constant into
+///   `:platform` `AppRoutes`, and drops a `:shell` helper that installs the
+///   split at runtime through `FeatureInstaller.ensureInstalled(...)`
+///   (`SplitInstallManager` + `SplitCompat`) exactly like the scanner tab.
 void run(HookContext context) {
   final name = context.vars['name'] as String;
   final packageName = context.vars['package'] as String;
@@ -283,7 +286,19 @@ void _configureOnDemand({
 
   _writeDynamicFeatureBuildGradle(modulePath, packageName, logger);
   _writeDynamicFeatureManifest(modulePath, snakeCase, logger);
-  _writeDynamicFeatureStrings(modulePath, snakeCase, pascalCase, logger);
+  _writeBaseModuleSplitTitle(snakeCase, pascalCase, logger);
+  // A downloaded split never joins the host Hilt graph — strip every Hilt
+  // annotation / module the base brick generated and replace them with a plain
+  // AndroidX `viewModel()` + a manual `di/<Name>ViewModelFactory` (mirrors
+  // `:features:scanner`, Task 14 / design §4.4).
+  _stripHiltForOnDemand(
+    modulePath: modulePath,
+    packageName: packageName,
+    pascalCase: pascalCase,
+    screenPascal: screenPascal,
+    screenCamel: screenCamel,
+    logger: logger,
+  );
   _writeFeatureEntry(
     modulePath: modulePath,
     packageName: packageName,
@@ -297,6 +312,183 @@ void _configureOnDemand({
   _appendRouteToAppRoutes(pascalCase, logger);
   _wireShellInstallBranch(snakeCase, pascalCase, logger);
 }
+
+/// Deletes the Hilt `@Module`s the base brick generated (`presentation/di`,
+/// `data/di`, `domain/di`) plus the feature-local `<Screen>Route.kt` (the route
+/// now lives in `:platform` `AppRoutes`), and rewrites the ViewModel, Screen,
+/// repository impl and use case Hilt-free. Adds `di/<Name>ViewModelFactory.kt`
+/// outside the layer packages so it may legitimately wire all three layers
+/// (Konsist K2).
+void _stripHiltForOnDemand({
+  required String modulePath,
+  required String packageName,
+  required String pascalCase,
+  required String screenPascal,
+  required String screenCamel,
+  required Logger logger,
+}) {
+  final dir = packageName.replaceAll('.', '/');
+  final src = '$modulePath/src/main/kotlin/$dir';
+
+  for (final relative in [
+    'presentation/di/${pascalCase}NavigationModule.kt',
+    'data/di/${pascalCase}DataModule.kt',
+    'domain/di/${pascalCase}DomainModule.kt',
+    'presentation/$screenCamel/${screenPascal}Route.kt',
+  ]) {
+    final f = File('$src/$relative');
+    if (f.existsSync()) {
+      f.deleteSync();
+      logger.info('🗑  Removed $relative (no Hilt / no local route in a DFM)');
+    }
+    _pruneEmptyDirs(f.parent, stopAt: Directory(src));
+  }
+
+  File('$src/presentation/$screenCamel/${screenPascal}ViewModel.kt').writeAsStringSync('''
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
+package $packageName.presentation.$screenCamel
+
+import com.danhdue.framework.base.mvi.MviViewModel
+import timber.log.Timber
+
+/**
+ * Manages the business logic and state for the $screenPascal feature.
+ *
+ * `${_dfmModuleName(packageName)}` is an on-demand Dynamic Feature Module: its `@Module`s never
+ * reach the host Hilt graph, so this ViewModel is Hilt-free. It is built by the
+ * plain AndroidX `viewModel()` factory (see `${screenPascal}Root`).
+ */
+class ${screenPascal}ViewModel :
+    MviViewModel<${screenPascal}State, ${screenPascal}Action, ${screenPascal}Event>(
+        initialState = ${screenPascal}State(),
+    ) {
+        init {
+            Timber.d("${screenPascal}ViewModel init")
+        }
+
+        override fun onAction(action: ${screenPascal}Action) {
+            when (action) {
+                ${screenPascal}Action.OnBackClicked -> {
+                    sendEvent(${screenPascal}Event.NavigateBack)
+                }
+            }
+        }
+    }
+''');
+
+  File('$src/presentation/$screenCamel/${screenPascal}Screen.kt').writeAsStringSync('''
+/*
+ * Copyright © 2026, danhdue.com
+ * All Rights Reserved.
+ */
+package $packageName.presentation.$screenCamel
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+/**
+ * Composable entry point for the $screenPascal feature.
+ *
+ * On-demand Dynamic Feature Module — uses the plain AndroidX [viewModel] factory,
+ * not `hiltViewModel()`, because a downloaded split never joins the host Hilt
+ * graph (Task 14, design §4.4).
+ */
+@Composable
+fun ${screenPascal}Root(
+    viewModel: ${screenPascal}ViewModel = viewModel(),
+    onEvent: (${screenPascal}Event) -> Unit,
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val currentOnEvent by rememberUpdatedState(onEvent)
+
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            currentOnEvent(event)
+        }
+    }
+
+    ${screenPascal}Screen(
+        state = state,
+    )
+}
+
+/**
+ * A stateless composable that draws the UI for the $screenPascal feature.
+ */
+@Composable
+private fun ${screenPascal}Screen(state: ${screenPascal}State) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (state.isLoading) {
+            CircularProgressIndicator()
+        } else {
+            Text(text = "$screenPascal Screen")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview${screenPascal}Screen() {
+    ${screenPascal}Screen(
+        state = ${screenPascal}State(),
+    )
+}
+''');
+
+  _rewriteWithoutInject(
+    File('$src/data/repository/${pascalCase}RepositoryImpl.kt'),
+    logger,
+  );
+  _rewriteWithoutInject(
+    File('$src/domain/usecase/Get${pascalCase}DataUseCase.kt'),
+    logger,
+  );
+
+  logger.info('🧹 Stripped Hilt from $pascalCase for on-demand delivery');
+}
+
+/// Removes `@Inject` + its `import javax.inject.Inject` from a generated file so
+/// it compiles in a Hilt-plugin-free dynamic-feature module. Idempotent.
+void _rewriteWithoutInject(File file, Logger logger) {
+  if (!file.existsSync()) return;
+  var content = file.readAsStringSync();
+  content = content
+      .replaceAll('import javax.inject.Inject\n', '')
+      .replaceAll(' @Inject constructor(', ' constructor(')
+      .replaceAll('@Inject constructor(', 'constructor(')
+      .replaceAll('@Inject\n    constructor(', 'constructor(');
+  file.writeAsStringSync(content);
+  logger.info('📝 Removed @Inject from ${file.path.split('/').last}');
+}
+
+void _pruneEmptyDirs(Directory dir, {required Directory stopAt}) {
+  var current = dir;
+  while (current.existsSync() &&
+      current.path != stopAt.path &&
+      current.listSync().isEmpty) {
+    current.deleteSync();
+    current = current.parent;
+  }
+}
+
+String _dfmModuleName(String packageName) => packageName.split('.').last;
 
 /// Overwrites the generated feature `build.gradle.kts` with the
 /// `com.android.dynamic-feature` variant. No hard-coded versions — every plugin
@@ -313,42 +505,49 @@ void _writeDynamicFeatureBuildGradle(
  * All Rights Reserved.
  */
 import commons.addComposeConfig
-import commons.addLibDefaultConfig
-import extensions.COMPONENT
 import extensions.FRAMEWORK
+import extensions.UI_KIT
 import extensions.addComposeDependencies
 import extensions.addNavigationDependencies
 import extensions.implementation
+import extensions.testImplementation
 
-// -----------------------------------------------------------------------------
-// On-demand Dynamic Feature Module (generated by `mvi_feature --delivery on-demand`).
+// ============================================================================
+// On-demand Dynamic Feature Module (generated by `mvi_feature --delivery
+// on-demand`) — structurally identical to the template's worked example
+// `:features:scanner` (Task 14, design §4.4; see docs/architecture/ARCHITECTURE.md).
 //
 // The dependency direction is INVERTED versus an install-time feature: `:app`
 // lists this module in `android.dynamicFeatures` and this module depends on
-// `:app`, so the host never sees the feature (or its Hilt `@Module`s) at compile
-// time. Navigation entries are contributed at RUNTIME through a
-// `com.danhdue.platform.FeatureEntry` + `ServiceLoader`
-// (`src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry`).
+// `:app`, so the host never sees the feature at compile time. Consequences:
 //
-// The Hilt Gradle plugin does not support `com.android.dynamic-feature`, so it
-// is intentionally NOT applied here: `hilt-android` is on the compile classpath
-// only so the generated `@Module` / `@HiltViewModel` code compiles. Wiring the
-// split's DI + navigation at runtime (`SplitInstallManager` / `SplitCompat` /
-// the `:shell` install branch) is owned by TODO(task_14). Until then the split
-// is still bundled by `assembleDebug`, so this module compiles cleanly.
-// -----------------------------------------------------------------------------
+//  * applies `com.android.dynamic-feature`, NOT `com.android.library` /
+//    `commons.android-feature` (a dynamic-feature module is its own AGP plugin
+//    type — the two cannot coexist);
+//  * does NOT apply the Hilt Gradle plugin (unsupported on
+//    `com.android.dynamic-feature`) and ships NO Hilt code — its navigation
+//    entry is contributed at RUNTIME via `com.danhdue.platform.FeatureEntry` +
+//    `src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry`
+//    (loaded by `:shell` through `ServiceLoader` once the split is installed);
+//  * `<Screen>Root` uses the plain AndroidX `viewModel()` (no `hiltViewModel()`).
+// ============================================================================
 
 plugins {
-    id("com.android.dynamic-feature")
+    id(Deps.ANDROID_DYNAMIC_FEATURE_PLUGIN_ID)
     id(Deps.KOTLIN_GRADLE_PLUGIN_ID)
-    id(Deps.KOTLIN_PARCELIZE)
     id(Deps.ANDROID_COMPOSE_PLUGIN_ID)
+    id(Deps.KOTLIN_SERIALIZATION) version Versions.kotlinSerialization
+    id(Deps.CODE_ANALYZE_TOOLS_QUALITY)
 }
 
 android {
     namespace = "$packageName"
 
-    addLibDefaultConfig()
+    compileSdk = AppConfig.compileSdk
+    defaultConfig {
+        minSdk = AppConfig.minSdk
+    }
+
     addComposeConfig()
 
     kotlinOptions {
@@ -356,21 +555,34 @@ android {
         jvmTarget = AppConfig.jvmTarget.target
         freeCompilerArgs = EnvConfigs.FreeCoroutineCompilerArgs
     }
+
+    sourceSets {
+        getByName("main") {
+            kotlin.srcDirs("src/main/java", "src/main/kotlin")
+            java.srcDirs("src/main/java", "src/main/kotlin")
+        }
+        getByName("test") {
+            kotlin.srcDirs("src/test/java", "src/test/kotlin")
+            java.srcDirs("src/test/java", "src/test/kotlin")
+        }
+    }
 }
 
 dependencies {
-    // Inverted dependency — a DFM depends on the host, not the other way round.
+    // Inverted DFM dependency — the split depends on the host, not vice-versa.
+    // `:app` must never declare this module as a plain `implementation(project(...))`.
     implementation(project(":app"))
-    implementation(project(Modules.platform))
+    implementation(project(":platform"))
 
     FRAMEWORK
-    COMPONENT
+    UI_KIT
 
     addComposeDependencies()
     addNavigationDependencies()
 
-    // Compile-time only — see the plugin note above; no Hilt processing here.
-    implementation(Deps.Hilt.core)
+    implementation(Deps.Kotlin.coroutineCore)
+
+    testImplementation(project(":libraries:testutils"))
 }
 ''');
   logger.info('📝 Rewrote $modulePath/build.gradle.kts as com.android.dynamic-feature');
@@ -386,30 +598,55 @@ void _writeDynamicFeatureManifest(
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution">
 
+    <!--
+      On-demand Dynamic Feature Module (Task 14, design §4.4).
+      - not an instant module
+      - delivered on demand only (absent from the base APK; installed at runtime
+        by FeatureInstallerImpl via SplitInstallManager)
+      - not fused into the base APK for pre-Lollipop / multi-APK builds
+    -->
     <dist:module
-        dist:onDemand="true"
-        dist:title="@string/title_$snakeCase">
+        dist:instant="false"
+        dist:title="@string/${snakeCase}_feature_title">
+        <dist:delivery>
+            <dist:on-demand />
+        </dist:delivery>
         <dist:fusing dist:include="false" />
     </dist:module>
 </manifest>
 ''');
-  logger.info('📝 Wrote dist:onDemand manifest for $modulePath');
+  logger.info('📝 Wrote dist:on-demand manifest for $modulePath');
 }
 
-void _writeDynamicFeatureStrings(
-  String modulePath,
+/// A `dist:title` string for an on-demand module MUST live in the BASE module's
+/// resource table — `bundletool` resolves it from the base APK, not the split
+/// (`bundleDebug` fails with "Title for module '<name>' is missing in the base
+/// resource table" otherwise). Appends `<name>_feature_title` to
+/// `app/src/main/res/values/strings.xml`. Idempotent.
+void _writeBaseModuleSplitTitle(
   String snakeCase,
   String pascalCase,
   Logger logger,
 ) {
-  final file = File('$modulePath/src/main/res/values/strings.xml');
-  file.createSync(recursive: true);
-  file.writeAsStringSync('''<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="title_$snakeCase">$pascalCase</string>
-</resources>
-''');
-  logger.info('📝 Wrote split title string for $modulePath');
+  final file = File('app/src/main/res/values/strings.xml');
+  if (!file.existsSync()) {
+    logger.warn('⚠️ app/src/main/res/values/strings.xml not found — skipping split title');
+    return;
+  }
+  var content = file.readAsStringSync();
+  if (content.contains('name="${snakeCase}_feature_title"')) {
+    logger.info('✓ ${snakeCase}_feature_title already in app strings.xml');
+    return;
+  }
+  final closing = content.lastIndexOf('</resources>');
+  if (closing == -1) {
+    logger.warn('⚠️ app strings.xml has no </resources> — skipping split title');
+    return;
+  }
+  content =
+      '${content.substring(0, closing)}    <string name="${snakeCase}_feature_title">$pascalCase</string>\n${content.substring(closing)}';
+  file.writeAsStringSync(content);
+  logger.info('📝 Added ${snakeCase}_feature_title to app/src/main/res/values/strings.xml');
 }
 
 void _writeFeatureEntry({
@@ -422,7 +659,7 @@ void _writeFeatureEntry({
 }) {
   final dir = packageName.replaceAll('.', '/');
   final file = File(
-    '$modulePath/src/main/kotlin/$dir/${pascalCase}FeatureEntry.kt',
+    '$modulePath/src/main/kotlin/$dir/presentation/di/${pascalCase}FeatureEntry.kt',
   );
   file.createSync(recursive: true);
   file.writeAsStringSync('''
@@ -430,7 +667,7 @@ void _writeFeatureEntry({
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
-package $packageName
+package $packageName.presentation.di
 
 import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
@@ -438,24 +675,26 @@ import com.danhdue.platform.FeatureEntry
 import $packageName.presentation.$screenCamel.${screenPascal}Root
 
 /**
- * Runtime navigation entry point for the on-demand $pascalCase dynamic feature module.
+ * Runtime navigation entry point for the on-demand $pascalCase Dynamic Feature
+ * Module (Task 14, design §4.4).
  *
  * An install-time feature contributes its entries through Hilt `@IntoSet`
- * multibinding; a downloaded split is invisible to the host Hilt graph, so the
- * host discovers this class via `ServiceLoader`
+ * multibinding; a downloaded split is invisible to the host Hilt graph, so
+ * `:shell` discovers this class via `ServiceLoader`
  * (`src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry`)
  * after `SplitCompat.install(...)` and folds [installer] into the set that feeds
  * `NavDisplay`.
  *
- * TODO(task_14): the `:shell` branch that triggers `SplitInstallManager` and
- * invokes this once the split has arrived is owned by Task 14.
+ * Must have a public no-arg constructor — `ServiceLoader` instantiates it
+ * reflectively.
  */
 class ${pascalCase}FeatureEntry : FeatureEntry {
-    override fun installer(): EntryProviderInstaller = {
-        entry<AppRoutes.${pascalCase}Route> {
-            ${screenPascal}Root(onEvent = {})
+    override fun installer(): EntryProviderInstaller =
+        {
+            entry<AppRoutes.${pascalCase}Route> {
+                ${screenPascal}Root(onEvent = {})
+            }
         }
-    }
 }
 ''');
   logger.info('📝 Generated ${pascalCase}FeatureEntry.kt');
@@ -471,7 +710,7 @@ void _writeServiceLoaderRegistration(
     '$modulePath/src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry',
   );
   file.createSync(recursive: true);
-  file.writeAsStringSync('$packageName.${pascalCase}FeatureEntry\n');
+  file.writeAsStringSync('$packageName.presentation.di.${pascalCase}FeatureEntry\n');
   logger.info('📝 Registered ${pascalCase}FeatureEntry with ServiceLoader');
 }
 
@@ -560,48 +799,108 @@ void _appendRouteToAppRoutes(String pascalCase, Logger logger) {
   logger.info('📝 Added ${pascalCase}Route to :platform AppRoutes.kt');
 }
 
-/// Guarded `:shell` install branch. `:shell` does not exist yet (Phase 2), and
-/// the `SplitInstallManager`-backed runtime is Task 14's — so this only drops a
-/// fully-commented, inert `TODO(task_14)` marker when `:shell` is present.
+/// Real `:shell` on-demand install wiring (Task 14, design §4.4). Maintains
+/// `shell/.../navigation/OnDemandFeatures.kt` — a compiling registry of
+/// module → `:platform` route plus the `FeatureInstaller.ensureInstalled(...)` /
+/// `ServiceLoader` helpers.
+///
+/// This registry is for on-demand features reached from an ARBITRARY call site
+/// (not a fixed bottom-nav tab). The template's `:features:scanner` is the
+/// hand-wired *bottom-nav-tab* DFM exemplar — `ShellViewModel` / `ShellScreen`
+/// wire it directly and it is deliberately NOT listed here. Generated features
+/// register here and navigate via [routeOf]. Idempotent; safe to re-run.
 void _wireShellInstallBranch(String snakeCase, String pascalCase, Logger logger) {
   final shellBuildFile = File('shell/build.gradle.kts');
   if (!shellBuildFile.existsSync()) {
-    logger.info('✓ :shell absent — skipping on-demand install branch (Task 14)');
+    logger.info('✓ :shell absent — skipping on-demand install wiring');
     return;
   }
 
   final file = File(
-    'shell/src/main/kotlin/com/danhdue/shell/navigation/OnDemandInstallBranches.kt',
+    'shell/src/main/kotlin/com/danhdue/shell/navigation/OnDemandFeatures.kt',
   );
   file.createSync(recursive: true);
-  var content = file.existsSync() && file.lengthSync() > 0
+
+  const appendMarker = '// mvi_feature --delivery on-demand appends here:';
+  var content = file.lengthSync() > 0
       ? file.readAsStringSync()
-      : '''
+      : _onDemandFeaturesSeed(appendMarker);
+
+  if (content.contains('"$snakeCase" to AppRoutes.${pascalCase}Route')) {
+    logger.info('✓ :shell on-demand registry already has "$snakeCase"');
+    return;
+  }
+
+  final idx = content.indexOf(appendMarker);
+  if (idx == -1) {
+    logger.warn('⚠️ OnDemandFeatures.kt append marker missing — skipping "$snakeCase"');
+    return;
+  }
+  final insertAt = idx + appendMarker.length;
+  content =
+      '${content.substring(0, insertAt)}\n            "$snakeCase" to AppRoutes.${pascalCase}Route,${content.substring(insertAt)}';
+  file.writeAsStringSync(content);
+  logger.info('📝 Registered "$snakeCase" in :shell OnDemandFeatures.kt');
+}
+
+String _onDemandFeaturesSeed(String appendMarker) => '''
 /*
  * Copyright © 2026, danhdue.com
  * All Rights Reserved.
  */
 package com.danhdue.shell.navigation
 
-/*
- * Generated registry of on-demand dynamic feature modules.
- *
- * TODO(task_14): replace these comments with a real `when` branch that calls
- * `featureInstaller.ensureInstalled("<module>") { navigator.navigateTo(route) }`
- * backed by `SplitInstallManager` + `SplitCompat`.
- */
-''';
+import com.danhdue.platform.AppRoutes
+import com.danhdue.platform.FeatureEntry
+import com.danhdue.platform.FeatureInstaller
+import java.util.ServiceLoader
 
-  final marker = '// on-demand: $snakeCase';
-  if (!content.contains(marker)) {
-    content =
-        '$content\n$marker -> AppRoutes.${pascalCase}Route  // TODO(task_14): ensureInstalled("$snakeCase")\n';
-    file.writeAsStringSync(content);
-    logger.info('📝 Added guarded :shell install branch for "$snakeCase"');
-  } else {
-    logger.info('✓ :shell install branch for "$snakeCase" already present');
-  }
+/**
+ * Registry + helpers for on-demand Dynamic Feature Module installs in `:shell`
+ * (Task 14, design §4.4). Extended by `mvi_feature --delivery on-demand`.
+ *
+ * `:features:scanner` is the template's hand-wired **bottom-nav-tab** DFM
+ * exemplar: `ShellViewModel` calls `FeatureInstaller.ensureInstalled("scanner")`
+ * on first Scanner-tab selection, and `ShellScreen` merges the split's
+ * `ServiceLoader`-loaded `FeatureEntry` into the `NavDisplay` entry provider. It
+ * does NOT use this file.
+ *
+ * This registry is for on-demand features reached from an **arbitrary call
+ * site** (not a fixed tab): [ensureInstalled] the split, then navigate to its
+ * [routeOf] entry and rebuild the entry provider with
+ * [loadInstalledFeatureInstallers].
+ */
+object OnDemandFeatures {
+    /** Gradle-module name -> its cross-feature `:platform` route. */
+    private val routes: Map<String, Any> =
+        mapOf(
+            $appendMarker
+        )
+
+    /** The `:platform` route for an on-demand [module], or `null` if unknown. */
+    fun routeOf(module: String): Any? = routes[module]
+
+    /** Installs [module]'s split if absent, then invokes [onReady]. */
+    suspend fun ensureInstalled(
+        installer: FeatureInstaller,
+        module: String,
+        onReady: () -> Unit,
+    ) = installer.ensureInstalled(module, onReady)
+
+    /**
+     * `EntryProviderInstaller`s contributed by every currently-installed
+     * on-demand split, discovered through `ServiceLoader`. Merge these into the
+     * set feeding `NavDisplay` once an install completes.
+     */
+    fun loadInstalledFeatureInstallers() =
+        ServiceLoader
+            .load(FeatureEntry::class.java, FeatureEntry::class.java.classLoader)
+            .iterator()
+            .asSequence()
+            .map { it.installer() }
+            .toList()
 }
+''';
 
 // ---------------------------------------------------------------------------
 // shared constants / snippets (kept byte-identical with remove_feature)
@@ -626,8 +925,8 @@ const _appDfmCompileOnlyGuardMarker =
 /// inverse of `remove_feature`'s removal.
 String appDfmCompileOnlyGuard() =>
     '\n// Added by `mvi_feature --delivery on-demand`: a dynamic-feature base module\n'
-    '// (`:app`) must not expose `compileOnly` Android dependencies.\n'
-    '// TODO(task_14): fold this into the :app / buildSrc DFM setup.\n'
+    '// (`:app`) must not expose `compileOnly` Android dependencies, and\n'
+    '// `addCommonDependencies()` pulls in `compileOnly` Lombok that `:app` never uses.\n'
     'configurations.configureEach {\n'
     '    exclude(group = "org.projectlombok", module = "lombok")\n'
     '}\n';

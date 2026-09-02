@@ -1,6 +1,5 @@
 
 import commons.addDefaultConfig
-import extensions.FEATURE_SCANNER
 import extensions.FEATURE_SETTINGS
 import extensions.CORE
 import extensions.FRAMEWORK
@@ -17,6 +16,7 @@ import extensions.addNetworkDependencies
 import extensions.addStorageDependencies
 import extensions.addWorkManagerDependencies
 import extensions.implementation
+import extensions.TEST
 
 plugins {
     id(Deps.ANDROID_GRADLE_PLUGIN_ID)
@@ -35,6 +35,14 @@ configurations.forEach {
     it.exclude("ui-text-google-fonts")
 }
 
+// `:app` is the base module of the on-demand `:features:scanner` Dynamic Feature
+// Module (Task 14). A dynamic-feature base APK must not expose any `compileOnly`
+// Android dependency, and `addCommonDependencies()` pulls in `compileOnly` Lombok
+// that `:app` never uses — drop it from every configuration so the split builds.
+configurations.configureEach {
+    exclude(group = "org.projectlombok", module = "lombok")
+}
+
 android {
     namespace = AppConfig.namespace
     defaultConfig {
@@ -43,6 +51,15 @@ android {
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
     }
+
+    // On-demand Dynamic Feature Module split (Task 14, design §4.4). The dependency
+    // is INVERTED: `:app` declares the module here and NEVER as an
+    // `implementation(project(...))`, `:features:scanner` depends on `:app`. The
+    // scanner split is absent from the base APK and is installed at runtime by
+    // `FeatureInstallerImpl` (`SplitInstallManager` + `SplitCompat`). Konsist K8
+    // reads this list to exempt `com.danhdue.scanner.*` from the "no host imports"
+    // rule. Add more on-demand modules with `mvi_feature --delivery on-demand`.
+    dynamicFeatures += setOf(":features:scanner")
 
     buildTypes {
         release {
@@ -98,6 +115,12 @@ dependencies {
 
     addLeakCanaryDependencies()
 
+    // Play Feature Delivery — installs the on-demand `:features:scanner` split at
+    // runtime (Task 14). `SplitInstallManager` / `SplitInstallRequest` live in
+    // `feature-delivery`; `feature-delivery-ktx` adds the coroutine helpers.
+    implementation(Deps.Play.featureDelivery)
+    implementation(Deps.Play.featureDeliveryKtx)
+
     // Infrastructure modules — declared explicitly (Task 9 narrowed `:framework`'s re-exports).
     // `:app` imports `com.danhdue.core.*` (AppInitializer, DispatcherProvider),
     // `com.danhdue.platform.*` (EntryProviderInstaller, LocalEntryProviderInstallers) and
@@ -113,12 +136,14 @@ dependencies {
     SHELL
     // The template's install-time features stay declared here so Hilt aggregates every feature's
     // `@IntoSet EntryProviderInstaller` at the `@HiltAndroidApp` root (design §4.1, §9 Phase 2).
-    // `scanner` becomes a dynamic-feature module in Task 14.
-    FEATURE_SCANNER
+    // `scanner` is NOT here: it is an on-demand Dynamic Feature Module (Task 14) declared in
+    // `android.dynamicFeatures` above — the dependency is inverted (`:features:scanner` → `:app`).
     FEATURE_SETTINGS
 
-    // Testing
-//    TEST
+    // Testing — `:libraries:testutils` re-exports junit + robolectric + mockk +
+    // coroutines-test + turbine, used by `FeatureInstallerImplTest` (Robolectric,
+    // exercises the real `SplitInstallManager`-backed installer).
+    TEST
 
 //    addFirebaseDependencies()
 }

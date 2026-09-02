@@ -2,4 +2,10 @@
     <string name="app_name">AndroidDigitalWallet</string>
     <string name="title_sample">Sample</string>
     <string name="press_back_again_to_exit">Press back again to exit</string>
+    <!--
+      On-demand Dynamic Feature Module titles (Task 14) must live in the BASE
+      module's resource table — bundletool resolves `dist:title` from the base
+      APK, not the split. `:features:scanner`'s manifest references this.
+    -->
+    <string name="scanner_feature_title">Scanner</string>
 </resources>

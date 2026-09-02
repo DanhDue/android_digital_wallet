@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution">
 
+    <!--
+      On-demand Dynamic Feature Module (Task 14, design §4.4).
+      - not an instant module
+      - delivered on demand only (absent from the base APK; installed at runtime
+        by FeatureInstallerImpl via SplitInstallManager)
+      - not fused into the base APK for pre-Lollipop / multi-APK builds
+    -->
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/scanner_feature_title">
+        <dist:delivery>
+            <dist:on-demand />
+        </dist:delivery>
+        <dist:fusing dist:include="false" />
+    </dist:module>
 </manifest>

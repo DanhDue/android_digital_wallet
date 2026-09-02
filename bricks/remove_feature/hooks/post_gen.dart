@@ -205,11 +205,12 @@ void _removeFromAppDynamicFeatures(String gradlePath, Logger logger) {
   logger.info('📝 Removed $gradlePath from app android.dynamicFeatures');
 }
 
-/// Exact inverse of `mvi_feature`'s `appDfmCompileOnlyGuard()`.
+/// Exact inverse of `mvi_feature`'s `appDfmCompileOnlyGuard()` — must stay
+/// byte-identical to it or the `replaceAll` below will not match.
 String _appDfmCompileOnlyGuard() =>
     '\n// Added by `mvi_feature --delivery on-demand`: a dynamic-feature base module\n'
-    '// (`:app`) must not expose `compileOnly` Android dependencies.\n'
-    '// TODO(task_14): fold this into the :app / buildSrc DFM setup.\n'
+    '// (`:app`) must not expose `compileOnly` Android dependencies, and\n'
+    '// `addCommonDependencies()` pulls in `compileOnly` Lombok that `:app` never uses.\n'
     'configurations.configureEach {\n'
     '    exclude(group = "org.projectlombok", module = "lombok")\n'
     '}\n';
@@ -243,22 +244,23 @@ void _removeShellInstallBranch(String snakeCase, String pascalCase, Logger logge
   }
 
   final file = File(
-    'shell/src/main/kotlin/com/danhdue/shell/navigation/OnDemandInstallBranches.kt',
+    'shell/src/main/kotlin/com/danhdue/shell/navigation/OnDemandFeatures.kt',
   );
   if (!file.existsSync()) {
-    logger.info('✓ OnDemandInstallBranches.kt absent — nothing to remove');
+    logger.info('✓ OnDemandFeatures.kt absent — nothing to remove');
     return;
   }
 
+  // Exact inverse of `mvi_feature`'s registry insertion.
   var content = file.readAsStringSync();
   final line =
-      '\n// on-demand: $snakeCase -> AppRoutes.${pascalCase}Route  // TODO(task_14): ensureInstalled("$snakeCase")\n';
+      '\n            "$snakeCase" to AppRoutes.${pascalCase}Route,';
   if (content.contains(line)) {
     content = content.replaceAll(line, '');
     file.writeAsStringSync(content);
-    logger.info('📝 Removed :shell install branch for "$snakeCase"');
+    logger.info('📝 Removed "$snakeCase" from :shell OnDemandFeatures.kt');
   } else {
-    logger.info('✓ :shell install branch for "$snakeCase" not present');
+    logger.info('✓ :shell OnDemandFeatures.kt has no "$snakeCase" entry');
   }
 }
 

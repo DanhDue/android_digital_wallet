@@ -6,12 +6,14 @@ package com.danhdue.scanner.domain.usecase
 
 import com.danhdue.scanner.domain.model.Scanner
 import com.danhdue.scanner.domain.repository.ScannerRepository
-import javax.inject.Inject
 
 /**
  * Use case that encapsulates the business logic for fetching the Scanner feature data.
+ *
+ * No `@Inject` — `scanner` is an on-demand Dynamic Feature Module (Task 14)
+ * without a Hilt graph; it is constructed directly by [ScannerViewModel].
  */
-class GetScannerDataUseCase @Inject constructor(
+class GetScannerDataUseCase(
     private val repository: ScannerRepository,
 ) {
     /**

@@ -14,15 +14,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.danhdue.scanner.di.scannerViewModelFactory
 
 /**
  * Composable entry point for the Scanner feature.
+ *
+ * `scanner` is an on-demand Dynamic Feature Module (Task 14), so this uses the
+ * plain AndroidX [viewModel] factory with the split's own
+ * [scannerViewModelFactory] — `hiltViewModel()` would need the split's
+ * `@HiltViewModel` in the host Hilt graph, which a downloaded split never joins.
  */
 @Composable
 fun ScannerRoot(
-    viewModel: ScannerViewModel = hiltViewModel(),
+    viewModel: ScannerViewModel = viewModel(factory = scannerViewModelFactory()),
     onEvent: (ScannerEvent) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()

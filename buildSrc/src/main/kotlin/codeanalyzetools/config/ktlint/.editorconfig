@@ -21,6 +21,9 @@ ktlint_ignore_back_ticked_identifier = true
 ktlint_standard = enabled
 ktlint_standard_function-naming = disabled
 ktlint_standard_annotation = disabled
+# False-positive on `!a && !b` (single operator, no mixed `&&`/`||`) — see
+# ui_kit PermissionState.kt; the rule adds no value for this codebase.
+ktlint_standard_condition-wrapping = disabled
 ktlint_function_naming_ignore_when_annotated_with = Composable
 ktlint_function_signature_body_expression_wrapping = multiline
 

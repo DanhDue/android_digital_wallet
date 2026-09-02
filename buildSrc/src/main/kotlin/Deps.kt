@@ -8,6 +8,8 @@ object Deps {
     const val ANDROID_HILT_PLUGIN_ID  = "com.google.dagger.hilt.android"
     const val KOTLIN_PARCELIZE  = "kotlin-parcelize"
     const val ANDROID_LIBRARY_GRADLE_PLUGIN_ID = "com.android.library"
+    // On-demand Dynamic Feature Module plugin (`:features:scanner`, Task 14).
+    const val ANDROID_DYNAMIC_FEATURE_PLUGIN_ID = "com.android.dynamic-feature"
     const val COMMONS_ANDROID_LIBRARY = "commons.android-library"
     const val COMMONS_DAGGER_HILT = "commons.dagger-hilt"
     const val COMMONS_ANDROID_FEATURE = "commons.android-feature"
@@ -239,6 +241,21 @@ object Deps {
 
     object LeakCanary {
         const val android = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
+    }
+
+    /**
+     * Play Feature Delivery — the runtime that installs an on-demand
+     * Dynamic Feature Module split (`:features:scanner`, Task 14).
+     *
+     * `featureDelivery` gives `SplitInstallManager` / `SplitInstallRequest` /
+     * `SplitCompat`; `featureDeliveryKtx` adds the coroutine-friendly helpers.
+     * Only `:app` (the DFM base module) depends on these.
+     */
+    object Play {
+        const val featureDelivery =
+            "com.google.android.play:feature-delivery:${Versions.playFeatureDelivery}"
+        const val featureDeliveryKtx =
+            "com.google.android.play:feature-delivery-ktx:${Versions.playFeatureDelivery}"
     }
 
     object FlipperPlugins {

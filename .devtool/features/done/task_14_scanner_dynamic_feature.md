@@ -1,20 +1,20 @@
 ---
 id: "task_14_scanner_dynamic_feature"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T20:48:30Z"
+completedAt: "2026-09-02T20:48:30Z"
 labels: ["architecture", "feature", "dfm"]
 order: "a14"
 ---
 
 # Task 14: Convert `scanner` → on-demand Dynamic Feature Module
 
-Epic: [android_super_app_template](../epic/android_super_app_template/android_super_app_template.en.md)
+Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)
 
 ## Requirement Analysis
 
