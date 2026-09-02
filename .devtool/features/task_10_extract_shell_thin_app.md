@@ -1,6 +1,6 @@
 ---
 id: "task_10_extract_shell_thin_app"
-status: "backlog"
+status: "todo"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"

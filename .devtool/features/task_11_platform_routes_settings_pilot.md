@@ -1,6 +1,6 @@
 ---
 id: "task_11_platform_routes_settings_pilot"
-status: "backlog"
+status: "todo"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
