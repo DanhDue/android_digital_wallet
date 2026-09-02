@@ -58,16 +58,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.danhdue.components.ui.theme.BalanceTrendText
-import com.danhdue.components.ui.theme.DarkText
-import com.danhdue.components.ui.theme.LightText
-import com.danhdue.components.ui.theme.NeutralGray
-import com.danhdue.components.ui.theme.PrimaryBlue
-import com.danhdue.components.ui.theme.TrueBlue
-import com.danhdue.components.ui.theme.WalletCardGradient
-import com.danhdue.components.ui.widgets.WalletActionBar
-import com.danhdue.components.ui.widgets.WalletHomeHeaderBar
-import com.danhdue.libraries.components.R
+import com.danhdue.uikit.R
+import com.danhdue.uikit.ui.theme.BalanceTrendText
+import com.danhdue.uikit.ui.theme.DarkText
+import com.danhdue.uikit.ui.theme.LightText
+import com.danhdue.uikit.ui.theme.NeutralGray
+import com.danhdue.uikit.ui.theme.PrimaryBlue
+import com.danhdue.uikit.ui.theme.TrueBlue
+import com.danhdue.uikit.ui.theme.WalletCardGradient
+import com.danhdue.uikit.ui.widgets.WalletActionBar
+import com.danhdue.uikit.ui.widgets.WalletHomeHeaderBar
 import com.danhdue.wallet.presentation.mynfts.MyNFTsRoot
 import com.danhdue.wallet.presentation.mytokens.MyTokensRoot
 

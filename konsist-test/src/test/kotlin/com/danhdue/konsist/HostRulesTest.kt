@@ -33,7 +33,7 @@ class HostRulesTest {
             listOf(
                 "com.danhdue.framework",
                 "com.danhdue.network",
-                "com.danhdue.ui_kit",
+                "com.danhdue.uikit",
                 "com.danhdue.platform",
                 "com.danhdue.shell",
             )

@@ -1,10 +1,10 @@
-import extensions.COMPONENT
 import extensions.FEATURE_MY_WALLET
 import extensions.FEATURE_SCANNER
 import extensions.FEATURE_SETTINGS
 import extensions.FEATURE_TRANSACTIONS
 import extensions.FEATURE_TRENDS
 import extensions.FRAMEWORK
+import extensions.UI_KIT
 import extensions.addNavigationDependencies
 
 plugins {
@@ -18,7 +18,7 @@ android {
 
 dependencies {
     FRAMEWORK
-    COMPONENT
+    UI_KIT
 
     FEATURE_MY_WALLET
     FEATURE_TRANSACTIONS

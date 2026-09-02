@@ -1,5 +1,5 @@
-import extensions.COMPONENT
 import extensions.FRAMEWORK
+import extensions.UI_KIT
 import extensions.addNavigationDependencies
 import extensions.addNetworkDependencies
 
@@ -14,7 +14,7 @@ android {
 
 dependencies {
     FRAMEWORK
-    COMPONENT
+    UI_KIT
 
     addNetworkDependencies()
     addNavigationDependencies()

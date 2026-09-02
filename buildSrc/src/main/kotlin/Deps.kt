@@ -256,9 +256,8 @@ object Modules {
     const val dataRemote = ":data:remote"
     const val dataRepository = ":data:repository"
 
-    const val commonComponents = ":libraries:components"
+    const val uiKit = ":ui_kit"
     const val librariesFramework = ":framework"
-    const val librariesJetFramework = ":libraries:jetframework"
     const val librariesTestUtils = ":libraries:testutils"
 
     const val featureSplash = ":features:splash"

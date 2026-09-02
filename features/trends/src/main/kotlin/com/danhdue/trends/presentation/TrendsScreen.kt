@@ -46,11 +46,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.danhdue.components.ui.theme.GrayText
-import com.danhdue.components.ui.theme.Green
-import com.danhdue.components.ui.theme.LightGray
-import com.danhdue.components.ui.theme.RedError
 import com.danhdue.trends.presentation.model.TrendsUiModel
+import com.danhdue.uikit.ui.theme.GrayText
+import com.danhdue.uikit.ui.theme.Green
+import com.danhdue.uikit.ui.theme.LightGray
+import com.danhdue.uikit.ui.theme.RedError
 
 /**
  * Composable entry point for the Trends feature.

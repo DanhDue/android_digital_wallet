@@ -12,7 +12,7 @@ January 29, 2026
 
 ### File Modified
 
-`libraries/components/src/main/java/com/danhdue/components/ui/theme/Theme.kt`
+`ui_kit/src/main/kotlin/com/danhdue/uikit/ui/theme/Theme.kt`
 
 ### Implementation Details
 

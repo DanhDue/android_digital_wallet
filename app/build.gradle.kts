@@ -1,6 +1,5 @@
 
 import commons.addDefaultConfig
-import extensions.COMPONENT
 import extensions.FEATURE_AUTHENTICATION
 import extensions.FEATURE_HOME
 import extensions.FEATURE_MY_WALLET
@@ -9,7 +8,7 @@ import extensions.FEATURE_SETTINGS
 import extensions.FEATURE_TRANSACTIONS
 import extensions.FEATURE_TRENDS
 import extensions.FRAMEWORK
-import extensions.JET_FRAMEWORK
+import extensions.UI_KIT
 import extensions.addCommonDependencies
 import extensions.addComposeDependencies
 import extensions.addHiltDependencies
@@ -100,9 +99,8 @@ dependencies {
 
     addLeakCanaryDependencies()
 
-    COMPONENT
+    UI_KIT
     FRAMEWORK
-    JET_FRAMEWORK
     FEATURE_AUTHENTICATION
     FEATURE_HOME
     FEATURE_MY_WALLET

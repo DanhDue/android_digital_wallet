@@ -167,10 +167,10 @@ fun TransactionCard() {
 All these utilities are available in your components library:
 
 ```kotlin
-import com.danhdue.components.ui.theme.BodyTextEmphasis
-import com.danhdue.components.ui.theme.TextEmphasis
-import com.danhdue.components.ui.theme.withEmphasis
-import com.danhdue.components.ui.theme.withFontWeight
+import com.danhdue.uikit.ui.theme.BodyTextEmphasis
+import com.danhdue.uikit.ui.theme.TextEmphasis
+import com.danhdue.uikit.ui.theme.withEmphasis
+import com.danhdue.uikit.ui.theme.withFontWeight
 ```
 
 Start using them in any of your feature modules!

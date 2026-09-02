@@ -1,5 +1,5 @@
-import extensions.COMPONENT
 import extensions.FRAMEWORK
+import extensions.UI_KIT
 import extensions.addNavigationDependencies
 
 plugins {
@@ -13,7 +13,7 @@ android {
 
 dependencies {
     FRAMEWORK
-    COMPONENT
+    UI_KIT
 
     addNavigationDependencies()
 }

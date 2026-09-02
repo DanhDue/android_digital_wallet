@@ -54,10 +54,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danhdue.authentication.R
-import com.danhdue.components.ui.theme.BlueDark
-import com.danhdue.components.ui.theme.BluePrimary
-import com.danhdue.components.ui.theme.GrayText
-import com.danhdue.components.ui.theme.PurpleHeading
+import com.danhdue.uikit.ui.theme.BlueDark
+import com.danhdue.uikit.ui.theme.BluePrimary
+import com.danhdue.uikit.ui.theme.GrayText
+import com.danhdue.uikit.ui.theme.PurpleHeading
 
 /**
  * Composable entry point for the Register feature.

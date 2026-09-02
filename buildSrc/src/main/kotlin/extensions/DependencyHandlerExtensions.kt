@@ -493,7 +493,7 @@ fun DependencyHandler.addJacksonMsgPackDependencies() {
 }
 
 fun DependencyHandler.addModuleDependencies() {
-    implementation(project(mapOf(PATH to Modules.commonComponents)))
+    implementation(project(mapOf(PATH to Modules.uiKit)))
 
     implementation(project(mapOf(PATH to Modules.librariesFramework)))
 
@@ -562,11 +562,8 @@ val DependencyHandler.REMOTE
 val DependencyHandler.REPOSITORY
     get() = implementation(project(mapOf(PATH to Modules.dataRepository)))
 
-val DependencyHandler.COMPONENT
-    get() = implementation(project(mapOf(PATH to Modules.commonComponents)))
-
-val DependencyHandler.JET_FRAMEWORK
-    get() = implementation(project(mapOf(PATH to Modules.librariesJetFramework)))
+val DependencyHandler.UI_KIT
+    get() = implementation(project(mapOf(PATH to Modules.uiKit)))
 
 val DependencyHandler.FRAMEWORK
     get() = implementation(project(mapOf(PATH to Modules.librariesFramework)))

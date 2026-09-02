@@ -41,12 +41,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.danhdue.components.ui.theme.DarkText
-import com.danhdue.components.ui.theme.ErrorRed
-import com.danhdue.components.ui.theme.LightText
-import com.danhdue.components.ui.theme.NeutralGray
-import com.danhdue.components.ui.theme.PrimaryBlue
-import com.danhdue.components.ui.theme.SuccessGreen
+import com.danhdue.uikit.ui.theme.DarkText
+import com.danhdue.uikit.ui.theme.ErrorRed
+import com.danhdue.uikit.ui.theme.LightText
+import com.danhdue.uikit.ui.theme.NeutralGray
+import com.danhdue.uikit.ui.theme.PrimaryBlue
+import com.danhdue.uikit.ui.theme.SuccessGreen
 import com.danhdue.wallet.presentation.model.MyTokensUiModel
 
 /**

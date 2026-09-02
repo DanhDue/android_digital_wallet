@@ -8,7 +8,7 @@ Ripple effects have been **globally disabled** for the entire Digital Wallet And
 
 ### Implementation
 
-- **File Modified**: `libraries/components/src/main/java/com/danhdue/components/ui/theme/Theme.kt`
+- **File Modified**: `ui_kit/src/main/kotlin/com/danhdue/uikit/ui/theme/Theme.kt`
 - **Approach**: Modern Indication API using `IndicationNodeFactory` and `LocalIndication`
 - **Scope**: All feature modules automatically inherit this behavior
 

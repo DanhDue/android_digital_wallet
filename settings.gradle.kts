@@ -30,10 +30,10 @@ include(":network")
 include(":platform")
 // Framework — MVI base + navigation3 host mechanism (relocated to the repo root, epic android_super_app_template)
 include(":framework")
+// UI Kit — Compose design system + UI helpers; merge of the former components + jetframework library modules (epic android_super_app_template, design §4.1)
+include(":ui_kit")
 // Libraries
-include(":libraries:jetframework")
 include(":libraries:testutils")
-include(":libraries:components")
 // Features
 include(":features:authentication")
 include(":features:settings")

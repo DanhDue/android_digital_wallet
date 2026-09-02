@@ -33,11 +33,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.danhdue.components.ui.theme.DarkText
-import com.danhdue.components.ui.theme.GrayText
-import com.danhdue.components.ui.theme.LightGray
-import com.danhdue.components.ui.theme.LightText
-import com.danhdue.components.ui.theme.NeutralGray
+import com.danhdue.uikit.ui.theme.DarkText
+import com.danhdue.uikit.ui.theme.GrayText
+import com.danhdue.uikit.ui.theme.LightGray
+import com.danhdue.uikit.ui.theme.LightText
+import com.danhdue.uikit.ui.theme.NeutralGray
 import com.danhdue.wallet.presentation.model.MyNFTsUiModel
 
 /**
