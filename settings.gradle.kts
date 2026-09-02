@@ -22,14 +22,15 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidDigitalWallet"
 include(":app")
-// Core — the dependency floor (extracted from libraries/framework, epic android_super_app_template)
+// Core — the dependency floor (first split of the former framework god-module, epic android_super_app_template)
 include(":core")
-// Network — the HTTP stack (second split of libraries/framework, epic android_super_app_template)
+// Network — the HTTP stack (second split of the former framework god-module, epic android_super_app_template)
 include(":network")
 // Platform
 include(":platform")
+// Framework — MVI base + navigation3 host mechanism (relocated to the repo root, epic android_super_app_template)
+include(":framework")
 // Libraries
-include(":libraries:framework")
 include(":libraries:jetframework")
 include(":libraries:testutils")
 include(":libraries:components")

@@ -257,7 +257,7 @@ object Modules {
     const val dataRepository = ":data:repository"
 
     const val commonComponents = ":libraries:components"
-    const val librariesFramework = ":libraries:framework"
+    const val librariesFramework = ":framework"
     const val librariesJetFramework = ":libraries:jetframework"
     const val librariesTestUtils = ":libraries:testutils"
 

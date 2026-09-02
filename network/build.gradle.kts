@@ -6,7 +6,7 @@ import extensions.releaseImplementation
 
 // `:network` — the HTTP stack for every module (mirrors Flutter `packages/network`).
 //
-// Second split of the god-module `libraries/framework` (epic `android_super_app_template`,
+// Second split of the former `framework` god-module (epic `android_super_app_template`,
 // design §4.1). Owns the OkHttp / Retrofit / Moshi wiring: `NetworkCoreModule` (the Hilt
 // graph — base `OkHttpClient`, `Retrofit.Builder`, `@Named("BaseUrl")`), the interceptors
 // (`GlobalHeaderInterceptor`, `HttpRequestInterceptor`, `EnvironmentInterceptor`), the
@@ -52,7 +52,7 @@ configurations.configureEach {
 dependencies {
     // Re-exported (`api`) so `:network` consumers keep resolving `DataState` /
     // `NetworkResponse` / `HttpStatusCode` transitively — matches the `:core` / `:platform`
-    // re-export precedent in `libraries/framework` until the full rewire in Task 9.
+    // re-export precedent set by the former `framework` god-module until the full rewire in Task 9.
     api(project(":core"))
 
     // Retrofit / Moshi converter — `Retrofit.Builder` and `MoshiConverterFactory` appear in
@@ -75,6 +75,6 @@ dependencies {
 
     // Flipper — `FlipperInitializer` / `Flipper*Object` load these purely by reflection, so
     // they are runtime-only (debug) and never a compile dependency; kept for parity with the
-    // environment the code had inside `libraries/framework`.
+    // environment the code had inside the former `framework` god-module.
     addFlipperDependencies()
 }

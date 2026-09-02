@@ -1,20 +1,20 @@
 ---
 id: "task_7_extract_framework_module"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T09:46:19Z"
+completedAt: "2026-09-02T09:46:19Z"
 labels: ["architecture", "refactor", "navigation"]
 order: "a7"
 ---
 
 # Task 7: Extract `:framework` (MVI + navigation3 mechanism)
 
-Epic: [android_super_app_template](../epic/android_super_app_template/android_super_app_template.en.md)
+Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)
 
 ## Requirement Analysis
 

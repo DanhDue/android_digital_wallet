@@ -3,7 +3,7 @@ import extensions.implementation
 
 // `:core` — the dependency floor for every module (mirrors Flutter `packages/core`).
 //
-// Extracted from the god-module `libraries/framework` (epic `android_super_app_template`,
+// Extracted from the former `framework` god-module (epic `android_super_app_template`,
 // design §4.1). Owns the framework-agnostic primitives: `DataState` / `NetworkResponse`
 // call-adapter, `DispatcherProvider`, `extension/*`, `pref/*` (DataStore + Tink),
 // `room/*` (`BaseDao`, converters), `session/SessionManager`, `usecase/*`, `utils/*`,
