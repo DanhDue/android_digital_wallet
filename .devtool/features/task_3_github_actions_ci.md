@@ -1,13 +1,13 @@
 ---
 id: "task_3_github_actions_ci"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T07:40:22Z"
+completedAt: "2026-09-02T07:40:22Z"
 labels: ["ci", "infra"]
 order: "a3"
 ---

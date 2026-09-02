@@ -1,0 +1,86 @@
+# ---------------------------------------------------------------------------
+# CI — first pipeline for this native Android repo (Phase 0 of the
+# `android_super_app_template` epic, design §6.3).
+#
+# Scope this round (deliberately minimal — see epic design §6.3 / §10):
+#   * One job, no matrix. The Gradle build cache (setup-gradle) carries the
+#     cost after the first run.
+#   * NO secrets. NO Firebase / google-services.json. NO signing config.
+#     `app` release build has `isMinifyEnabled = false` and no signing, and we
+#     only build `assembleDebug`, so nothing secret is required.
+#   * `bundleDebug` + Dynamic-Feature-Module (`scanner`) split verification is
+#     added later by Task 16, which extends THIS workflow.
+#
+# Governance value (design §4.2 / §6.3): a breaking change to a public
+# `:core` / `:platform` type fails `assembleDebug` for every dependent module —
+# caught at compile time, blocking the merge. Konsist (`:konsist-test:test`),
+# detekt and spotless are the architecture / style gates.
+#
+# JDK: Java 21. The project targets JVM 21 everywhere — `AppConfig.kt`
+# (`sourceCompatibility/targetCompatibility = VERSION_21`, `jvmTarget = JVM_21`),
+# `detekt-check.gradle.kts` (`jvmTarget = VERSION_21`), `:konsist-test`
+# (`JvmTarget.JVM_21`) — and `compileSdk 36` needs a JDK 17+ AGP toolchain.
+# 21 is the only JDK that builds every module; temurin 17 would fail the
+# Kotlin/detekt compile steps.
+#
+# The Android SDK is provided by the GitHub-hosted `ubuntu-latest` runner image
+# (`$ANDROID_HOME` / `$ANDROID_SDK_ROOT` preinstalled). `local.properties` is
+# git-ignored and intentionally absent here; no build script requires it
+# (`getLocalProperties` in the root build script is defined but never called).
+#
+# Rollback: delete this file.
+# ---------------------------------------------------------------------------
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - develop
+      - "epic/**"
+
+# A newer push to the same branch / PR cancels the in-flight run.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Konsist + detekt + spotless + unit tests + assembleDebug
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          # Only write to the dependency/build cache from the default branch so
+          # PR runs get a warm read-only cache without polluting it.
+          cache-read-only: ${{ github.ref != 'refs/heads/develop' }}
+
+      - name: Build & verify
+        run: ./gradlew --no-daemon --stacktrace :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            **/build/reports/detekt/**
+            **/build/reports/lint/**
+            **/build/reports/tests/**
+          if-no-files-found: ignore
+          retention-days: 14
