@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * Concrete implementation of the repository for the Settings feature.
  */
-class DefaultSettingsRepository
+internal class DefaultSettingsRepository
     @Inject
     constructor() : SettingsRepository {
         override suspend fun getSettingsData(): Result<Settings> =

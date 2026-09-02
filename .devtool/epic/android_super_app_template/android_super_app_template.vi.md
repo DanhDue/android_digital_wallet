@@ -205,7 +205,7 @@ Từ vựng lifecycle event (tối thiểu, mirror bộ Flutter): `ShellTabVisib
 
 ### Phase 2 — Shell + pilot
 - [Task 10: Bóc `:shell`, làm mỏng `:app`, giải thể `features/home`](../../features/done/task_10_extract_shell_thin_app.md)
-- [Task 11: Dời `NavKey` dùng chéo + pilot `settings` + bật gate nghiêm](../../features/task_11_platform_routes_settings_pilot.md)
+- [Task 11: Dời `NavKey` dùng chéo + pilot `settings` + bật gate nghiêm](../../features/done/task_11_platform_routes_settings_pilot.md)
 
 ### Phase 3 — Dọn + template + DFM + kiểm thử
 - [Task 12: Migrate cross-import feature còn lại → whitelist rỗng](../../features/task_12_migrate_remaining_features.md)

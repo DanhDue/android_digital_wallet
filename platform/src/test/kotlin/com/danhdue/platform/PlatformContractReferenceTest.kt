@@ -16,23 +16,33 @@ import org.junit.Test
 class PlatformContractReferenceTest {
     @Test
     fun `AppRoutes exposes cross-feature NavKeys`() {
-        val keys: List<NavKey> = listOf(AppRoutes.SettingsRoute, AppRoutes.ScannerRoute)
+        val keys: List<NavKey> =
+            listOf(
+                AppRoutes.LoginRoute,
+                AppRoutes.ShellRoute,
+                AppRoutes.MyWalletRoute,
+                AppRoutes.TransactionListRoute,
+                AppRoutes.ScannerRoute,
+                AppRoutes.TrendsRoute,
+                AppRoutes.SettingsRoute,
+            )
 
-        assertEquals(2, keys.toSet().size)
+        assertEquals(7, keys.toSet().size)
         assertNotNull(AppRoutes.SettingsRoute)
         assertNotNull(AppRoutes.ScannerRoute)
     }
 
     @Test
-    fun `AppEvent hierarchy covers the minimal lifecycle vocabulary`() {
+    fun `AppEvent hierarchy covers the minimal cross-feature vocabulary`() {
         val events: List<AppEvent> =
             listOf(
                 AppEvent.ShellTabVisibilityChanged(tabIndex = 0, isVisible = true),
                 AppEvent.AppLifecycleChanged(AppLifecycleState.STARTED),
                 AppEvent.UserLoggedOut,
+                AppEvent.ProfileNameChanged(displayName = "Ada Lovelace"),
             )
 
-        assertEquals(3, events.size)
+        assertEquals(4, events.size)
     }
 
     @Test

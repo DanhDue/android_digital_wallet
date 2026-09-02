@@ -1,3 +1,4 @@
+import extensions.PLATFORM
 import extensions.addFlipperDependencies
 import extensions.api
 import extensions.debugImplementation
@@ -18,7 +19,9 @@ import extensions.releaseImplementation
 //
 // Hard rule: NO Compose (Konsist K7 keeps `:core` the floor and `:network` a headless HTTP
 // tier). It applies `commons.android-library` + `commons.dagger-hilt` only, never
-// `commons.android-compose`, and its only `project(...)` edge is `:core`.
+// `commons.android-compose`. Its `project(...)` edges are `:core` and — since Task 11 —
+// `:platform` (leaf; no cycle), so `UnauthorizedInterceptor` can publish
+// `AppEvent.UserLoggedOut` on the `AppEventBus` when a 401 is not recovered.
 plugins {
     id(Deps.COMMONS_ANDROID_LIBRARY)
     id(Deps.COMMONS_DAGGER_HILT)
@@ -56,6 +59,11 @@ dependencies {
     // `httpCodeToFailure(...)` consume `com.danhdue.core.network.HttpStatusCode`. Every feature
     // data layer calls `apiCall { ... }`, so `:core` must stay a transitive dependency here.
     api(project(":core"))
+
+    // `:platform` (leaf module — external deps only) — `UnauthorizedInterceptor` injects
+    // `AppEventBus` and publishes `AppEvent.UserLoggedOut` on an unrecovered 401. `:platform`
+    // does not depend on `:network`, so this edge is acyclic.
+    PLATFORM
 
     // Retrofit / Moshi converter — `Retrofit.Builder` and `MoshiConverterFactory` appear in
     // the public (and `inline`) surface of `NetworkCoreModule` / `NetworkHelper`.

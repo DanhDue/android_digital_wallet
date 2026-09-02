@@ -5,12 +5,11 @@
 package com.danhdue.settings.presentation.di
 
 import com.danhdue.framework.navigation.LocalNestedNavigator
-import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
+import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.settings.presentation.SettingsEvent
 import com.danhdue.settings.presentation.SettingsRoot
-import com.danhdue.settings.presentation.SettingsRoute
 import com.danhdue.settings.presentation.profile.ProfileEvent
 import com.danhdue.settings.presentation.profile.ProfileRoot
 import com.danhdue.settings.presentation.profile.ProfileRoute
@@ -27,13 +26,13 @@ object SettingsNavigationModule {
     @IntoSet
     fun provideSettingsEntries(navigator: Navigator): EntryProviderInstaller =
         {
-            entry<SettingsRoute> {
+            entry<AppRoutes.SettingsRoute> {
                 val nestedNavigator = LocalNestedNavigator.current
                 SettingsRoot(
                     onEvent = { event ->
                         when (event) {
                             SettingsEvent.NavigateToProfile -> nestedNavigator.navigate(ProfileRoute)
-                            SettingsEvent.NavigateToLogin -> navigator.navigateAndClearBackStack(LoginRoute)
+                            SettingsEvent.NavigateToLogin -> navigator.navigateAndClearBackStack(AppRoutes.LoginRoute)
                         }
                     },
                 )

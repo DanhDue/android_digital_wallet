@@ -17,7 +17,7 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class SettingsDataModule {
+internal abstract class SettingsDataModule {
     /**
      * Binds the repository implementation to its interface.
      */

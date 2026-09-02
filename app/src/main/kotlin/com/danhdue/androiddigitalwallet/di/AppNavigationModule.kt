@@ -4,8 +4,8 @@
  */
 package com.danhdue.androiddigitalwallet.di
 
-import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
+import com.danhdue.platform.AppRoutes
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +22,5 @@ annotation class ExecutorNetworkIO
 class AppNavigationModule {
     @Provides
     @ActivityRetainedScoped
-    fun provideNavigator(): Navigator = Navigator(startDestination = LoginRoute)
+    fun provideNavigator(): Navigator = Navigator(startDestination = AppRoutes.LoginRoute)
 }

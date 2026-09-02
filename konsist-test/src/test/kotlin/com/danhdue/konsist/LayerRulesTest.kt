@@ -5,10 +5,11 @@
 package com.danhdue.konsist
 
 import com.danhdue.konsist.support.ArchScope
+import com.danhdue.konsist.support.Baseline
 import com.danhdue.konsist.support.Feature
 import com.danhdue.konsist.support.assertNoViolations
 import com.danhdue.konsist.support.packageName
-import org.junit.Ignore
+import com.danhdue.konsist.support.qualified
 import org.junit.Test
 
 /**
@@ -18,8 +19,10 @@ import org.junit.Test
  *
  * - K2 → ENFORCED in Task 9 (layer rules enabled with the god-module split). Design §9 Phase 1.
  * - K3 → ENFORCED in Task 9 (same).
- * - K4 → Task 11 (export discipline, with the settings pilot). Design §9 Phase 2 — body
- *   complete, `@Ignore` removed only by that task.
+ * - K4 → ENFORCED in Task 11 (export discipline, with the settings pilot). Design §9 Phase 2.
+ *   The `settings` and `scanner` data layers were made `internal`; the features slated for
+ *   removal on template extraction (`authentication`, `myWallet`, `transactions`, `trends`,
+ *   `splash`) are listed in `konsist_baseline.txt` with a `TODO(task_13)` pointer.
  */
 class LayerRulesTest {
     private fun featureFilesInLayer(layerInfix: String) = ArchScope.featureFiles().filter { it.packageName.contains(layerInfix) }
@@ -70,19 +73,24 @@ class LayerRulesTest {
     }
 
     @Test
-    @Ignore("Phase 0: deferred — enforced in Task 11 (export discipline, design §9 Phase 2).")
     fun `K4 - top-level declarations in a feature data layer are internal`() {
+        val baseline = Baseline.suppressedFor("K4")
         val offenders =
             ArchScope
                 .featureFiles()
                 .filter { Feature.owning(it.packageName) != null && it.packageName.contains(".data") }
                 .flatMap { file ->
-                    listOf(file.classes(), file.interfaces(), file.objects())
-                        .flatten()
-                        .map { file.path to it }
-                }.filterNot { (_, declaration) -> declaration.hasInternalModifier }
-                .filterNot { (_, declaration) -> declaration.hasPrivateModifier }
-                .map { (path, declaration) -> "$path: `${declaration.name}` is ${visibilityOf(declaration)} (must be internal)" }
+                    // `companion object`s are scoped to their enclosing type, not a top-level
+                    // export, so they cannot leak a data type on their own — skip them.
+                    val declarations =
+                        file.classes() +
+                            file.interfaces() +
+                            file.objects().filterNot { it.hasCompanionModifier }
+                    declarations
+                        .filterNot { it.hasInternalModifier || it.hasPrivateModifier }
+                        .filterNot { it.qualified() in baseline }
+                        .map { "${file.path}: `${it.name}` is ${visibilityOf(it)} (must be internal)" }
+                }
 
         assertNoViolations(
             ruleId = "K4",

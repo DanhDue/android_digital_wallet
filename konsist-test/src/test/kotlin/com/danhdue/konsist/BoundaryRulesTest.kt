@@ -19,10 +19,11 @@ import org.junit.Test
  * unless whitelisted) and **K6** (only the host may aggregate multiple features).
  * Epic design §6.1.
  *
- * Both are report-only in Phase 0 (`@Ignore`) — their bodies are complete and
- * correct; the enabling task only removes the annotation.
- * - K1 → Task 12 (`konsist_boundary_whitelist.txt` driven to empty, then fail mode).
- * - K6 → Task 11 (after `features/home` is dissolved into `:shell`).
+ * - K6 → ENFORCED in Task 11. Passes clean: Task 10 dissolved `features/home` and Task 11
+ *   dropped `:shell`'s 5 `:features:*` deps (every tab seed `*Route` moved to
+ *   `:platform.AppRoutes`), so no non-host module imports more than one feature.
+ * - K1 → still report-only (`@Ignore`); Task 12 drives `konsist_boundary_whitelist.txt` to
+ *   empty, then flips it to fail mode. Body is complete and correct.
  */
 class BoundaryRulesTest {
     private companion object {
@@ -67,7 +68,6 @@ class BoundaryRulesTest {
     }
 
     @Test
-    @Ignore("Phase 0: report-only — enforced in Task 11 (after features/home becomes the :shell stub). Design §9 Phase 2.")
     fun `K6 - only host modules may aggregate more than one feature`() {
         val offenders =
             ArchScope

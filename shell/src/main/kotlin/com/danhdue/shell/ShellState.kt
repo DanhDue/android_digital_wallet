@@ -4,28 +4,31 @@
  */
 package com.danhdue.shell
 
-import com.danhdue.scanner.presentation.ScannerRoute
-import com.danhdue.settings.presentation.SettingsRoute
-import com.danhdue.transactions.presentation.transactionlist.TransactionListRoute
-import com.danhdue.trends.presentation.TrendsRoute
-import com.danhdue.wallet.presentation.MyWalletRoute
+import com.danhdue.platform.AppRoutes
 
 /**
  * Represents the state of the Shell (the Host's main tabbed container).
  * All properties are immutable to follow MVI pattern.
  *
- * The five feature `*Route` imports below seed each tab's initial nested backstack.
- * They are the last remaining cross-feature coupling in the shell; Task 11 relocates
- * these `NavKey`s into `:platform.AppRoutes` and drops the imports.
+ * Each tab's initial nested backstack is seeded from a cross-feature `NavKey` in
+ * `:platform.AppRoutes` (Task 11), so `:shell` no longer depends on any feature
+ * module to build its tabs.
+ *
+ * @property profileName profile display name last reported by
+ *   [com.danhdue.platform.AppEvent.ProfileNameChanged] — the Task 11 pilot's
+ *   shell-owned label (rendered on the Settings bottom-bar tab), fed over
+ *   [AppEventBus] without importing `com.danhdue.settings.*`. Blank until the
+ *   Settings feature has loaded.
  */
 data class ShellState(
     val selectedTab: ShellTab = ShellTab.Wallet,
     // Immutable backstacks for each tab to support nested navigation
-    val walletBackStack: List<Any> = listOf(MyWalletRoute),
-    val transactionsBackStack: List<Any> = listOf(TransactionListRoute),
-    val scannerBackStack: List<Any> = listOf(ScannerRoute),
-    val trendsBackStack: List<Any> = listOf(TrendsRoute),
-    val settingsBackStack: List<Any> = listOf(SettingsRoute),
+    val walletBackStack: List<Any> = listOf(AppRoutes.MyWalletRoute),
+    val transactionsBackStack: List<Any> = listOf(AppRoutes.TransactionListRoute),
+    val scannerBackStack: List<Any> = listOf(AppRoutes.ScannerRoute),
+    val trendsBackStack: List<Any> = listOf(AppRoutes.TrendsRoute),
+    val settingsBackStack: List<Any> = listOf(AppRoutes.SettingsRoute),
+    val profileName: String = "",
 )
 
 @Suppress("MagicNumber")

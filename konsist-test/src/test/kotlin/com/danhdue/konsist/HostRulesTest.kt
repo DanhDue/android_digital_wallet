@@ -9,7 +9,6 @@ import com.danhdue.konsist.support.DfmModules
 import com.danhdue.konsist.support.Feature
 import com.danhdue.konsist.support.assertNoViolations
 import com.danhdue.konsist.support.packageName
-import org.junit.Ignore
 import org.junit.Test
 
 /**
@@ -17,9 +16,10 @@ import org.junit.Test
  * import host internals), **K9** (`NavKey`s used cross-feature live in `:platform`).
  * Epic design §6.1.
  *
- * K7 and K8 are ENFORCED; K9 stays a report-only body (`@Ignore`) whose assertion is
- * complete — Task 11 removes its annotation (cross-feature `NavKey` relocation, design §9
- * Phase 2). K7 was enabled in Task 9 once `:core` was extracted (design §9 Phase 1).
+ * K7, K8 and — since Task 11 — K9 are all ENFORCED. K9 passes clean: Task 11 relocated the
+ * 5 cross-feature seed `*Route` keys into `:platform.AppRoutes`, so no feature declares a
+ * `NavKey` referenced from outside its module. K7 was enabled in Task 9 once `:core` was
+ * extracted (design §9 Phase 1).
  */
 class HostRulesTest {
     private companion object {
@@ -87,7 +87,6 @@ class HostRulesTest {
     }
 
     @Test
-    @Ignore("Phase 0: report-only — enforced in Task 11 (cross-feature NavKey relocation, design §9 Phase 2).")
     fun `K9 - a NavKey used outside its own feature must be declared in platform`() {
         // Every *Route : NavKey declared inside a feature.
         val featureRoutes =

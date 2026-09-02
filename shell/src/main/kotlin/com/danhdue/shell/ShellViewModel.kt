@@ -5,18 +5,37 @@
 package com.danhdue.shell
 
 import com.danhdue.framework.base.mvi.MviViewModel
+import com.danhdue.platform.AppEvent
+import com.danhdue.platform.AppEventBus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 /**
  * Manages the tab state for the Shell (the Host's main tabbed container).
  * Follows MVI pattern with immutable state updates.
+ *
+ * Task 11 pilot — cross-feature signalling via [AppEventBus], no feature import:
+ * subscribes to [AppEvent.ProfileNameChanged] (published by `:features:settings`)
+ * and mirrors the name into [ShellState.profileName], which `ShellScreen` renders
+ * as the Settings bottom-bar tab label. This closes the Android analogue of the
+ * Flutter shell's "notify tab" gap.
  */
 @HiltViewModel
-class ShellViewModel @Inject constructor() :
-    MviViewModel<ShellState, ShellAction, ShellEvent>(
-        initialState = ShellState(),
-    ) {
+class ShellViewModel
+    @Inject
+    constructor(
+        private val appEventBus: AppEventBus,
+    ) : MviViewModel<ShellState, ShellAction, ShellEvent>(
+            initialState = ShellState(),
+        ) {
+        init {
+            safeLaunch {
+                appEventBus.on<AppEvent.ProfileNameChanged>().collect { event ->
+                    reduce { copy(profileName = event.displayName) }
+                }
+            }
+        }
+
         override fun onAction(action: ShellAction) {
             when (action) {
                 is ShellAction.TabSelected -> {

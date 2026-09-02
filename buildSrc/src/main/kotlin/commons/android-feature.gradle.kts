@@ -73,9 +73,12 @@ dependencies {
  * inspects the `implementation` and `api` configurations after the module's
  * own build script has been evaluated and reports every offending edge.
  *
- * Phase 0 ships this in **warn mode** (`logger.warn`, build still succeeds).
- * Task 11 flips the `logger.warn(...)` call below to `throw GradleException(...)`
- * so the violation fails at configuration time, before Konsist even runs.
+ * Phase 0 shipped this in warn mode (`logger.warn`, build still succeeds).
+ * Task 11 flipped it to **fail mode**: a cross-feature edge throws
+ * `GradleException` at configuration time, before Konsist even runs. The tree
+ * has no such edge (Task 10 dissolved `features/home`; Task 11 relocated the
+ * shell's 5 seed `*Route` keys into `:platform.AppRoutes`), so this is a
+ * standing guard, not a migration step.
  */
 afterEvaluate {
     val currentPath = path
@@ -88,14 +91,11 @@ afterEvaluate {
                     dependency.path.startsWith(":features:") && dependency.path != currentPath
                 }
                 .forEach { dependency ->
-                    logger.warn(
-                        "[arch-guard] {} declares a cross-feature dependency on {} via `{}`. " +
-                            "Features must not depend on other features (design §6.2, Konsist K1) — " +
-                            "route through :platform (AppRoutes/AppEventBus) or Hilt @IntoSet instead. " +
-                            "Warn-only in Phase 0; Task 11 turns this into a build failure.",
-                        currentPath,
-                        dependency.path,
-                        configuration.name,
+                    throw GradleException(
+                        "[arch-guard] $currentPath declares a cross-feature dependency on " +
+                            "${dependency.path} via `${configuration.name}`. Features must not depend " +
+                            "on other features (design §6.2, Konsist K1) — route through :platform " +
+                            "(AppRoutes/AppEventBus) or Hilt @IntoSet multibinding instead.",
                     )
                 }
         }

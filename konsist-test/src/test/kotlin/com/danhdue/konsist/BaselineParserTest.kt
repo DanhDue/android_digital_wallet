@@ -32,7 +32,7 @@ class BaselineParserTest {
                 |# header comment
                 |K5 com.danhdue.wallet.presentation.MyWalletViewModel   // TODO(task_9): extend MviViewModel
                 |K5 com.danhdue.scanner.presentation.ScannerViewModel    // TODO(task_9)
-                |K8 com.danhdue.trends.presentation.TrendsThing          // TODO(task_11)
+                |K8 com.danhdue.trends.presentation.TrendsThing          // TODO(task_12)
                 """.trimMargin(),
             )
 
@@ -77,7 +77,8 @@ class BaselineParserTest {
     @Test
     fun `the checked-in baseline only references enforced rules`() {
         // Rules @Ignored this phase consult no baseline; an entry for them would be dead weight.
-        val enforced = setOf("K5", "K8")
+        // K1 is the only rule still @Ignore after Task 11.
+        val enforced = setOf("K2", "K3", "K4", "K5", "K6", "K7", "K8", "K9")
         val stray =
             Baseline
                 .load(

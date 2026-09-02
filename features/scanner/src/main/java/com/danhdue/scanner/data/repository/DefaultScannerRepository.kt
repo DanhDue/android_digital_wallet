@@ -11,7 +11,7 @@ import javax.inject.Inject
 /**
  * Concrete implementation of the repository for the Scanner feature.
  */
-class DefaultScannerRepository @Inject constructor() : ScannerRepository {
+internal class DefaultScannerRepository @Inject constructor() : ScannerRepository {
     override suspend fun getScannerData(): Result<Scanner> =
         try {
             val domainModel = Scanner(id = "1", data = "Sample data from repository")

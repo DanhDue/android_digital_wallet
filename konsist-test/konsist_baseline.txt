@@ -5,9 +5,9 @@
 # Removing a line re-arms the corresponding rule for that declaration — do that as
 # part of the referenced task, never here.
 #
-# Only rules that are ENFORCED need entries. Enforced now: K2, K3, K5, K7, K8 (K2/K3/K7
-# were enabled in Task 9 and passed clean — no baseline entries required). Still deferred /
-# report-only: K1, K4, K6, K9 (@Ignore, consult no baseline).
+# Only rules that are ENFORCED need entries. Enforced now: K2, K3, K4, K5, K6, K7, K8, K9
+# (K2/K3/K7 enabled in Task 9 and K6/K9 enabled in Task 11 all passed clean — no baseline
+# entries required). Still deferred / report-only: K1 (@Ignore, consults no baseline).
 
 # --- K5: `*ViewModel` must extend `MviViewModel<State, Action, Event>` (design §6.1) ---
 # These ViewModels still extend androidx `ViewModel` / `MvvmViewModel` directly and
@@ -20,5 +20,46 @@ K5 com.danhdue.scanner.presentation.ScannerViewModel                            
 K5 com.danhdue.splash.presentation.SplashViewModel                                      // TODO(task_9): extend MviViewModel
 K5 com.danhdue.transactions.presentation.transactiondetail.TransactionDetailViewModel   // TODO(task_9): extend MviViewModel
 K5 com.danhdue.trends.presentation.TrendsViewModel                                      // TODO(task_9): extend MviViewModel
-K5 com.danhdue.settings.presentation.SettingsViewModel                                  // TODO(task_11): extend MviViewModel (settings pilot)
-K5 com.danhdue.settings.presentation.profile.ProfileViewModel                           // TODO(task_11): extend MviViewModel (settings pilot)
+K5 com.danhdue.settings.presentation.SettingsViewModel                                  // TODO(task_13): convert to MviViewModel (template exemplar cleanup)
+K5 com.danhdue.settings.presentation.profile.ProfileViewModel                           // TODO(task_13): convert to MviViewModel (template exemplar cleanup)
+
+# --- K4: top-level declarations under a feature `..data..` package must be `internal` ---
+# The settings + scanner data layers were made `internal` in Task 11 (the pilot). The five
+# features below are slated for removal when the app is reduced to the reusable template
+# (epic android_super_app_template, Task 13); making their DTOs / Hilt modules / repo impls
+# / API services `internal` now would be churn on code that is about to be deleted, so they
+# are baselined wholesale with a single cleanup pointer.
+K4 com.danhdue.authentication.data.repository.LoginRepositoryImpl                     // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.repository.DefaultAuthenticatorRepository          // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.repository.DefaultRegisterRepository               // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.di.AuthenticatorDataModule                        // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.di.LoginDataModule                                // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.di.RegisterDataModule                             // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.di.AuthNetworkModule                              // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.models.RefreshTokenResponseDto                    // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.models.LoginRequestDto                            // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.models.RefreshTokenRequestDto                     // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.models.LoginDto                                   // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.models.RegisterDto                                // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.models.UserDto                                    // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.models.AuthenticatorDto                           // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.models.LoginResponseDto                           // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.datasources.remote.AuthenticationRemoteDataSource // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.datasources.remote.AuthApiService                 // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.authentication.data.datasources.remote.TokenAuthenticator             // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.wallet.data.repository.DefaultMyWalletRepository                       // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.wallet.data.di.MyWalletDataModule                                     // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.wallet.data.model.MyNFTsDto                                           // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.wallet.data.model.MyTokensDto                                         // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.wallet.data.model.MyWalletDto                                         // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.transactions.data.repository.DefaultTransactionsRepository            // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.transactions.data.di.TransactionsDataModule                          // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.transactions.data.model.TransactionsDto                              // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.transactions.data.model.TransactionListDto                           // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.transactions.data.model.TransactionDetailDto                         // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.trends.data.repository.DefaultTrendsRepository                        // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.trends.data.di.TrendsDataModule                                      // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.trends.data.model.TrendsDto                                          // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.splash.data.repository.DefaultSplashRepository                       // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.splash.data.di.SplashDataModule                                      // TODO(task_13): feature removed on template extraction
+K4 com.danhdue.splash.data.model.SplashDto                                         // TODO(task_13): feature removed on template extraction

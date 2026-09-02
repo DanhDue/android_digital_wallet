@@ -12,7 +12,7 @@ import com.danhdue.scanner.domain.model.Scanner
  *
  * @return The mapped Scanner object.
  */
-fun ScannerDto.toDomain(): Scanner =
+internal fun ScannerDto.toDomain(): Scanner =
     Scanner(
         id = this.uniqueId,
         data = this.payload ?: "Data not available",

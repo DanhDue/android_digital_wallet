@@ -4,9 +4,9 @@
  */
 package com.danhdue.transactions.presentation.di
 
+import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.transactions.presentation.transactionlist.TransactionListRoot
-import com.danhdue.transactions.presentation.transactionlist.TransactionListRoute
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +23,7 @@ object TransactionNavigationModule {
     @IntoSet
     fun provideTransactionEntries(): EntryProviderInstaller =
         {
-            entry<TransactionListRoute> {
+            entry<AppRoutes.TransactionListRoute> {
                 TransactionListRoot(onEvent = {})
             }
         }

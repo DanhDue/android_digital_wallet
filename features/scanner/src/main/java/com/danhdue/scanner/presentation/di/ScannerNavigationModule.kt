@@ -4,9 +4,9 @@
  */
 package com.danhdue.scanner.presentation.di
 
+import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.scanner.presentation.ScannerRoot
-import com.danhdue.scanner.presentation.ScannerRoute
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +20,7 @@ object ScannerNavigationModule {
     @IntoSet
     fun provideScannerEntries(): EntryProviderInstaller =
         {
-            entry<ScannerRoute> {
+            entry<AppRoutes.ScannerRoute> {
                 ScannerRoot(onEvent = {})
             }
         }

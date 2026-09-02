@@ -70,7 +70,9 @@ fun Throwable.handleThrowable(): Failure =
         is UnknownHostException -> Failure.ConnectivityError
         is HttpException ->
             when (code()) {
-                // TODO(task_11): AppEventBus.publish(UserLoggedOut) on repeated 401
+                // 401 -> AppEvent.UserLoggedOut is broadcast by UnauthorizedInterceptor
+                // (network/interceptor/UnauthorizedInterceptor.kt), which observes the final
+                // response after the token Authenticator has exhausted its refresh retries.
                 HttpStatusCode.Unauthorized.code -> Failure.UnAuthorizedException
                 HttpStatusCode.NotFound.code -> Failure.NotFoundException(message ?: "Not found")
                 in 400..499 -> Failure.ApiError(code(), message ?: "Client error")
@@ -91,7 +93,9 @@ fun httpCodeToFailure(
     message: String?,
 ): Failure =
     when (code) {
-        // TODO(task_11): AppEventBus.publish(UserLoggedOut) on repeated 401
+        // 401 -> AppEvent.UserLoggedOut is broadcast by UnauthorizedInterceptor
+        // (network/interceptor/UnauthorizedInterceptor.kt), which observes the final
+        // response after the token Authenticator has exhausted its refresh retries.
         HttpStatusCode.Unauthorized.code -> Failure.UnAuthorizedException
         HttpStatusCode.NotFound.code -> Failure.NotFoundException(message ?: "Not found")
         in 400..499 -> Failure.ApiError(code, message ?: "Client error")

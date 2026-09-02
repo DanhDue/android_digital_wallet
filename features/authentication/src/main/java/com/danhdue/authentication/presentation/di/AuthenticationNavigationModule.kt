@@ -9,9 +9,8 @@ import com.danhdue.authentication.presentation.login.LoginRoot
 import com.danhdue.authentication.presentation.registration.RegisterEvent
 import com.danhdue.authentication.presentation.registration.RegisterRoot
 import com.danhdue.authentication.presentation.registration.RegisterRoute
-import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
-import com.danhdue.framework.navigation.ShellRoute
+import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import dagger.Module
 import dagger.Provides
@@ -29,12 +28,12 @@ object AuthenticationNavigationModule {
     @IntoSet
     fun provideAuthenticationEntries(navigator: Navigator): EntryProviderInstaller =
         {
-            entry<LoginRoute> {
+            entry<AppRoutes.LoginRoute> {
                 LoginRoot(
                     onEvent = { event ->
                         when (event) {
                             LoginEvent.NavigateToRegister -> navigator.navigateTo(RegisterRoute)
-                            LoginEvent.NavigateToHome -> navigator.navigateAndClearBackStack(ShellRoute)
+                            LoginEvent.NavigateToHome -> navigator.navigateAndClearBackStack(AppRoutes.ShellRoute)
                             LoginEvent.NavigateBack -> navigator.popBackStack()
                         }
                     },
@@ -44,7 +43,7 @@ object AuthenticationNavigationModule {
                 RegisterRoot(
                     onEvent = { event ->
                         when (event) {
-                            RegisterEvent.NavigateToLogin -> navigator.navigateTo(LoginRoute)
+                            RegisterEvent.NavigateToLogin -> navigator.navigateTo(AppRoutes.LoginRoute)
                             RegisterEvent.NavigateBack -> navigator.popBackStack()
                         }
                     },

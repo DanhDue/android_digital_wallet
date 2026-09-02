@@ -12,6 +12,7 @@ import com.danhdue.network.createChuckInterceptor
 import com.danhdue.network.createOkHttpClient
 import com.danhdue.network.flipper.FlipperNetworkObject
 import com.danhdue.network.interceptor.GlobalHeaderInterceptor
+import com.danhdue.network.interceptor.UnauthorizedInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,11 +49,15 @@ object NetworkCoreModule {
         loggingInterceptor: HttpLoggingInterceptor,
         globalHeaderInterceptor: GlobalHeaderInterceptor,
         chuckerInterceptor: ChuckerInterceptor,
+        unauthorizedInterceptor: UnauthorizedInterceptor,
     ): OkHttpClient {
         val interceptors =
             mutableListOf<Interceptor>(
                 loggingInterceptor,
                 globalHeaderInterceptor,
+                // Final-response 401 watchdog — publishes AppEvent.UserLoggedOut when a
+                // request is still Unauthorized after the token Authenticator gave up.
+                unauthorizedInterceptor,
             )
         if (BuildConfig.DEBUG) {
             interceptors.add(chuckerInterceptor)

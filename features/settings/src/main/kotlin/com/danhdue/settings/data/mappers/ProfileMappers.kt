@@ -12,7 +12,7 @@ import com.danhdue.settings.domain.model.Profile
  *
  * @return The mapped Profile object.
  */
-fun ProfileDto.toDomain(): Profile =
+internal fun ProfileDto.toDomain(): Profile =
     Profile(
         id = this.uniqueId,
         data = this.payload ?: "Data not available",

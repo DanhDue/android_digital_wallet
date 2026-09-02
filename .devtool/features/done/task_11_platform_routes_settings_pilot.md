@@ -1,20 +1,20 @@
 ---
 id: "task_11_platform_routes_settings_pilot"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T16:15:34Z"
+completedAt: "2026-09-02T16:15:34Z"
 labels: ["architecture", "governance", "pilot"]
 order: "a11"
 ---
 
 # Task 11: Relocate cross-feature `NavKey`s + `settings` pilot + enable strict gate
 
-Epic: [android_super_app_template](../epic/android_super_app_template/android_super_app_template.en.md)
+Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)
 
 ## Requirement Analysis
 

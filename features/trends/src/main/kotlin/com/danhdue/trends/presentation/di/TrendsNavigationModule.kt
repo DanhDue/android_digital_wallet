@@ -4,9 +4,9 @@
  */
 package com.danhdue.trends.presentation.di
 
+import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.trends.presentation.TrendsRoot
-import com.danhdue.trends.presentation.TrendsRoute
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +20,7 @@ object TrendsNavigationModule {
     @IntoSet
     fun provideTrendsEntries(): EntryProviderInstaller =
         {
-            entry<TrendsRoute> {
+            entry<AppRoutes.TrendsRoute> {
                 TrendsRoot(onEvent = {})
             }
         }

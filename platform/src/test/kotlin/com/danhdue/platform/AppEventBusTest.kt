@@ -51,6 +51,20 @@ class AppEventBusTest {
         }
 
     @Test
+    fun `on ProfileNameChanged ignores other event types and keeps the payload`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val bus = AppEventBus()
+
+            bus.on<AppEvent.ProfileNameChanged>().test {
+                bus.publish(AppEvent.UserLoggedOut)
+                bus.publish(AppEvent.ProfileNameChanged(displayName = "Ada Lovelace"))
+
+                assertEquals(AppEvent.ProfileNameChanged(displayName = "Ada Lovelace"), awaitItem())
+                cancelAndConsumeRemainingEvents()
+            }
+        }
+
+    @Test
     fun `every active subscriber receives every published event`() =
         runTest(UnconfinedTestDispatcher()) {
             val bus = AppEventBus()

@@ -15,7 +15,7 @@ import kotlinx.serialization.Serializable
  * @property payload The raw data from the API, which could be null.
  */
 @Serializable
-data class ScannerDto(
+internal data class ScannerDto(
     @SerialName("remote_id")
     val uniqueId: String,
     @SerialName("raw_data")

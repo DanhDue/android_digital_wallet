@@ -1,9 +1,4 @@
 import extensions.CORE
-import extensions.FEATURE_MY_WALLET
-import extensions.FEATURE_SCANNER
-import extensions.FEATURE_SETTINGS
-import extensions.FEATURE_TRANSACTIONS
-import extensions.FEATURE_TRENDS
 import extensions.FRAMEWORK
 import extensions.PLATFORM
 import extensions.UI_KIT
@@ -20,9 +15,10 @@ import extensions.addNavigationDependencies
 //
 // `:shell` is a Host, NOT a feature: it applies `commons.android-library` (+ `-compose`,
 // `dagger-hilt`) rather than `commons.android-feature`, so the cross-feature Gradle guard does
-// not fire on its `:features:*` deps. It MAY depend on multiple `:features:*` — that privilege
-// is granted to `:app` / `:shell` only (Konsist K6-exempt). The 5 feature deps below are needed
-// only until Task 11 relocates each tab's seed `*Route` NavKey into `:platform.AppRoutes`.
+// not fire on its deps. Task 11 relocated every tab's seed `*Route` NavKey into
+// `:platform.AppRoutes` and moved cross-feature signalling onto `AppEventBus`, so `:shell` no
+// longer needs a single `:features:*` dependency — `:app` still aggregates every feature's
+// Hilt `@IntoSet EntryProviderInstaller` at the `@HiltAndroidApp` root.
 plugins {
     id(Deps.COMMONS_ANDROID_LIBRARY)
     id(Deps.COMMONS_ANDROID_COMPOSE)
@@ -39,14 +35,6 @@ dependencies {
     PLATFORM
     FRAMEWORK
     UI_KIT
-
-    // Cross-feature deps — Host privilege (Konsist K6). Task 11 drops these once each tab's
-    // seed `*Route` moves to `:platform.AppRoutes`.
-    FEATURE_MY_WALLET
-    FEATURE_TRANSACTIONS
-    FEATURE_SCANNER
-    FEATURE_TRENDS
-    FEATURE_SETTINGS
 
     addNavigationDependencies()
 }

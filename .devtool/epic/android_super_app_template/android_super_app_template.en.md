@@ -205,7 +205,7 @@ Lifecycle event vocabulary (minimal, mirrors the Flutter proposal): `ShellTabVis
 
 ### Phase 2 — Shell + pilot
 - [Task 10: Extract `:shell`, thin `:app`, dissolve `features/home`](../../features/done/task_10_extract_shell_thin_app.md)
-- [Task 11: Relocate cross-feature `NavKey`s + `settings` pilot + enable strict gate](../../features/task_11_platform_routes_settings_pilot.md)
+- [Task 11: Relocate cross-feature `NavKey`s + `settings` pilot + enable strict gate](../../features/done/task_11_platform_routes_settings_pilot.md)
 
 ### Phase 3 — Cleanup + template + DFM + validation
 - [Task 12: Migrate remaining feature cross-imports → empty whitelist](../../features/task_12_migrate_remaining_features.md)

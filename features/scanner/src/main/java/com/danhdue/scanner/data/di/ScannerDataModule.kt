@@ -17,7 +17,7 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ScannerDataModule {
+internal abstract class ScannerDataModule {
     /**
      * Binds the repository implementation to its interface.
      */

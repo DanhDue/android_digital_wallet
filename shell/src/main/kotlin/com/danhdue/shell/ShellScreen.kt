@@ -87,6 +87,7 @@ private fun ShellScreen(
         bottomBar = {
             ShellBottomBar(
                 selectedTab = state.selectedTab,
+                settingsLabel = state.profileName.ifBlank { "Settings" },
                 onTabSelect = { onAction(ShellAction.TabSelected(it)) },
             )
         },
@@ -177,6 +178,7 @@ private fun ShellTabContent(
 @Composable
 private fun ShellBottomBar(
     selectedTab: ShellTab,
+    settingsLabel: String,
     onTabSelect: (ShellTab) -> Unit,
 ) {
     Box(
@@ -233,7 +235,7 @@ private fun ShellBottomBar(
                 )
                 TabItem(
                     icon = Icons.Default.Settings,
-                    label = "Settings",
+                    label = settingsLabel,
                     isSelected = selectedTab == ShellTab.Settings,
                     onClick = { onTabSelect(ShellTab.Settings) },
                     selectedColor = HomePrimaryBlue,

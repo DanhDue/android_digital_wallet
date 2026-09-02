@@ -4,7 +4,7 @@
  */
 package com.danhdue.shell.di
 
-import com.danhdue.framework.navigation.ShellRoute
+import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.shell.ShellRoot
 import dagger.Module
@@ -20,7 +20,7 @@ object ShellNavigationModule {
     @IntoSet
     fun provideShellEntries(): EntryProviderInstaller =
         {
-            entry<ShellRoute> {
+            entry<AppRoutes.ShellRoute> {
                 ShellRoot()
             }
         }

@@ -12,7 +12,7 @@ import com.danhdue.settings.domain.model.Settings
  *
  * @return The mapped Settings object.
  */
-fun SettingsDto.toDomain(): Settings =
+internal fun SettingsDto.toDomain(): Settings =
     Settings(
         id = this.uniqueId,
         data = this.payload ?: "Data not available",

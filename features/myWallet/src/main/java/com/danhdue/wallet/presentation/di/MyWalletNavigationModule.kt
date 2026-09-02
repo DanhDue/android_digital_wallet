@@ -5,9 +5,9 @@
 package com.danhdue.wallet.presentation.di
 
 import com.danhdue.framework.navigation.Navigator
+import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.wallet.presentation.MyWalletRoot
-import com.danhdue.wallet.presentation.MyWalletRoute
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +25,7 @@ object MyWalletNavigationModule {
     @Suppress("UnusedParameter")
     fun provideMyWalletEntries(navigator: Navigator): EntryProviderInstaller =
         {
-            entry<MyWalletRoute> {
+            entry<AppRoutes.MyWalletRoute> {
                 MyWalletRoot(
                     onEvent = { event ->
                         // Handle events here

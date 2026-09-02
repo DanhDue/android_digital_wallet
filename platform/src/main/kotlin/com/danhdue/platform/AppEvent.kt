@@ -7,10 +7,12 @@ package com.danhdue.platform
 /**
  * Marker for every cross-feature signal broadcast through [AppEventBus].
  *
- * Concrete subtypes are data contracts: a feature subscribing to another
- * feature's event *type* is acceptable, the same posture as importing a domain
- * entity. Features may also declare their own [AppEvent] subtypes inside their
- * own `presentation` package.
+ * All `AppEvent` subtypes are declared here in `:platform`. The cross-feature
+ * event vocabulary is deliberately small and contract-like: a feature
+ * subscribing to another feature's event *type* is acceptable, the same posture
+ * as importing a domain entity. A feature that needs a private, feature-local
+ * signal keeps it off this bus. Keeping the hierarchy `sealed` gives every
+ * `when (event)` an exhaustiveness check.
  */
 sealed interface AppEvent {
     /**
@@ -39,6 +41,23 @@ sealed interface AppEvent {
 
     /** The current user signed out; features should clear user-scoped state. */
     data object UserLoggedOut : AppEvent
+
+    /**
+     * The user's profile display name, as loaded (or edited) by the Settings
+     * feature.
+     *
+     * The Task 11 pilot signal: `:features:settings` publishes this on load so a
+     * host (`:shell`) can render the name in shell-owned chrome — with zero
+     * `com.danhdue.settings.*` import. It lives here, not in `settings`, because
+     * [AppEvent] is a `sealed interface` (a subtype in another module cannot
+     * extend it) and because a profile name shown in the shell is a cross-feature
+     * data contract, the same posture as a shared domain entity.
+     *
+     * @property displayName the profile display name; may be blank
+     */
+    data class ProfileNameChanged(
+        val displayName: String,
+    ) : AppEvent
 }
 
 /**

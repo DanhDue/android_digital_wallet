@@ -24,9 +24,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.danhdue.androiddigitalwallet.R
-import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
 import com.danhdue.framework.navigation.ObserveBackstackForFlipper
+import com.danhdue.platform.AppEvent
+import com.danhdue.platform.AppEventBus
+import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.platform.LocalEntryProviderInstallers
 import com.danhdue.uikit.permission.RequestPermissionOnMount
@@ -46,24 +48,36 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var sessionManager: com.danhdue.core.session.SessionManager
 
+    @Inject
+    lateinit var appEventBus: AppEventBus
+
     private var backPressedTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Observe logout events
+        // Observe logout events — the legacy in-process SessionManager channel and
+        // the cross-feature AppEventBus signal (Task 11: `:network` publishes
+        // AppEvent.UserLoggedOut on an unrecovered 401). Both land on login.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sessionManager.logoutEvent.collect {
-                    navigator.navigateAndClearBackStack(LoginRoute)
+                    navigator.navigateAndClearBackStack(AppRoutes.LoginRoute)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                appEventBus.on<AppEvent.UserLoggedOut>().collect {
+                    navigator.navigateAndClearBackStack(AppRoutes.LoginRoute)
                 }
             }
         }
 
         // Ensure backstack is not empty before content is set
         if (navigator.backStack.isEmpty()) {
-            navigator.navigateTo(LoginRoute)
+            navigator.navigateTo(AppRoutes.LoginRoute)
         }
 
         setContent {
