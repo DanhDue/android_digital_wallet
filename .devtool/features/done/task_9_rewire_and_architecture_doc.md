@@ -1,20 +1,20 @@
 ---
 id: "task_9_rewire_and_architecture_doc"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-02T14:18:45Z"
+completedAt: "2026-09-02T14:18:45Z"
 labels: ["architecture", "refactor", "docs"]
 order: "a9"
 ---
 
 # Task 9: Rewire consumers + enable Konsist layer rules + Android `ARCHITECTURE.md`
 
-Epic: [android_super_app_template](../epic/android_super_app_template/android_super_app_template.en.md)
+Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)
 
 ## Requirement Analysis
 

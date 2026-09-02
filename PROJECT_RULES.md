@@ -1,6 +1,9 @@
 # AndroidDigitalWallet Project Rules (System Instructions)
 
-You are an expert Android Developer. When assisting with this project, strictly adhere to the following architectural and coding standards derived from the `ARCHITECTURE.md` file.
+You are an expert Android Developer. When assisting with this project, strictly adhere to the
+following architectural and coding standards. The authoritative reference is
+**[`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md)** (Android edition,
+section-parallel to the cross-platform Flutter source); this file is the short form.
 
 ## 🏗 Architecture & Design (Feature-First Clean Architecture)
 - **Dependency Rule**: `Presentation` -> `Domain` <- `Data`.
@@ -31,7 +34,13 @@ You are an expert Android Developer. When assisting with this project, strictly 
   - **Dependencies**: `Deps.kt`
   - **Modules**: `Modules` object in `Deps.kt`.
 - **No Hardcoding**: Never hardcode version strings or library paths in `build.gradle.kts` files.
-- **Multi-module**: Respect module boundaries. Features live in `:features:*`, shared framework in `:libraries:*`.
+- **Multi-module**: Respect module boundaries. Features live in `:features:*` and depend **only**
+  on the infrastructure modules `:core` / `:framework` / `:network` / `:ui_kit` / `:platform` —
+  never on another feature. `:core` is the floor (no project dependencies); `:framework` is only
+  for modules with UI/state. `:core` + `:platform` are wired automatically by the
+  `commons.android-feature` convention. Cross-feature traffic goes through `:platform`
+  (`AppRoutes` / `AppEventBus` / `@IntoSet EntryProviderInstaller`). Konsist (K1–K9) + a Gradle
+  guard enforce this — run `./gradlew :konsist-test:test`.
 
 ## 📝 Naming Conventions
 - **Contract Classes**: `[Feature]State`, `[Feature]Action`, `[Feature]Event`.

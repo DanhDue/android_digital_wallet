@@ -5,8 +5,9 @@
 # Removing a line re-arms the corresponding rule for that declaration — do that as
 # part of the referenced task, never here.
 #
-# Only rules that are ENFORCED in the current phase need entries (K5, K8). Deferred /
-# report-only rules (K1, K2, K3, K4, K6, K7, K9) are @Disabled and consult no baseline.
+# Only rules that are ENFORCED need entries. Enforced now: K2, K3, K5, K7, K8 (K2/K3/K7
+# were enabled in Task 9 and passed clean — no baseline entries required). Still deferred /
+# report-only: K1, K4, K6, K9 (@Ignore, consult no baseline).
 
 # --- K5: `*ViewModel` must extend `MviViewModel<State, Action, Event>` (design §6.1) ---
 # These ViewModels still extend androidx `ViewModel` / `MvvmViewModel` directly and

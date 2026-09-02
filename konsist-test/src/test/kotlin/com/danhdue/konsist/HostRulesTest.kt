@@ -17,8 +17,9 @@ import org.junit.Test
  * import host internals), **K9** (`NavKey`s used cross-feature live in `:platform`).
  * Epic design §6.1.
  *
- * K8 is ENFORCED in Phase 0; K7 and K9 are report-only bodies (`@Ignore`) whose
- * assertions are complete — the enabling task only removes the annotation.
+ * K7 and K8 are ENFORCED; K9 stays a report-only body (`@Ignore`) whose assertion is
+ * complete — Task 11 removes its annotation (cross-feature `NavKey` relocation, design §9
+ * Phase 2). K7 was enabled in Task 9 once `:core` was extracted (design §9 Phase 1).
  */
 class HostRulesTest {
     private companion object {
@@ -64,7 +65,6 @@ class HostRulesTest {
     }
 
     @Test
-    @Ignore("Phase 0: deferred — enforced in Task 9 once :core is extracted (design §9 Phase 1).")
     fun `K7 - core must not depend on any upper layer`() {
         val offenders =
             ArchScope

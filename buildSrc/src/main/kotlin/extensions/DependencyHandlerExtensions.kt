@@ -495,7 +495,7 @@ fun DependencyHandler.addJacksonMsgPackDependencies() {
 fun DependencyHandler.addModuleDependencies() {
     implementation(project(mapOf(PATH to Modules.uiKit)))
 
-    implementation(project(mapOf(PATH to Modules.librariesFramework)))
+    implementation(project(mapOf(PATH to Modules.framework)))
 
     implementation(project(mapOf(PATH to Modules.librariesTestUtils)))
 
@@ -566,7 +566,7 @@ val DependencyHandler.UI_KIT
     get() = implementation(project(mapOf(PATH to Modules.uiKit)))
 
 val DependencyHandler.FRAMEWORK
-    get() = implementation(project(mapOf(PATH to Modules.librariesFramework)))
+    get() = implementation(project(mapOf(PATH to Modules.framework)))
 
 val DependencyHandler.TEST
     get() = testImplementation(project(mapOf(PATH to Modules.librariesTestUtils)))

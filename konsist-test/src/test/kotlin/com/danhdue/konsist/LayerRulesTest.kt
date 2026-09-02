@@ -16,11 +16,10 @@ import org.junit.Test
  * **K3** (Domain is pure Kotlin), **K4** (`data` layer export discipline).
  * Epic design §4.3, §6.1.
  *
- * All three are deferred in Phase 0 (`@Ignore`). Bodies are complete; the
- * enabling task only removes the annotation.
- * - K2 → Task 9 (layer rules enabled with the god-module split). Design §9 Phase 1.
- * - K3 → Task 9 (same).
- * - K4 → Task 11 (export discipline, with the settings pilot). Design §9 Phase 2.
+ * - K2 → ENFORCED in Task 9 (layer rules enabled with the god-module split). Design §9 Phase 1.
+ * - K3 → ENFORCED in Task 9 (same).
+ * - K4 → Task 11 (export discipline, with the settings pilot). Design §9 Phase 2 — body
+ *   complete, `@Ignore` removed only by that task.
  */
 class LayerRulesTest {
     private fun featureFilesInLayer(layerInfix: String) = ArchScope.featureFiles().filter { it.packageName.contains(layerInfix) }
@@ -29,7 +28,6 @@ class LayerRulesTest {
         qualifiedNames.filter { (_, import) -> import.startsWith("com.danhdue.") }
 
     @Test
-    @Ignore("Phase 0: deferred — enforced in Task 9 (design §9 Phase 1).")
     fun `K2 - presentation must not import data, domain must not import presentation or data`() {
         val presentationToData =
             featureFilesInLayer(".presentation")
@@ -56,7 +54,6 @@ class LayerRulesTest {
     }
 
     @Test
-    @Ignore("Phase 0: deferred — enforced in Task 9 (design §9 Phase 1).")
     fun `K3 - domain is pure Kotlin (no android or androidx imports)`() {
         val offenders =
             featureFilesInLayer(".domain")

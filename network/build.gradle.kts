@@ -50,9 +50,11 @@ configurations.configureEach {
 }
 
 dependencies {
-    // Re-exported (`api`) so `:network` consumers keep resolving `DataState` /
-    // `NetworkResponse` / `HttpStatusCode` transitively — matches the `:core` / `:platform`
-    // re-export precedent set by the former `framework` god-module until the full rewire in Task 9.
+    // `api` (kept — verified in Task 9): `:network`'s public surface exposes `:core` types.
+    // `apiCall(call): DataState<T>` (public top-level fun in `ApiCallExtension.kt`) returns
+    // `com.danhdue.core.network.DataState`, and `Throwable.handleThrowable()` /
+    // `httpCodeToFailure(...)` consume `com.danhdue.core.network.HttpStatusCode`. Every feature
+    // data layer calls `apiCall { ... }`, so `:core` must stay a transitive dependency here.
     api(project(":core"))
 
     // Retrofit / Moshi converter — `Retrofit.Builder` and `MoshiConverterFactory` appear in

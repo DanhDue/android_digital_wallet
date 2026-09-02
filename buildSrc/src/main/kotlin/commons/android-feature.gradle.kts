@@ -2,6 +2,8 @@ package commons
 
 import AppConfig
 import EnvConfigs
+import extensions.CORE
+import extensions.PLATFORM
 import extensions.TEST
 import extensions.addCommonDependencies
 import extensions.addNavigationDependencies
@@ -50,6 +52,14 @@ dependencies {
     addCommonDependencies()
     // compose navigation
     addNavigationDependencies()
+    // `:core` — the mandatory architectural floor for every module (design §3, principle 4:
+    // "`:core` is the mandatory floor for every module"). Wired here so a feature can never
+    // be missing it, and so narrowing an upper module's re-exports never breaks a feature.
+    CORE
+    // `:platform` — the cross-feature seam (`AppRoutes`, `AppEventBus`, `EntryProviderInstaller`).
+    // Every feature contributes navigation through `@IntoSet EntryProviderInstaller` and so needs
+    // `:platform` on its compile classpath; wired here rather than per-feature (design §4, §5).
+    PLATFORM
     // Test
     TEST
 }

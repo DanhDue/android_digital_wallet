@@ -4,19 +4,21 @@
 **AndroidDigitalWallet** is a modular Android application built with modern development practices. It uses a multi-module architecture with a strong focus on clean architecture, dependency injection, and centralized build configuration.
 
 ## 🏗 Project Structure
-The project is organized into the following top-level directories:
 
-- **`:app`**: Main Android application module.
-- **`:libraries`**: Shared library modules:
-  - **`:framework`**: Core infrastructure, utility classes, base classes, and Room database configurations.
-  - **`:jetframework`**: Jetpack Compose specific utilities and base UI components.
-  - **`:components`**: Reusable UI components (Compose).
-  - **`:testutils`**: Shared testing utilities, mocks, and test rules.
-- **`:core`**: The dependency floor — framework-agnostic primitives (coroutines, extensions, prefs, Room, session, use-cases, `DataState` / `NetworkResponse` call-adapter).
-- **`:network`**: The HTTP stack — Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, Flipper network tooling. Depends only on `:core`.
-- **`:data`**: Data layer modules (e.g., `:data:model`, `:data:local`, `:data:remote`, `:data:repository`).
-- **`:features`**: Feature modules (e.g., `:features:home`, `:features:dashboard`, `:features:splash`, `:features:settings`).
-- **`buildSrc`**: Contains custom Gradle convention plugins and centralized dependency management.
+Full detail: **[`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md)** §III.3.
+The former god-module `libraries/framework` (and `libraries/components` + `libraries/jetframework`)
+was split into five infrastructure modules (epic `android_super_app_template`, design §4.1):
+
+- **`:app`**: Thin composition root — Hilt aggregation, `NavDisplay` (navigation3), `Application`, entry `Activity`.
+- **`:core`** (`com.danhdue.core`): The dependency floor — framework-agnostic primitives (coroutines, `DispatcherProvider`, extensions, DataStore/Tink prefs, Room base, `SessionManager`, use-cases, `Logger`, `AppInitializer`, `DataState` / `NetworkResponse` call-adapter). Compose-free; **no project dependencies**.
+- **`:framework`** (`com.danhdue.framework`): `MviViewModel` / `MvvmViewModel` / `BaseViewState` + the navigation3 host mechanism (`Navigator`, `NestedNavigator` + `LocalNestedNavigator`, `ObserveBackstackForFlipper`). Depends on `:core` (`api`) and `:network`.
+- **`:network`** (`com.danhdue.network`): The HTTP stack — Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. Depends only on `:core`.
+- **`:ui_kit`** (`com.danhdue.uikit`): Shared Compose design system (`ui/theme`, `ui/widgets`), Compose helpers, runtime-permission handlers. Depends only on `:core`.
+- **`:platform`** (`com.danhdue.platform`): Cross-feature seam — `AppRoutes` (shared `NavKey` registry), `AppEventBus` (`SharedFlow<AppEvent>`), `EntryProviderInstaller` + `LocalEntryProviderInstallers`, `FeatureEntry` / `FeatureInstaller` (DFM only).
+- **`:features:*`** (`com.danhdue.{feature}`): Feature modules (`authentication`, `home`, `myWallet`, `scanner`, `settings`, `splash`, `transactions`, `trends`), each with `data` / `domain` / `presentation` layers. Depend only on the infrastructure modules — **never on another feature**. `:core` + `:platform` are wired by the `commons.android-feature` convention plugin.
+- **`:libraries:testutils`** (`com.danhdue.libraries.testutils`): Shared testing utilities, mocks, and test rules. The only remaining `libraries/*` module.
+- **`:konsist-test`** (`com.danhdue.konsist`): JVM/JUnit architecture-enforcement gate (rules K1–K9). Never shipped in the APK. Run with `./gradlew :konsist-test:test`.
+- **`buildSrc`**: Custom Gradle convention plugins (`commons.android-library` / `-compose` / `-feature` / `dagger-hilt`) and centralized dependency management (`Versions.kt`, `Deps.kt`, `Modules` object).
 
 ## 🛠 Tech Stack
 - **Language**: Kotlin 2.x.
@@ -43,6 +45,7 @@ The project uses custom convention plugins to reduce boilerplate:
 - `commons.android-library`: Applies Android Library, Kotlin, KSP, and common configurations.
 - `commons.dagger-hilt`: Sets up Hilt and KSP for Hilt.
 - `commons.android-compose`: Sets up Jetpack Compose configurations.
+- `commons.android-feature`: The feature-module convention — android-library + Hilt + Compose + quality + navigation, and auto-wires `:core` (the mandatory floor) + `:platform` (the cross-feature seam) + `:libraries:testutils`. Also carries the Gradle guard that fails the sync on a cross-feature dependency.
 
 ## 📝 Coding Guidelines for Agents
 1.  **Dependency Management**: Do not hardcode versions in `build.gradle.kts`. Always use `Versions.kt` and `Deps.kt` in `buildSrc`.

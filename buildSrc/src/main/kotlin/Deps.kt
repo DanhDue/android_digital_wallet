@@ -257,7 +257,7 @@ object Modules {
     const val dataRepository = ":data:repository"
 
     const val uiKit = ":ui_kit"
-    const val librariesFramework = ":framework"
+    const val framework = ":framework"
     const val librariesTestUtils = ":libraries:testutils"
 
     const val featureSplash = ":features:splash"

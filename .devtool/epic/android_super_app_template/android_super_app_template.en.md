@@ -201,7 +201,7 @@ Lifecycle event vocabulary (minimal, mirrors the Flutter proposal): `ShellTabVis
 - [Task 6: Extract `:network` (+ fold `domain/authenticator`)](../../features/done/task_6_extract_network_module.md)
 - [Task 7: Extract `:framework` (MVI + navigation3 mechanism)](../../features/done/task_7_extract_framework_module.md)
 - [Task 8: Merge `components` + `jetframework` → `:ui_kit`](../../features/done/task_8_merge_ui_kit_module.md)
-- [Task 9: Rewire consumers + enable Konsist layer rules + Android `ARCHITECTURE.md`](../../features/task_9_rewire_and_architecture_doc.md)
+- [Task 9: Rewire consumers + enable Konsist layer rules + Android `ARCHITECTURE.md`](../../features/done/task_9_rewire_and_architecture_doc.md)
 
 ### Phase 2 — Shell + pilot
 - [Task 10: Extract `:shell`, thin `:app`, dissolve `features/home`](../../features/task_10_extract_shell_thin_app.md)

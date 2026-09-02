@@ -7,7 +7,10 @@ import extensions.FEATURE_SCANNER
 import extensions.FEATURE_SETTINGS
 import extensions.FEATURE_TRANSACTIONS
 import extensions.FEATURE_TRENDS
+import extensions.CORE
 import extensions.FRAMEWORK
+import extensions.NETWORK
+import extensions.PLATFORM
 import extensions.UI_KIT
 import extensions.addCommonDependencies
 import extensions.addComposeDependencies
@@ -99,6 +102,13 @@ dependencies {
 
     addLeakCanaryDependencies()
 
+    // Infrastructure modules — declared explicitly (Task 9 narrowed `:framework`'s re-exports).
+    // `:app` imports `com.danhdue.core.*` (AppInitializer, DispatcherProvider),
+    // `com.danhdue.platform.*` (EntryProviderInstaller, LocalEntryProviderInstallers) and
+    // `com.danhdue.network.*` (FlipperInitializer, NetworkConfig) directly.
+    CORE
+    NETWORK
+    PLATFORM
     UI_KIT
     FRAMEWORK
     FEATURE_AUTHENTICATION
