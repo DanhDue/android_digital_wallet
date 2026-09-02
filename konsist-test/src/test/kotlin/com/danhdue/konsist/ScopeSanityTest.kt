@@ -19,7 +19,10 @@ import org.junit.Test
 class ScopeSanityTest {
     @Test
     fun `production scope is non-empty`() {
-        assertTrue("Konsist resolved zero production files", ArchScope.mainFiles.size > 100)
+        // Threshold lowered in Task 13 after the five wallet-domain features were deleted
+        // (the trimmed template carries ~180 production Kotlin files). Its job is to make a
+        // silently-empty or mis-filtered scope a hard failure, not to track the exact count.
+        assertTrue("Konsist resolved zero production files", ArchScope.mainFiles.size > 60)
     }
 
     @Test

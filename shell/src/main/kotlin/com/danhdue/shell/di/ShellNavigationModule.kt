@@ -7,6 +7,8 @@ package com.danhdue.shell.di
 import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.shell.ShellRoot
+import com.danhdue.shell.tabs.HomeStubPage
+import com.danhdue.shell.tabs.HomeStubRoute
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +24,10 @@ object ShellNavigationModule {
         {
             entry<AppRoutes.ShellRoute> {
                 ShellRoot()
+            }
+            // `:shell`-local Home tab stub — never leaves this module (see HomeStubRoute).
+            entry<HomeStubRoute> {
+                HomeStubPage()
             }
         }
 }

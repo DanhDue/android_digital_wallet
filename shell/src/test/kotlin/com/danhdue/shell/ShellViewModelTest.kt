@@ -60,9 +60,12 @@ class ShellViewModelTest {
             val viewModel = ShellViewModel(bus)
 
             bus.on<AppEvent>().test {
-                viewModel.dispatch(ShellAction.TabSelected(ShellTab.Settings))
-
+                // The shell opens on Settings (the last tab); selecting Home is a real change.
                 assertEquals(ShellTab.Settings, viewModel.uiState.value.selectedTab)
+
+                viewModel.dispatch(ShellAction.TabSelected(ShellTab.Home))
+
+                assertEquals(ShellTab.Home, viewModel.uiState.value.selectedTab)
                 expectNoEvents()
                 cancelAndConsumeRemainingEvents()
             }

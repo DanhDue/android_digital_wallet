@@ -8,12 +8,14 @@ package com.danhdue.konsist.support
  * Catalogue of the repository's feature modules and the Kotlin package each one
  * owns.
  *
- * The package prefix is **not** always the module directory name (e.g.
- * `features/myWallet` → `com.danhdue.wallet`,
- * `features/transactions` → `com.danhdue.transactions`), so boundary rules must
- * translate between the two. [moduleName] matches the `:features:<name>` Gradle
- * path segment and the identifiers used in
- * `scripts/konsist_boundary_whitelist.txt`.
+ * The package prefix is **not** always the module directory name (the template's
+ * two features happen to match, but historically `features/myWallet` →
+ * `com.danhdue.wallet`), so boundary rules must translate between the two.
+ * [moduleName] matches the `:features:<name>` Gradle path segment and the
+ * identifiers used in `scripts/konsist_boundary_whitelist.txt`.
+ *
+ * Task 13 stripped the repo to the reusable template: only `settings` (real) and
+ * `scanner` (empty; becomes a dynamic-feature module in Task 14) remain.
  *
  * Derived from each module's `android.namespace` in `features/<name>/build.gradle.kts`.
  */
@@ -21,13 +23,8 @@ enum class Feature(
     val moduleName: String,
     val packagePrefix: String,
 ) {
-    AUTHENTICATION("authentication", "com.danhdue.authentication"),
-    MY_WALLET("myWallet", "com.danhdue.wallet"),
     SCANNER("scanner", "com.danhdue.scanner"),
     SETTINGS("settings", "com.danhdue.settings"),
-    SPLASH("splash", "com.danhdue.splash"),
-    TRANSACTIONS("transactions", "com.danhdue.transactions"),
-    TRENDS("trends", "com.danhdue.trends"),
     ;
 
     companion object {

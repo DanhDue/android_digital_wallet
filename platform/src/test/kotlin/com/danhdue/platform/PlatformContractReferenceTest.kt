@@ -18,16 +18,12 @@ class PlatformContractReferenceTest {
     fun `AppRoutes exposes cross-feature NavKeys`() {
         val keys: List<NavKey> =
             listOf(
-                AppRoutes.LoginRoute,
                 AppRoutes.ShellRoute,
-                AppRoutes.MyWalletRoute,
-                AppRoutes.TransactionListRoute,
                 AppRoutes.ScannerRoute,
-                AppRoutes.TrendsRoute,
                 AppRoutes.SettingsRoute,
             )
 
-        assertEquals(7, keys.toSet().size)
+        assertEquals(3, keys.toSet().size)
         assertNotNull(AppRoutes.SettingsRoute)
         assertNotNull(AppRoutes.ScannerRoute)
     }

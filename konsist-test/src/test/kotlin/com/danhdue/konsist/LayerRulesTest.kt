@@ -20,9 +20,9 @@ import org.junit.Test
  * - K2 → ENFORCED in Task 9 (layer rules enabled with the god-module split). Design §9 Phase 1.
  * - K3 → ENFORCED in Task 9 (same).
  * - K4 → ENFORCED in Task 11 (export discipline, with the settings pilot). Design §9 Phase 2.
- *   The `settings` and `scanner` data layers were made `internal`; the features slated for
- *   removal on template extraction (`authentication`, `myWallet`, `transactions`, `trends`,
- *   `splash`) are listed in `konsist_baseline.txt` with a `TODO(task_13)` pointer.
+ *   The `settings` and `scanner` data layers were made `internal`. Task 13 deleted the five
+ *   wallet-domain features that had held `TODO(task_13)` K4 baseline entries, so the baseline
+ *   is now empty and K4 is enforced with no exceptions.
  */
 class LayerRulesTest {
     private fun featureFilesInLayer(layerInfix: String) = ArchScope.featureFiles().filter { it.packageName.contains(layerInfix) }

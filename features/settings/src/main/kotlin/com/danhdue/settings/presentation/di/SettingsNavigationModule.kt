@@ -5,7 +5,6 @@
 package com.danhdue.settings.presentation.di
 
 import com.danhdue.framework.navigation.LocalNestedNavigator
-import com.danhdue.framework.navigation.Navigator
 import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.settings.presentation.SettingsEvent
@@ -24,7 +23,7 @@ import dagger.multibindings.IntoSet
 object SettingsNavigationModule {
     @Provides
     @IntoSet
-    fun provideSettingsEntries(navigator: Navigator): EntryProviderInstaller =
+    fun provideSettingsEntries(): EntryProviderInstaller =
         {
             entry<AppRoutes.SettingsRoute> {
                 val nestedNavigator = LocalNestedNavigator.current
@@ -32,7 +31,6 @@ object SettingsNavigationModule {
                     onEvent = { event ->
                         when (event) {
                             SettingsEvent.NavigateToProfile -> nestedNavigator.navigate(ProfileRoute)
-                            SettingsEvent.NavigateToLogin -> navigator.navigateAndClearBackStack(AppRoutes.LoginRoute)
                         }
                     },
                 )

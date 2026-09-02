@@ -22,5 +22,5 @@ annotation class ExecutorNetworkIO
 class AppNavigationModule {
     @Provides
     @ActivityRetainedScoped
-    fun provideNavigator(): Navigator = Navigator(startDestination = AppRoutes.LoginRoute)
+    fun provideNavigator(): Navigator = Navigator(startDestination = AppRoutes.ShellRoute)
 }

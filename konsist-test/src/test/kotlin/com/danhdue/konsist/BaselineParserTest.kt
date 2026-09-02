@@ -30,9 +30,9 @@ class BaselineParserTest {
             baselineFile(
                 """
                 |# header comment
-                |K5 com.danhdue.wallet.presentation.MyWalletViewModel   // TODO(task_9): extend MviViewModel
-                |K5 com.danhdue.scanner.presentation.ScannerViewModel    // TODO(task_9)
-                |K8 com.danhdue.trends.presentation.TrendsThing          // TODO(task_12)
+                |K5 com.example.sample.presentation.AlphaViewModel   // TODO(task_9): extend MviViewModel
+                |K5 com.example.sample.presentation.BetaViewModel    // TODO(task_9)
+                |K8 com.example.sample.presentation.GammaThing       // TODO(task_12)
                 """.trimMargin(),
             )
 
@@ -40,12 +40,12 @@ class BaselineParserTest {
 
         assertEquals(
             setOf(
-                "com.danhdue.wallet.presentation.MyWalletViewModel",
-                "com.danhdue.scanner.presentation.ScannerViewModel",
+                "com.example.sample.presentation.AlphaViewModel",
+                "com.example.sample.presentation.BetaViewModel",
             ),
             parsed["K5"],
         )
-        assertEquals(setOf("com.danhdue.trends.presentation.TrendsThing"), parsed["K8"])
+        assertEquals(setOf("com.example.sample.presentation.GammaThing"), parsed["K8"])
     }
 
     @Test

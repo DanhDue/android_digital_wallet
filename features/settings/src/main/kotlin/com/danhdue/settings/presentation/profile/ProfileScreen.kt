@@ -36,7 +36,7 @@ fun ProfileRoot(
     viewModel: ProfileViewModel = hiltViewModel(),
     onEvent: (ProfileEvent) -> Unit,
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     val currentOnEvent by androidx.compose.runtime.rememberUpdatedState(onEvent)
     LaunchedEffect(Unit) {
@@ -47,7 +47,7 @@ fun ProfileRoot(
 
     ProfileScreen(
         state = state,
-        onAction = viewModel::onAction,
+        onAction = viewModel::dispatch,
     )
 }
 

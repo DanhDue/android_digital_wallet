@@ -5,28 +5,30 @@
 package com.danhdue.shell
 
 import com.danhdue.platform.AppRoutes
+import com.danhdue.shell.tabs.HomeStubRoute
 
 /**
  * Represents the state of the Shell (the Host's main tabbed container).
  * All properties are immutable to follow MVI pattern.
  *
- * Each tab's initial nested backstack is seeded from a cross-feature `NavKey` in
- * `:platform.AppRoutes` (Task 11), so `:shell` no longer depends on any feature
- * module to build its tabs.
+ * The template shell has three tabs — [ShellTab.Home] / [ShellTab.Scanner] /
+ * [ShellTab.Settings] — and opens on [ShellTab.Settings] (the last index), matching
+ * the Flutter template. Each tab's initial nested back stack is seeded from a
+ * cross-feature `NavKey` in `:platform.AppRoutes` (Task 11), except Home, whose
+ * stub page lives inside `:shell` and never crosses a feature boundary
+ * ([HomeStubRoute]).
  *
  * @property profileName profile display name last reported by
  *   [com.danhdue.platform.AppEvent.ProfileNameChanged] — the Task 11 pilot's
  *   shell-owned label (rendered on the Settings bottom-bar tab), fed over
- *   [AppEventBus] without importing `com.danhdue.settings.*`. Blank until the
- *   Settings feature has loaded.
+ *   [com.danhdue.platform.AppEventBus] without importing `com.danhdue.settings.*`.
+ *   Blank until the Settings feature has loaded.
  */
 data class ShellState(
-    val selectedTab: ShellTab = ShellTab.Wallet,
+    val selectedTab: ShellTab = ShellTab.Settings,
     // Immutable backstacks for each tab to support nested navigation
-    val walletBackStack: List<Any> = listOf(AppRoutes.MyWalletRoute),
-    val transactionsBackStack: List<Any> = listOf(AppRoutes.TransactionListRoute),
+    val homeBackStack: List<Any> = listOf(HomeStubRoute),
     val scannerBackStack: List<Any> = listOf(AppRoutes.ScannerRoute),
-    val trendsBackStack: List<Any> = listOf(AppRoutes.TrendsRoute),
     val settingsBackStack: List<Any> = listOf(AppRoutes.SettingsRoute),
     val profileName: String = "",
 )
@@ -35,13 +37,9 @@ data class ShellState(
 sealed class ShellTab(
     val index: Int,
 ) {
-    data object Wallet : ShellTab(0)
+    data object Home : ShellTab(0)
 
-    data object Transactions : ShellTab(1)
+    data object Scanner : ShellTab(1)
 
-    data object Scanner : ShellTab(2)
-
-    data object Trends : ShellTab(3)
-
-    data object Settings : ShellTab(4)
+    data object Settings : ShellTab(2)
 }

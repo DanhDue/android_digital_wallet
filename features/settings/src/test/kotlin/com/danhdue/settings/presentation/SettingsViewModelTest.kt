@@ -77,6 +77,6 @@ class SettingsViewModelTest {
         coroutineRule.runTest {
             val viewModel = viewModel(AppEventBus())
 
-            assertEquals(false, viewModel.state.value.isLoading)
+            assertEquals(false, viewModel.uiState.value.isLoading)
         }
 }

@@ -44,10 +44,8 @@ class ShellViewModel
                 is ShellAction.NavigateInTab -> {
                     reduce {
                         when (action.tab) {
-                            ShellTab.Wallet -> copy(walletBackStack = walletBackStack + action.destination)
-                            ShellTab.Transactions -> copy(transactionsBackStack = transactionsBackStack + action.destination)
+                            ShellTab.Home -> copy(homeBackStack = homeBackStack + action.destination)
                             ShellTab.Scanner -> copy(scannerBackStack = scannerBackStack + action.destination)
-                            ShellTab.Trends -> copy(trendsBackStack = trendsBackStack + action.destination)
                             ShellTab.Settings -> copy(settingsBackStack = settingsBackStack + action.destination)
                         }
                     }
@@ -55,16 +53,9 @@ class ShellViewModel
                 is ShellAction.PopInTab -> {
                     reduce {
                         when (action.tab) {
-                            ShellTab.Wallet -> {
-                                if (walletBackStack.size > 1) {
-                                    copy(walletBackStack = walletBackStack.dropLast(1))
-                                } else {
-                                    this
-                                }
-                            }
-                            ShellTab.Transactions -> {
-                                if (transactionsBackStack.size > 1) {
-                                    copy(transactionsBackStack = transactionsBackStack.dropLast(1))
+                            ShellTab.Home -> {
+                                if (homeBackStack.size > 1) {
+                                    copy(homeBackStack = homeBackStack.dropLast(1))
                                 } else {
                                     this
                                 }
@@ -72,13 +63,6 @@ class ShellViewModel
                             ShellTab.Scanner -> {
                                 if (scannerBackStack.size > 1) {
                                     copy(scannerBackStack = scannerBackStack.dropLast(1))
-                                } else {
-                                    this
-                                }
-                            }
-                            ShellTab.Trends -> {
-                                if (trendsBackStack.size > 1) {
-                                    copy(trendsBackStack = trendsBackStack.dropLast(1))
                                 } else {
                                     this
                                 }

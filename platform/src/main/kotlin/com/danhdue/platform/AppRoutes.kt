@@ -15,38 +15,23 @@ import kotlinx.serialization.Serializable
  * other directly (Goal G4, Konsist K9). Every key is a `@Serializable data object`
  * so it round-trips through the navigation3 back stack unchanged.
  *
- * Task 11 relocated the following keys here, replacing the Phase 1 stubs:
- * - `ShellRoute` / `LoginRoute` — moved from `com.danhdue.framework.navigation`;
- * - `MyWalletRoute` / `TransactionListRoute` / `ScannerRoute` / `TrendsRoute` /
- *   `SettingsRoute` — moved from each feature's `presentation` package, since the
- *   `:shell` tab shell seeds every tab's back stack from them.
+ * The template ships three destinations: the Host tab shell (`ShellRoute`) plus
+ * the two surviving feature entry points (`ScannerRoute`, `SettingsRoute`) that
+ * `:shell` seeds its Scanner / Settings tab back stacks from. The Home tab is a
+ * `:shell`-local stub (`HomeStubRoute`) and is deliberately **not** listed here —
+ * it never crosses a feature boundary. Add a project's own auth/login route back
+ * here when the template gains an authentication flow.
  */
 object AppRoutes {
-    /** Navigation route for the Login screen (owned by `:features:authentication`). */
-    @Serializable
-    data object LoginRoute : NavKey
-
     /** Navigation route for the Host tab shell (`:shell` — `ShellRoot`). */
     @Serializable
     data object ShellRoute : NavKey
 
-    /** Entry point of the My Wallet feature — the first shell tab. */
-    @Serializable
-    data object MyWalletRoute : NavKey
-
-    /** Entry point of the Transactions feature — the second shell tab. */
-    @Serializable
-    data object TransactionListRoute : NavKey
-
-    /** Entry point of the Scanner feature (an on-demand dynamic feature module). */
+    /** Entry point of the Scanner feature (becomes an on-demand dynamic feature module in Task 14). */
     @Serializable
     data object ScannerRoute : NavKey
 
-    /** Entry point of the Trends feature — the fourth shell tab. */
-    @Serializable
-    data object TrendsRoute : NavKey
-
-    /** Entry point of the Settings feature — the fifth shell tab, and the Task 11 pilot. */
+    /** Entry point of the Settings feature — the default shell tab, and the Task 11 pilot. */
     @Serializable
     data object SettingsRoute : NavKey
 }

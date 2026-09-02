@@ -12,21 +12,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.TrendingUp
-import androidx.compose.material.icons.filled.AccountBalanceWallet
-import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -40,8 +35,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -60,7 +53,6 @@ import com.danhdue.platform.LocalEntryProviderInstallers
 import com.danhdue.uikit.R
 import com.danhdue.uikit.ui.theme.HomeGrayText
 import com.danhdue.uikit.ui.theme.HomePrimaryBlue
-import com.danhdue.uikit.ui.theme.ScannerFabGradient
 
 @Composable
 fun ShellRoot(viewModel: ShellViewModel = hiltViewModel()) {
@@ -101,16 +93,9 @@ private fun ShellScreen(
         ) {
             // Nested navigation for each tab
             ShellTabContent(
-                isVisible = state.selectedTab == ShellTab.Wallet,
-                tab = ShellTab.Wallet,
-                backStack = state.walletBackStack,
-                entryProvider = entryProvider,
-                onAction = onAction,
-            )
-            ShellTabContent(
-                isVisible = state.selectedTab == ShellTab.Transactions,
-                tab = ShellTab.Transactions,
-                backStack = state.transactionsBackStack,
+                isVisible = state.selectedTab == ShellTab.Home,
+                tab = ShellTab.Home,
+                backStack = state.homeBackStack,
                 entryProvider = entryProvider,
                 onAction = onAction,
             )
@@ -118,13 +103,6 @@ private fun ShellScreen(
                 isVisible = state.selectedTab == ShellTab.Scanner,
                 tab = ShellTab.Scanner,
                 backStack = state.scannerBackStack,
-                entryProvider = entryProvider,
-                onAction = onAction,
-            )
-            ShellTabContent(
-                isVisible = state.selectedTab == ShellTab.Trends,
-                tab = ShellTab.Trends,
-                backStack = state.trendsBackStack,
                 entryProvider = entryProvider,
                 onAction = onAction,
             )
@@ -207,29 +185,18 @@ private fun ShellBottomBar(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 TabItem(
-                    icon = Icons.Default.AccountBalanceWallet,
-                    label = "Wallet",
-                    isSelected = selectedTab == ShellTab.Wallet,
-                    onClick = { onTabSelect(ShellTab.Wallet) },
+                    icon = Icons.Default.Home,
+                    label = "Home",
+                    isSelected = selectedTab == ShellTab.Home,
+                    onClick = { onTabSelect(ShellTab.Home) },
                     selectedColor = HomePrimaryBlue,
                     unselectedColor = HomeGrayText,
                 )
                 TabItem(
-                    icon = Icons.Default.Language,
-                    label = "Browser",
-                    isSelected = selectedTab == ShellTab.Transactions,
-                    onClick = { onTabSelect(ShellTab.Transactions) },
-                    selectedColor = HomePrimaryBlue,
-                    unselectedColor = HomeGrayText,
-                )
-
-                Spacer(modifier = Modifier.width(80.dp))
-
-                TabItem(
-                    icon = Icons.AutoMirrored.Filled.TrendingUp,
-                    label = "Trends",
-                    isSelected = selectedTab == ShellTab.Trends,
-                    onClick = { onTabSelect(ShellTab.Trends) },
+                    icon = Icons.Default.QrCodeScanner,
+                    label = "Scanner",
+                    isSelected = selectedTab == ShellTab.Scanner,
+                    onClick = { onTabSelect(ShellTab.Scanner) },
                     selectedColor = HomePrimaryBlue,
                     unselectedColor = HomeGrayText,
                 )
@@ -242,26 +209,6 @@ private fun ShellBottomBar(
                     unselectedColor = HomeGrayText,
                 )
             }
-        }
-
-        Box(
-            modifier =
-                Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(y = 4.dp)
-                    .shadow(elevation = 12.dp, shape = CircleShape)
-                    .size(72.dp)
-                    .clip(CircleShape)
-                    .background(brush = ScannerFabGradient)
-                    .clickable { onTabSelect(ShellTab.Scanner) },
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = Icons.Default.QrCodeScanner,
-                contentDescription = "Scanner",
-                tint = Color.White,
-                modifier = Modifier.size(36.dp),
-            )
         }
     }
 }
@@ -314,8 +261,8 @@ private fun TabItem(
 @Composable
 private fun TabItemPreview() {
     TabItem(
-        icon = Icons.Default.AccountBalanceWallet,
-        label = "Wallet",
+        icon = Icons.Default.Home,
+        label = "Home",
         isSelected = true,
         onClick = { },
         selectedColor = HomePrimaryBlue,

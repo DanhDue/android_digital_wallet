@@ -24,7 +24,8 @@ import javax.inject.Singleton
  * fire-and-forget (`replay = 0`); with no subscriber the event is simply dropped.
  *
  * An app-side subscriber (`:app` `MainActivity`) collects the event and
- * navigates to `AppRoutes.LoginRoute`.
+ * navigates to the host's post-logout destination (the template ships no auth
+ * flow, so it currently re-points at `AppRoutes.ShellRoute`).
  */
 @Singleton
 class UnauthorizedInterceptor

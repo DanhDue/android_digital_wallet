@@ -251,21 +251,11 @@ object Modules {
     const val network = ":network"
     const val platform = ":platform"
 
-    const val dataModel = ":data:model"
-    const val dataLocal = ":data:local"
-    const val dataRemote = ":data:remote"
-    const val dataRepository = ":data:repository"
-
     const val uiKit = ":ui_kit"
     const val framework = ":framework"
     const val shell = ":shell"
     const val librariesTestUtils = ":libraries:testutils"
 
-    const val featureSplash = ":features:splash"
     const val featureSettings = ":features:settings"
-    const val featureAuthentication = ":features:authentication"
-    const val featureMyWallet = ":features:myWallet"
-    const val featureTransactions = ":features:transactions"
     const val featureScanner = ":features:scanner"
-    const val featureTrends = ":features:trends"
 }

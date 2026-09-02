@@ -4,52 +4,45 @@
  */
 package com.danhdue.scanner.presentation
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.danhdue.framework.base.mvi.MviViewModel
 import com.danhdue.scanner.domain.usecase.GetScannerDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
  * Manages the business logic and state for the Scanner feature.
+ *
+ * MVI: extends [MviViewModel]; UI intents arrive through [onAction], state is
+ * mutated with [reduce], one-off events go out via `sendEvent`.
  */
 @HiltViewModel
-class ScannerViewModel @Inject constructor(
-    private val getScannerDataUseCase: GetScannerDataUseCase,
-) : ViewModel() {
-    private val _state = MutableStateFlow(ScannerState())
-    val state = _state.asStateFlow()
+class ScannerViewModel
+    @Inject
+    constructor(
+        private val getScannerDataUseCase: GetScannerDataUseCase,
+    ) : MviViewModel<ScannerState, ScannerAction, ScannerEvent>(
+            initialState = ScannerState(),
+        ) {
+        init {
+            loadInitialData()
+        }
 
-    private val _event = MutableSharedFlow<ScannerEvent>()
-    val event = _event.asSharedFlow()
+        override fun onAction(action: ScannerAction) {
+            // No actions yet — see ScannerAction.
+            when (action) {
+                else -> Unit
+            }
+        }
 
-    init {
-        loadInitialData()
-    }
+        private fun loadInitialData() {
+            safeLaunch {
+                reduce { copy(isLoading = true) }
 
-    fun onAction(action: ScannerAction) {
-        when (action) {
-            else -> {
+                getScannerDataUseCase()
+                    .onSuccess { }
+                    .onFailure { }
+
+                reduce { copy(isLoading = false) }
             }
         }
     }
-
-    private fun loadInitialData() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-
-            getScannerDataUseCase()
-                .onSuccess {
-                }.onFailure {
-                }
-
-            _state.update { it.copy(isLoading = false) }
-        }
-    }
-}

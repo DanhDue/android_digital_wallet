@@ -1,11 +1,7 @@
 
 import commons.addDefaultConfig
-import extensions.FEATURE_AUTHENTICATION
-import extensions.FEATURE_MY_WALLET
 import extensions.FEATURE_SCANNER
 import extensions.FEATURE_SETTINGS
-import extensions.FEATURE_TRANSACTIONS
-import extensions.FEATURE_TRENDS
 import extensions.CORE
 import extensions.FRAMEWORK
 import extensions.NETWORK
@@ -115,13 +111,10 @@ dependencies {
     // `ShellNavigationModule`'s `@IntoSet EntryProviderInstaller` (`entry<ShellRoute> { ShellRoot() }`)
     // to the `@HiltAndroidApp` root.
     SHELL
-    // The 6 install-time features stay declared here so Hilt aggregates every feature's
+    // The template's install-time features stay declared here so Hilt aggregates every feature's
     // `@IntoSet EntryProviderInstaller` at the `@HiltAndroidApp` root (design §4.1, §9 Phase 2).
-    FEATURE_AUTHENTICATION
-    FEATURE_MY_WALLET
-    FEATURE_TRANSACTIONS
+    // `scanner` becomes a dynamic-feature module in Task 14.
     FEATURE_SCANNER
-    FEATURE_TRENDS
     FEATURE_SETTINGS
 
     // Testing

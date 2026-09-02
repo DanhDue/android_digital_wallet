@@ -7,14 +7,12 @@ package com.danhdue.settings.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,7 +32,7 @@ fun SettingsRoot(
     viewModel: SettingsViewModel = hiltViewModel(),
     onEvent: (SettingsEvent) -> Unit,
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     val currentOnEvent by androidx.compose.runtime.rememberUpdatedState(onEvent)
     LaunchedEffect(Unit) {
@@ -45,7 +43,7 @@ fun SettingsRoot(
 
     SettingsScreen(
         state = state,
-        onAction = viewModel::onAction,
+        onAction = viewModel::dispatch,
     )
 }
 
@@ -81,26 +79,7 @@ private fun SettingsScreen(
                             .height(50.dp),
                     enabled = true,
                 ) {
-                    if (state.isLoading) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
-                    } else {
-                        Text("Go to Profile")
-                    }
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = { onAction(SettingsAction.Logout) },
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
-                    enabled = true,
-                ) {
-                    if (state.isLoading) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
-                    } else {
-                        Text("Logout")
-                    }
+                    Text("Go to Profile")
                 }
             }
         }

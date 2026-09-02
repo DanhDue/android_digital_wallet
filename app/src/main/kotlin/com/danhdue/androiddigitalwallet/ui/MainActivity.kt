@@ -57,27 +57,30 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Observe logout events — the legacy in-process SessionManager channel and
-        // the cross-feature AppEventBus signal (Task 11: `:network` publishes
-        // AppEvent.UserLoggedOut on an unrecovered 401). Both land on login.
+        // Logout signalling is kept as template infrastructure even though the template
+        // ships no auth flow: the legacy in-process SessionManager channel and the
+        // cross-feature AppEventBus signal (Task 11: `:network` publishes
+        // AppEvent.UserLoggedOut on an unrecovered 401).
+        // Template has no auth flow — point this at your project's login route.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sessionManager.logoutEvent.collect {
-                    navigator.navigateAndClearBackStack(AppRoutes.LoginRoute)
+                    navigator.navigateAndClearBackStack(AppRoutes.ShellRoute)
                 }
             }
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 appEventBus.on<AppEvent.UserLoggedOut>().collect {
-                    navigator.navigateAndClearBackStack(AppRoutes.LoginRoute)
+                    // Template has no auth flow — point this at your project's login route.
+                    navigator.navigateAndClearBackStack(AppRoutes.ShellRoute)
                 }
             }
         }
 
         // Ensure backstack is not empty before content is set
         if (navigator.backStack.isEmpty()) {
-            navigator.navigateTo(AppRoutes.LoginRoute)
+            navigator.navigateTo(AppRoutes.ShellRoute)
         }
 
         setContent {

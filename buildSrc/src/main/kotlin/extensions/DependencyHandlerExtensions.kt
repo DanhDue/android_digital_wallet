@@ -492,22 +492,6 @@ fun DependencyHandler.addJacksonMsgPackDependencies() {
     implementation(Deps.Jackson.jacksonMsgPackDataFormat)
 }
 
-fun DependencyHandler.addModuleDependencies() {
-    implementation(project(mapOf(PATH to Modules.uiKit)))
-
-    implementation(project(mapOf(PATH to Modules.framework)))
-
-    implementation(project(mapOf(PATH to Modules.librariesTestUtils)))
-
-    implementation(project(mapOf(PATH to Modules.dataModel)))
-    implementation(project(mapOf(PATH to Modules.dataLocal)))
-    implementation(project(mapOf(PATH to Modules.dataRemote)))
-    implementation(project(mapOf(PATH to Modules.dataRepository)))
-
-    implementation(project(mapOf(PATH to Modules.featureSplash)))
-    implementation(project(mapOf(PATH to Modules.featureSettings)))
-}
-
 fun DependencyHandler.addOpenTelemetryDependencies() {
     implementation(platform(Deps.OpenTelemetry.otelBom))
     implementation(Deps.OpenTelemetry.otelApi)
@@ -549,18 +533,6 @@ val DependencyHandler.NETWORK
 val DependencyHandler.PLATFORM
     get() = implementation(project(mapOf(PATH to Modules.platform)))
 
-val DependencyHandler.MODEL
-    get() = implementation(project(mapOf(PATH to Modules.dataModel)))
-
-val DependencyHandler.LOCAL
-    get() = implementation(project(mapOf(PATH to Modules.dataLocal)))
-
-val DependencyHandler.REMOTE
-    get() = implementation(project(mapOf(PATH to Modules.dataRemote)))
-
-val DependencyHandler.REPOSITORY
-    get() = implementation(project(mapOf(PATH to Modules.dataRepository)))
-
 val DependencyHandler.UI_KIT
     get() = implementation(project(mapOf(PATH to Modules.uiKit)))
 
@@ -575,23 +547,8 @@ val DependencyHandler.SHELL
 val DependencyHandler.TEST
     get() = testImplementation(project(mapOf(PATH to Modules.librariesTestUtils)))
 
-val DependencyHandler.FEATURE_SPLASH
-    get() = implementation(project(mapOf(PATH to Modules.featureSplash)))
-
 val DependencyHandler.FEATURE_SETTINGS
     get() = implementation(project(mapOf(PATH to Modules.featureSettings)))
 
-val DependencyHandler.FEATURE_AUTHENTICATION
-    get() = implementation(project(mapOf(PATH to Modules.featureAuthentication)))
-
-val DependencyHandler.FEATURE_MY_WALLET
-    get() = implementation(project(mapOf(PATH to Modules.featureMyWallet)))
-
-val DependencyHandler.FEATURE_TRANSACTIONS
-    get() = implementation(project(mapOf(PATH to Modules.featureTransactions)))
-
 val DependencyHandler.FEATURE_SCANNER
     get() = implementation(project(mapOf(PATH to Modules.featureScanner)))
-
-val DependencyHandler.FEATURE_TRENDS
-    get() = implementation(project(mapOf(PATH to Modules.featureTrends)))

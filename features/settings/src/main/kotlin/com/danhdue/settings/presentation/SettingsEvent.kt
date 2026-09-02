@@ -10,6 +10,4 @@ package com.danhdue.settings.presentation
  */
 sealed interface SettingsEvent {
     data object NavigateToProfile : SettingsEvent
-
-    data object NavigateToLogin : SettingsEvent
 }
