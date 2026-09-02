@@ -258,10 +258,10 @@ object Modules {
 
     const val uiKit = ":ui_kit"
     const val framework = ":framework"
+    const val shell = ":shell"
     const val librariesTestUtils = ":libraries:testutils"
 
     const val featureSplash = ":features:splash"
-    const val featureHome = ":features:home"
     const val featureSettings = ":features:settings"
     const val featureAuthentication = ":features:authentication"
     const val featureMyWallet = ":features:myWallet"

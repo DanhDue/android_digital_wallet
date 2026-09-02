@@ -272,7 +272,7 @@ never on another feature.
 | `:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. | `api(:core)` |
 | `:ui_kit` | `com.danhdue.uikit` | Shared Compose design system (`ui/theme`, `ui/widgets`), Compose helpers, runtime-permission handlers. | `implementation(:core)` |
 | `:platform` | `com.danhdue.platform` | Cross-feature seam: `AppRoutes` (shared `NavKey` registry), `AppEventBus` (`SharedFlow<AppEvent>`), `EntryProviderInstaller` typealias + `LocalEntryProviderInstallers`, `FeatureEntry` / `FeatureInstaller` (DFM only). | *none* — Compose-runtime only |
-| `:shell` | `com.danhdue.shell` | *(introduced in a later phase)* Host tab-shell: `ShellViewModel`, bottom nav, per-tab nested nav, the `home` stub. | infra + every `:features:*` |
+| `:shell` | `com.danhdue.shell` | Host tab-shell: `ShellViewModel`, bottom nav, per-tab nested nav, 5 seeded tab backstacks. | infra + 5 `:features:*` (tab seeds) |
 | `:app` | `com.danhdue.androiddigitalwallet` | Thin composition root: Hilt aggregation (`Set<EntryProviderInstaller>`), `NavDisplay`, `Application`, entry `Activity`. | infra + every `:features:*` |
 | `:features:*` | `com.danhdue.{feature}` | One product feature, three layers. **Blind to every other feature.** | `:core`, `:framework`, `:network`, `:ui_kit`, `:platform` — via the `commons.android-feature` convention |
 | `:libraries:testutils` | `com.danhdue.libraries.testutils` | Shared test rules, base test classes, MockWebServer helpers. | *(test-only)* |
@@ -282,7 +282,7 @@ never on another feature.
 graph TD
     subgraph Host["Host (pure container)"]
         APP[":app — DI aggregation, NavDisplay"]
-        SHELL[":shell — tab-shell, home stub"]
+        SHELL[":shell — tab-shell"]
     end
 
     subgraph Platform[":platform (cross-feature seam)"]
@@ -427,7 +427,7 @@ another feature.
 
 ## V. Code Examples & Best Practices
 
-All examples are real code from `features/settings` and `features/home`.
+All examples are real code from `features/settings` and `shell`.
 
 ### 1. Contract Definition (Action/State/Event)
 
@@ -457,23 +457,23 @@ data object SettingsRoute : NavKey
 
 ### 2. ViewModel Implementation
 
-`features/home/presentation/HomeViewModel.kt` — a live `MviViewModel` subclass:
+`shell/src/main/kotlin/com/danhdue/shell/ShellViewModel.kt` — a live `MviViewModel` subclass:
 
 ```kotlin
 @HiltViewModel
-class HomeViewModel @Inject constructor() :
-    MviViewModel<HomeState, HomeAction, HomeEvent>(
-        initialState = HomeState(),
+class ShellViewModel @Inject constructor() :
+    MviViewModel<ShellState, ShellAction, ShellEvent>(
+        initialState = ShellState(),
     ) {
-    override fun onAction(action: HomeAction) {
+    override fun onAction(action: ShellAction) {
         when (action) {
-            is HomeAction.TabSelected ->
+            is ShellAction.TabSelected ->
                 reduce { copy(selectedTab = action.tab) }
 
-            is HomeAction.NavigateInTab ->
+            is ShellAction.NavigateInTab ->
                 reduce { copy(walletBackStack = walletBackStack + action.destination) }
 
-            is HomeAction.PopInTab ->
+            is ShellAction.PopInTab ->
                 reduce {
                     if (walletBackStack.size > 1) copy(walletBackStack = walletBackStack.dropLast(1))
                     else this

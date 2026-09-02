@@ -22,7 +22,6 @@ enum class Feature(
     val packagePrefix: String,
 ) {
     AUTHENTICATION("authentication", "com.danhdue.authentication"),
-    HOME("home", "com.danhdue.home"),
     MY_WALLET("myWallet", "com.danhdue.wallet"),
     SCANNER("scanner", "com.danhdue.scanner"),
     SETTINGS("settings", "com.danhdue.settings"),

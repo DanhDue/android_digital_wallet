@@ -122,17 +122,11 @@ class BoundaryWhitelistParserTest {
     }
 
     @Test
-    fun `the checked-in whitelist is exactly the five seeded home edges`() {
+    fun `the checked-in whitelist is empty`() {
+        // Phase 0 seeded 5 `home→*` edges from `features/home/build.gradle.kts`. Task 10 extracted
+        // the tab shell into the Host-only `:shell` module and dissolved `features/home`, so every
+        // seeded edge is gone; `:shell`'s dependency on those features is Host privilege (K6), not K1.
         val parsed = BoundaryWhitelist.parseFile(RepoRoot.resolve("scripts/konsist_boundary_whitelist.txt"))
-        assertEquals(
-            setOf(
-                FeatureEdge("home", "myWallet"),
-                FeatureEdge("home", "transactions"),
-                FeatureEdge("home", "scanner"),
-                FeatureEdge("home", "trends"),
-                FeatureEdge("home", "settings"),
-            ),
-            parsed,
-        )
+        assertEquals(emptySet<FeatureEdge>(), parsed)
     }
 }

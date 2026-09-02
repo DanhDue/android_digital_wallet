@@ -1,7 +1,6 @@
 
 import commons.addDefaultConfig
 import extensions.FEATURE_AUTHENTICATION
-import extensions.FEATURE_HOME
 import extensions.FEATURE_MY_WALLET
 import extensions.FEATURE_SCANNER
 import extensions.FEATURE_SETTINGS
@@ -11,6 +10,7 @@ import extensions.CORE
 import extensions.FRAMEWORK
 import extensions.NETWORK
 import extensions.PLATFORM
+import extensions.SHELL
 import extensions.UI_KIT
 import extensions.addCommonDependencies
 import extensions.addComposeDependencies
@@ -111,8 +111,13 @@ dependencies {
     PLATFORM
     UI_KIT
     FRAMEWORK
+    // `:shell` — the Host tab shell (relocated from `features/home`, Task 10). Contributes
+    // `ShellNavigationModule`'s `@IntoSet EntryProviderInstaller` (`entry<ShellRoute> { ShellRoot() }`)
+    // to the `@HiltAndroidApp` root.
+    SHELL
+    // The 6 install-time features stay declared here so Hilt aggregates every feature's
+    // `@IntoSet EntryProviderInstaller` at the `@HiltAndroidApp` root (design §4.1, §9 Phase 2).
     FEATURE_AUTHENTICATION
-    FEATURE_HOME
     FEATURE_MY_WALLET
     FEATURE_TRANSACTIONS
     FEATURE_SCANNER

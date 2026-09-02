@@ -10,12 +10,10 @@
 # android_super_app_template, Phase 2 Task 11 and Phase 3 Task 12). Deleting an
 # entry and then reintroducing the same import will correctly fail the gate.
 #
-# Seed (Phase 0): every cross-feature edge in features/home/build.gradle.kts —
-# `home` still owns the tab shell and imports 5 sibling features. All 5 rows
-# disappear when `home` is dissolved into `:shell` (Task 10/11).
-
-home→myWallet
-home→transactions
-home→scanner
-home→trends
-home→settings
+# Status: EMPTY. The Phase 0 seed was the 5 cross-feature edges in
+# `features/home/build.gradle.kts` — `home` owned the tab shell and imported 5
+# sibling features. Task 10 extracted that shell into the Host-only `:shell`
+# module and dissolved `features/home`, so all 5 rows are gone: `home→{myWallet,
+# transactions,scanner,trends,settings}` no longer exist. `:shell`'s remaining
+# dependency on those features is Host privilege (Konsist K6), not a K1 entry.
+# Task 11 introduces no `home`-derived entry.

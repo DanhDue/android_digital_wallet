@@ -9,9 +9,9 @@ import com.danhdue.authentication.presentation.login.LoginRoot
 import com.danhdue.authentication.presentation.registration.RegisterEvent
 import com.danhdue.authentication.presentation.registration.RegisterRoot
 import com.danhdue.authentication.presentation.registration.RegisterRoute
-import com.danhdue.framework.navigation.HomeRoute
 import com.danhdue.framework.navigation.LoginRoute
 import com.danhdue.framework.navigation.Navigator
+import com.danhdue.framework.navigation.ShellRoute
 import com.danhdue.platform.EntryProviderInstaller
 import dagger.Module
 import dagger.Provides
@@ -34,7 +34,7 @@ object AuthenticationNavigationModule {
                     onEvent = { event ->
                         when (event) {
                             LoginEvent.NavigateToRegister -> navigator.navigateTo(RegisterRoute)
-                            LoginEvent.NavigateToHome -> navigator.navigateAndClearBackStack(HomeRoute)
+                            LoginEvent.NavigateToHome -> navigator.navigateAndClearBackStack(ShellRoute)
                             LoginEvent.NavigateBack -> navigator.popBackStack()
                         }
                     },

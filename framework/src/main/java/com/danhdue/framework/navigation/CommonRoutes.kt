@@ -11,11 +11,12 @@ import kotlinx.serialization.Serializable
 data object CommonRoutes
 
 /**
- * Defines the navigation route for the Dashboard (Main) screen.
- * Moved to framework to allow cross-module navigation without circular dependencies.
+ * Defines the navigation route for the Host tab shell (`:shell` — `ShellRoot`).
+ * Lives in framework to allow cross-module navigation without circular dependencies.
+ * (Task 11 relocates this key, alongside [LoginRoute], from `:framework` to `:platform`.)
  */
 @Serializable
-data object HomeRoute : NavKey
+data object ShellRoute : NavKey
 
 /**
  * Defines the navigation route for the Login screen.

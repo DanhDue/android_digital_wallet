@@ -505,7 +505,6 @@ fun DependencyHandler.addModuleDependencies() {
     implementation(project(mapOf(PATH to Modules.dataRepository)))
 
     implementation(project(mapOf(PATH to Modules.featureSplash)))
-    implementation(project(mapOf(PATH to Modules.featureHome)))
     implementation(project(mapOf(PATH to Modules.featureSettings)))
 }
 
@@ -568,14 +567,16 @@ val DependencyHandler.UI_KIT
 val DependencyHandler.FRAMEWORK
     get() = implementation(project(mapOf(PATH to Modules.framework)))
 
+// `:shell` — Host-only tab shell (relocated from `features/home`, epic android_super_app_template
+// Task 10). Only `:app` declares this; it is not a feature accessor.
+val DependencyHandler.SHELL
+    get() = implementation(project(mapOf(PATH to Modules.shell)))
+
 val DependencyHandler.TEST
     get() = testImplementation(project(mapOf(PATH to Modules.librariesTestUtils)))
 
 val DependencyHandler.FEATURE_SPLASH
     get() = implementation(project(mapOf(PATH to Modules.featureSplash)))
-
-val DependencyHandler.FEATURE_HOME
-    get() = implementation(project(mapOf(PATH to Modules.featureHome)))
 
 val DependencyHandler.FEATURE_SETTINGS
     get() = implementation(project(mapOf(PATH to Modules.featureSettings)))

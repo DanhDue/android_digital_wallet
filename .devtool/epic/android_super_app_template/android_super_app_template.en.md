@@ -204,7 +204,7 @@ Lifecycle event vocabulary (minimal, mirrors the Flutter proposal): `ShellTabVis
 - [Task 9: Rewire consumers + enable Konsist layer rules + Android `ARCHITECTURE.md`](../../features/done/task_9_rewire_and_architecture_doc.md)
 
 ### Phase 2 — Shell + pilot
-- [Task 10: Extract `:shell`, thin `:app`, dissolve `features/home`](../../features/task_10_extract_shell_thin_app.md)
+- [Task 10: Extract `:shell`, thin `:app`, dissolve `features/home`](../../features/done/task_10_extract_shell_thin_app.md)
 - [Task 11: Relocate cross-feature `NavKey`s + `settings` pilot + enable strict gate](../../features/task_11_platform_routes_settings_pilot.md)
 
 ### Phase 3 — Cleanup + template + DFM + validation

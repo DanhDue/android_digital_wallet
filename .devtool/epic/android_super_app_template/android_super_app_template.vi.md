@@ -204,7 +204,7 @@ Từ vựng lifecycle event (tối thiểu, mirror bộ Flutter): `ShellTabVisib
 - [Task 9: Rewire consumer + bật Konsist layer rules + `ARCHITECTURE.md` Android](../../features/done/task_9_rewire_and_architecture_doc.md)
 
 ### Phase 2 — Shell + pilot
-- [Task 10: Bóc `:shell`, làm mỏng `:app`, giải thể `features/home`](../../features/task_10_extract_shell_thin_app.md)
+- [Task 10: Bóc `:shell`, làm mỏng `:app`, giải thể `features/home`](../../features/done/task_10_extract_shell_thin_app.md)
 - [Task 11: Dời `NavKey` dùng chéo + pilot `settings` + bật gate nghiêm](../../features/task_11_platform_routes_settings_pilot.md)
 
 ### Phase 3 — Dọn + template + DFM + kiểm thử
