@@ -1,6 +1,6 @@
 ---
 id: "task_9_rewire_and_architecture_doc"
-status: "backlog"
+status: "todo"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"

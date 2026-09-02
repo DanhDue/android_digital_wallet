@@ -1,6 +1,6 @@
 ---
 id: "task_6_extract_network_module"
-status: "backlog"
+status: "todo"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"

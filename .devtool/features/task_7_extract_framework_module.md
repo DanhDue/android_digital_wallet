@@ -1,6 +1,6 @@
 ---
 id: "task_7_extract_framework_module"
-status: "backlog"
+status: "todo"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
