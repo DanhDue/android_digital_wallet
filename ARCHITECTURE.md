@@ -1,10 +1,9 @@
 # Architecture
 
 The authoritative architecture guide has moved to
-**[`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md)** (Android edition).
+**[`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md)**.
 
-It covers, in the same section order as the cross-platform source
-(`bloc_digital_wallet/.worktrees/flutter_super_app_template/docs/architecture/ARCHITECTURE.md`):
+It covers:
 
 - **I. Clean Architecture + MVI** — core concepts, data-flow diagram, layer dependency rules
   (`Presentation → Domain ← Data`, pure-Kotlin domain).
@@ -15,7 +14,7 @@ It covers, in the same section order as the cross-platform source
   rules (`AppRoutes` + `AppEventBus` + Hilt `@IntoSet EntryProviderInstaller`), and Mason usage.
 - **IV. Modern Android Stack.**
 - **V. Code Examples** — real `*Action` / `*State` / `*Event` / `*ViewModel : MviViewModel` /
-  `*Screen @Composable` from `features/settings` and `features/home`.
+  `*Screen @Composable` from `features/settings` and `:shell`.
 - **VI. References** · **VII. Summary.**
 
 ## Module set (post god-module split — epic `android_super_app_template`, design §4.1)
@@ -27,8 +26,9 @@ It covers, in the same section order as the cross-platform source
 | `:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. |
 | `:ui_kit` | `com.danhdue.uikit` | Shared Compose design system + runtime-permission handlers. |
 | `:platform` | `com.danhdue.platform` | Cross-feature seam: `AppRoutes`, `AppEventBus`, `EntryProviderInstaller`, `FeatureEntry` / `FeatureInstaller`. |
+| `:shell` | `com.danhdue.shell` | Host-only tab shell: `ShellViewModel`, bottom nav, per-tab nested nav. `home` is a stub page here. |
 | `:app` | `com.danhdue.androiddigitalwallet` | Thin composition root: Hilt aggregation, `NavDisplay`, `Application`, entry `Activity`. |
-| `:features:*` | `com.danhdue.{feature}` | One product feature (data / domain / presentation). Depends only on the infrastructure modules — never on another feature. |
+| `:features:*` | `com.danhdue.{feature}` | One feature (data / domain / presentation). Ships `settings` (real) + `scanner` (on-demand DFM example). Depends only on the infrastructure modules — never on another feature. |
 | `:libraries:testutils` | `com.danhdue.libraries.testutils` | Shared test rules and base test classes. |
 | `:konsist-test` | `com.danhdue.konsist` | JVM/JUnit architecture gate (rules K1–K9). Never shipped in the APK. |
 

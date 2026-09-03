@@ -4,8 +4,6 @@
  */
 package com.danhdue.uikit.ui.theme
 
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val BluePrimary = Color(0xFF2962FF)
@@ -43,7 +41,6 @@ val GreenCircle = Color(0xFF00C853)
 val BorderLine = Color(0xFFE5E5EA)
 
 val Red700 = Color(0xFFD32F2F)
-val TrueBlue = Color(0xFF037DD6)
 
 val Gray25 = Color(0xFFF8F8F8)
 val Gray50 = Color(0xFFF1F1F1)
@@ -62,7 +59,6 @@ val Gray950 = Color(0xFF141414)
 val LightGray = Color(0xFFD3D3D3)
 val Green = Color(0xFF4CAF50)
 val RedError = Color(0xFFF44336)
-val BalanceTrendText = Color(0xFF8A0000)
 
 val selectedBottomItemColor = Red
 val unselectedBottomItemColor = Gray500
@@ -70,7 +66,7 @@ val unselectedBottomItemColor = Gray500
 val navigationBackIconDark = White
 val navigationBackIconLight = Black
 
-// Digital Wallet Colors
+// Semantic accent palette
 val PrimaryBlue = Color(0xFF007AFF)
 val SuccessGreen = Color(0xFF32D583)
 val ErrorRed = Color(0xFFF04438)
@@ -82,32 +78,7 @@ val LightText = Color(0xFF667085)
 val HomePrimaryBlue = Color(0xFF1E88E5)
 val HomeGrayText = Color(0xFF757575)
 
-// Scanner FAB Colors
-val ScannerGradientStart = Color(0xFF42A5F5)
-val ScannerGradientEnd = Color(0xFF1976D2)
-
 val LightBackground = Color(0xFFFFFBFE)
 val LightSurface = Color(0xFFFFFBFE)
 val LightOnBackground = Color(0xFF1C1B1F)
 val LightOnSurface = Color(0xFF1C1B1F)
-val PinkLady = Color(0xFFEDA5AC)
-val GreenVogue = Color(0xFF022D55)
-
-// Wallet Card Gradient
-
-val WalletCardGradient =
-    Brush.linearGradient(
-        colorStops =
-            arrayOf(
-                0.0f to TrueBlue,
-                0.2f to TrueBlue,
-                1.0f to PinkLady,
-            ),
-        start = Offset(0f, Float.POSITIVE_INFINITY),
-        end = Offset.Infinite,
-    )
-
-val ScannerFabGradient =
-    Brush.verticalGradient(
-        colors = listOf(ScannerGradientStart, ScannerGradientEnd),
-    )

@@ -4,7 +4,7 @@
 
 ### What Was Done
 
-Ripple effects have been **globally disabled** for the entire Digital Wallet Android app.
+Ripple effects have been **globally disabled** for the entire Android app.
 
 ### Implementation
 

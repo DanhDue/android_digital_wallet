@@ -1,5 +1,5 @@
 # 📘 Network Architecture Analysis: The Triple-Threat Solution
-**Project:** Android_Digital_Wallet  
+**Project:** Android Super App Template  
 **Level:** Senior Architect  
 **Tech Stack:** Hilt, Retrofit, OkHttp, Coroutines
 

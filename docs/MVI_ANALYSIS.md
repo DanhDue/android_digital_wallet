@@ -278,7 +278,7 @@ private val _uiState = MutableStateFlow(initialState)
 
 ---
 
-### Recommendation for Digital Wallet
+### Recommendation for this template
 
 > [!TIP]
 > **Keep Approach A (Dual State)** — Users expect to see balance/tokens while refreshing. The ~24 bytes overhead is negligible (~2.4 KB for 100 ViewModels).

@@ -1,6 +1,6 @@
 # 📁 Technical Summary: Dynamic Headers Strategy
 
-**Project:** Android_Digital_Wallet
+**Project:** Android Super App Template
 **Architecture:** Hybrid Network (Multi-module with Hilt/Retrofit)
 
 ---
@@ -42,7 +42,7 @@ Về phía ứng dụng, giải pháp này giúp tối ưu hóa quản lý mã n
 
 ## 4. Ví dụ kịch bản thực tế
 
-Trong dự án **Android_Digital_Wallet**, việc dán nhãn giúp phân biệt rõ ràng hành vi hệ thống:
+Trong dự án **Android Super App Template**, việc dán nhãn giúp phân biệt rõ ràng hành vi hệ thống:
 
 * **Authentication Module:** - Tag: `FeatureConfig(appId = "wallet_auth")`
     - Hành vi: BE áp dụng bảo mật WAF gắt gao; Mobile tự động điều hướng về màn hình Login nếu nhận mã 401.

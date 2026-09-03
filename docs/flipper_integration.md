@@ -1,6 +1,6 @@
 # Flipper Integration Guide
 
-This document provides a comprehensive guide to the Facebook Flipper integration in the Android Digital Wallet project. It covers setup, available plugins, and architectural details.
+This document provides a comprehensive guide to the Facebook Flipper integration in this project. It covers setup, available plugins, and architectural details.
 
 ## Quick Setup
 

@@ -61,10 +61,10 @@ class MainActivity : ComponentActivity() {
         // ships no auth flow: the legacy in-process SessionManager channel and the
         // cross-feature AppEventBus signal (Task 11: `:network` publishes
         // AppEvent.UserLoggedOut on an unrecovered 401).
-        // Template has no auth flow — point this at your project's login route.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sessionManager.logoutEvent.collect {
+                    // Template has no auth flow — point this at your project's login route.
                     navigator.navigateAndClearBackStack(AppRoutes.ShellRoute)
                 }
             }

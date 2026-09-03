@@ -1,22 +1,27 @@
-# AndroidDigitalWallet Project Context
+# Android Super App Template — Project Context
 
 ## Architecture Summary
-Follow the **Feature-First Clean Architecture** with **MVI** pattern as described in `ARCHITECTURE.md`.
+Follow the **Feature-First Clean Architecture** with **MVI** pattern as described in
+`docs/architecture/ARCHITECTURE.md` (authoritative). `ARCHITECTURE.md` at the repo root is a redirect.
 - **UDF Data Flow**: View ➡️ Action ➡️ ViewModel ➡️ UseCase ➡️ Repository ➡️ State/Event ➡️ View.
 - **Layers**: Presentation (UI/VM), Domain (UseCase/Entity/Interface), Data (Impl/Source/DTO).
 
 ## Core Rules
 1. **Domain Layer**: Keep it pure Kotlin. NO `android.*` imports.
-2. **Result Handling**: Always use `NetworkResult<T>` instead of `kotlin.Result` for async ops.
+2. **Result Handling**: Use `DataState<T>` / `NetworkResponse` for async ops, not `kotlin.Result`.
 3. **MVI Contract**: Use structured `State`, `Action`, and `Event` classes.
-4. **Build System**: All dependencies MUST come from `buildSrc` (Versions.kt / Deps.kt).
+4. **Build System**: All dependencies MUST come from `buildSrc` (`Versions.kt` / `Deps.kt`).
 5. **ViewModel**: Handle user input through a single `onAction(action)` function.
+6. **Module boundaries**: Features never import each other; cross-feature traffic goes through
+   `:platform`. The Konsist gate (`./gradlew :konsist-test:test`) enforces K1–K9.
 
 ## Module Map
-- `:features:*` - Business features.
-- `:libraries:framework` - Core infrastructure & Base classes.
-- `:domain:*` - Global domain logic.
-- `:data:*` - Global data sources.
+- `:app` / `:shell` - Host composition root + tab shell.
+- `:core` / `:framework` / `:network` / `:ui_kit` / `:platform` - Infrastructure.
+- `:features:*` - Business features (`settings` real, `scanner` on-demand DFM example).
+- `:libraries:testutils` - Shared test rules and base test classes.
+- `:konsist-test` - Architecture-enforcement gate (never shipped).
 
 ## Instructions
 Consult `PROJECT_RULES.md` for full implementation details before proposing any code changes.
+After any workflow or skill, run the `@quality_check` skill.

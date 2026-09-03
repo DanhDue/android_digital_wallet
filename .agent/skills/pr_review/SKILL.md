@@ -198,7 +198,7 @@ val user = requireNotNull(getUser()) { "User must be logged in" }
 ### 6. Security & OWASP Mobile Top 10 (2024)
 
 > [!CAUTION]
-> **CRITICAL**: These are non-negotiable security requirements for a Digital Wallet application.
+> **CRITICAL**: These are non-negotiable security requirements for a security-sensitive application.
 > Security violations are **blocking issues**.
 > Reference: [OWASP Mobile Top 10 2024](https://owasp.org/www-project-mobile-top-10/)
 

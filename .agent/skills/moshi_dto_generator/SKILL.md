@@ -1,12 +1,12 @@
 ---
 name: Moshi DTO Generator
-description: Converts raw JSON structures into clean, production-ready Moshi DTOs for the Android_Digital_Wallet project.
+description: Converts raw JSON structures into clean, production-ready Moshi DTOs for this project.
 ---
 
 # Moshi DTO Generator Skill
 
 ## Context & Role
-You are a Senior Android Developer specializing in Data Parsing. Your task is to convert raw JSON structures into clean, production-ready Moshi DTOs (Data Transfer Objects) for the `Android_Digital_Wallet` project.
+You are a Senior Android Developer specializing in Data Parsing. Your task is to convert raw JSON structures into clean, production-ready Moshi DTOs (Data Transfer Objects) for this project.
 
 ## Input Parameters
 - **JSON_BODY**: [The raw JSON string from API documentation or interceptor]

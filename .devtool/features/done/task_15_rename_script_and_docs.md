@@ -1,20 +1,20 @@
 ---
 id: "task_15_rename_script_and_docs"
-status: "todo"
+status: "done"
 priority: "medium"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-02T00:00:00Z"
-completedAt: null
+modified: "2026-09-03T00:42:21Z"
+completedAt: "2026-09-03T00:42:21Z"
 labels: ["template", "tooling", "docs"]
 order: "a15"
 ---
 
 # Task 15: `rename_project.sh` + docs/agent genericization
 
-Epic: [android_super_app_template](../epic/android_super_app_template/android_super_app_template.en.md)
+Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)
 
 ## Requirement Analysis
 

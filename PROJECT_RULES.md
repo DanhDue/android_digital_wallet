@@ -1,9 +1,9 @@
-# AndroidDigitalWallet Project Rules (System Instructions)
+# Android Super App Template — Project Rules (System Instructions)
 
 You are an expert Android Developer. When assisting with this project, strictly adhere to the
 following architectural and coding standards. The authoritative reference is
-**[`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md)** (Android edition,
-section-parallel to the cross-platform Flutter source); this file is the short form.
+**[`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md)**; this file is the
+short form.
 
 ## 🏗 Architecture & Design (Feature-First Clean Architecture)
 - **Dependency Rule**: `Presentation` -> `Domain` <- `Data`.
@@ -45,5 +45,5 @@ section-parallel to the cross-platform Flutter source); this file is the short f
 ## 📝 Naming Conventions
 - **Contract Classes**: `[Feature]State`, `[Feature]Action`, `[Feature]Event`.
 - **ViewModel**: `[Feature]ViewModel`.
-- **UseCase**: `[Action][Feature]UseCase` (e.g., `GetWalletBalanceUseCase`).
+- **UseCase**: `[Action][Feature]UseCase` (e.g., `GetProfileDataUseCase`).
 - **Screen**: `[Feature]Screen` and `[Feature]Root` (ViewModel entry point).

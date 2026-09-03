@@ -2,8 +2,8 @@
 
 *(Feature-First Organization — Android edition)*
 
-This document is the **authoritative architecture guide** for the `android_digital_wallet`
-project and the `android_super_app_template` extracted from it.
+This document is the **authoritative architecture guide** for this template and for projects
+generated from it.
 
 > **Canonical cross-platform source.** The layer rules and MVI contract are defined once, for
 > the whole product family, in the sibling repository at

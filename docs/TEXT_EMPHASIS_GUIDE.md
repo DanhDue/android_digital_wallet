@@ -1,6 +1,6 @@
 # Text Emphasis Guide for Material 3
 
-This guide explains how to use emphasized text in your Android Digital Wallet app using Material 3 design principles.
+This guide explains how to use emphasized text in your app using Material 3 design principles.
 
 ## What is Text Emphasis?
 

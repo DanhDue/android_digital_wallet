@@ -2,7 +2,7 @@
 
 ## Overview
 
-Ripple effects have been **disabled globally** for the entire Digital Wallet app across all feature modules.
+Ripple effects have been **disabled globally** for the entire app across all feature modules.
 
 ## Implementation Date
 

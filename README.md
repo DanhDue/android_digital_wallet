@@ -1,45 +1,61 @@
-# Android Digital Wallet
+# Android Super App Template
 
-A modern Android application implementing standard Clean Architecture with MVI pattern, built with Jetpack Compose.
+A governed, multi-module Android template: Clean Architecture + MVI, Jetpack Compose,
+a Host/Shell composition root, an on-demand Dynamic Feature Module example, and a
+Konsist architecture gate. Clone it, run one script, start building.
 
 ## Table of Contents
 
-- [I. Development Environment Setup](#i-development-environment-setup)
+- [I. Getting Started](#i-getting-started)
 - [II. Architecture](#ii-architecture)
   1. [Clean Architecture](#1-clean-architecture)
   2. [MVI Pattern](#2-mvi-pattern)
   3. [Project Structure](#3-project-structure)
-- [III. Demos](#iii-demos)
-- [IV. Tech Stack & Libraries](#iv-tech-stack--libraries)
-- [V. References](#v-references)
-- [VI. License](#vi-license)
+- [III. Tech Stack & Libraries](#iii-tech-stack--libraries)
+- [IV. References](#iv-references)
+- [V. License](#v-license)
 
 ---
 
-## I. Development Environment Setup
-
-This guide explains how to set up your development environment.
+## I. Getting Started
 
 ### 1. Prerequisites
 
 - **Java JDK**: 17 or higher.
-- **Android Studio**: Latest Koala or higher.
-- **Dart SDK**: Required for code generation tools.
+- **Android Studio**: Latest stable or higher.
+- **Dart SDK**: only for [Mason][1], the feature-scaffolding tool.
 
-### 2. Code Generation (Mason)
+### 2. Rename the project (mandatory first step)
 
-This project uses [Mason][1] for automating feature creation.
+After cloning, run the single post-clone entrypoint to replace the template's
+package / applicationId / namespace / rootProject name / app label in one pass:
+
+```bash
+./scripts/rename_project.sh acme_wallet com.acme.wallet "Acme Wallet"
+git add -A && git commit -m "chore: rename project from template"
+```
+
+See **[docs/getting-started/TEMPLATE_USAGE.md](docs/getting-started/TEMPLATE_USAGE.md)**
+for the full workflow (adding features, where the rules live).
+
+### 3. Feature scaffolding (Mason)
 
 > **See the [Mason Guide](docs/MASON_GUIDE.md) for full instructions on creating features and screens.**
 
-Quick setup:
 ```bash
-# Install Mason CLI
 dart pub global activate mason_cli
-
-# Get bricks
 mason get
+
+# install-time feature module
+mason make mvi_feature --name Profile --package com.acme.profile --screen Main
+
+# on-demand Dynamic Feature Module
+mason make mvi_feature --name Rewards --package com.acme.rewards --screen Main --delivery on-demand
 ```
+
+> The `__brick__` templates hardcode the template's original infra import prefix and
+> `rename_project.sh` never touches `bricks/` — run `mason make` before the rename, or pass
+> `--package` (as above) and repoint the generated infra `import` lines to your vendor prefix.
 
 ---
 
@@ -69,66 +85,36 @@ We use a Unidirectional Data Flow (UDF):
 
 The project is organized by **Feature**, not by Layer.
 
--   **High Cohesion**: All code related to a feature (Data, Domain, Presentation) lives in one module (e.g., `features/home`).
--   **Decoupled**: Features are independent modules, making them easy to test, reuse, or remove.
--   **Scalable**: New features are added as new modules without impacting existing code.
+-   **High Cohesion**: All code for a feature (Data, Domain, Presentation) lives in one `:features:*` module.
+-   **Decoupled**: Features never depend on each other — cross-feature traffic goes through `:platform` (`AppRoutes` / `AppEventBus` / `EntryProviderInstaller`).
+-   **Scalable**: New features are added as new modules; a Konsist gate (K1–K9) enforces the boundaries.
 
 ### 4. Project Structure
 
 ```text
-android_digital_wallet/
-├── app/                  # Application module, DI root, Navigation host
-├── buildSrc/             # Build logic & Dependency management (Kotlin DSL)
-├── features/             # Business Logic Modules
-│   ├── authentication/
-│   ├── home/
-│   ├── wallet/
-│   ├── scanner/
-│   ├── transactions/
-│   ├── trends/
-│   ├── settings/
-│   └── ...
-├── libraries/            # Shared components & utilities
-│   ├── framework/        # Base classes (MVI, ViewModels)
-│   ├── jetframework/     # UI Design System & Compose Utils
-│   └── testing/          # Unit & Instrument test helpers
-└── bricks/               # Mason code generation templates
+<project-root>/
+├── app/                  # Thin composition root: Hilt aggregation, NavDisplay, Application, entry Activity
+├── shell/                # Host-only tab shell (ShellViewModel + bottom nav + per-tab nested nav); home is a stub page here
+├── buildSrc/             # Convention plugins + centralized dependency management (Kotlin DSL)
+├── core/                 # Dependency floor: DataState/NetworkResponse, DispatcherProvider, extensions, prefs, Room base, SessionManager, Logger
+├── framework/            # MviViewModel / MvvmViewModel / BaseViewState + the navigation3 host mechanism
+├── network/              # Retrofit / OkHttp / Moshi wiring, interceptors, apiCall / Failure, Flipper network tooling
+├── ui_kit/               # Shared Compose design system + runtime-permission handlers
+├── platform/             # Cross-feature seam: AppRoutes, AppEventBus, EntryProviderInstaller, FeatureEntry / FeatureInstaller
+├── features/
+│   ├── settings/         # Real reference feature (theme / locale / profile)
+│   └── scanner/          # On-demand Dynamic Feature Module example (com.android.dynamic-feature)
+├── libraries/
+│   └── testutils/        # Shared test rules and base test classes
+├── konsist-test/         # JVM/JUnit architecture gate (rules K1–K9); never shipped in the APK
+└── bricks/               # Mason code-generation templates (mvi_feature, mvi_subfeature, ...)
 ```
 
-
-- **`buildSrc`**: Centralized dependency management using Kotlin DSL.
-- **`app`**: Main application module, handling DI roots and navigation.
-- **`features/`**: Feature modules (e.g., `home`, `payment`, `authentication`).
-- **`libraries/`**: Core shared modules:
-    - `framework`: Base classes (MVI, BaseViewModel), Extensions.
-    - `jetframework`: Compose-specific utilities, Design System.
-    - `testing`: Test utilities and rule sets.
+Full detail and the module dependency graph: **[docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md)**.
 
 ---
 
-## III. Demos
-
-<table>
-  <tr>
-    <td align="center"><b>Splash & Onboard</b></td>
-    <td align="center"><b>Wallet List</b></td>
-    <td align="center"><b>Token Details</b></td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/demo_01.gif" width="250"/></td>
-    <td><img src="screenshots/demo_02.gif" width="250"/></td>
-    <td><img src="screenshots/demo_03.gif" width="250"/></td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/demo_04.gif" width="250"/></td>
-    <td><img src="screenshots/demo_05.gif" width="250"/></td>
-    <td><img src="screenshots/demo_06.gif" width="250"/></td>
-  </tr>
-</table>
-
----
-
-## IV. Tech Stack & Libraries
+## III. Tech Stack & Libraries
 
 ### Core & Architecture
 *   [Kotlin][2] - First-class language for Android.
@@ -161,7 +147,7 @@ android_digital_wallet/
 
 ---
 
-## V. References
+## IV. References
 
 *   [Guide to App Architecture][22]
 *   [Jetpack Compose Documentation][3]
@@ -206,7 +192,7 @@ android_digital_wallet/
 
 ---
 
-## VI. License
+## V. License
 
 ```
 Copyright 2026 DanhDue ExOICTIF
