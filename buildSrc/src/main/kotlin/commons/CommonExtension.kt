@@ -65,6 +65,13 @@ fun CommonExtension<*, *, *, *, *, *>.addComposeConfig() {
     }
 
     packaging {
+        // 16 KB page alignment for Android 15+: ship uncompressed, non-legacy JNI
+        // so the platform can map .so files on a 16 KB boundary. Pairs with
+        // `android.bundle.enableUncompressedNativeLibs=true` in gradle.properties.
+        jniLibs {
+            useLegacyPackaging = false
+            pickFirsts.add("**/*.so")
+        }
         resources.excludes.apply {
             add("META-INF/AL2.0")
             add("META-INF/LGPL2.1")
@@ -82,7 +89,6 @@ fun CommonExtension<*, *, *, *, *, *>.addComposeConfig() {
             add("META-INF/*.kotlin_module")
             add("META-INF/gradle/incremental.annotation.processors")
             add("/META-INF/{AL2.0,LGPL2.1,gradle-plugins}")
-            jniLibs.pickFirsts.add("**/*.so")
         }
     }
 }
@@ -138,6 +144,13 @@ fun CommonExtension<*, *, *, *, *, *>.addDefaultConfig() {
     }
 
     packaging {
+        // 16 KB page alignment for Android 15+: ship uncompressed, non-legacy JNI
+        // so the platform can map .so files on a 16 KB boundary. Pairs with
+        // `android.bundle.enableUncompressedNativeLibs=true` in gradle.properties.
+        jniLibs {
+            useLegacyPackaging = false
+            pickFirsts.add("**/*.so")
+        }
         resources.excludes.apply {
             add("META-INF/AL2.0")
             add("META-INF/LGPL2.1")
@@ -155,7 +168,6 @@ fun CommonExtension<*, *, *, *, *, *>.addDefaultConfig() {
             add("META-INF/*.kotlin_module")
             add("META-INF/gradle/incremental.annotation.processors")
             add("/META-INF/{AL2.0,LGPL2.1,gradle-plugins}")
-            jniLibs.pickFirsts.add("**/*.so")
         }
     }
 }
@@ -210,6 +222,13 @@ fun CommonExtension<*, *, *, *, *, *>.addLibDefaultConfig() {
     }
 
     packaging {
+        // 16 KB page alignment for Android 15+: ship uncompressed, non-legacy JNI
+        // so the platform can map .so files on a 16 KB boundary. Pairs with
+        // `android.bundle.enableUncompressedNativeLibs=true` in gradle.properties.
+        jniLibs {
+            useLegacyPackaging = false
+            pickFirsts.add("**/*.so")
+        }
         resources.excludes.apply {
             add("META-INF/AL2.0")
             add("META-INF/LGPL2.1")
@@ -227,7 +246,6 @@ fun CommonExtension<*, *, *, *, *, *>.addLibDefaultConfig() {
             add("META-INF/*.kotlin_module")
             add("META-INF/gradle/incremental.annotation.processors")
             add("/META-INF/{AL2.0,LGPL2.1,gradle-plugins}")
-            jniLibs.pickFirsts.add("**/*.so")
         }
     }
 }

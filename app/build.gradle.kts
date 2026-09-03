@@ -84,10 +84,12 @@ android {
         textOutput = File("${project.rootDir}/build/reports/lint/lint-results-debug.txt")
     }
 
-    // Required for Flipper native libs on Android 15+ (16KB page alignment)
+    // 16 KB page alignment for Android 15+: non-legacy JNI packaging keeps .so
+    // files uncompressed and 16 KB-aligned in the APK/bundle. Pairs with
+    // `android.bundle.enableUncompressedNativeLibs=true` in gradle.properties.
     packaging {
         jniLibs {
-            useLegacyPackaging = true
+            useLegacyPackaging = false
         }
     }
 
