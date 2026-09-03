@@ -86,7 +86,7 @@ We use a Unidirectional Data Flow (UDF):
 The project is organized by **Feature**, not by Layer.
 
 -   **High Cohesion**: All code for a feature (Data, Domain, Presentation) lives in one `:features:*` module.
--   **Decoupled**: Features never depend on each other — cross-feature traffic goes through `:platform` (`AppRoutes` / `AppEventBus` / `EntryProviderInstaller`).
+-   **Decoupled**: Features never depend on each other — cross-feature traffic goes through `:infra:platform` (`AppRoutes` / `AppEventBus` / `EntryProviderInstaller`).
 -   **Scalable**: New features are added as new modules; a Konsist gate (K1–K9) enforces the boundaries.
 
 ### 4. Project Structure
@@ -96,11 +96,12 @@ The project is organized by **Feature**, not by Layer.
 ├── app/                  # Thin composition root: Hilt aggregation, NavDisplay, Application, entry Activity
 ├── shell/                # Host-only tab shell (ShellViewModel + bottom nav + per-tab nested nav); home is a stub page here
 ├── buildSrc/             # Convention plugins + centralized dependency management (Kotlin DSL)
-├── core/                 # Dependency floor: DataState/NetworkResponse, DispatcherProvider, extensions, prefs, Room base, SessionManager, Logger
-├── framework/            # MviViewModel / MvvmViewModel / BaseViewState + the navigation3 host mechanism
-├── network/              # Retrofit / OkHttp / Moshi wiring, interceptors, apiCall / Failure, Flipper network tooling
-├── ui_kit/               # Shared Compose design system + runtime-permission handlers
-├── platform/             # Cross-feature seam: AppRoutes, AppEventBus, EntryProviderInstaller, FeatureEntry / FeatureInstaller
+├── infra/                # Infrastructure modules
+│   ├── core/             # Dependency floor: DataState/NetworkResponse, DispatcherProvider, extensions, prefs, Room base, SessionManager, Logger
+│   ├── framework/        # MviViewModel / MvvmViewModel / BaseViewState + the navigation3 host mechanism
+│   ├── network/          # Retrofit / OkHttp / Moshi wiring, interceptors, apiCall / Failure, Flipper network tooling
+│   ├── platform/         # Cross-feature seam: AppRoutes, AppEventBus, EntryProviderInstaller, FeatureEntry / FeatureInstaller
+│   └── ui_kit/           # Shared Compose design system + runtime-permission handlers
 ├── features/
 │   ├── settings/         # Real reference feature (theme / locale / profile)
 │   └── scanner/          # On-demand Dynamic Feature Module example (com.android.dynamic-feature)

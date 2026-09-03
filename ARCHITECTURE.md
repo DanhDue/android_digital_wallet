@@ -21,11 +21,11 @@ It covers:
 
 | Module | Package | Role |
 |---|---|---|
-| `:core` | `com.danhdue.core` | Dependency floor: `DataState` / `NetworkResponse`, `DispatcherProvider`, `extension/*`, `pref/*`, `room/*`, `SessionManager`, `usecase/*`, `Logger`, `AppInitializer`. Compose-free, no project dependencies. |
-| `:framework` | `com.danhdue.framework` | `MviViewModel` / `MvvmViewModel` / `BaseViewState` + the navigation3 host mechanism (`Navigator`, `NestedNavigator`, `ObserveBackstackForFlipper`). |
-| `:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. |
-| `:ui_kit` | `com.danhdue.uikit` | Shared Compose design system + runtime-permission handlers. |
-| `:platform` | `com.danhdue.platform` | Cross-feature seam: `AppRoutes`, `AppEventBus`, `EntryProviderInstaller`, `FeatureEntry` / `FeatureInstaller`. |
+| `:infra:core` | `com.danhdue.core` | Dependency floor: `DataState` / `NetworkResponse`, `DispatcherProvider`, `extension/*`, `pref/*`, `room/*`, `SessionManager`, `usecase/*`, `Logger`, `AppInitializer`. Compose-free, no project dependencies. |
+| `:infra:framework` | `com.danhdue.framework` | `MviViewModel` / `MvvmViewModel` / `BaseViewState` + the navigation3 host mechanism (`Navigator`, `NestedNavigator`, `ObserveBackstackForFlipper`). |
+| `:infra:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. |
+| `:infra:ui_kit` | `com.danhdue.uikit` | Shared Compose design system + runtime-permission handlers. |
+| `:infra:platform` | `com.danhdue.platform` | Cross-feature seam: `AppRoutes`, `AppEventBus`, `EntryProviderInstaller`, `FeatureEntry` / `FeatureInstaller`. |
 | `:shell` | `com.danhdue.shell` | Host-only tab shell: `ShellViewModel`, bottom nav, per-tab nested nav. `home` is a stub page here. |
 | `:app` | `com.danhdue.androiddigitalwallet` | Thin composition root: Hilt aggregation, `NavDisplay`, `Application`, entry `Activity`. |
 | `:features:*` | `com.danhdue.{feature}` | One feature (data / domain / presentation). Ships `settings` (real) + `scanner` (on-demand DFM example). Depends only on the infrastructure modules — never on another feature. |

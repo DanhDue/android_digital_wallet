@@ -86,7 +86,7 @@ dependencies {
     // Inverted DFM dependency — the split depends on the host, not vice-versa.
     // `:app` must never declare `implementation(project(":features:scanner"))`.
     implementation(project(":app"))
-    implementation(project(":platform"))
+    implementation(project(":infra:platform"))
 
     FRAMEWORK
     UI_KIT

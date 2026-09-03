@@ -22,16 +22,18 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidDigitalWallet"
 include(":app")
+// ── Infrastructure modules (grouped under infra/) ──────────────────────────
 // Core — the dependency floor (first split of the former framework god-module, epic android_super_app_template)
-include(":core")
+include(":infra:core")
 // Network — the HTTP stack (second split of the former framework god-module, epic android_super_app_template)
-include(":network")
+include(":infra:network")
 // Platform
-include(":platform")
-// Framework — MVI base + navigation3 host mechanism (relocated to the repo root, epic android_super_app_template)
-include(":framework")
+include(":infra:platform")
+// Framework — MVI base + navigation3 host mechanism (epic android_super_app_template)
+include(":infra:framework")
 // UI Kit — Compose design system + UI helpers; merge of the former components + jetframework library modules (epic android_super_app_template, design §4.1)
-include(":ui_kit")
+include(":infra:ui_kit")
+// ── Host ────────────────────────────────────────────────────────────────────
 // Shell — Host-only tab shell (ShellViewModel + bottom nav + per-tab nested nav); relocated from features/home (epic android_super_app_template, design §4.1, §9 Phase 2, Task 10)
 include(":shell")
 // Libraries

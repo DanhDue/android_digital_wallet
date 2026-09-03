@@ -225,7 +225,7 @@ phase_1() {
   _assert 'grep -q ":features:kyc" settings.gradle.kts'                   "kyc in settings.gradle.kts"
   _assert 'grep -q "\":features:kyc\"" app/build.gradle.kts'             "kyc in :app android.dynamicFeatures"
   _assert_not 'grep -q "FEATURE_KYC" app/build.gradle.kts'              "kyc is NOT ALSO an install-time :app dep"
-  _assert 'grep -q "KycRoute" platform/src/main/kotlin/com/danhdue/platform/AppRoutes.kt' \
+  _assert 'grep -q "KycRoute" infra/platform/src/main/kotlin/com/danhdue/platform/AppRoutes.kt' \
                                                                          "KycRoute forced into :platform AppRoutes"
   _assert 'grep -q "com.danhdue.kyc.presentation.di.KycFeatureEntry" app/src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry' \
                                                                          "kyc FeatureEntry appended to the :app-owned ServiceLoader file"
@@ -253,7 +253,7 @@ phase_2() {
                                                                          "no com.danhdue.* left in the two fresh features"
   _assert '[ -d features/payments/src/main/kotlin/com/acme/payments ]'   "payments package physically moved to com/acme"
   _assert '[ -d features/kyc/src/main/kotlin/com/acme/kyc ]'             "kyc package physically moved to com/acme"
-  _assert 'grep -q "KycRoute" platform/src/main/kotlin/com/acme/platform/AppRoutes.kt' \
+  _assert 'grep -q "KycRoute" infra/platform/src/main/kotlin/com/acme/platform/AppRoutes.kt' \
                                                                          "KycRoute still wired after rename"
   _assert '[ -d app/src/main/kotlin/com/acme/wallet ] && git grep -qI "com\.acme\.wallet"' \
                                                                          "app package / applicationId renamed to com.acme.wallet"
@@ -328,7 +328,7 @@ phase_5() {
 
   # on-demand wire points that must also be unwound (glob for the real package dir
   # since the project has been renamed away from com.danhdue)
-  _assert_not 'grep -Rql --include=AppRoutes.kt -E "PaymentsRoute|KycRoute" platform/src/main/kotlin' \
+  _assert_not 'grep -Rql --include=AppRoutes.kt -E "PaymentsRoute|KycRoute" infra/platform/src/main/kotlin' \
                                                                                  "PaymentsRoute/KycRoute removed from :platform AppRoutes"
   _assert_not 'grep -Rql --include=OnDemandFeatures.kt -E "\"payments\"|\"kyc\"" shell/src/main/kotlin' \
                                                                                  "payments/kyc entry removed from :shell OnDemandFeatures"
@@ -345,7 +345,7 @@ phase_5() {
   local stray
   stray="$(git status --porcelain \
     | sed 's/^...//' \
-    | grep -Ev '^(features/(payments|kyc)/|app/build\.gradle\.kts$|settings\.gradle\.kts$|buildSrc/src/main/kotlin/(Deps\.kt$|extensions/DependencyHandlerExtensions\.kt$)|platform/src/main/kotlin/.*/AppRoutes\.kt$|shell/src/main/kotlin/.*/OnDemandFeatures\.kt$|app/src/main/res/values/strings\.xml$|app/src/main/resources/META-INF/services/[^/]*\.platform\.FeatureEntry$)' \
+    | grep -Ev '^(features/(payments|kyc)/|app/build\.gradle\.kts$|settings\.gradle\.kts$|buildSrc/src/main/kotlin/(Deps\.kt$|extensions/DependencyHandlerExtensions\.kt$)|infra/platform/src/main/kotlin/.*/AppRoutes\.kt$|shell/src/main/kotlin/.*/OnDemandFeatures\.kt$|app/src/main/res/values/strings\.xml$|app/src/main/resources/META-INF/services/[^/]*\.platform\.FeatureEntry$)' \
     || true)"
   if [ -n "${stray}" ]; then
     echo "  FAIL: remove_feature touched files outside its wire-point set:"

@@ -267,14 +267,14 @@ never on another feature.
 
 | Module | Package | Role | Project dependencies |
 |---|---|---|---|
-| `:core` | `com.danhdue.core` | Dependency floor. `DataState` / `NetworkResponse` call-adapter, `DispatcherProvider`, `extension/*`, `pref/*` (DataStore + Tink), `room/*` (`BaseDao`, converters), `SessionManager`, `usecase/*`, `Logger` contract, `AppInitializer`. **Compose-free.** | *none* |
-| `:framework` | `com.danhdue.framework` | `MviViewModel` / `MvvmViewModel` / `BaseViewState`; the navigation3 mechanism — `Navigator` (`@ActivityRetainedScoped` backstack), `NestedNavigator` + `LocalNestedNavigator`, `ObserveBackstackForFlipper`; app-lifecycle plumbing. | `api(:core)`, `implementation(:network)` |
-| `:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. | `api(:core)` |
-| `:ui_kit` | `com.danhdue.uikit` | Shared Compose design system (`ui/theme`, `ui/widgets`), Compose helpers, runtime-permission handlers. | `implementation(:core)` |
-| `:platform` | `com.danhdue.platform` | Cross-feature seam: `AppRoutes` (shared `NavKey` registry), `AppEventBus` (`SharedFlow<AppEvent>`), `EntryProviderInstaller` typealias + `LocalEntryProviderInstallers`, `FeatureEntry` / `FeatureInstaller` (DFM only). | *none* — Compose-runtime only |
+| `:infra:core` | `com.danhdue.core` | Dependency floor. `DataState` / `NetworkResponse` call-adapter, `DispatcherProvider`, `extension/*`, `pref/*` (DataStore + Tink), `room/*` (`BaseDao`, converters), `SessionManager`, `usecase/*`, `Logger` contract, `AppInitializer`. **Compose-free.** | *none* |
+| `:infra:framework` | `com.danhdue.framework` | `MviViewModel` / `MvvmViewModel` / `BaseViewState`; the navigation3 mechanism — `Navigator` (`@ActivityRetainedScoped` backstack), `NestedNavigator` + `LocalNestedNavigator`, `ObserveBackstackForFlipper`; app-lifecycle plumbing. | `api(:infra:core)`, `implementation(:infra:network)` |
+| `:infra:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. | `api(:infra:core)` |
+| `:infra:ui_kit` | `com.danhdue.uikit` | Shared Compose design system (`ui/theme`, `ui/widgets`), Compose helpers, runtime-permission handlers. | `implementation(:infra:core)` |
+| `:infra:platform` | `com.danhdue.platform` | Cross-feature seam: `AppRoutes` (shared `NavKey` registry), `AppEventBus` (`SharedFlow<AppEvent>`), `EntryProviderInstaller` typealias + `LocalEntryProviderInstallers`, `FeatureEntry` / `FeatureInstaller` (DFM only). | *none* — Compose-runtime only |
 | `:shell` | `com.danhdue.shell` | Host tab-shell: `ShellViewModel`, bottom nav, per-tab nested nav, 5 seeded tab backstacks. | infra + 5 `:features:*` (tab seeds) |
 | `:app` | `com.danhdue.androiddigitalwallet` | Thin composition root: Hilt aggregation (`Set<EntryProviderInstaller>`), `NavDisplay`, `Application`, entry `Activity`. | infra + every `:features:*` |
-| `:features:*` | `com.danhdue.{feature}` | One product feature, three layers. **Blind to every other feature.** | `:core`, `:framework`, `:network`, `:ui_kit`, `:platform` — via the `commons.android-feature` convention |
+| `:features:*` | `com.danhdue.{feature}` | One product feature, three layers. **Blind to every other feature.** | `:infra:core`, `:infra:framework`, `:infra:network`, `:infra:ui_kit`, `:infra:platform` — via the `commons.android-feature` convention |
 | `:libraries:testutils` | `com.danhdue.libraries.testutils` | Shared test rules, base test classes, MockWebServer helpers. | *(test-only)* |
 | `:konsist-test` | `com.danhdue.konsist` | JVM/JUnit architecture gate (rules K1–K9). Never shipped in the APK. | *(reads the source tree)* |
 
@@ -285,7 +285,7 @@ graph TD
         SHELL[":shell — tab-shell"]
     end
 
-    subgraph Platform[":platform (cross-feature seam)"]
+    subgraph Platform[":infra:platform (cross-feature seam)"]
         ROUTES["AppRoutes (shared NavKey registry)"]
         BUS["AppEventBus (SharedFlow&lt;AppEvent&gt;)"]
         FE["FeatureEntry / FeatureInstaller (DFM only)"]
@@ -297,11 +297,11 @@ graph TD
         F_BIZ[":features:* (source repo: authentication, myWallet, …)"]
     end
 
-    subgraph Infra["Infrastructure"]
-        FRAMEWORK[":framework — MviViewModel, navigation3 mechanism"]
-        NETWORK[":network — Retrofit/OkHttp + authenticator"]
-        UIKIT[":ui_kit — Compose design system + permission"]
-        CORE[":core — DataState, session, pref, room, utils, Logger"]
+    subgraph Infra["Infrastructure (infra/)"]
+        FRAMEWORK[":infra:framework — MviViewModel, navigation3 mechanism"]
+        NETWORK[":infra:network — Retrofit/OkHttp + authenticator"]
+        UIKIT[":infra:ui_kit — Compose design system + permission"]
+        CORE[":infra:core — DataState, session, pref, room, utils, Logger"]
     end
 
     APP --> SHELL
@@ -638,7 +638,7 @@ viewModel.openProfile()                         // ❌ second entry point
 | Aspect | Implementation |
 |--------|----------------|
 | **Architecture** | Clean Architecture (3 layers) + MVI |
-| **Structure** | Feature-first in `features/*`; infrastructure in `:core` / `:framework` / `:network` / `:ui_kit` / `:platform` |
+| **Structure** | Feature-first in `features/*`; infrastructure in `:infra:core` / `:infra:framework` / `:infra:network` / `:infra:ui_kit` / `:infra:platform` |
 | **State management** | `MviViewModel<State, Action, Event>`, single `onAction()` |
 | **DI** | Hilt, one flat `SingletonComponent`, `@IntoSet` multibinding for feature navigation |
 | **Navigation** | navigation3 `NavDisplay` + `Navigator` / `NestedNavigator`; cross-feature `NavKey`s in `:platform AppRoutes` |

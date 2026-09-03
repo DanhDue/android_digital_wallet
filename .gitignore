@@ -13,3 +13,4 @@ build
 # after clone — committing them pins every consumer to THIS machine's checkout.
 .mason/
 mason-lock.json
+bin/

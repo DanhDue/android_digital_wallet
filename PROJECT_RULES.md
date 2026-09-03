@@ -35,10 +35,10 @@ short form.
   - **Modules**: `Modules` object in `Deps.kt`.
 - **No Hardcoding**: Never hardcode version strings or library paths in `build.gradle.kts` files.
 - **Multi-module**: Respect module boundaries. Features live in `:features:*` and depend **only**
-  on the infrastructure modules `:core` / `:framework` / `:network` / `:ui_kit` / `:platform` —
-  never on another feature. `:core` is the floor (no project dependencies); `:framework` is only
-  for modules with UI/state. `:core` + `:platform` are wired automatically by the
-  `commons.android-feature` convention. Cross-feature traffic goes through `:platform`
+  on the infrastructure modules `:infra:core` / `:infra:framework` / `:infra:network` / `:infra:ui_kit` / `:infra:platform` —
+  never on another feature. `:infra:core` is the floor (no project dependencies); `:infra:framework` is only
+  for modules with UI/state. `:infra:core` + `:infra:platform` are wired automatically by the
+  `commons.android-feature` convention. Cross-feature traffic goes through `:infra:platform`
   (`AppRoutes` / `AppEventBus` / `@IntoSet EntryProviderInstaller`). Konsist (K1–K9) + a Gradle
   guard enforce this — run `./gradlew :konsist-test:test`.
 

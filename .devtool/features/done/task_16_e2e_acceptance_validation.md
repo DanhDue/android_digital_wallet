@@ -1,17 +1,16 @@
 ---
 id: "task_16_e2e_acceptance_validation"
-status: "in-progress"
+status: "done"
 priority: "high"
 assignee: null
 epic: "android_super_app_template"
 dueDate: null
 created: "2026-09-02T00:00:00Z"
-modified: "2026-09-03T02:04:20Z"
-completedAt: "2026-09-03T02:04:20Z"
+modified: "2026-09-03T04:26:01.253Z"
+completedAt: "2026-09-03T04:26:01.253Z"
 labels: ["ci", "validation", "template"]
-order: "a16"
+order: "aA"
 ---
-
 # Task 16: CI `bundleDebug` + end-to-end acceptance validation
 
 Epic: [android_super_app_template](../../epic/android_super_app_template/android_super_app_template.en.md)

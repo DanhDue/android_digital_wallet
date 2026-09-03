@@ -231,7 +231,7 @@ File? _findFile(String root, String fileName) {
 
 /// Exact inverse of the `mvi_feature` on-demand `AppRoutes` insertion.
 void _removeRouteFromAppRoutes(String pascalCase, Logger logger) {
-  final file = _findFile('platform/src/main/kotlin', 'AppRoutes.kt');
+  final file = _findFile('infra/platform/src/main/kotlin', 'AppRoutes.kt');
   if (file == null) {
     logger.info('✓ AppRoutes.kt absent — nothing to unwire');
     return;
