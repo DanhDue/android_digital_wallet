@@ -212,4 +212,4 @@ Lifecycle event vocabulary (minimal, mirrors the Flutter proposal): `ShellTabVis
 - [Task 13: Strip digital-wallet domain → 3-feature template](../../features/done/task_13_strip_domain_to_template.md)
 - [Task 14: Convert `scanner` → on-demand Dynamic Feature Module](../../features/done/task_14_scanner_dynamic_feature.md)
 - [Task 15: `rename_project.sh` + docs/agent genericization](../../features/done/task_15_rename_script_and_docs.md)
-- [Task 16: CI `bundleDebug` + end-to-end acceptance validation](../../features/task_16_e2e_acceptance_validation.md)
+- [Task 16: CI `bundleDebug` + end-to-end acceptance validation](../../features/done/task_16_e2e_acceptance_validation.md)

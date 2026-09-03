@@ -44,6 +44,8 @@ void run(HookContext context) {
   _removeFromAppDynamicFeatures(gradlePath, context.logger);
   _removeRouteFromAppRoutes(pascalCase, context.logger);
   _removeShellInstallBranch(snakeCase, pascalCase, context.logger);
+  _removeSplitTitleFromAppStrings(snakeCase, context.logger);
+  _removeFeatureEntryFromServiceLoader(pascalCase, context.logger);
 
   context.logger.success('✅ Module removal complete!');
 
@@ -215,10 +217,22 @@ String _appDfmCompileOnlyGuard() =>
     '    exclude(group = "org.projectlombok", module = "lombok")\n'
     '}\n';
 
+/// Locates a uniquely-named source file under [root], regardless of the
+/// project's package directory (the template may have been renamed away from
+/// `com/danhdue`, so a hard-coded path would silently miss).
+File? _findFile(String root, String fileName) {
+  final dir = Directory(root);
+  if (!dir.existsSync()) return null;
+  for (final e in dir.listSync(recursive: true)) {
+    if (e is File && e.uri.pathSegments.last == fileName) return e;
+  }
+  return null;
+}
+
 /// Exact inverse of the `mvi_feature` on-demand `AppRoutes` insertion.
 void _removeRouteFromAppRoutes(String pascalCase, Logger logger) {
-  final file = File(_appRoutesPath);
-  if (!file.existsSync()) {
+  final file = _findFile('platform/src/main/kotlin', 'AppRoutes.kt');
+  if (file == null) {
     logger.info('✓ AppRoutes.kt absent — nothing to unwire');
     return;
   }
@@ -243,10 +257,8 @@ void _removeShellInstallBranch(String snakeCase, String pascalCase, Logger logge
     return;
   }
 
-  final file = File(
-    'shell/src/main/kotlin/com/danhdue/shell/navigation/OnDemandFeatures.kt',
-  );
-  if (!file.existsSync()) {
+  final file = _findFile('shell/src/main/kotlin', 'OnDemandFeatures.kt');
+  if (file == null) {
     logger.info('✓ OnDemandFeatures.kt absent — nothing to remove');
     return;
   }
@@ -264,12 +276,72 @@ void _removeShellInstallBranch(String snakeCase, String pascalCase, Logger logge
   }
 }
 
+/// Inverse of `mvi_feature`'s aggregated `ServiceLoader` registration — drops
+/// this module's line from the single `:app`-owned
+/// `META-INF/services/*.platform.FeatureEntry` file (the on-demand `FeatureEntry`
+/// FQCNs are aggregated in the base module — bundletool forbids two feature
+/// splits shipping the same root resource, design §4.4). Matched by the
+/// `.presentation.di.<Name>FeatureEntry` suffix so the module's package is not
+/// needed. Leaves the file in place (possibly with only other modules' lines).
+void _removeFeatureEntryFromServiceLoader(String pascalCase, Logger logger) {
+  final dir = Directory('app/src/main/resources/META-INF/services');
+  if (!dir.existsSync()) {
+    logger.info('✓ :app META-INF/services absent — nothing to unregister');
+    return;
+  }
+  File? file;
+  for (final entity in dir.listSync()) {
+    if (entity is File &&
+        entity.uri.pathSegments.last.endsWith('.platform.FeatureEntry')) {
+      file = entity;
+      break;
+    }
+  }
+  if (file == null) {
+    logger.info('✓ no *.platform.FeatureEntry file — nothing to unregister');
+    return;
+  }
+
+  final suffix = '.presentation.di.${pascalCase}FeatureEntry';
+  final kept = file
+      .readAsLinesSync()
+      .where((line) => line.trim().isNotEmpty && !line.trim().endsWith(suffix))
+      .toList();
+  final original = file.readAsStringSync();
+  final rebuilt = kept.isEmpty ? '' : '${kept.join('\n')}\n';
+  if (rebuilt == original) {
+    logger.info('✓ ${pascalCase}FeatureEntry not registered in ${file.path}');
+    return;
+  }
+  file.writeAsStringSync(rebuilt);
+  logger.info('📝 Unregistered ${pascalCase}FeatureEntry from ${file.path}');
+}
+
+/// Inverse of `mvi_feature`'s `_writeBaseModuleSplitTitle` — drops the
+/// `<name>_feature_title` string an on-demand module's `dist:title` needs from
+/// the BASE module's `res/values/strings.xml`.
+void _removeSplitTitleFromAppStrings(String snakeCase, Logger logger) {
+  final file = _findFile('app/src/main/res/values', 'strings.xml');
+  if (file == null) {
+    logger.info('✓ app strings.xml absent — no split title to remove');
+    return;
+  }
+  var content = file.readAsStringSync();
+  final pattern = RegExp(
+    '\\s*<string name="${snakeCase}_feature_title">[^<]*</string>',
+  );
+  if (pattern.hasMatch(content)) {
+    content = content.replaceAll(pattern, '');
+    file.writeAsStringSync(content);
+    logger.info('📝 Removed ${snakeCase}_feature_title from app strings.xml');
+  } else {
+    logger.info('✓ ${snakeCase}_feature_title not in app strings.xml');
+  }
+}
+
 // ---------------------------------------------------------------------------
 // shared constants / snippets (kept byte-identical with mvi_feature/post_gen.dart)
 // ---------------------------------------------------------------------------
-
-const _appRoutesPath =
-    'platform/src/main/kotlin/com/danhdue/platform/AppRoutes.kt';
 
 String _appRoutesEntry(String pascalCase) =>
     '\n    /** Entry point of the $pascalCase feature (an on-demand dynamic feature module). */\n'

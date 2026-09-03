@@ -56,6 +56,7 @@ import com.danhdue.platform.LocalEntryProviderInstallers
 import com.danhdue.uikit.R
 import com.danhdue.uikit.ui.theme.HomeGrayText
 import com.danhdue.uikit.ui.theme.HomePrimaryBlue
+import java.util.ServiceConfigurationError
 import java.util.ServiceLoader
 
 @Composable
@@ -77,12 +78,56 @@ fun ShellRoot(viewModel: ShellViewModel = hiltViewModel()) {
  * `@IntoSet` multibinding ([LocalEntryProviderInstallers]).
  */
 private fun loadDynamicFeatureInstallers(): List<EntryProviderInstaller> =
-    ServiceLoader
-        .load(FeatureEntry::class.java, FeatureEntry::class.java.classLoader)
-        .iterator()
-        .asSequence()
-        .map { it.installer() }
-        .toList()
+    installersFrom(
+        ServiceLoader.load(FeatureEntry::class.java, FeatureEntry::class.java.classLoader),
+    )
+
+/**
+ * Collects the [EntryProviderInstaller] of every currently-loadable
+ * [FeatureEntry] in [loader], **skipping** any whose class cannot be loaded yet.
+ *
+ * The `META-INF/services/com.danhdue.platform.FeatureEntry` file is owned by
+ * `:app` and lists EVERY on-demand `FeatureEntry` FQCN (bundletool forbids two
+ * feature splits shipping the same root resource — design §4.4), so at any
+ * moment some of those classes belong to splits that are not installed.
+ * `ServiceLoader`'s own iterator raises [ServiceConfigurationError] lazily from
+ * `next()` for those; a `for` / `forEach` over it cannot recover, so `hasNext()`
+ * and `next()` are driven by hand and the un-loadable element is dropped.
+ */
+internal fun installersFrom(loader: ServiceLoader<FeatureEntry>): List<EntryProviderInstaller> {
+    val installers = mutableListOf<EntryProviderInstaller>()
+    val iterator = loader.iterator()
+    while (hasNextOrStop(iterator)) {
+        nextOrNull(iterator)?.let { installers += it.installer() }
+    }
+    return installers
+}
+
+// A bad line in the aggregated service file (a split that is not installed)
+// surfaces as ServiceConfigurationError; LinkageError covers a half-loaded class.
+// Both mean "this on-demand entry is not usable right now" — skip it, don't fail
+// the whole load. The `_` name opts out of detekt's SwallowedException rule
+// deliberately: there is nothing to log, this is the expected steady state.
+// Asymmetry: hasNext() only throws on a corrupt services file -> give up on the
+// whole iteration; a per-element next() failure (split not installed yet — the
+// steady-state case) is skipped in nextOrNull() and iteration continues.
+private fun hasNextOrStop(iterator: Iterator<FeatureEntry>): Boolean =
+    try {
+        iterator.hasNext()
+    } catch (_: ServiceConfigurationError) {
+        false
+    } catch (_: LinkageError) {
+        false
+    }
+
+private fun nextOrNull(iterator: Iterator<FeatureEntry>): FeatureEntry? =
+    try {
+        iterator.next()
+    } catch (_: ServiceConfigurationError) {
+        null
+    } catch (_: LinkageError) {
+        null
+    }
 
 @Composable
 private fun ShellScreen(

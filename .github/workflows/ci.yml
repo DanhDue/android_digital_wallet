@@ -10,8 +10,10 @@
 #     only build `assembleDebug`, so nothing secret is required.
 #   * `bundleDebug` is built on every PR (Task 14) so the AAB — including the
 #     on-demand `:features:scanner` Dynamic Feature Module split — is exercised
-#     in CI. The bundletool `--local-testing` split-existence assertion is added
-#     later by Task 16, which further extends THIS workflow.
+#     in CI. Task 16 extends THIS workflow with a bundletool
+#     `build-apks --local-testing` step that hard-fails the job unless the
+#     `scanner` dynamic-feature split APK is present in the generated `.apks`
+#     (pinned bundletool 1.17.2, SHA-256-verified download — no device needed).
 #
 # Governance value (design §4.2 / §6.3): a breaking change to a public
 # `:core` / `:platform` type fails `assembleDebug` for every dependent module —
@@ -51,7 +53,7 @@ permissions:
 
 jobs:
   build:
-    name: Konsist + detekt + spotless + unit tests + assembleDebug + bundleDebug
+    name: Konsist + detekt + spotless + unit tests + assembleDebug + bundleDebug + scanner-split assertion
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
@@ -74,6 +76,58 @@ jobs:
 
       - name: Build & verify
         run: ./gradlew --no-daemon --stacktrace :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug bundleDebug
+
+      # ---------------------------------------------------------------------
+      # Task 16 — split-existence assertion.
+      #
+      # `bundleDebug` above produces the AAB; this step proves the on-demand
+      # `:features:scanner` Dynamic Feature Module actually materialises as its
+      # own split APK when bundletool expands the bundle. `--local-testing`
+      # builds the full `.apks` set (base + config + feature splits) with the
+      # debug keystore and NO device. The job fails unless a `scanner` feature
+      # split APK (`splits/scanner-*.apk`) is in that archive — catching a
+      # regression where the module silently fuses into the base APK or drops
+      # out of `android.dynamicFeatures`.
+      #
+      # bundletool is pinned to an exact version AND its download is
+      # SHA-256-verified before it is executed.
+      # ---------------------------------------------------------------------
+      - name: Assert scanner dynamic-feature split exists (bundletool --local-testing)
+        run: |
+          set -Eeuo pipefail
+          BT_VERSION="1.17.2"
+          BT_SHA256="2d4ad908faea64047c1cc9cb747e6aa667c6ab192e09607bd16b67246a8cd6ae"
+          BT_JAR="${RUNNER_TEMP}/bundletool-all-${BT_VERSION}.jar"
+          APKS="${RUNNER_TEMP}/app-debug.apks"
+          AAB="app/build/outputs/bundle/debug/app-debug.aab"
+
+          test -f "${AAB}" || { echo "::error::${AAB} not found — bundleDebug did not run"; exit 1; }
+
+          curl -fsSL --retry 3 --retry-all-errors -o "${BT_JAR}" \
+            "https://github.com/google/bundletool/releases/download/${BT_VERSION}/bundletool-all-${BT_VERSION}.jar"
+          echo "${BT_SHA256}  ${BT_JAR}" | sha256sum -c -
+
+          java -jar "${BT_JAR}" build-apks \
+            --bundle="${AAB}" \
+            --output="${APKS}" \
+            --local-testing \
+            --overwrite
+
+          # List to a file before grepping: `unzip -l … | grep -q` under
+          # `set -o pipefail` reports the SIGPIPE from unzip (killed when grep
+          # closes the pipe on first match), not grep's result.
+          unzip -l "${APKS}" > "${RUNNER_TEMP}/apks.list"
+
+          echo "== ${APKS} contents (feature splits) =="
+          grep -E 'splits/.*\.apk' "${RUNNER_TEMP}/apks.list" | grep -v '/base-' || true
+
+          if ! grep -Eq 'splits/[^ ]*scanner[^ ]*\.apk' "${RUNNER_TEMP}/apks.list"; then
+            echo "::error::scanner dynamic-feature split APK is MISSING from build-apks --local-testing output"
+            echo "         (expected an entry matching splits/scanner-*.apk)"
+            grep -E '\.apk$' "${RUNNER_TEMP}/apks.list" || true
+            exit 1
+          fi
+          echo "OK: scanner dynamic-feature split APK is present in the bundle."
 
       - name: Upload reports
         if: failure()

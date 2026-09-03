@@ -109,7 +109,7 @@ The module becomes a `com.android.dynamic-feature` split. On top of `settings.gr
 * **Rewrites `features/kyc/build.gradle.kts`** to apply `com.android.dynamic-feature`; the dependency direction is inverted — the module gets `implementation(project(":app"))` and `:app` never sees it at compile time.
 * **Registers it in `:app`** — `android { dynamicFeatures += setOf(":features:kyc") }` (Konsist rule K8 reads this list to exempt the module from the "no host imports" rule).
 * **Rewrites the manifest** with `<dist:module dist:onDemand="true">` + a split-title string resource.
-* **Generates `KycFeatureEntry : com.danhdue.platform.FeatureEntry`** plus `src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry` so the host can load the entry at runtime through `ServiceLoader`.
+* **Generates `KycFeatureEntry : com.danhdue.platform.FeatureEntry`** in the feature, and **appends its FQCN** to the single `META-INF/services/com.danhdue.platform.FeatureEntry` file **owned by `:app`** (`app/src/main/resources/…`) so `:shell` discovers it at runtime through `ServiceLoader`. The registration file is aggregated in the base module, not one-per-DFM: bundletool rejects an App Bundle where two feature splits ship the same root resource with different content (`bundleDebug` → `InvalidBundleException`). `:shell` iterates the `ServiceLoader` element-by-element and skips any entry whose split is not installed. `remove_feature` deletes the line.
 * **Forces the route constant into `:platform`** — appends `@Serializable data object KycRoute : NavKey` to `AppRoutes` (a DFM host cannot import the feature, so its route must live in `:platform`).
 * Drops a **guarded `// TODO(task_14)` install-branch marker** into `:shell` (skipped until `:shell` exists).
 
@@ -122,8 +122,9 @@ features/payment/src/main/kotlin/
 ├── domain/         # Entities, UseCases, Repo Interface, DI
 └── presentation/   # ViewModels, UI, State, Events, Navigation DI
 # on-demand only, additionally:
-├── <Name>FeatureEntry.kt
-└── ../resources/META-INF/services/com.danhdue.platform.FeatureEntry
+└── <Name>FeatureEntry.kt
+#   (its FQCN is appended to app/src/main/resources/META-INF/services/
+#    com.danhdue.platform.FeatureEntry — the :app-owned aggregated file)
 ```
 
 ---

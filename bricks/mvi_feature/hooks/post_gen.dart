@@ -307,7 +307,7 @@ void _configureOnDemand({
     screenCamel: screenCamel,
     logger: logger,
   );
-  _writeServiceLoaderRegistration(modulePath, packageName, pascalCase, logger);
+  _registerFeatureEntryWithServiceLoader(packageName, pascalCase, logger);
   _registerDynamicFeatureInApp(gradlePath, logger);
   _appendRouteToAppRoutes(pascalCase, logger);
   _wireShellInstallBranch(snakeCase, pascalCase, logger);
@@ -465,7 +465,9 @@ private fun Preview${screenPascal}Screen() {
 }
 
 /// Removes `@Inject` + its `import javax.inject.Inject` from a generated file so
-/// it compiles in a Hilt-plugin-free dynamic-feature module. Idempotent.
+/// it compiles in a Hilt-plugin-free dynamic-feature module. Also drops the now
+/// -redundant empty primary constructor the `@Inject` was attached to — a bare
+/// `constructor()` trips detekt `EmptyDefaultConstructor`. Idempotent.
 void _rewriteWithoutInject(File file, Logger logger) {
   if (!file.existsSync()) return;
   var content = file.readAsStringSync();
@@ -473,7 +475,12 @@ void _rewriteWithoutInject(File file, Logger logger) {
       .replaceAll('import javax.inject.Inject\n', '')
       .replaceAll(' @Inject constructor(', ' constructor(')
       .replaceAll('@Inject constructor(', 'constructor(')
-      .replaceAll('@Inject\n    constructor(', 'constructor(');
+      .replaceAll('@Inject\n    constructor(', 'constructor(')
+      // strip the leftover empty primary constructor (no params only)
+      .replaceAll('\n    constructor() :', ' :')
+      .replaceAll(' constructor() :', ' :')
+      .replaceAll('\n    constructor() {', ' {')
+      .replaceAll(' constructor() {', ' {');
   file.writeAsStringSync(content);
   logger.info('📝 Removed @Inject from ${file.path.split('/').last}');
 }
@@ -526,9 +533,12 @@ import extensions.testImplementation
 //    type — the two cannot coexist);
 //  * does NOT apply the Hilt Gradle plugin (unsupported on
 //    `com.android.dynamic-feature`) and ships NO Hilt code — its navigation
-//    entry is contributed at RUNTIME via `com.danhdue.platform.FeatureEntry` +
-//    `src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry`
-//    (loaded by `:shell` through `ServiceLoader` once the split is installed);
+//    entry is contributed at RUNTIME via `com.danhdue.platform.FeatureEntry`,
+//    discovered by `:shell` through `ServiceLoader` once the split is installed.
+//    The `META-INF/services/com.danhdue.platform.FeatureEntry` file that names
+//    this module's `FeatureEntry` is OWNED BY `:app` (every on-demand FQCN is
+//    aggregated there — bundletool forbids two feature splits shipping the same
+//    root resource), NOT this module;
 //  * `<Screen>Root` uses the plain AndroidX `viewModel()` (no `hiltViewModel()`).
 // ============================================================================
 
@@ -680,10 +690,11 @@ import $packageName.presentation.$screenCamel.${screenPascal}Root
  *
  * An install-time feature contributes its entries through Hilt `@IntoSet`
  * multibinding; a downloaded split is invisible to the host Hilt graph, so
- * `:shell` discovers this class via `ServiceLoader`
- * (`src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry`)
- * after `SplitCompat.install(...)` and folds [installer] into the set that feeds
- * `NavDisplay`.
+ * `:shell` discovers this class via `ServiceLoader` after `SplitCompat.install(...)`
+ * and folds [installer] into the set that feeds `NavDisplay`. The
+ * `META-INF/services/com.danhdue.platform.FeatureEntry` file naming this class
+ * is owned by `:app` (one aggregated file for every on-demand feature — design
+ * §4.4), not this module.
  *
  * Must have a public no-arg constructor — `ServiceLoader` instantiates it
  * reflectively.
@@ -700,18 +711,54 @@ class ${pascalCase}FeatureEntry : FeatureEntry {
   logger.info('📝 Generated ${pascalCase}FeatureEntry.kt');
 }
 
-void _writeServiceLoaderRegistration(
-  String modulePath,
+/// Appends `<pkg>.presentation.di.<Name>FeatureEntry` to the SINGLE
+/// `META-INF/services/…platform.FeatureEntry` file owned by **`:app`**.
+///
+/// bundletool rejects an App Bundle in which two feature splits carry the same
+/// root-resource path with differing content, so the on-demand `FeatureEntry`
+/// registrations cannot live one-per-module — they are aggregated into the base
+/// module's file and `:shell` skips any entry whose split is not installed
+/// (design §4.4). Idempotent; the exact inverse of `remove_feature`.
+void _registerFeatureEntryWithServiceLoader(
   String packageName,
   String pascalCase,
   Logger logger,
 ) {
-  final file = File(
-    '$modulePath/src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry',
-  );
+  final fqcn = '$packageName.presentation.di.${pascalCase}FeatureEntry';
+  final file = _appFeatureEntryServicesFile();
+  var content = file.existsSync() ? file.readAsStringSync() : '';
+
+  final already = content
+      .split('\n')
+      .map((line) => line.trim())
+      .contains(fqcn);
+  if (already) {
+    logger.info('✓ $fqcn already in ${file.path}');
+    return;
+  }
+
+  if (content.isNotEmpty && !content.endsWith('\n')) content += '\n';
+  content += '$fqcn\n';
   file.createSync(recursive: true);
-  file.writeAsStringSync('$packageName.presentation.di.${pascalCase}FeatureEntry\n');
-  logger.info('📝 Registered ${pascalCase}FeatureEntry with ServiceLoader');
+  file.writeAsStringSync(content);
+  logger.info('📝 Registered ${pascalCase}FeatureEntry in ${file.path}');
+}
+
+/// The `:app`-owned `META-INF/services/*.platform.FeatureEntry` file — the
+/// already-present one (its name follows the project's renamed vendor prefix),
+/// else the pristine `com.danhdue.platform.FeatureEntry` default.
+File _appFeatureEntryServicesFile() {
+  const dir = 'app/src/main/resources/META-INF/services';
+  final servicesDir = Directory(dir);
+  if (servicesDir.existsSync()) {
+    for (final entity in servicesDir.listSync()) {
+      if (entity is File &&
+          entity.uri.pathSegments.last.endsWith('.platform.FeatureEntry')) {
+        return entity;
+      }
+    }
+  }
+  return File('$dir/com.danhdue.platform.FeatureEntry');
 }
 
 /// Adds `":features:<name>"` to `:app` `android.dynamicFeatures`, creating the
@@ -853,6 +900,7 @@ package com.danhdue.shell.navigation
 import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.FeatureEntry
 import com.danhdue.platform.FeatureInstaller
+import com.danhdue.shell.installersFrom
 import java.util.ServiceLoader
 
 /**
@@ -871,7 +919,7 @@ import java.util.ServiceLoader
  * [loadInstalledFeatureInstallers].
  */
 object OnDemandFeatures {
-    /** Gradle-module name -> its cross-feature `:platform` route. */
+    // Gradle-module name -> its cross-feature `:platform` route.
     private val routes: Map<String, Any> =
         mapOf(
             $appendMarker
@@ -889,16 +937,16 @@ object OnDemandFeatures {
 
     /**
      * `EntryProviderInstaller`s contributed by every currently-installed
-     * on-demand split, discovered through `ServiceLoader`. Merge these into the
-     * set feeding `NavDisplay` once an install completes.
+     * on-demand split. The `META-INF/services/…FeatureEntry` file is owned by
+     * `:app` and lists EVERY on-demand `FeatureEntry` FQCN (design §4.4), so
+     * [installersFrom] skips the ones whose split is not installed instead of
+     * letting `ServiceLoader` throw. Merge the result into the set feeding
+     * `NavDisplay` once an install completes.
      */
     fun loadInstalledFeatureInstallers() =
-        ServiceLoader
-            .load(FeatureEntry::class.java, FeatureEntry::class.java.classLoader)
-            .iterator()
-            .asSequence()
-            .map { it.installer() }
-            .toList()
+        installersFrom(
+            ServiceLoader.load(FeatureEntry::class.java, FeatureEntry::class.java.classLoader),
+        )
 }
 ''';
 

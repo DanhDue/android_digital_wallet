@@ -323,9 +323,17 @@ if [ -n "${LEFT}" ]; then
   printf '  %s\n' ${LEFT} >&2
 fi
 
+# Re-point the vendor prefix breaks ktlint / detekt import ordering (imports were
+# sorted for `com.danhdue`; `com.<new>` sorts elsewhere). Normalise formatting
+# before the gate so the rename leaves a tree that passes `detekt` + `spotlessCheck`
+# in one shot, not one that needs a manual `spotlessApply` first.
 echo ""
-echo "==> self-verify: ./gradlew :konsist-test:test assembleDebug --console=plain"
-./gradlew :konsist-test:test assembleDebug --console=plain
+echo "==> normalise formatting: ./gradlew spotlessApply --console=plain"
+./gradlew spotlessApply --console=plain
+
+echo ""
+echo "==> self-verify: ./gradlew :konsist-test:test detekt spotlessCheck assembleDebug --console=plain"
+./gradlew :konsist-test:test detekt spotlessCheck assembleDebug --console=plain
 
 trap - ERR
 

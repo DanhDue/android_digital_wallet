@@ -74,5 +74,10 @@ See [docs/MASON_GUIDE.md](../MASON_GUIDE.md).
 
 ## 4. Acceptance
 
-If `docs/getting-started/TEMPLATE_ACCEPTANCE.md` is present, it is the end-to-end acceptance
-runbook for verifying a fresh clone (rename → gate → build → run).
+[docs/getting-started/TEMPLATE_ACCEPTANCE.md](./TEMPLATE_ACCEPTANCE.md) is the end-to-end
+acceptance runbook — one script, `scripts/acceptance_check.sh`, drives the whole non-device
+flow against a throwaway copy: scaffold a feature in **each** delivery mode on the pristine
+base → `rename_project.sh` → full gate + `bundleDebug` → assert the on-demand splits are in
+the AAB → `remove_feature` teardown. Run it after any change to the rename script or the
+Mason bricks. It also documents the single manual device step (`bundletool --local-testing`
+install → launch → tap Scanner → split downloads → screen opens).

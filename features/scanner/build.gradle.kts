@@ -26,10 +26,14 @@ import extensions.testImplementation
 //    type — the two cannot coexist);
 //  * it does NOT apply the Hilt Gradle plugin (unsupported on
 //    `com.android.dynamic-feature`) and ships NO Hilt code — its navigation entry
-//    is contributed at RUNTIME through `com.danhdue.platform.FeatureEntry` +
-//    `src/main/resources/META-INF/services/com.danhdue.platform.FeatureEntry`
-//    (loaded by `:shell` via `ServiceLoader` once the split is installed),
-//    instead of Hilt `@IntoSet` multibinding;
+//    is contributed at RUNTIME through `com.danhdue.platform.FeatureEntry`,
+//    discovered by `:shell` via `ServiceLoader` once the split is installed. The
+//    `META-INF/services/com.danhdue.platform.FeatureEntry` registration file is
+//    OWNED BY `:app` (`app/src/main/resources/...`), NOT this module: bundletool
+//    rejects an App Bundle where two feature splits ship the same root resource
+//    with different content, so every on-demand `FeatureEntry` FQCN is
+//    aggregated into the one base-module file (design §4.4).
+//    Contrast Hilt `@IntoSet` multibinding, which install-time features use;
 //  * `ScannerRoot` uses the plain AndroidX `viewModel()` (no `hiltViewModel()`).
 //
 // scanner is the hand-wired **bottom-nav-tab** DFM exemplar: `ShellViewModel` /

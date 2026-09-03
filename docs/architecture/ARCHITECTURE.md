@@ -349,7 +349,7 @@ Features never import one another. All cross-feature traffic goes through `:plat
 | **`AppRoutes`** (NavKey registry) | `:platform` | `@Serializable data object XxxRoute : NavKey`; navigate with `Navigator.navigateTo(...)` / `NestedNavigator.navigate(...)` | any module — a `NavKey` leaks no implementation |
 | **`AppEventBus`** | `:platform` | `MutableSharedFlow<AppEvent>` broadcast; `publish(e)` / `inline fun <reified T> on(): Flow<T>` | any module — publish / subscribe one event type |
 | **`EntryProviderInstaller`** (Hilt `@IntoSet`) | mechanism in `:framework`, contributed per feature | feature `@Provides @IntoSet EntryProviderInstaller`; host consumes `Set<EntryProviderInstaller>` into `NavDisplay` | feature provides, host consumes — the host never imports the feature |
-| **`FeatureEntry`** + `ServiceLoader` | `:platform` interface, impl in the DFM feature | runtime-loaded `EntryProviderInstaller` after `SplitCompat.install()` | **on-demand DFM only** — install-time features use Hilt multibinding |
+| **`FeatureEntry`** + `ServiceLoader` | `:platform` interface, impl in the DFM feature; the `META-INF/services` registration file is **aggregated in `:app`** (one line per on-demand FQCN — bundletool forbids two feature splits sharing a root resource) | runtime-loaded `EntryProviderInstaller` after `SplitCompat.install()`; `:shell` skips entries whose split is not installed | **on-demand DFM only** — install-time features use Hilt multibinding |
 | **Direct composition** | `:app`, `:shell` | Hilt aggregation + `NavDisplay` + tab-shell | **host only** (Konsist K6) |
 
 There is no request/response channel between two features. When a feature needs a typed
