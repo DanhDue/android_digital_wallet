@@ -30,7 +30,7 @@ android {
 
 dependencies {
     // `:core` — the dependency floor (design §4.1). No other module edge.
-    implementation(project(":infra:core"))
+    implementation(project(":packages:core"))
     // FirebaseAnalytic (`rememberAnalytics`) — com.google.firebase.analytics.FirebaseAnalytics.
     addFirebaseDependencies()
     // core-splashscreen — consumed by the splash widget.

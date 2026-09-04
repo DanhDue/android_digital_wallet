@@ -58,7 +58,7 @@ dependencies {
     // `com.danhdue.core.network.DataState`, and `Throwable.handleThrowable()` /
     // `httpCodeToFailure(...)` consume `com.danhdue.core.network.HttpStatusCode`. Every feature
     // data layer calls `apiCall { ... }`, so `:core` must stay a transitive dependency here.
-    api(project(":infra:core"))
+    api(project(":packages:core"))
 
     // `:platform` (leaf module — external deps only) — `UnauthorizedInterceptor` injects
     // `AppEventBus` and publishes `AppEvent.UserLoggedOut` on an unrecovered 401. `:platform`

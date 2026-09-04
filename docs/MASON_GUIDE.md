@@ -81,9 +81,9 @@ mason make mvi_feature \
 An unset or unrecognised `delivery` value falls back to `install-time` with a warning.
 
 > **After `rename_project.sh`:** the `__brick__` templates hardcode the template's original
-> infra import prefix (`core` / `platform` / `framework` / `network`) and the rename script
+> package import prefix (`core` / `platform` / `framework` / `network`) and the rename script
 > never rewrites `bricks/`. Scaffold features *before* renaming, or pass
-> `--package <your.vendor>.<feature>` and repoint the generated infra `import` lines to your
+> `--package <your.vendor>.<feature>` and repoint the generated package `import` lines to your
 > vendor prefix.
 
 ### `--delivery install-time` (default)

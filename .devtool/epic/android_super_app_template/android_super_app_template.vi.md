@@ -33,13 +33,13 @@ Epic này port phần governance Flutter về native Android — nơi các cơ c
 
 ### Mục tiêu
 - **G1 — Giữ nguyên kiến trúc.** Clean Architecture + MVI + Feature-First đúng như `docs/architecture/ARCHITECTURE.md` Flutter: `Presentation → Domain ← Data`, domain thuần Kotlin (cấm `android.*`), Unidirectional Data Flow, single entry point `onAction()`, bộ naming `*Action/*State/*Event/*ViewModel/*UseCase/*Screen/*Repository`.
-- **G2 — Tách god-module** thành 5 module hạ tầng khớp `packages/` Flutter: `:core` ← `:framework` / `:network`, `:ui_kit`, `:platform`. Mọi module (kể cả feature) chỉ phụ thuộc các module này, không phụ thuộc feature khác.
+- **G2 — Tách god-module** thành 5 package modules khớp `packages/` Flutter: `:packages:core` ← `:packages:framework` / `:packages:network`, `:packages:ui_kit`, `:packages:platform`. Mọi module (kể cả feature) chỉ phụ thuộc các module này, không phụ thuộc feature khác.
 - **G3 — Host là container thuần.** `:app` + `:shell` chỉ gom DI, dựng `NavDisplay` (navigation3, giữ nguyên) và tab-shell. Không chứa business logic feature. `features/home` bị giải thể: code tab-shell → `:shell`, phần còn lại → stub page.
 - **G4 — Giao tiếp cross-feature tập trung, feature "mù" nhau.** `:platform` chứa `AppRoutes` (registry `NavKey` dùng chéo) + `AppEventBus` (`SharedFlow<AppEvent>`). Feature đóng góp navigation qua Hilt `@IntoSet EntryProviderInstaller`. Không `import` chéo feature.
 - **G5 — State isolation.** Mỗi feature giữ `MviViewModel` riêng (dời sang `:framework`). DI giữ Hilt `SingletonComponent` phẳng + kỷ luật export: class trong `..features..data..` là `internal`; chỉ `domain/**` + `presentation/**` được `public`.
 - **G6 — Enforce bằng cấu trúc, không dựa tự giác.** (a) **Konsist** (`:konsist-test`, JUnit) kiểm layer / boundary / naming / export (rule K1–K9); (b) guard Gradle trong `commons.android-feature` fail sync nếu feature khai báo phụ thuộc feature khác; (c) **GitHub Actions** chạy cả bộ. `konsist_boundary_whitelist.txt` thu dần mỗi phase.
 - **G7 — Feature mới = 1 lệnh Mason.** Tự wire vào `settings.gradle.kts` + `:app`/`:shell` (Hilt `@IntoSet`) + `:platform` (nếu route dùng chéo); không đụng feature khác. `mvi_feature` thêm biến `delivery` (`install-time` | `on-demand`). Giữ brick cũ.
-- **G8 — Trích template native.** Giữ hạ tầng + `:shell` + 3 feature `home` (stub) / `scanner` / `settings`. Xoá `authentication` / `myWallet` / `transactions` / `trends` / `splash` + `domain/authenticator` + asset đặc thù ví. `scripts/rename_project.sh` là cửa vào duy nhất sau clone.
+- **G8 — Trích template native.** Giữ packages + `:shell` + 3 feature `home` (stub) / `scanner` / `settings`. Xoá `authentication` / `myWallet` / `transactions` / `trends` / `splash` + `domain/authenticator` + asset đặc thù ví. `scripts/rename_project.sh` là cửa vào duy nhất sau clone.
 - **G9 — Sandbox development.** Mỗi feature build/test độc lập (`:features:x:testDebugUnitTest` không cần `:app`). Runner UI độc lập từng feature là gap đã biết, ngoài phạm vi (giống Flutter criterion 4.1).
 - **G10 — DFM-ready + 1 pilot on-demand.** Hợp đồng cross-feature được thiết kế để feature bất kỳ chuyển sang `com.android.dynamic-feature` **không đổi cơ chế nav của host** — chỉ đổi đường resolve entry. Phase 3 chuyển **`scanner`** thành Dynamic Feature Module tải theo yêu cầu làm ví dụ mẫu (`FeatureEntry` + `ServiceLoader` + `SplitInstallManager`); `home`/`settings` giữ install-time. Đây là nơi duy nhất tiêu chí 1.2 ("mini-app tải runtime") đạt được thật trên Android.
 
@@ -75,11 +75,11 @@ graph TD
         F_BIZ[":features:* (repo gốc:<br/>authentication, myWallet, ...)"]
     end
 
-    subgraph Infra["Hạ tầng"]
-        FRAMEWORK[":framework<br/>MviViewModel, cơ chế navigation3"]
-        NETWORK[":network<br/>Retrofit/OkHttp + authenticator"]
-        UIKIT[":ui_kit<br/>design system Compose + permission"]
-        CORE[":core<br/>DataState, session, pref, room, utils, Logger"]
+    subgraph Packages["Packages (packages/)"]
+        FRAMEWORK[":packages:framework<br/>MviViewModel, cơ chế navigation3"]
+        NETWORK[":packages:network<br/>Retrofit/OkHttp + authenticator"]
+        UIKIT[":packages:ui_kit<br/>design system Compose + permission"]
+        CORE[":packages:core<br/>DataState, session, pref, room, utils, Logger"]
     end
 
     APP --> SHELL
@@ -103,7 +103,7 @@ graph TD
     UIKIT --> CORE
 
     KONSIST[":konsist-test<br/>cổng kiến trúc K1–K9"] -.->|kiểm, không vào APK| Features
-    KONSIST -.-> Infra
+    KONSIST -.-> Packages
 ```
 
 **Bất biến (Konsist kiểm):** mọi mũi tên đặc đổ về `:core`; không feature nào trỏ sang feature khác; chỉ `:app`/`:shell` gom nhiều feature; cạnh nét đứt `F_SCAN → :app` là phụ thuộc đảo ngược DFM bắt buộc, được rule K8 miễn qua `android.dynamicFeatures`.

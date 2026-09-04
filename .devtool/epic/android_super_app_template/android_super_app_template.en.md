@@ -33,13 +33,13 @@ This epic ports the Flutter governance work back to native Android — where the
 
 ### Goals
 - **G1 — Preserve architecture.** Clean Architecture + MVI + Feature-First exactly as the Flutter `docs/architecture/ARCHITECTURE.md`: `Presentation → Domain ← Data`, pure-Kotlin domain (no `android.*`), Unidirectional Data Flow, single `onAction()` entry point, the `*Action/*State/*Event/*ViewModel/*UseCase/*Screen/*Repository` naming set.
-- **G2 — Split the god-module** into 5 infra modules mirroring the Flutter `packages/`: `:core` ← `:framework` / `:network`, `:ui_kit`, `:platform`. Every module (features included) depends only on these, never on another feature.
+- **G2 — Split the god-module** into 5 package modules mirroring the Flutter `packages/`: `:packages:core` ← `:packages:framework` / `:packages:network`, `:packages:ui_kit`, `:packages:platform`. Every module (features included) depends only on these, never on another feature.
 - **G3 — Pure container Host.** `:app` + `:shell` only aggregate DI, build the `NavDisplay` (navigation3, unchanged) and the tab-shell. No feature business logic. `features/home` is dissolved: tab-shell code → `:shell`, the rest → a stub page.
 - **G4 — Centralized cross-feature comms, features blind to each other.** `:platform` holds `AppRoutes` (shared `NavKey` registry) + `AppEventBus` (`SharedFlow<AppEvent>`). Features contribute navigation via Hilt `@IntoSet EntryProviderInstaller`. No feature-to-feature `import`.
 - **G5 — State isolation.** Each feature keeps its own `MviViewModel` (moved to `:framework`). DI stays a flat Hilt `SingletonComponent` + an export discipline: `..features..data..` classes are `internal`; only `domain/**` + `presentation/**` are `public`.
 - **G6 — Enforcement by structure, not discipline.** (a) **Konsist** (`:konsist-test`, JUnit) checks layer / boundary / naming / export (rules K1–K9); (b) a Gradle guard in `commons.android-feature` fails the sync if a feature declares another feature as a dependency; (c) **GitHub Actions** runs the whole set. `konsist_boundary_whitelist.txt` shrinks each phase.
 - **G7 — New feature = one Mason command.** Auto-wires into `settings.gradle.kts` + `:app`/`:shell` (Hilt `@IntoSet`) + `:platform` (if the route is cross-feature); never touches another feature. `mvi_feature` gains a `delivery` var (`install-time` | `on-demand`). Legacy bricks kept.
-- **G8 — Extract the native template.** Keep infra + `:shell` + 3 features `home` (stub) / `scanner` / `settings`. Delete `authentication` / `myWallet` / `transactions` / `trends` / `splash` + `domain/authenticator` + wallet-specific assets. `scripts/rename_project.sh` is the single post-clone entrypoint.
+- **G8 — Extract the native template.** Keep packages + `:shell` + 3 features `home` (stub) / `scanner` / `settings`. Delete `authentication` / `myWallet` / `transactions` / `trends` / `splash` + `domain/authenticator` + wallet-specific assets. `scripts/rename_project.sh` is the single post-clone entrypoint.
 - **G9 — Sandbox development.** Every feature builds/tests standalone (`:features:x:testDebugUnitTest` with no `:app`). A per-feature UI runner is a known, out-of-scope gap (matches Flutter criterion 4.1).
 - **G10 — DFM-ready + one on-demand pilot.** The cross-feature contract is designed so any feature converts to a `com.android.dynamic-feature` **without changing the host nav mechanism** — only the entry-resolution path changes. Phase 3 converts **`scanner`** to an on-demand Dynamic Feature Module as the template's worked example (`FeatureEntry` + `ServiceLoader` + `SplitInstallManager`); `home`/`settings` stay install-time. This is the one place criterion 1.2 ("runtime-loaded mini-app") is genuinely met on Android.
 
@@ -75,11 +75,11 @@ graph TD
         F_BIZ[":features:* (source repo:<br/>authentication, myWallet, ...)"]
     end
 
-    subgraph Infra["Infrastructure"]
-        FRAMEWORK[":framework<br/>MviViewModel, navigation3 mechanism"]
-        NETWORK[":network<br/>Retrofit/OkHttp + authenticator"]
-        UIKIT[":ui_kit<br/>Compose design system + permission"]
-        CORE[":core<br/>DataState, session, pref, room, utils, Logger"]
+    subgraph Packages["Packages (packages/)"]
+        FRAMEWORK[":packages:framework<br/>MviViewModel, navigation3 mechanism"]
+        NETWORK[":packages:network<br/>Retrofit/OkHttp + authenticator"]
+        UIKIT[":packages:ui_kit<br/>Compose design system + permission"]
+        CORE[":packages:core<br/>DataState, session, pref, room, utils, Logger"]
     end
 
     APP --> SHELL
@@ -103,7 +103,7 @@ graph TD
     UIKIT --> CORE
 
     KONSIST[":konsist-test<br/>K1–K9 architecture gate"] -.->|verifies, not in APK| Features
-    KONSIST -.-> Infra
+    KONSIST -.-> Packages
 ```
 
 **Invariants (Konsist-verified):** every solid arrow points down toward `:core`; no feature points at another feature; only `:app`/`:shell` aggregate multiple features; the dashed `F_SCAN → :app` edge is the DFM-mandated inverted dependency, exempted by rule K8 via `android.dynamicFeatures`.

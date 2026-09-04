@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Logout signalling is kept as template infrastructure even though the template
+        // Logout signalling is kept as template plumbing even though the template
         // ships no auth flow: the legacy in-process SessionManager channel and the
         // cross-feature AppEventBus signal (Task 11: `:network` publishes
         // AppEvent.UserLoggedOut on an unrecovered 401).

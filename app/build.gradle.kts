@@ -123,7 +123,7 @@ dependencies {
     implementation(Deps.Play.featureDelivery)
     implementation(Deps.Play.featureDeliveryKtx)
 
-    // Infrastructure modules — declared explicitly (Task 9 narrowed `:framework`'s re-exports).
+    // Package modules — declared explicitly (Task 9 narrowed `:framework`'s re-exports).
     // `:app` imports `com.danhdue.core.*` (AppInitializer, DispatcherProvider),
     // `com.danhdue.platform.*` (EntryProviderInstaller, LocalEntryProviderInstallers) and
     // `com.danhdue.network.*` (FlipperInitializer, NetworkConfig) directly.

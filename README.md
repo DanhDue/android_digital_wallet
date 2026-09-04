@@ -53,9 +53,9 @@ mason make mvi_feature --name Profile --package com.acme.profile --screen Main
 mason make mvi_feature --name Rewards --package com.acme.rewards --screen Main --delivery on-demand
 ```
 
-> The `__brick__` templates hardcode the template's original infra import prefix and
+> The `__brick__` templates hardcode the template's original package import prefix and
 > `rename_project.sh` never touches `bricks/` — run `mason make` before the rename, or pass
-> `--package` (as above) and repoint the generated infra `import` lines to your vendor prefix.
+> `--package` (as above) and repoint the generated package `import` lines to your vendor prefix.
 
 ---
 
@@ -86,7 +86,7 @@ We use a Unidirectional Data Flow (UDF):
 The project is organized by **Feature**, not by Layer.
 
 -   **High Cohesion**: All code for a feature (Data, Domain, Presentation) lives in one `:features:*` module.
--   **Decoupled**: Features never depend on each other — cross-feature traffic goes through `:infra:platform` (`AppRoutes` / `AppEventBus` / `EntryProviderInstaller`).
+-   **Decoupled**: Features never depend on each other — cross-feature traffic goes through `:packages:platform` (`AppRoutes` / `AppEventBus` / `EntryProviderInstaller`).
 -   **Scalable**: New features are added as new modules; a Konsist gate (K1–K9) enforces the boundaries.
 
 ### 4. Project Structure
@@ -96,7 +96,7 @@ The project is organized by **Feature**, not by Layer.
 ├── app/                  # Thin composition root: Hilt aggregation, NavDisplay, Application, entry Activity
 ├── shell/                # Host-only tab shell (ShellViewModel + bottom nav + per-tab nested nav); home is a stub page here
 ├── buildSrc/             # Convention plugins + centralized dependency management (Kotlin DSL)
-├── infra/                # Infrastructure modules
+├── packages/             # Core packages
 │   ├── core/             # Dependency floor: DataState/NetworkResponse, DispatcherProvider, extensions, prefs, Room base, SessionManager, Logger
 │   ├── framework/        # MviViewModel / MvvmViewModel / BaseViewState + the navigation3 host mechanism
 │   ├── network/          # Retrofit / OkHttp / Moshi wiring, interceptors, apiCall / Failure, Flipper network tooling

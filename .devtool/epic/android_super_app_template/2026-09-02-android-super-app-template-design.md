@@ -115,10 +115,10 @@ graph TD
     UIKIT --> CORE
 
     classDef host fill:#088210,stroke:#02CC0C
-    classDef infra fill:#036A99,stroke:#088DF3
+    classDef pkg fill:#036A99,stroke:#088DF3
     classDef feat fill:#867C04,stroke:#fbc02d
     class APP,SHELL host
-    class CORE,FRAMEWORK,NETWORK,UIKIT,PLATFORM infra
+    class CORE,FRAMEWORK,NETWORK,UIKIT,PLATFORM pkg
     class F1,F2,FN feat
 ```
 

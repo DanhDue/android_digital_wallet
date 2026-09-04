@@ -31,7 +31,7 @@ enum class Feature(
         /**
          * The feature that owns [qualifiedName] (a package name or a fully
          * qualified declaration / import name), or `null` if it belongs to no
-         * feature (infrastructure, host, third-party).
+         * feature (packages, host, third-party).
          */
         fun owning(qualifiedName: String?): Feature? {
             if (qualifiedName.isNullOrBlank()) return null

@@ -48,11 +48,11 @@ mason make mvi_feature --name Rewards --package com.acme.rewards --screen Main -
 ```
 
 > **Brick ↔ rename ordering:** the `__brick__` templates hardcode the template's original
-> infra import prefix (its `core` / `platform` / `framework` / `network` packages) and
+> package import prefix (its `core` / `platform` / `framework` / `network` packages) and
 > `rename_project.sh` never touches `bricks/`. A feature scaffolded *after* the rename
-> therefore imports infra packages that no longer exist and won't compile. Either run
+> therefore imports package modules that no longer exist and won't compile. Either run
 > `mason make` *before* the rename, or pass `--package <your.vendor>.<feature>` and then
-> repoint the generated infra `import` lines from the old prefix to your new vendor prefix.
+> repoint the generated package `import` lines from the old prefix to your new vendor prefix.
 
 `--name` is PascalCase and `--package` has no default (a bare `--name` drops into an
 interactive prompt); `--screen` defaults to `Main`, `--delivery` to `install-time`. The brick

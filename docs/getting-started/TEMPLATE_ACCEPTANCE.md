@@ -25,7 +25,7 @@ Prerequisites: JDK 21, the Android SDK (`local.properties` or `$ANDROID_HOME`),
 |------:|--------|
 | **0** | A tracked-only copy of the repo builds a clean throwaway git repo (wrapper + `local.properties` overlaid, stale machine-local `mason` lock files dropped). |
 | **1** | On the **pristine `com.danhdue` base**: `mason get`, then `mvi_feature --name Payments --delivery install-time` and `mvi_feature --name Kyc --delivery on-demand`. Asserts each module is scaffolded and wired — `settings.gradle.kts`, `buildSrc` registry, `:app` install-time dep for Payments, `:app android.dynamicFeatures` + `:platform AppRoutes` + `dist:on-demand` manifest + a line appended to the **`:app`-owned** `META-INF/services/…FeatureEntry` file for Kyc (no per-module copy) — and that the install-time one did **not** leak into `dynamicFeatures`. |
-| **2** | `scripts/rename_project.sh acme_wallet com.acme.wallet "Acme Wallet"`. The script self-verifies (`spotlessApply` → `:konsist-test:test detekt spotlessCheck assembleDebug`) **and** its `.kt` pass repoints the two fresh features' `com.danhdue.*` infra imports to `com.acme.*`. Asserts no `com.danhdue` survives and the package dirs physically moved. |
+| **2** | `scripts/rename_project.sh acme_wallet com.acme.wallet "Acme Wallet"`. The script self-verifies (`spotlessApply` → `:konsist-test:test detekt spotlessCheck assembleDebug`) **and** its `.kt` pass repoints the two fresh features' `com.danhdue.*` package imports to `com.acme.*`. Asserts no `com.danhdue` survives and the package dirs physically moved. |
 | **3** | The full gate on the renamed tree: `./gradlew :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug bundleDebug` → **BUILD SUCCESSFUL**. |
 | **4** | `app-debug.aab` contains the `scanner/dex/**` **and** `kyc/dex/**` splits; the base `app-debug.apk` carries **0** `com/acme/{scanner,kyc}` classes (the splits are genuinely absent from the base). |
 | **5** | `remove_feature` is a clean inverse: `remove_feature Payments` + `remove_feature Kyc`, then `:konsist-test:test assembleDebug` → BUILD SUCCESSFUL, every wire point unwound (`AppRoutes`, `OnDemandFeatures`, `strings.xml`, `dynamicFeatures`, `settings.gradle.kts`, `buildSrc`), and nothing outside that wire-point set touched. |
@@ -33,7 +33,7 @@ Prerequisites: JDK 21, the Android SDK (`local.properties` or `$ANDROID_HOME`),
 ### Brick ↔ rename ordering (why Phase 1 comes before Phase 2)
 
 `rename_project.sh` never edits `bricks/`, and the `__brick__` templates emit the
-template's **original** infra import prefix (`com.danhdue.core.*`, …). A feature
+template's **original** package import prefix (`com.danhdue.core.*`, …). A feature
 scaffolded on the pristine base and *then* renamed is fine — the rename's `.kt`
 pass fixes the imports. A feature scaffolded *after* a rename keeps `com.danhdue.*`
 imports you must fix by hand. The harness (and you) should scaffold first, rename

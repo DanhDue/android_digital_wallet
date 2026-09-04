@@ -21,14 +21,14 @@ It covers:
 
 | Module | Package | Role |
 |---|---|---|
-| `:infra:core` | `com.danhdue.core` | Dependency floor: `DataState` / `NetworkResponse`, `DispatcherProvider`, `extension/*`, `pref/*`, `room/*`, `SessionManager`, `usecase/*`, `Logger`, `AppInitializer`. Compose-free, no project dependencies. |
-| `:infra:framework` | `com.danhdue.framework` | `MviViewModel` / `MvvmViewModel` / `BaseViewState` + the navigation3 host mechanism (`Navigator`, `NestedNavigator`, `ObserveBackstackForFlipper`). |
-| `:infra:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. |
-| `:infra:ui_kit` | `com.danhdue.uikit` | Shared Compose design system + runtime-permission handlers. |
-| `:infra:platform` | `com.danhdue.platform` | Cross-feature seam: `AppRoutes`, `AppEventBus`, `EntryProviderInstaller`, `FeatureEntry` / `FeatureInstaller`. |
+| `:packages:core` | `com.danhdue.core` | Dependency floor: `DataState` / `NetworkResponse`, `DispatcherProvider`, `extension/*`, `pref/*`, `room/*`, `SessionManager`, `usecase/*`, `Logger`, `AppInitializer`. Compose-free, no project dependencies. |
+| `:packages:framework` | `com.danhdue.framework` | `MviViewModel` / `MvvmViewModel` / `BaseViewState` + the navigation3 host mechanism (`Navigator`, `NestedNavigator`, `ObserveBackstackForFlipper`). |
+| `:packages:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. |
+| `:packages:ui_kit` | `com.danhdue.uikit` | Shared Compose design system + runtime-permission handlers. |
+| `:packages:platform` | `com.danhdue.platform` | Cross-feature seam: `AppRoutes`, `AppEventBus`, `EntryProviderInstaller`, `FeatureEntry` / `FeatureInstaller`. |
 | `:shell` | `com.danhdue.shell` | Host-only tab shell: `ShellViewModel`, bottom nav, per-tab nested nav. `home` is a stub page here. |
 | `:app` | `com.danhdue.androiddigitalwallet` | Thin composition root: Hilt aggregation, `NavDisplay`, `Application`, entry `Activity`. |
-| `:features:*` | `com.danhdue.{feature}` | One feature (data / domain / presentation). Ships `settings` (real) + `scanner` (on-demand DFM example). Depends only on the infrastructure modules — never on another feature. |
+| `:features:*` | `com.danhdue.{feature}` | One feature (data / domain / presentation). Ships `settings` (real) + `scanner` (on-demand DFM example). Depends only on the package modules — never on another feature. |
 | `:libraries:testutils` | `com.danhdue.libraries.testutils` | Shared test rules and base test classes. |
 | `:konsist-test` | `com.danhdue.konsist` | JVM/JUnit architecture gate (rules K1–K9). Never shipped in the APK. |
 

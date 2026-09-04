@@ -264,12 +264,12 @@ object Deps {
 }
 
 object Modules {
-    const val core = ":infra:core"
-    const val network = ":infra:network"
-    const val platform = ":infra:platform"
+    const val core = ":packages:core"
+    const val network = ":packages:network"
+    const val platform = ":packages:platform"
 
-    const val uiKit = ":infra:ui_kit"
-    const val framework = ":infra:framework"
+    const val uiKit = ":packages:ui_kit"
+    const val framework = ":packages:framework"
     const val shell = ":shell"
     const val librariesTestUtils = ":libraries:testutils"
 

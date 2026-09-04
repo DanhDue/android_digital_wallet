@@ -35,7 +35,7 @@ dependencies {
     // transitive (`api`) dependency of `:framework`, not an implementation detail. The
     // `AppInitializer` supertype of `TimberInitializer` / `MultiDexInitializer` is also from
     // `:core`. (Konsist K7 still guarantees `:core` imports nothing from up here.)
-    api(project(":infra:core"))
+    api(project(":packages:core"))
 
     // `implementation` (narrowed from `api` in Task 9): only `ObserveBackstackForFlipper`
     // touches `com.danhdue.network` (`FlipperNavigationObject.sendNavigation(...)`), and only
@@ -43,7 +43,7 @@ dependencies {
     // `protected` signature of `:framework`. `:network` is therefore a private implementation
     // detail here; the one consumer that needs network types (`:app`) declares `:network`
     // itself via `addNetworkDependencies()`.
-    implementation(project(":infra:network"))
+    implementation(project(":packages:network"))
 
     // MultiDexInitializer / CoreApplication (MultiDexApplication).
     implementation(Deps.multidex)

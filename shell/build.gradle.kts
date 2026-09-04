@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    // Infrastructure — explicit (no `commons.android-feature` auto-wiring for a Host module).
+    // Package modules — explicit (no `commons.android-feature` auto-wiring for a Host module).
     CORE
     PLATFORM
     FRAMEWORK

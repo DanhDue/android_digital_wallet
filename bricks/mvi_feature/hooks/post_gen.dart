@@ -582,7 +582,7 @@ dependencies {
     // Inverted DFM dependency — the split depends on the host, not vice-versa.
     // `:app` must never declare this module as a plain `implementation(project(...))`.
     implementation(project(":app"))
-    implementation(project(":infra:platform"))
+    implementation(project(":packages:platform"))
 
     FRAMEWORK
     UI_KIT
@@ -823,7 +823,7 @@ void _registerDynamicFeatureInApp(String gradlePath, Logger logger) {
 void _appendRouteToAppRoutes(String pascalCase, Logger logger) {
   var file = File(appRoutesPath);
   if (!file.existsSync()) {
-    final dir = Directory('infra/platform/src/main/kotlin');
+    final dir = Directory('packages/platform/src/main/kotlin');
     if (dir.existsSync()) {
       for (final e in dir.listSync(recursive: true)) {
         if (e is File && e.uri.pathSegments.last == 'AppRoutes.kt') {
@@ -966,7 +966,7 @@ object OnDemandFeatures {
 // ---------------------------------------------------------------------------
 
 const appRoutesPath =
-    'infra/platform/src/main/kotlin/com/danhdue/platform/AppRoutes.kt';
+    'packages/platform/src/main/kotlin/com/danhdue/platform/AppRoutes.kt';
 
 String appRoutesEntry(String pascalCase) =>
     '\n    /** Entry point of the $pascalCase feature (an on-demand dynamic feature module). */\n'
