@@ -32,6 +32,17 @@ class SettingsViewModelTest {
         override suspend fun getSettingsData(): Result<Settings> = Result.success(Settings(id = "1", data = "ok"))
 
         override suspend fun getProfileData(): Result<Profile> = profileResult
+
+        override suspend fun bootstrap(): Result<List<com.danhdue.settings.domain.model.SupportedLanguage>> = Result.success(emptyList())
+
+        override suspend fun fetchAndCacheTranslations(
+            languageCode: String,
+            sinceVersion: String?,
+        ): Result<Map<String, String>> = Result.success(emptyMap())
+
+        override suspend fun getCachedLanguages(): List<com.danhdue.settings.domain.model.SupportedLanguage> = emptyList()
+
+        override suspend fun getCachedTranslations(languageCode: String): Map<String, String> = emptyMap()
     }
 
     private fun viewModel(

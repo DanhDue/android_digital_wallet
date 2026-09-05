@@ -1,13 +1,13 @@
 ---
 id: "task_2_settings_data_layer_api_integration"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "settings_language_darkmode"
 dueDate: null
 created: "2026-09-06T02:37:10+07:00"
-modified: "2026-09-06T02:37:10+07:00"
-completedAt: null
+modified: "2026-09-06T02:47:35+07:00"
+completedAt: "2026-09-06T02:47:35+07:00"
 labels: ["architecture", "feature"]
 order: "a2"
 ---
@@ -47,17 +47,17 @@ Applicable skills: `api_integration`, `moshi_dto_generator`.
 DTOs must use `@JsonClass(generateAdapter = true)` with `@Json(name = "...")` to adhere to Moshi guidelines.
 
 ## TDD Checklist
-- [ ] **RED**: Write unit tests for:
+- [x] **RED**: Write unit tests for:
   - `JsonFlattener`: Correctly flattens multi-level nested maps and preserves primitive string values.
   - `SettingsLocalDataSource`: Correctly serializes and deserializes language lists and flattened translation maps via `CacheStore`.
   - `DefaultSettingsRepository`: Correctly handles bootstrap call, maps DTOs to Domain models, and downloads & caches translations.
-- [ ] **GREEN**: Implement minimal data layer code:
+- [x] **GREEN**: Implement minimal data layer code:
   - Create DTOs with Moshi annotations.
   - Create `SettingsApiService`.
   - Implement `JsonFlattener` and `SettingsLocalDataSource`.
   - Implement `DefaultSettingsRepository`.
   - Wire Hilt dependencies in `SettingsDataModule`.
-- [ ] **REFACTOR**: Ensure no leaked DTOs into domain interfaces, use pure Kotlin mappers.
+- [x] **REFACTOR**: Ensure no leaked DTOs into domain interfaces, use pure Kotlin mappers.
 
 ## Definition of Done (DoD)
 - Unit tests pass with >85% coverage on data layer.

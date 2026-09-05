@@ -1,5 +1,7 @@
 import extensions.FRAMEWORK
+import extensions.NETWORK
 import extensions.UI_KIT
+import extensions.addJsonParsingDependencies
 import extensions.addNavigationDependencies
 
 plugins {
@@ -13,7 +15,9 @@ android {
 
 dependencies {
     FRAMEWORK
+    NETWORK
     UI_KIT
 
+    addJsonParsingDependencies()
     addNavigationDependencies()
 }
