@@ -58,6 +58,24 @@ sealed interface AppEvent {
     data class ProfileNameChanged(
         val displayName: String,
     ) : AppEvent
+
+    /**
+     * The application theme mode changed.
+     *
+     * @property isDarkMode whether the application is now in dark mode
+     */
+    data class ThemeModeChanged(
+        val isDarkMode: Boolean,
+    ) : AppEvent
+
+    /**
+     * The application language changed.
+     *
+     * @property languageCode the new language code (e.g. "en", "vi", "ja_JP")
+     */
+    data class AppLanguageChanged(
+        val languageCode: String,
+    ) : AppEvent
 }
 
 /**

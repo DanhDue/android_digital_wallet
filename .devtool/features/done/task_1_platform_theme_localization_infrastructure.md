@@ -1,13 +1,13 @@
 ---
 id: "task_1_platform_theme_localization_infrastructure"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "settings_language_darkmode"
 dueDate: null
 created: "2026-09-06T02:37:10+07:00"
-modified: "2026-09-06T02:37:10+07:00"
-completedAt: null
+modified: "2026-09-06T02:42:30+07:00"
+completedAt: "2026-09-06T02:42:30+07:00"
 labels: ["architecture", "feature"]
 order: "a1"
 ---
@@ -37,15 +37,15 @@ The app requires centralized theme mode and dynamic localization state managemen
 Placing `AppThemeManager` and `AppLocalizationManager` in `:packages:platform` adheres to the governed multi-module architecture (§III.3 of `ARCHITECTURE.md`). `:packages:platform` depends only on `:packages:core`. Both `:app` and `:features:settings` can access these managers without creating any cross-feature dependency.
 
 ## TDD Checklist
-- [ ] **RED**: Write unit tests verifying:
+- [x] **RED**: Write unit tests verifying:
   - `AppThemeManager` loads initial theme from `CacheStore`, defaults to `SYSTEM`, emits state updates and publishes `AppEvent.ThemeModeChanged`.
   - `AppLocalizationManager` applies dynamic translations into in-memory overrides, updates active locale, and retrieves overridden strings with fallback.
-- [ ] **GREEN**: Implement minimal code in `packages/platform`:
+- [x] **GREEN**: Implement minimal code in `packages/platform`:
   - Create `AppThemeMode`, `AppThemeManager`, `DefaultAppThemeManager`.
   - Create `AppLocalizationManager`, `DefaultAppLocalizationManager`.
   - Add `ThemeModeChanged` and `AppLanguageChanged` to `AppEvent`.
   - Wire bindings in `PlatformModule`.
-- [ ] **REFACTOR**: Ensure all classes follow Effective Kotlin, use injected dispatchers (`DispatcherProvider`), and pass Konsist rules K1–K9.
+- [x] **REFACTOR**: Ensure all classes follow Effective Kotlin, use injected dispatchers (`DispatcherProvider`), and pass Konsist rules K1–K9.
 
 ## Definition of Done (DoD)
 - 100% test pass on `packages/platform:test`.

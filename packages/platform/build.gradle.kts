@@ -22,6 +22,7 @@ android {
 }
 
 dependencies {
+    api(project(Modules.core))
     // Cross-feature navigation primitives: NavKey, EntryProviderScope.
     api(Deps.Navigation.nav3Runtime)
     // `@Serializable` annotation used by the AppRoutes NavKeys.
