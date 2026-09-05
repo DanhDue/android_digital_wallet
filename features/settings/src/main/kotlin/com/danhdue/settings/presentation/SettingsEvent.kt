@@ -10,4 +10,12 @@ package com.danhdue.settings.presentation
  */
 sealed interface SettingsEvent {
     data object NavigateToProfile : SettingsEvent
+
+    data object NavigateToSecurity : SettingsEvent
+
+    data object NavigateToDeveloperOptions : SettingsEvent
+
+    data class ShowToast(
+        val message: String,
+    ) : SettingsEvent
 }

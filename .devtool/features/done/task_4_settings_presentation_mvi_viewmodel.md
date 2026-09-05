@@ -1,13 +1,13 @@
 ---
 id: "task_4_settings_presentation_mvi_viewmodel"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "settings_language_darkmode"
 dueDate: null
 created: "2026-09-06T02:37:10+07:00"
-modified: "2026-09-06T02:37:10+07:00"
-completedAt: null
+modified: "2026-09-06T02:53:00+07:00"
+completedAt: "2026-09-06T02:53:00+07:00"
 labels: ["architecture", "feature"]
 order: "a4"
 ---
@@ -52,13 +52,13 @@ The ViewModel does not touch UI elements and exposes state solely through immuta
 Cancellation of in-flight language loading prevents out-of-order state overwrites.
 
 ## TDD Checklist
-- [ ] **RED**: Write unit tests for:
+- [x] **RED**: Write unit tests for:
   - `SettingsViewModel` on `Init`: runs silent bootstrap and populates `availableLanguages` without setting `isLoadingLanguage = true`.
   - `ToggleDarkMode`: updates `isDarkMode` state and executes use case.
   - `SelectLanguage`: handles loading state, switches language immediately if cached, shows and dismisses dialog appropriately.
   - Rapid language selection (race condition): ensures only the latest selection completes.
-- [ ] **GREEN**: Implement minimal ViewModel and MVI Contract.
-- [ ] **REFACTOR**: Ensure clean separation between Actions and Events, no hardcoded strings.
+- [x] **GREEN**: Implement minimal ViewModel and MVI Contract.
+- [x] **REFACTOR**: Ensure clean separation between Actions and Events, no hardcoded strings.
 
 ## Definition of Done (DoD)
 - 100% tests pass on `SettingsViewModelTest`.

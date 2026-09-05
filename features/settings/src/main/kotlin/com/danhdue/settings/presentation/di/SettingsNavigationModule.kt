@@ -31,6 +31,9 @@ object SettingsNavigationModule {
                     onEvent = { event ->
                         when (event) {
                             SettingsEvent.NavigateToProfile -> nestedNavigator.navigate(ProfileRoute)
+                            SettingsEvent.NavigateToSecurity -> Unit
+                            SettingsEvent.NavigateToDeveloperOptions -> Unit
+                            is SettingsEvent.ShowToast -> Unit
                         }
                     },
                 )
