@@ -34,13 +34,13 @@ private val DarkColorScheme =
         primary = Purple80,
         secondary = PurpleGrey80,
         tertiary = Pink80,
-        background = LightBackground,
-        surface = LightSurface,
-        onPrimary = White,
-        onSecondary = White,
-        onTertiary = White,
-        onBackground = LightOnBackground,
-        onSurface = LightOnSurface,
+        background = BackgroundDark,
+        surface = CardDark,
+        onPrimary = Black,
+        onSecondary = Black,
+        onTertiary = Black,
+        onBackground = White,
+        onSurface = White,
     )
 
 private val LightColorScheme =

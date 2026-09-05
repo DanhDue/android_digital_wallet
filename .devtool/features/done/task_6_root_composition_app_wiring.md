@@ -1,13 +1,13 @@
 ---
 id: "task_6_root_composition_app_wiring"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "settings_language_darkmode"
 dueDate: null
 created: "2026-09-06T02:37:10+07:00"
-modified: "2026-09-06T02:37:10+07:00"
-completedAt: null
+modified: "2026-09-06T03:01:30+07:00"
+completedAt: "2026-09-06T03:01:30+07:00"
 labels: ["architecture", "feature"]
 order: "a6"
 ---
@@ -41,9 +41,9 @@ The composition root (`:app`) brings all packaged modules together.
 Konsist ensures no boundary leaks or forbidden cross-module dependencies occurred during development.
 
 ## TDD Checklist
-- [ ] **RED**: Run test verifying theme state changes propagate to the root theme and string overrides apply.
-- [ ] **GREEN**: Wire `AppThemeManager` in `MainActivity` and implement dynamic string helper in UI kit.
-- [ ] **REFACTOR**: Run `./gradlew :konsist-test:test`, `./gradlew spotlessCheck`, and assemble debug build.
+- [x] **RED**: Run test verifying theme state changes propagate to the root theme and string overrides apply.
+- [x] **GREEN**: Wire `AppThemeManager` in `MainActivity` and implement dynamic string helper in UI kit.
+- [x] **REFACTOR**: Run `./gradlew :konsist-test:test`, `./gradlew spotlessCheck`, and assemble debug build.
 
 ## Definition of Done (DoD)
 - `./gradlew :konsist-test:test` passes with 0 violations.

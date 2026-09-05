@@ -16,9 +16,11 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation3.runtime.entryProvider
@@ -31,6 +33,12 @@ import com.danhdue.platform.AppEventBus
 import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.platform.LocalEntryProviderInstallers
+import com.danhdue.platform.localization.AppLocalizationManager
+import com.danhdue.platform.localization.LocalAppLocalizationManager
+import com.danhdue.platform.theme.AppThemeManager
+import com.danhdue.platform.theme.LocalAppThemeManager
+import com.danhdue.uikit.SetLanguage
+import com.danhdue.uikit.localization.LocalDynamicStringResolver
 import com.danhdue.uikit.permission.RequestPermissionOnMount
 import com.danhdue.uikit.ui.theme.AndroidDigitalWalletTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +58,12 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var appEventBus: AppEventBus
+
+    @Inject
+    lateinit var appThemeManager: AppThemeManager
+
+    @Inject
+    lateinit var appLocalizationManager: AppLocalizationManager
 
     private var backPressedTime = 0L
 
@@ -84,7 +98,12 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            AndroidDigitalWalletTheme {
+            val isDarkMode by appThemeManager.isDarkMode.collectAsStateWithLifecycle(initialValue = false)
+            val currentLanguageCode by appLocalizationManager.currentLanguageCode.collectAsStateWithLifecycle(initialValue = "en")
+
+            SetLanguage(languageCode = currentLanguageCode)
+
+            AndroidDigitalWalletTheme(darkTheme = isDarkMode, dynamicColor = false) {
                 // Request notification permission on Android 13+ for Chucker
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     RequestPermissionOnMount(
@@ -92,7 +111,14 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                CompositionLocalProvider(LocalEntryProviderInstallers provides installers) {
+                CompositionLocalProvider(
+                    LocalEntryProviderInstallers provides installers,
+                    LocalAppThemeManager provides appThemeManager,
+                    LocalAppLocalizationManager provides appLocalizationManager,
+                    LocalDynamicStringResolver provides { key, fallback ->
+                        appLocalizationManager.getString(key, fallback)
+                    },
+                ) {
                     // Explicitly handle hardware back press when at the root of the app
                     BackHandler(enabled = navigator.backStack.size <= 1) {
                         handleExit()
