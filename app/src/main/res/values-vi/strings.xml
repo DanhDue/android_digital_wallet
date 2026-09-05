@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroidDigitalWallet</string>
+    <string name="title_sample">Mẫu</string>
+    <string name="press_back_again_to_exit">Nhấn quay lại lần nữa để thoát</string>
+    <string name="scanner_feature_title">Máy quét</string>
+</resources>

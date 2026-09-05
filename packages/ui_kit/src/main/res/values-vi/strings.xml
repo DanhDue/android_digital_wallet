@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bottom_menu_home">Trang chủ</string>
+    <string name="bottom_menu_scanner">Máy quét</string>
+    <string name="bottom_menu_settings">Cài đặt</string>
+
+    <string name="common_check_internet_dialog_message">Vui lòng kiểm tra kết nối mạng!</string>
+    <string name="common_general_close">Đóng</string>
+
+    <string name="toolbar_home_title">Trang chủ</string>
+    <string name="toolbar_settings_title">Cài đặt</string>
+
+    <string name="text_cancel">Hủy</string>
+    <string name="text_theme_mode">Chế độ giao diện</string>
+    <string name="text_rate_app">Đánh giá ứng dụng</string>
+    <string name="text_share_app">Chia sẻ ứng dụng</string>
+    <string name="text_term_and_privacy">Điều khoản &amp; Quyền riêng tư</string>
+    <string name="text_app_language">Ngôn ngữ ứng dụng</string>
+    <string name="text_about">Giới thiệu</string>
+    <string name="text_app_version">Phiên bản ứng dụng</string>
+    <string name="app_exit_label">Nhấn QUAY LẠI lần nữa để thoát</string>
+    <string name="text_no_data_found">Không tìm thấy dữ liệu phù hợp.</string>
+    <string name="text_retry">Thử lại</string>
+    <string name="text_error_icon">Biểu tượng lỗi</string>
+    <string name="text_empty">Trống</string>
+
+    <string name="text_finish">Hoàn thành</string>
+    <string name="text_this_feature_is_developing">Tính năng đang được phát triển.</string>
+
+    <string name="text_language_english">Tiếng Anh</string>
+    <string name="text_language_vietnamese">Tiếng Việt</string>
+    <string name="text_go_to_profile">Đến hồ sơ</string>
+</resources>

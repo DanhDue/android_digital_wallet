@@ -50,6 +50,7 @@ android {
         targetSdk = AppConfig.targetSdk
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
+        resourceConfigurations += listOf("en", "vi")
     }
 
     // On-demand Dynamic Feature Module split (Task 14, design §4.4). The dependency
