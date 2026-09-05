@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2026, danhdue.com
+  ~ All Rights Reserved.
+  -->
+<resources>
+    <string name="settings_title">Cài đặt</string>
+    <string name="settings_section_account">Tài khoản</string>
+    <string name="settings_item_edit_profile">Chỉnh sửa hồ sơ</string>
+    <string name="settings_item_change_password">Đổi mật khẩu</string>
+    <string name="settings_item_2fa">Xác thực 2 bước</string>
+    <string name="settings_section_preferences">Tùy chọn</string>
+    <string name="settings_item_dark_mode">Chế độ tối</string>
+    <string name="settings_item_language">Ngôn ngữ</string>
+    <string name="settings_item_currency">Tiền tệ mặc định</string>
+    <string name="settings_currency_usd">USD ($)</string>
+    <string name="settings_section_developer">Nhà phát triển</string>
+    <string name="settings_item_developer_options">Tùy chọn nhà phát triển</string>
+    <string name="settings_section_app_info">Thông tin ứng dụng</string>
+    <string name="settings_item_privacy_policy">Chính sách quyền riêng tư</string>
+    <string name="settings_item_terms_of_service">Điều khoản dịch vụ</string>
+    <string name="settings_item_about">Giới thiệu</string>
+    <string name="settings_button_logout">Đăng xuất</string>
+    <string name="settings_language_picker_title">Chọn ngôn ngữ</string>
+    <string name="settings_language_downloading">Đang tải bản dịch…</string>
+</resources>

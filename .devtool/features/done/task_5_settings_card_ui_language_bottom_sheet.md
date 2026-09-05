@@ -1,13 +1,13 @@
 ---
 id: "task_5_settings_card_ui_language_bottom_sheet"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "settings_language_darkmode"
 dueDate: null
 created: "2026-09-06T02:37:10+07:00"
-modified: "2026-09-06T02:37:10+07:00"
-completedAt: null
+modified: "2026-09-06T02:58:30+07:00"
+completedAt: "2026-09-06T02:58:30+07:00"
 labels: ["architecture", "feature"]
 order: "a5"
 ---
@@ -48,13 +48,13 @@ Composables must be stateless, receiving state and emitting actions (`(SettingsA
 UI elements must support dark and light theme seamlessly.
 
 ## TDD Checklist
-- [ ] **RED**: Write Compose UI / screenshot / logic tests:
+- [x] **RED**: Write Compose UI / screenshot / logic tests:
   - Verify `SettingsScreen` renders 4 cards and 1 logout button.
   - Verify tapping Dark Mode switch dispatches `ToggleDarkMode`.
   - Verify tapping Language row dispatches `OpenLanguagePicker`.
   - Verify bottom sheet displays language list with checkmark on current selection.
-- [ ] **GREEN**: Implement minimal Compose components and screens.
-- [ ] **REFACTOR**: Ensure no hardcoded colors, spacing uses 8.dp grid, previews support Dark and Light themes.
+- [x] **GREEN**: Implement minimal Compose components and screens.
+- [x] **REFACTOR**: Ensure no hardcoded colors, spacing uses 8.dp grid, previews support Dark and Light themes.
 
 ## Definition of Done (DoD)
 - Screen matches visual screenshots accurately.
