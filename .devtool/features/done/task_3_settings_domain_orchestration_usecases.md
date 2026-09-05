@@ -1,13 +1,13 @@
 ---
 id: "task_3_settings_domain_orchestration_usecases"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "settings_language_darkmode"
 dueDate: null
 created: "2026-09-06T02:37:10+07:00"
-modified: "2026-09-06T02:37:10+07:00"
-completedAt: null
+modified: "2026-09-06T02:49:15+07:00"
+completedAt: "2026-09-06T02:49:15+07:00"
 labels: ["architecture", "feature"]
 order: "a3"
 ---
@@ -45,14 +45,14 @@ UseCases should do one thing and follow Single Responsibility Principle.
 `ChangeLanguageUseCase` returns a `Flow<LanguageSyncStatus>` so the UI can reactively transition from optimistic applied state to background sync completion or display loading dialog.
 
 ## TDD Checklist
-- [ ] **RED**: Write unit tests for:
+- [x] **RED**: Write unit tests for:
   - `BootstrapSettingsUseCase`: Returns updated supported languages list on success, returns cached list on failure.
   - `ChangeLanguageUseCase`: Emits `CachedApplied` immediately for cached/bundled language; emits `Loading` -> `Success` for uncached language; emits `Error` on network failure.
   - `ToggleDarkModeUseCase`: Verifies theme manager is called with correct theme mode.
-- [ ] **GREEN**: Implement minimal code:
+- [x] **GREEN**: Implement minimal code:
   - Create domain models and interface.
   - Implement the three use cases.
-- [ ] **REFACTOR**: Verify pure Kotlin imports (no `android.*` or `androidx.*`).
+- [x] **REFACTOR**: Verify pure Kotlin imports (no `android.*` or `androidx.*`).
 
 ## Definition of Done (DoD)
 - 100% test pass on use cases.
