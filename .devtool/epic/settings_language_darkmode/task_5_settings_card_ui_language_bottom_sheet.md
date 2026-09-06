@@ -6,7 +6,7 @@ assignee: null
 epic: "settings_language_darkmode"
 dueDate: null
 created: "2026-09-06T02:37:10+07:00"
-modified: "2026-09-06T02:58:30+07:00"
+modified: "2026-09-06T15:55:00+07:00"
 completedAt: "2026-09-06T02:58:30+07:00"
 labels: ["architecture", "feature"]
 order: "a5"
@@ -29,9 +29,9 @@ The UI must achieve 100% visual fidelity with the reference design screenshots:
    - `SettingsItemRow`: Contains pastel circular icon background, title, optional subtitle, and trailing widget (Switch, Chevron, or Text).
    - `LanguagePickerBottomSheet`: ModalBottomSheet with a list of languages, showing title, localized subtitle, and a checkmark icon on the selected language.
    - `LoadingDialog`: Non-dismissible modal progress indicator with "Switching language..." message when downloading uncached languages.
-3. String Resources:
-   - Provide complete English strings in `features/settings/src/main/res/values/strings.xml`.
-   - Provide complete Vietnamese strings in `features/settings/src/main/res/values-vi/strings.xml`.
+3. String Resources & OTA Strategy:
+   - Bundled static languages: Provide complete English strings in `features/settings/src/main/res/values/strings.xml` and Vietnamese in `features/settings/src/main/res/values-vi/strings.xml`.
+   - Dynamic OTA languages: Remote languages (e.g. Japanese `ja_JP`, Korean `ko_KR`) are NOT bundled in XML (no `values-ja` or `values-ko` folders). They are resolved dynamically at runtime through `AppLocalizationManager` and remote OTA JSON endpoints per specification.
 
 ## Relevant Files & Context Pointers
 - `features/settings/src/main/kotlin/com/danhdue/settings/presentation/SettingsScreen.kt`
@@ -42,10 +42,14 @@ The UI must achieve 100% visual fidelity with the reference design screenshots:
 - `features/settings/src/main/res/values/strings.xml`
 - `features/settings/src/main/res/values-vi/strings.xml`
 
-## Design Rationale
-Leverage Material 3 design tokens (`MaterialTheme.colorScheme`, `MaterialTheme.typography`).
-Composables must be stateless, receiving state and emitting actions (`(SettingsAction) -> Unit`).
-UI elements must support dark and light theme seamlessly.
+## Design Rationale & Refinements
+- Leverage Material 3 design tokens (`MaterialTheme.colorScheme`, `MaterialTheme.typography`).
+- Composables must be stateless, receiving state and emitting actions (`(SettingsAction) -> Unit`).
+- UI elements must support dark and light theme seamlessly.
+- **Strict OTA Specification Alignment**:
+  - Confirmed that Japanese and Korean are delivered solely via Over-The-Air translation endpoints. All UI labels in `SettingsScreen` and reusable widgets use `appStringResource()`, allowing dynamic OTA strings to override or provide values for non-bundled locales.
+- **ModalBottomSheet State Isolation**:
+  - The bottom sheet visibility lifecycle is driven purely by explicit user actions (`OpenLanguagePicker`, `DismissLanguagePicker`, `SelectLanguage`). Background delta translation downloads operate decoupled from sheet visibility state.
 
 ## TDD Checklist
 - [x] **RED**: Write Compose UI / screenshot / logic tests:
@@ -59,7 +63,8 @@ UI elements must support dark and light theme seamlessly.
 ## Definition of Done (DoD)
 - Screen matches visual screenshots accurately.
 - Tested on both Light and Dark themes.
-- No hardcoded string literals (all referenced from `R.string.*` with English and Vietnamese translations).
+- No hardcoded string literals (bundled in `strings.xml` for `en`/`vi`, dynamically resolved via OTA for other languages).
+- Language picker sheet opens and closes stably during rapid language selection.
 
 ## Dependencies & Blockers
 - Blocked by [Task 4](task_4_settings_presentation_mvi_viewmodel.md)

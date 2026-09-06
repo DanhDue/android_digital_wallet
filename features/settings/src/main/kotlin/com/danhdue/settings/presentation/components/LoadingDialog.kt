@@ -19,16 +19,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.danhdue.settings.R
+import com.danhdue.uikit.localization.appStringResource
 
 @Composable
 fun LoadingDialog(
     modifier: Modifier = Modifier,
-    message: String = stringResource(R.string.settings_language_downloading),
+    message: String = appStringResource(R.string.settings_language_downloading, "settings.language.downloading"),
 ) {
     Dialog(
         onDismissRequest = {},

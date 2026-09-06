@@ -56,26 +56,29 @@ internal class DefaultSettingsRepository @Inject constructor(
                             },
                     )
                 val response = apiService.bootstrap(request)
+                val remoteLanguages = response.data?.availableLanguages.orEmpty()
                 val domainLanguages =
-                    response.availableLanguages.map { dto ->
+                    remoteLanguages.map { dto ->
+                        val isBundled = isBundledLanguage(dto.languageCode)
                         SupportedLanguage(
                             code = dto.languageCode,
                             name = dto.languageName,
                             version = dto.version,
                             isDefault = dto.isDefault,
                             isActive = dto.isActive,
-                            isCached =
-                                dto.languageCode in listOf("en", "vi") || localDataSource.getTranslations(dto.languageCode).isNotEmpty(),
+                            isCached = isBundled || localDataSource.getTranslations(dto.languageCode).isNotEmpty(),
                         )
                     }
-                localDataSource.saveSupportedLanguages(domainLanguages)
-                domainLanguages
+                val merged = mergeWithBundledLanguages(domainLanguages)
+                localDataSource.saveSupportedLanguages(merged)
+                merged
             }.recoverCatching {
                 val fallback = localDataSource.getSupportedLanguages()
-                if (fallback.isNotEmpty()) fallback else throw it
+                if (fallback.isNotEmpty()) fallback else DEFAULT_BUNDLED_LANGUAGES
             }
         }
 
+    @Suppress("UNCHECKED_CAST")
     override suspend fun fetchAndCacheTranslations(
         languageCode: String,
         sinceVersion: String?,
@@ -84,11 +87,35 @@ internal class DefaultSettingsRepository @Inject constructor(
             runCatching {
                 val responseBody = apiService.getTranslations(languageCode, sinceVersion)
                 val rawString = responseBody.string()
-                val parsedMap = jsonAdapter.fromJson(rawString).orEmpty()
-                val flattened = JsonFlattener.flatten(parsedMap)
-                localDataSource.saveTranslations(languageCode, flattened)
-                localizationManager.applyDynamicTranslations(flattened)
-                flattened
+                val parsedEnvelope = jsonAdapter.fromJson(rawString).orEmpty()
+
+                val dataMap = parsedEnvelope["data"] as? Map<String, Any?> ?: parsedEnvelope
+                val translationsMap = dataMap["translations"] as? Map<String, Any?> ?: dataMap
+                val flattened = JsonFlattener.flatten(translationsMap)
+
+                val deletedKeys =
+                    (dataMap["deleted_keys"] as? List<*>)?.filterIsInstance<String>().orEmpty()
+
+                val existingTranslations = localDataSource.getTranslations(languageCode)
+                if (flattened.isEmpty() && deletedKeys.isEmpty()) {
+                    existingTranslations
+                } else {
+                    val mergedTranslations = existingTranslations.toMutableMap()
+                    deletedKeys.forEach { mergedTranslations.remove(it) }
+                    mergedTranslations.putAll(flattened)
+
+                    localDataSource.saveTranslations(languageCode, mergedTranslations)
+                    localizationManager.applyDynamicTranslations(mergedTranslations, languageCode)
+
+                    val cachedLanguages = localDataSource.getSupportedLanguages()
+                    val updatedLanguages =
+                        cachedLanguages.map {
+                            if (it.code == languageCode) it.copy(isCached = true) else it
+                        }
+                    localDataSource.saveSupportedLanguages(updatedLanguages)
+
+                    mergedTranslations
+                }
             }
         }
 
@@ -101,4 +128,56 @@ internal class DefaultSettingsRepository @Inject constructor(
         withContext(dispatcherProvider.io) {
             localDataSource.getTranslations(languageCode)
         }
+
+    private fun isBundledLanguage(code: String): Boolean =
+        code in listOf("en", "vi", "en_US", "vi_VN") ||
+            code.startsWith("en") ||
+            code.startsWith("vi")
+
+    private fun mergeWithBundledLanguages(remoteLanguages: List<SupportedLanguage>): List<SupportedLanguage> {
+        val result = mutableListOf<SupportedLanguage>()
+        val hasEnglish = remoteLanguages.any { it.code.startsWith("en") }
+        val hasVietnamese = remoteLanguages.any { it.code.startsWith("vi") }
+
+        remoteLanguages.forEach { remote ->
+            result.add(
+                if (isBundledLanguage(remote.code)) {
+                    remote.copy(isCached = true)
+                } else {
+                    remote
+                },
+            )
+        }
+
+        if (!hasEnglish) {
+            result.add(0, DEFAULT_BUNDLED_LANGUAGES[0])
+        }
+        if (!hasVietnamese) {
+            val insertIndex = if (result.size >= 1) 1 else 0
+            result.add(insertIndex, DEFAULT_BUNDLED_LANGUAGES[1])
+        }
+        return result
+    }
+
+    companion object {
+        val DEFAULT_BUNDLED_LANGUAGES =
+            listOf(
+                SupportedLanguage(
+                    code = "en",
+                    name = "English",
+                    version = "1.0.0",
+                    isDefault = true,
+                    isActive = true,
+                    isCached = true,
+                ),
+                SupportedLanguage(
+                    code = "vi",
+                    name = "Tiếng Việt",
+                    version = "1.0.0",
+                    isDefault = false,
+                    isActive = true,
+                    isCached = true,
+                ),
+            )
+    }
 }

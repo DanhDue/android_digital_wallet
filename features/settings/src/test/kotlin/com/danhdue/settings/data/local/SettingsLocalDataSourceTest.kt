@@ -4,10 +4,13 @@
  */
 package com.danhdue.settings.data.local
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.danhdue.core.pref.CacheStore
 import com.danhdue.settings.domain.model.SupportedLanguage
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -67,5 +70,36 @@ class SettingsLocalDataSourceTest {
 
             assertEquals(3, result.size)
             assertEquals("ja_JP", result[2].code)
+        }
+
+    @Test
+    fun `saveSupportedLanguages writes to prefs and getSupportedLanguagesSync reads from prefs`() =
+        runTest {
+            val context: Context = mockk(relaxed = true)
+            val prefs: SharedPreferences = mockk(relaxed = true)
+            val editor: SharedPreferences.Editor = mockk(relaxed = true)
+
+            var prefsStored = ""
+            every { context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE) } returns prefs
+            every { prefs.edit() } returns editor
+            every { editor.putString("key_supported_languages", any()) } answers {
+                prefsStored = secondArg()
+                editor
+            }
+            every { prefs.getString("key_supported_languages", null) } answers { prefsStored.ifEmpty { null } }
+
+            val dataSourceWithContext = SettingsLocalDataSource(cacheStore, context)
+
+            val list =
+                listOf(
+                    SupportedLanguage(code = "en", name = "English", version = "1.0.0", isDefault = true),
+                    SupportedLanguage(code = "ja_JP", name = "日本語", version = "1.0.0"),
+                )
+
+            dataSourceWithContext.saveSupportedLanguages(list)
+
+            val resultSync = dataSourceWithContext.getSupportedLanguagesSync()
+            assertEquals(2, resultSync.size)
+            assertEquals("ja_JP", resultSync[1].code)
         }
 }

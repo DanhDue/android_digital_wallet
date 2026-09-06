@@ -19,10 +19,18 @@ class ChangeLanguageUseCase @Inject constructor(
     operator fun invoke(targetLanguage: SupportedLanguage): Flow<LanguageSyncStatus> =
         flow {
             val code = targetLanguage.code
-            val isBundledOrCached = code in BUNDLED_LANGUAGES || targetLanguage.isCached
+            val isBundledOrCached =
+                code in BUNDLED_LANGUAGES ||
+                    code.startsWith("en") ||
+                    code.startsWith("vi") ||
+                    targetLanguage.isCached
 
             if (isBundledOrCached) {
                 emit(LanguageSyncStatus.CachedApplied(code))
+                val cached = settingsRepository.getCachedTranslations(code)
+                if (cached.isNotEmpty()) {
+                    appLocalizationManager.applyDynamicTranslations(cached, code)
+                }
                 appLocalizationManager.setLocale(code)
                 // Trigger background delta sync silently if needed
                 runCatching {
@@ -50,6 +58,6 @@ class ChangeLanguageUseCase @Inject constructor(
         }
 
     companion object {
-        private val BUNDLED_LANGUAGES = setOf("en", "vi")
+        private val BUNDLED_LANGUAGES = setOf("en", "vi", "en_US", "vi_VN")
     }
 }

@@ -44,7 +44,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -56,6 +55,7 @@ import com.danhdue.settings.presentation.components.LoadingDialog
 import com.danhdue.settings.presentation.components.SettingsItemRow
 import com.danhdue.settings.presentation.components.SettingsSectionCard
 import com.danhdue.settings.presentation.components.TrailingWidget
+import com.danhdue.uikit.localization.appStringResource
 import com.danhdue.uikit.ui.theme.AndroidDigitalWalletTheme
 import com.danhdue.uikit.ui.theme.Red
 
@@ -97,7 +97,7 @@ internal fun SettingsScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.settings_title),
+                        text = appStringResource(R.string.settings_title, "settings.title"),
                         style = MaterialTheme.typography.titleLarge,
                     )
                 },
@@ -122,22 +122,22 @@ internal fun SettingsScreen(
         ) {
             // Section 1: Account
             SettingsSectionCard(
-                title = stringResource(R.string.settings_section_account),
+                title = appStringResource(R.string.settings_section_account, "settings.account.title"),
             ) {
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_edit_profile),
+                    title = appStringResource(R.string.settings_item_edit_profile, "settings.account.profile"),
                     icon = Icons.Default.Person,
                     iconColor = Color(0xFF2962FF),
                     onClick = { onAction(SettingsAction.OpenProfile) },
                 )
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_change_password),
+                    title = appStringResource(R.string.settings_item_change_password, "settings.account.changePassword"),
                     icon = Icons.Default.Lock,
                     iconColor = Color(0xFFFF9800),
                     onClick = { onAction(SettingsAction.OpenSecurity) },
                 )
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_2fa),
+                    title = appStringResource(R.string.settings_item_2fa, "settings.account.twoFactorAuth"),
                     icon = Icons.Default.Shield,
                     iconColor = Color(0xFF00C853),
                     showDivider = false,
@@ -147,10 +147,10 @@ internal fun SettingsScreen(
 
             // Section 2: Preferences
             SettingsSectionCard(
-                title = stringResource(R.string.settings_section_preferences),
+                title = appStringResource(R.string.settings_section_preferences, "settings.preferences.title"),
             ) {
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_dark_mode),
+                    title = appStringResource(R.string.settings_item_dark_mode, "settings.preferences.darkMode"),
                     icon = Icons.Default.DarkMode,
                     iconColor = Color(0xFF9C27B0),
                     trailingWidget =
@@ -160,27 +160,30 @@ internal fun SettingsScreen(
                         ),
                 )
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_language),
+                    title = appStringResource(R.string.settings_item_language, "settings.preferences.language"),
                     icon = Icons.Default.Language,
                     iconColor = Color(0xFF00BCD4),
                     trailingWidget = TrailingWidget.ValueWithChevron(state.selectedLanguageName),
                     onClick = { onAction(SettingsAction.OpenLanguagePicker) },
                 )
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_currency),
+                    title = appStringResource(R.string.settings_item_currency, "settings.preferences.currency"),
                     icon = Icons.Default.AttachMoney,
                     iconColor = Color(0xFF4CAF50),
-                    trailingWidget = TrailingWidget.Label(stringResource(R.string.settings_currency_usd)),
+                    trailingWidget =
+                        TrailingWidget.Label(
+                            appStringResource(R.string.settings_currency_usd, "settings.preferences.currencyUsd"),
+                        ),
                     showDivider = false,
                 )
             }
 
             // Section 3: Developer
             SettingsSectionCard(
-                title = stringResource(R.string.settings_section_developer),
+                title = appStringResource(R.string.settings_section_developer, "settings.developer.title"),
             ) {
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_developer_options),
+                    title = appStringResource(R.string.settings_item_developer_options, "settings.developer.debugMode"),
                     icon = Icons.Default.Code,
                     iconColor = Color(0xFF795548),
                     showDivider = false,
@@ -190,22 +193,22 @@ internal fun SettingsScreen(
 
             // Section 4: App Info
             SettingsSectionCard(
-                title = stringResource(R.string.settings_section_app_info),
+                title = appStringResource(R.string.settings_section_app_info, "settings.appInfo.title"),
             ) {
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_privacy_policy),
+                    title = appStringResource(R.string.settings_item_privacy_policy, "settings.appInfo.privacyPolicy"),
                     icon = Icons.Default.Policy,
                     iconColor = Color(0xFF607D8B),
                     onClick = { /* Info link */ },
                 )
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_terms_of_service),
+                    title = appStringResource(R.string.settings_item_terms_of_service, "settings.appInfo.termsOfService"),
                     icon = Icons.Default.Description,
                     iconColor = Color(0xFF3F51B5),
                     onClick = { /* Info link */ },
                 )
                 SettingsItemRow(
-                    title = stringResource(R.string.settings_item_about),
+                    title = appStringResource(R.string.settings_item_about, "settings.appInfo.aboutApp"),
                     icon = Icons.Default.Info,
                     iconColor = Color(0xFFE91E63),
                     showDivider = false,
@@ -238,13 +241,13 @@ internal fun SettingsScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = stringResource(R.string.settings_button_logout),
+                    text = appStringResource(R.string.settings_button_logout, "settings.logout"),
                     style = MaterialTheme.typography.titleMedium,
                     color = Red,
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(56.dp))
         }
     }
 
@@ -262,6 +265,12 @@ internal fun SettingsScreen(
     }
 }
 
+private val PREVIEW_LANGUAGES =
+    listOf(
+        SupportedLanguage(code = "en", name = "English", version = "1.0.0", isDefault = true),
+        SupportedLanguage(code = "vi", name = "Tiếng Việt", version = "1.0.0"),
+    )
+
 @Preview(showBackground = true)
 @Composable
 private fun PreviewSettingsScreenLight() {
@@ -273,11 +282,7 @@ private fun PreviewSettingsScreenLight() {
                     isDarkMode = false,
                     selectedLanguageCode = "en",
                     selectedLanguageName = "English",
-                    availableLanguages =
-                        listOf(
-                            SupportedLanguage(code = "en", name = "English", version = "1.0.0", isDefault = true),
-                            SupportedLanguage(code = "vi", name = "Tiếng Việt", version = "1.0.0"),
-                        ),
+                    availableLanguages = PREVIEW_LANGUAGES,
                 ),
             onAction = {},
         )
@@ -295,11 +300,7 @@ private fun PreviewSettingsScreenDark() {
                     isDarkMode = true,
                     selectedLanguageCode = "vi",
                     selectedLanguageName = "Tiếng Việt",
-                    availableLanguages =
-                        listOf(
-                            SupportedLanguage(code = "en", name = "English", version = "1.0.0", isDefault = true),
-                            SupportedLanguage(code = "vi", name = "Tiếng Việt", version = "1.0.0"),
-                        ),
+                    availableLanguages = PREVIEW_LANGUAGES,
                 ),
             onAction = {},
         )

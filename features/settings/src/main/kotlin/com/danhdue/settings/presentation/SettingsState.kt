@@ -23,8 +23,16 @@ data class SettingsState(
     val isDarkMode: Boolean = false,
     val selectedLanguageCode: String = "en",
     val selectedLanguageName: String = "English",
-    val availableLanguages: List<SupportedLanguage> = emptyList(),
+    val availableLanguages: List<SupportedLanguage> = DEFAULT_LANGUAGES,
     val isLanguagePickerVisible: Boolean = false,
     val isLoadingLanguage: Boolean = false,
     val errorMessage: String? = null,
-)
+) {
+    companion object {
+        val DEFAULT_LANGUAGES =
+            listOf(
+                SupportedLanguage(code = "en", name = "English", version = "1.0.0", isDefault = true, isCached = true),
+                SupportedLanguage(code = "vi", name = "Tiếng Việt", version = "1.0.0", isDefault = false, isCached = true),
+            )
+    }
+}

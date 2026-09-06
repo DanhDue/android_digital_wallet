@@ -27,6 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.danhdue.settings.R
+import com.danhdue.uikit.localization.appStringResource
 
 /**
  * Composable entry point for the Profile feature.
@@ -63,12 +65,12 @@ private fun ProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Profile") },
+                title = { Text(appStringResource(R.string.profile_title, "profile.title")) },
                 navigationIcon = {
                     IconButton(onClick = { onAction(ProfileAction.OnBackClicked) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = appStringResource(R.string.profile_back, "profile.back"),
                         )
                     }
                 },
@@ -87,8 +89,8 @@ private fun ProfileScreen(
                 CircularProgressIndicator()
             } else {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Feature: Profile")
-                    Text(text = "This is a nested screen within Settings tab")
+                    Text(text = appStringResource(R.string.profile_feature_title, "profile.feature.title"))
+                    Text(text = appStringResource(R.string.profile_feature_description, "profile.feature.description"))
                 }
             }
         }

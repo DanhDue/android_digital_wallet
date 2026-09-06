@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.danhdue.uikit.R
+import com.danhdue.uikit.localization.appStringResource
 import com.danhdue.uikit.ui.theme.AndroidDigitalWalletTheme
 
 /**
@@ -46,7 +48,7 @@ fun HomeStubPage(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(bottom = 8.dp),
             )
             Text(
-                text = "Home",
+                text = appStringResource(R.string.bottom_menu_home, "home.main.title"),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )

@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.danhdue.scanner.di.scannerViewModelFactory
+import com.danhdue.uikit.localization.appStringResource
 
 /**
  * Composable entry point for the Scanner feature.
@@ -62,7 +63,18 @@ private fun ScannerScreen(
         if (state.isLoading) {
             CircularProgressIndicator()
         } else {
-            Text(text = "Feature: Scanner")
+            Text(
+                text =
+                    appStringResource(
+                        com
+                            .danhdue
+                            .uikit
+                            .R
+                            .string
+                            .bottom_menu_scanner,
+                        "home.nav.qrScanner",
+                    ),
+            )
         }
     }
 }

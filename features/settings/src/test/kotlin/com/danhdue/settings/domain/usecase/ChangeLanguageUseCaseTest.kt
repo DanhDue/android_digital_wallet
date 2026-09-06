@@ -130,4 +130,31 @@ class ChangeLanguageUseCaseTest {
                 cancelAndConsumeRemainingEvents()
             }
         }
+
+    @Test
+    fun `bundled English US language emits CachedApplied and Success immediately`() =
+        runTest {
+            val englishUs =
+                SupportedLanguage(
+                    code = "en_US",
+                    name = "English (US)",
+                    version = "1.0.0",
+                    isDefault = true,
+                    isCached = true,
+                )
+
+            useCase(englishUs).test {
+                val first = awaitItem()
+                assertTrue(first is LanguageSyncStatus.CachedApplied)
+                assertEquals("en_US", (first as LanguageSyncStatus.CachedApplied).languageCode)
+
+                coVerify { localizationManager.setLocale("en_US") }
+
+                val second = awaitItem()
+                assertTrue(second is LanguageSyncStatus.Success)
+                assertEquals("en_US", (second as LanguageSyncStatus.Success).languageCode)
+
+                cancelAndConsumeRemainingEvents()
+            }
+        }
 }

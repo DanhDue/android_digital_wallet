@@ -17,6 +17,7 @@ import com.danhdue.settings.domain.model.SupportedLanguage
 import com.danhdue.settings.domain.repository.SettingsRepository
 import com.danhdue.settings.domain.usecase.BootstrapSettingsUseCase
 import com.danhdue.settings.domain.usecase.ChangeLanguageUseCase
+import com.danhdue.settings.domain.usecase.GetCachedLanguagesUseCase
 import com.danhdue.settings.domain.usecase.GetProfileDataUseCase
 import com.danhdue.settings.domain.usecase.GetSettingsDataUseCase
 import com.danhdue.settings.domain.usecase.ToggleDarkModeUseCase
@@ -70,6 +71,7 @@ class SettingsViewModelTest {
         SettingsViewModel(
             getSettingsDataUseCase = GetSettingsDataUseCase(repository),
             getProfileDataUseCase = GetProfileDataUseCase(repository),
+            getCachedLanguagesUseCase = GetCachedLanguagesUseCase(repository),
             bootstrapSettingsUseCase = BootstrapSettingsUseCase(repository),
             changeLanguageUseCase = ChangeLanguageUseCase(repository, appLocalizationManager),
             toggleDarkModeUseCase = ToggleDarkModeUseCase(appThemeManager),
@@ -131,6 +133,35 @@ class SettingsViewModelTest {
         }
 
     @Test
+    fun `SelectLanguage with already selected language does not trigger useCase and simply closes picker`() =
+        coroutineRule.runTest {
+            val mockChangeLanguageUseCase: ChangeLanguageUseCase = mockk()
+            val en = defaultLanguages[0]
+
+            val viewModel =
+                SettingsViewModel(
+                    getSettingsDataUseCase = GetSettingsDataUseCase(repository),
+                    getProfileDataUseCase = GetProfileDataUseCase(repository),
+                    getCachedLanguagesUseCase = GetCachedLanguagesUseCase(repository),
+                    bootstrapSettingsUseCase = BootstrapSettingsUseCase(repository),
+                    changeLanguageUseCase = mockChangeLanguageUseCase,
+                    toggleDarkModeUseCase = ToggleDarkModeUseCase(appThemeManager),
+                    appThemeManager = appThemeManager,
+                    appLocalizationManager = appLocalizationManager,
+                    appEventBus = appEventBus,
+                )
+
+            viewModel.dispatch(SettingsAction.OpenLanguagePicker)
+            assertTrue(viewModel.uiState.value.isLanguagePickerVisible)
+
+            viewModel.dispatch(SettingsAction.SelectLanguage(en))
+
+            assertFalse(viewModel.uiState.value.isLanguagePickerVisible)
+            assertEquals("en", viewModel.uiState.value.selectedLanguageCode)
+            io.mockk.verify(exactly = 0) { mockChangeLanguageUseCase(any()) }
+        }
+
+    @Test
     fun `SelectLanguage with uncached language triggers loading dialog`() =
         coroutineRule.runTest {
             val mockChangeLanguageUseCase: ChangeLanguageUseCase = mockk()
@@ -146,6 +177,7 @@ class SettingsViewModelTest {
                 SettingsViewModel(
                     getSettingsDataUseCase = GetSettingsDataUseCase(repository),
                     getProfileDataUseCase = GetProfileDataUseCase(repository),
+                    getCachedLanguagesUseCase = GetCachedLanguagesUseCase(repository),
                     bootstrapSettingsUseCase = BootstrapSettingsUseCase(repository),
                     changeLanguageUseCase = mockChangeLanguageUseCase,
                     toggleDarkModeUseCase = ToggleDarkModeUseCase(appThemeManager),
@@ -176,6 +208,7 @@ class SettingsViewModelTest {
                 SettingsViewModel(
                     getSettingsDataUseCase = GetSettingsDataUseCase(repository),
                     getProfileDataUseCase = GetProfileDataUseCase(repository),
+                    getCachedLanguagesUseCase = GetCachedLanguagesUseCase(repository),
                     bootstrapSettingsUseCase = BootstrapSettingsUseCase(repository),
                     changeLanguageUseCase = mockChangeLanguageUseCase,
                     toggleDarkModeUseCase = ToggleDarkModeUseCase(appThemeManager),
@@ -218,6 +251,7 @@ class SettingsViewModelTest {
                 SettingsViewModel(
                     getSettingsDataUseCase = GetSettingsDataUseCase(repository),
                     getProfileDataUseCase = GetProfileDataUseCase(repository),
+                    getCachedLanguagesUseCase = GetCachedLanguagesUseCase(repository),
                     bootstrapSettingsUseCase = BootstrapSettingsUseCase(repository),
                     changeLanguageUseCase = mockChangeLanguageUseCase,
                     toggleDarkModeUseCase = ToggleDarkModeUseCase(appThemeManager),
@@ -232,5 +266,59 @@ class SettingsViewModelTest {
             assertEquals("ja_JP", viewModel.uiState.value.selectedLanguageCode)
             assertEquals("日本語", viewModel.uiState.value.selectedLanguageName)
             assertFalse(viewModel.uiState.value.isLoadingLanguage)
+        }
+
+    @Test
+    fun `initial state has default bundled languages even before bootstrap settles`() =
+        coroutineRule.runTest {
+            val uncompletedRepository: SettingsRepository = mockk(relaxed = true)
+            coEvery { uncompletedRepository.bootstrap() } coAnswers {
+                kotlinx.coroutines.delay(10000)
+                Result.success(emptyList())
+            }
+            val viewModel =
+                SettingsViewModel(
+                    getSettingsDataUseCase = GetSettingsDataUseCase(uncompletedRepository),
+                    getProfileDataUseCase = GetProfileDataUseCase(uncompletedRepository),
+                    getCachedLanguagesUseCase = GetCachedLanguagesUseCase(uncompletedRepository),
+                    bootstrapSettingsUseCase = BootstrapSettingsUseCase(uncompletedRepository),
+                    changeLanguageUseCase = ChangeLanguageUseCase(uncompletedRepository, appLocalizationManager),
+                    toggleDarkModeUseCase = ToggleDarkModeUseCase(appThemeManager),
+                    appThemeManager = appThemeManager,
+                    appLocalizationManager = appLocalizationManager,
+                    appEventBus = appEventBus,
+                )
+
+            val languages = viewModel.uiState.value.availableLanguages
+            assertEquals(2, languages.size)
+            assertEquals("en", languages[0].code)
+            assertEquals("vi", languages[1].code)
+        }
+
+    @Test
+    fun `loadInitialData populates availableLanguages from cached languages before bootstrap settles`() =
+        coroutineRule.runTest {
+            val delayedRepository: SettingsRepository = mockk(relaxed = true)
+            coEvery { delayedRepository.getCachedLanguages() } returns defaultLanguages
+            coEvery { delayedRepository.bootstrap() } coAnswers {
+                kotlinx.coroutines.delay(10000)
+                Result.success(emptyList())
+            }
+            val viewModel =
+                SettingsViewModel(
+                    getSettingsDataUseCase = GetSettingsDataUseCase(delayedRepository),
+                    getProfileDataUseCase = GetProfileDataUseCase(delayedRepository),
+                    getCachedLanguagesUseCase = GetCachedLanguagesUseCase(delayedRepository),
+                    bootstrapSettingsUseCase = BootstrapSettingsUseCase(delayedRepository),
+                    changeLanguageUseCase = ChangeLanguageUseCase(delayedRepository, appLocalizationManager),
+                    toggleDarkModeUseCase = ToggleDarkModeUseCase(appThemeManager),
+                    appThemeManager = appThemeManager,
+                    appLocalizationManager = appLocalizationManager,
+                    appEventBus = appEventBus,
+                )
+
+            val languages = viewModel.uiState.value.availableLanguages
+            assertEquals(3, languages.size)
+            assertEquals("ja_JP", languages[2].code)
         }
 }

@@ -53,6 +53,12 @@ android {
         resourceConfigurations += listOf("en", "vi")
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     // On-demand Dynamic Feature Module split (Task 14, design §4.4). The dependency
     // is INVERTED: `:app` declares the module here and NEVER as an
     // `implementation(project(...))`, `:features:scanner` depends on `:app`. The

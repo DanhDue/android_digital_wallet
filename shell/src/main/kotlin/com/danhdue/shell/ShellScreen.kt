@@ -39,7 +39,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,6 +54,7 @@ import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.platform.FeatureEntry
 import com.danhdue.platform.LocalEntryProviderInstallers
 import com.danhdue.uikit.R
+import com.danhdue.uikit.localization.appStringResource
 import com.danhdue.uikit.ui.theme.HomeGrayText
 import com.danhdue.uikit.ui.theme.HomePrimaryBlue
 import java.util.ServiceConfigurationError
@@ -149,7 +149,7 @@ private fun ShellScreen(
         bottomBar = {
             ShellBottomBar(
                 selectedTab = state.selectedTab,
-                settingsLabel = state.profileName.ifBlank { stringResource(R.string.bottom_menu_settings) },
+                settingsLabel = appStringResource(R.string.bottom_menu_settings, "home.nav.settings"),
                 onTabSelect = { onAction(ShellAction.TabSelected(it)) },
             )
         },
@@ -268,7 +268,7 @@ private fun ShellBottomBar(
             ) {
                 TabItem(
                     icon = Icons.Default.Home,
-                    label = stringResource(R.string.bottom_menu_home),
+                    label = appStringResource(R.string.bottom_menu_home, "home.main.title"),
                     isSelected = selectedTab == ShellTab.Home,
                     onClick = { onTabSelect(ShellTab.Home) },
                     selectedColor = HomePrimaryBlue,
@@ -276,7 +276,7 @@ private fun ShellBottomBar(
                 )
                 TabItem(
                     icon = Icons.Default.QrCodeScanner,
-                    label = stringResource(R.string.bottom_menu_scanner),
+                    label = appStringResource(R.string.bottom_menu_scanner, "home.nav.qrScanner"),
                     isSelected = selectedTab == ShellTab.Scanner,
                     onClick = { onTabSelect(ShellTab.Scanner) },
                     selectedColor = HomePrimaryBlue,

@@ -17,7 +17,7 @@ package com.danhdue.settings.domain.model
 data class SupportedLanguage(
     val code: String,
     val name: String,
-    val version: String,
+    val version: String = "1.0.0",
     val isDefault: Boolean = false,
     val isActive: Boolean = true,
     val isCached: Boolean = false,

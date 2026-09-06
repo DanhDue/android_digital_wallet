@@ -46,6 +46,7 @@ object PlatformModule {
     @Provides
     @Singleton
     fun provideAppLocalizationManager(
+        @ApplicationContext context: Context,
         cacheStore: CacheStore,
         appEventBus: AppEventBus,
         dispatcherProvider: DispatcherProvider,
@@ -54,5 +55,6 @@ object PlatformModule {
             cacheStore = cacheStore,
             appEventBus = appEventBus,
             dispatcherProvider = dispatcherProvider,
+            context = context,
         )
 }

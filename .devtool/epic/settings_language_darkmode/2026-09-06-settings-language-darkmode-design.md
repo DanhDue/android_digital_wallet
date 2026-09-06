@@ -1,7 +1,7 @@
 # Design Spec: Settings Screen UI, Dark Mode & OTA Dynamic Localization
 
 **Date**: 2026-09-06  
-**Status**: Approved (Brainstorming Phase)  
+**Status**: Implemented & Verified  
 **Authors**: Antigravity & DanhDue ExOICTIF  
 **Target Architecture**: Clean Architecture + MVI + Multi-Module Android (Kotlin 2.x, Jetpack Compose, Dagger Hilt)
 
@@ -28,10 +28,13 @@ This specification defines the implementation of the rich Settings screen for `a
    - Bundled default languages: **English (`en`)** and **Vietnamese (`vi`)** in `strings.xml`.
    - Remote languages (**日本語 `ja_JP`**, **한국어 `ko_KR`**) fetched on-demand from the backend.
    - **Background Bootstrap Sync**: On entering Settings (`init`), calls `POST /api/v1/settings/sync/bootstrap` in the background (no loading dialog) to retrieve available languages and check for stale translations.
+   - **Dual-Layer Caching**: Both `CacheStore` (DataStore) and `SharedPreferences` store downloaded translations and supported languages list (`key_supported_languages`).
+   - **Immediate Startup Loading**: `GetCachedLanguagesUseCase` loads previously cached languages on frame 0, ensuring the language picker renders all supported languages immediately, even while offline.
    - **State-aware Language Switching**:
      - If language is **cached/bundled**: Switch locale immediately (optimistic UI), and check for delta updates in background.
-     - If language is **not cached**: Display a modal `LoadingDialog` ("Đang tải ngôn ngữ..."), fetch remote translations via `GET /api/v1/translations/{code}`, save flattened dot-notation map into `CacheStore`, apply locale, and dismiss dialog. If fetch fails, keep previous language and display a soft error message.
+     - If language is **not cached**: Display a modal `LoadingDialog` ("Đang tải ngôn ngữ..."), fetch remote translations via `GET /api/v1/translations/{code}`, save flattened dot-notation map into `CacheStore` and `SharedPreferences`, apply locale, and dismiss dialog. If fetch fails, keep previous language and display a soft error message.
      - **Same-Language Skip**: Redundant switches on the active language are skipped.
+   - **In-Place Recomposition**: `LocalDynamicStringResolver` coupled with `remember(currentLanguageCode, translationsVersion) { appLocalizationManager::getString }` allows fine-grained recomposition of dynamic strings across all modules without tearing down active bottom sheets or recreating the UI tree.
 
 ---
 
@@ -67,17 +70,17 @@ graph TD
    - Functions: `fun toggleDarkMode(enabled: Boolean)`, `fun setThemeMode(mode: AppThemeMode)`.
    - Emits `AppEvent.ThemeModeChanged(mode)` on `AppEventBus`.
 2. **`AppLocalizationManager`**:
-   - Tracks `val currentLanguageCode: StateFlow<String>`.
-   - In-memory translation overrides: `val dynamicOverrides: StateFlow<Map<String, String>>`.
-   - Function `fun translate(key: String, default: String? = null): String`: Checks `dynamicOverrides[key]`, then falls back to `default ?? key`.
-   - Function `fun setLocale(code: String)`:
-     - Updates `currentLanguageCode` and loads cached translations for `code`.
-     - Updates Android per-app locale via `AppCompatDelegate.setApplicationLocales(...)`.
-     - Persists selection to `CacheStore`.
-     - Emits `AppEvent.AppLanguageChanged(code)` on `AppEventBus`.
-   - Function `fun applyDynamicTranslations(code: String, translations: Map<String, String>, isFull: Boolean)`:
-     - Persists translations in `CacheStore`.
-     - Updates `dynamicOverrides` if `code` is currently active.
+   - Tracks `val currentLanguageCode: StateFlow<String>` (resolved synchronously in `init` from `SharedPreferences` to prevent cold start resets).
+   - Tracks `val translationsVersion: StateFlow<Int>`: Increments only when dynamic translations differ from existing values.
+   - Function `fun getString(key: String, fallback: String): String`: Resolves dot-notation keys from in-memory `dynamicOverrides`, with schema alias support (e.g. `home.main.title` <-> `home.nav.home`), falling back to `fallback`.
+   - Function `suspend fun setLocale(languageCode: String)`:
+     - Persists to `SharedPreferences` and `CacheStore`.
+     - Loads cached translations into memory immediately.
+     - Emits `AppEvent.AppLanguageChanged(languageCode)` on `AppEventBus`.
+   - Function `suspend fun applyDynamicTranslations(translations: Map<String, String>, languageCode: String? = null)`:
+     - Detects content changes before updating memory and disk.
+     - Persists in `CacheStore` and `SharedPreferences`.
+     - Bumps `translationsVersion` only if changes were detected.
 3. **`AppEvent` additions**:
    ```kotlin
    data class ThemeModeChanged(val mode: AppThemeMode) : AppEvent
@@ -90,12 +93,12 @@ graph TD
 
 ### 3.1 Remote Endpoints
 1. **Bootstrap Sync**:
-   - `POST https://digital-wallet-93c4ba68a41d.herokuapp.com/api/v1/settings/sync/bootstrap`
+   - `POST /api/v1/settings/sync/bootstrap`
    - Request Body:
      ```json
      {
        "cached_translations": [
-         { "resource_id": "en_US", "version": "0.0.1" }
+         { "resource_id": "en_US", "version": "1.0.0" }
        ]
      }
      ```
@@ -103,20 +106,23 @@ graph TD
      - `available_languages`: list of supported languages (`language_code`, `language_name`, `version`, `is_default`, `is_active`).
      - `stale_translations`: list of resources needing updates.
 2. **Translations Download (Delta/Full)**:
-   - `GET https://digital-wallet-93c4ba68a41d.herokuapp.com/api/v1/translations/{language_code}?since_version={version}`
+   - `GET /api/v1/translations/{language_code}?since_version={version}`
    - Returns nested translations JSON tree, `mode` (`full` | `delta`), and `version`.
 
 ### 3.2 Moshi DTOs & JSON Flattening
-- `BootstrapRequestDto`, `CachedTranslationDto`, `BootstrapResponseDto`, `AvailableLanguageDto`.
-- `TranslationResponseDto`:
-  - Custom deserializer/helper `flattenJsonToDotNotation()` transforms nested keys (e.g. `{"settings": {"preferences": {"darkMode": "ダークモード"}}}`) into flat map entries `settings.preferences.darkMode = "ダークモード"`.
+- `BootstrapRequestDto`, `CachedTranslationDto`, `BootstrapResponseDto`, `SupportedLanguageDto`.
+- `JsonFlattener`: Transforms arbitrary nested maps (e.g. `{"settings": {"preferences": {"darkMode": "ダークモード"}}}`) into flat dot-notation entries `settings.preferences.darkMode = "ダークモード"`.
 
 ### 3.3 Local Storage (`SettingsLocalDataSource`)
-- Uses `CacheStore` (`packages/core`):
+- Dual-layer persistence using `CacheStore` (`:packages:core`) and `SharedPreferences` (`app_preferences`):
   - `translations_{code}`: JSON string of flat translations map.
-  - `version_{code}`: Current version string.
-  - `available_languages`: Cached list of available languages.
-- `isLanguageCached(code)`: `true` for bundled `en`/`vi` or when cached in `CacheStore`.
+  - `key_supported_languages`: JSON string of cached `SupportedLanguageItem` list.
+- Methods:
+  - `suspend fun getSupportedLanguages(): List<SupportedLanguage>`
+  - `fun getSupportedLanguagesSync(): List<SupportedLanguage>`
+  - `suspend fun saveSupportedLanguages(languages: List<SupportedLanguage>)`
+  - `suspend fun saveTranslations(languageCode: String, translations: Map<String, String>)`
+  - `suspend fun getTranslations(languageCode: String): Map<String, String>`
 
 ---
 
@@ -125,60 +131,72 @@ graph TD
 Pure Kotlin, 0 Android framework imports (Konsist Rule K3).
 
 ### 4.1 Entities
-- `AvailableLanguage(code: String, name: String, version: String?, isDefault: Boolean, isCached: Boolean)`
-- `LanguageSyncStatus`: `Loading`, `CachedApplied`, `Success`, `Error(message: String)`
+- `SupportedLanguage(code: String, name: String, version: String, isDefault: Boolean, isActive: Boolean, isCached: Boolean)`
+- `LanguageSyncStatus`: `Idle`, `Loading(code: String)`, `CachedApplied(code: String)`, `Success(code: String)`, `Error(code: String, message: String)`
 
 ### 4.2 Repository Interface
 ```kotlin
 interface SettingsRepository {
-    suspend fun bootstrap(): Result<List<AvailableLanguage>>
-    suspend fun getAvailableLanguages(): List<AvailableLanguage>
-    suspend fun isLanguageCached(code: String): Boolean
-    suspend fun fetchAndCacheTranslations(code: String): Result<Map<String, String>>
+    suspend fun getSettingsData(): Result<Settings>
+    suspend fun getProfileData(): Result<Profile>
+    suspend fun bootstrap(): Result<List<SupportedLanguage>>
+    suspend fun fetchAndCacheTranslations(languageCode: String, sinceVersion: String? = null): Result<Map<String, String>>
+    suspend fun getCachedLanguages(): List<SupportedLanguage>
+    suspend fun getCachedTranslations(languageCode: String): Map<String, String>
 }
 ```
 
-### 4.3 Use Cases
-- `BootstrapSettingsUseCase`: Invoked silently on screen init, fetches bootstrap data and caches available languages.
-- `ChangeLanguageUseCase`: Implements the state machine with optimistic UI for cached languages and loading dialog for uncached languages.
-- `ToggleDarkModeUseCase`: Delegates to `AppThemeManager`.
+### 4.3 Use Cases Specification
+
+- **`GetCachedLanguagesUseCase`**:
+  - *Purpose*: Retrieves locally cached supported languages synchronously for frame-0 startup display.
+  - *Contract*: `suspend operator fun invoke(): List<SupportedLanguage>`.
+  - *Behavior*: Queries `SettingsRepository.getCachedLanguages()`. If local cache exists, returns it immediately so `availableLanguages` in `SettingsViewModel` is populated before network bootstrap finishes.
+
+- **`BootstrapSettingsUseCase`**:
+  - *Purpose*: Synchronizes supported languages and translation version metadata with the backend.
+  - *Contract*: `suspend operator fun invoke(): Result<List<SupportedLanguage>>`.
+  - *Behavior*: Calls `SettingsRepository.bootstrap()`, sends cached versions to `POST /api/v1/settings/sync/bootstrap`, saves updated languages into both DataStore and `SharedPreferences`, and returns merged language list.
+
+- **`ChangeLanguageUseCase`**:
+  - *Purpose*: Orchestrates language switching with optimistic UI for cached/bundled languages and loading dialog for uncached languages.
+  - *Contract*: `operator fun invoke(targetLanguage: SupportedLanguage): Flow<LanguageSyncStatus>`.
+  - *Behavior*:
+    - If `targetLanguage.isCached || targetLanguage.code in setOf("en", "vi", ...)`: Emits `LanguageSyncStatus.CachedApplied`, loads cached dot-map into `AppLocalizationManager`, sets locale, and quietly checks delta updates in background without blocking UI, then emits `LanguageSyncStatus.Success`.
+    - If uncached: Emits `LanguageSyncStatus.Loading`, calls `SettingsRepository.fetchAndCacheTranslations(code)`, applies flattened map to `AppLocalizationManager`, sets locale, and emits `LanguageSyncStatus.Success` (or `LanguageSyncStatus.Error` on failure).
+
+- **`ToggleDarkModeUseCase`**:
+  - *Purpose*: Updates global application theme.
+  - *Contract*: `suspend operator fun invoke(isDarkMode: Boolean)`.
+  - *Behavior*: Maps boolean to `AppThemeMode.DARK` or `LIGHT` and delegates to `AppThemeManager.setThemeMode()`, persisting to `CacheStore` and broadcasting `AppEvent.ThemeModeChanged`.
 
 ---
 
 ## 5. Presentation Layer (`:features:settings`)
 
 ### 5.1 MVI Architecture
-- **`SettingsState`**: Holds `isDarkMode`, `currentLanguageCode`, `currentLanguageName`, `availableLanguages`, `isLanguagePickerVisible`, `isLoadingLanguage`, `isDeveloperMode`, `appVersion`.
+- **`SettingsState`**: Holds `isLoading`, `isDarkMode`, `selectedLanguageCode`, `selectedLanguageName`, `availableLanguages`, `isLanguagePickerVisible`, `isLoadingLanguage`, `errorMessage`.
 - **`SettingsAction`**:
-  - `Init`: Triggers silent bootstrap.
-  - `ToggleDarkMode(enabled: Boolean)`
+  - `ToggleDarkMode(isDarkMode: Boolean)`
   - `OpenLanguagePicker`, `DismissLanguagePicker`
-  - `SelectLanguage(language: AvailableLanguage)`
-  - `ToggleDeveloperMode(enabled: Boolean)`
-  - `OpenProfile`, `Logout`
-- **`SettingsEvent`**: `NavigateToProfile`, `ShowToast(message: String)`
+  - `SelectLanguage(language: SupportedLanguage)`
+  - `OpenProfile`, `OpenSecurity`, `OpenDeveloperOptions`, `Logout`
+- **`SettingsEvent`**: `NavigateToProfile`, `NavigateToSecurity`, `NavigateToDeveloperOptions`, `ShowToast(message: String)`
 
-### 5.2 UI Components
-1. **`SettingsScreen`**:
-   - Grouped into 4 cards (`SettingsSectionCard`) on background surface.
-   - `SettingsItemRow` with circular pastel badge icons, title, and trailing elements (Chevron, Switch, Value text).
-   - Bottom standalone red **Đăng xuất** button.
-   - `LoadingDialog` shown when `isLoadingLanguage == true`.
-2. **`LanguagePickerBottomSheet`**:
-   - Material 3 `ModalBottomSheet` with bold centered header **Ngôn ngữ**.
-   - Language options with active checkmark `✓`.
-   - On item click: dismisses sheet and dispatches `SelectLanguage`.
+### 5.2 Dynamic Language Name Resolution
+`SettingsViewModel.resolveLanguageName`:
+Looks up the display name directly in `availableLanguages`. If not yet loaded, queries `java.util.Locale.forLanguageTag(code).getDisplayLanguage(locale)`, ensuring accurate native names ("日本語", "한국어", "Tiếng Việt") without static hardcoded tags.
 
 ---
 
-## 6. Verification & Testing Strategy
+## 6. Verification & Quality Gates
 
 1. **Unit Tests (`:features:settings:testDebugUnitTest`)**:
+   - `GetCachedLanguagesUseCaseTest`: Verifies cached language retrieval.
    - `ChangeLanguageUseCaseTest`: Verifies optimistic switch for cached languages, loading emission for uncached languages, same-language skip, and failure rollback.
-   - `SettingsViewModelTest`: Verifies actions (`Init`, `ToggleDarkMode`, `SelectLanguage`, `OpenProfile`, `Logout`).
+   - `SettingsLocalDataSourceTest`: Verifies roundtripping through DataStore and `SharedPreferences`.
+   - `SettingsViewModelTest`: Verifies actions and cached language loading before bootstrap settles.
 2. **Architecture Gate (`:konsist-test:test`)**:
    - Strict validation of all Konsist rules K1–K9.
 3. **Quality & Spotless**:
-   - `./gradlew spotlessCheck` with 0 warnings.
-4. **App Build & Assembly**:
-   - `./gradlew assembleDebug` must succeed cleanly.
+   - `./gradlew check` (detekt, spotless, tests) passes with Code 0.

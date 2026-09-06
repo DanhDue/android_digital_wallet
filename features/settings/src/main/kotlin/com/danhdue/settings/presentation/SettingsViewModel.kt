@@ -14,6 +14,7 @@ import com.danhdue.settings.domain.model.LanguageSyncStatus
 import com.danhdue.settings.domain.model.SupportedLanguage
 import com.danhdue.settings.domain.usecase.BootstrapSettingsUseCase
 import com.danhdue.settings.domain.usecase.ChangeLanguageUseCase
+import com.danhdue.settings.domain.usecase.GetCachedLanguagesUseCase
 import com.danhdue.settings.domain.usecase.GetProfileDataUseCase
 import com.danhdue.settings.domain.usecase.GetSettingsDataUseCase
 import com.danhdue.settings.domain.usecase.ToggleDarkModeUseCase
@@ -21,6 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -29,12 +31,14 @@ import javax.inject.Inject
  * MVI: extends [MviViewModel]; UI intents arrive through [onAction], state is
  * mutated with [reduce], one-off navigation events go out via [sendEvent].
  */
+@Suppress("LongParameterList")
 @HiltViewModel
 class SettingsViewModel
     @Inject
     constructor(
         private val getSettingsDataUseCase: GetSettingsDataUseCase,
         private val getProfileDataUseCase: GetProfileDataUseCase,
+        private val getCachedLanguagesUseCase: GetCachedLanguagesUseCase,
         private val bootstrapSettingsUseCase: BootstrapSettingsUseCase,
         private val changeLanguageUseCase: ChangeLanguageUseCase,
         private val toggleDarkModeUseCase: ToggleDarkModeUseCase,
@@ -42,7 +46,7 @@ class SettingsViewModel
         private val appLocalizationManager: AppLocalizationManager,
         private val appEventBus: AppEventBus,
     ) : MviViewModel<SettingsState, SettingsAction, SettingsEvent>(
-            initialState = SettingsState(),
+            initialState = createInitialState(appLocalizationManager),
         ) {
         val events: Flow<SettingsEvent> get() = event
 
@@ -86,9 +90,7 @@ class SettingsViewModel
             }
             safeLaunch {
                 appLocalizationManager.currentLanguageCode.collect { code ->
-                    val langName =
-                        currentState.availableLanguages.find { it.code == code }?.name
-                            ?: if (code == "vi") "Tiếng Việt" else "English"
+                    val langName = resolveLanguageName(code, currentState.availableLanguages)
                     reduce {
                         copy(
                             selectedLanguageCode = code,
@@ -103,21 +105,34 @@ class SettingsViewModel
             safeLaunch {
                 reduce { copy(isLoading = true) }
 
+                val cachedLanguages = getCachedLanguagesUseCase()
+                if (cachedLanguages.isNotEmpty()) {
+                    val currentCode = appLocalizationManager.currentLanguageCode.value
+                    val langName = resolveLanguageName(currentCode, cachedLanguages)
+                    reduce {
+                        copy(
+                            availableLanguages = cachedLanguages,
+                            selectedLanguageCode = currentCode,
+                            selectedLanguageName = langName,
+                        )
+                    }
+                }
+
                 getSettingsDataUseCase()
                     .onSuccess { }
                     .onFailure { }
 
                 getProfileDataUseCase()
                     .onSuccess { profile ->
-                        appEventBus.publish(AppEvent.ProfileNameChanged(displayName = profile.data))
+                        if (profile.data.isNotBlank() && !profile.data.contains("Sample data")) {
+                            appEventBus.publish(AppEvent.ProfileNameChanged(displayName = profile.data))
+                        }
                     }.onFailure { }
 
                 bootstrapSettingsUseCase()
                     .onSuccess { languages ->
                         val currentCode = appLocalizationManager.currentLanguageCode.value
-                        val langName =
-                            languages.find { it.code == currentCode }?.name
-                                ?: if (currentCode == "vi") "Tiếng Việt" else "English"
+                        val langName = resolveLanguageName(currentCode, languages)
                         reduce {
                             copy(
                                 availableLanguages = languages,
@@ -156,11 +171,16 @@ class SettingsViewModel
                                 }
                             }
                             is LanguageSyncStatus.Success -> {
+                                val updatedLanguages =
+                                    currentState.availableLanguages.map {
+                                        if (it.code == language.code) it.copy(isCached = true) else it
+                                    }
                                 reduce {
                                     copy(
                                         isLoadingLanguage = false,
                                         selectedLanguageCode = status.languageCode,
                                         selectedLanguageName = language.name,
+                                        availableLanguages = updatedLanguages,
                                     )
                                 }
                             }
@@ -171,5 +191,39 @@ class SettingsViewModel
                         }
                     }
                 }
+        }
+
+        companion object {
+            private fun createInitialState(appLocalizationManager: AppLocalizationManager): SettingsState {
+                val code = appLocalizationManager.currentLanguageCode.value
+                val name = resolveLanguageName(code, SettingsState.DEFAULT_LANGUAGES)
+                return SettingsState(
+                    selectedLanguageCode = code,
+                    selectedLanguageName = name,
+                )
+            }
+
+            fun resolveLanguageName(
+                code: String,
+                availableLanguages: List<SupportedLanguage>,
+            ): String {
+                val matched =
+                    availableLanguages.find {
+                        it.code.equals(code, ignoreCase = true) ||
+                            code.startsWith(it.code, ignoreCase = true) ||
+                            it.code.startsWith(code, ignoreCase = true)
+                    }
+                if (matched != null) return matched.name
+
+                return runCatching {
+                    val locale = Locale.forLanguageTag(code.replace('_', '-'))
+                    val display = locale.getDisplayLanguage(locale)
+                    if (display.isNotBlank() && !display.equals(code, ignoreCase = true)) {
+                        display.replaceFirstChar { it.uppercase() }
+                    } else {
+                        "English"
+                    }
+                }.getOrDefault("English")
+            }
         }
     }

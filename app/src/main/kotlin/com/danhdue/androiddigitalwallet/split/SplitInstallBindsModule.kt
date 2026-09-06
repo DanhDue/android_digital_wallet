@@ -18,8 +18,8 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class SplitInstallBindsModule {
+interface SplitInstallBindsModule {
     @Binds
     @Singleton
-    abstract fun bindFeatureInstaller(impl: FeatureInstallerImpl): FeatureInstaller
+    fun bindFeatureInstaller(impl: FeatureInstallerImpl): FeatureInstaller
 }

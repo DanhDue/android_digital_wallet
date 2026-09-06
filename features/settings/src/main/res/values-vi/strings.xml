@@ -23,4 +23,8 @@
     <string name="settings_button_logout">Đăng xuất</string>
     <string name="settings_language_picker_title">Chọn ngôn ngữ</string>
     <string name="settings_language_downloading">Đang tải bản dịch…</string>
+    <string name="profile_title">Hồ sơ</string>
+    <string name="profile_back">Quay lại</string>
+    <string name="profile_feature_title">Tính năng: Hồ sơ</string>
+    <string name="profile_feature_description">Đây là màn hình lồng trong tab Cài đặt</string>
 </resources>

@@ -9,6 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.res.stringResource
 
+@Suppress("UnusedParameter")
+private fun defaultStringResolver(
+    key: String,
+    fallback: String,
+): String = fallback
+
 /**
  * CompositionLocal providing a dynamic string resolver function.
  * By default returns the local string fallback.
@@ -16,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 @Suppress("CompositionLocalAllowlist")
 val LocalDynamicStringResolver =
     staticCompositionLocalOf<(key: String, fallback: String) -> String> {
-        { _, fallback -> fallback }
+        ::defaultStringResolver
     }
 
 /**

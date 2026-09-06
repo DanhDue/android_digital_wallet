@@ -36,7 +36,7 @@ class AppLocalizationManagerTest {
 
     @Before
     fun setUp() {
-        coEvery { cacheStore.read(KEY_APP_LANGUAGE, "en") } returns "en"
+        coEvery { cacheStore.read<String>(any(), any()) } answers { secondArg() }
     }
 
     @Test
@@ -118,6 +118,96 @@ class AppLocalizationManagerTest {
             assertEquals("value1", localizationManager.getString("key1", fallback = ""))
             assertEquals("value2_updated", localizationManager.getString("key2", fallback = ""))
             assertEquals("value3", localizationManager.getString("key3", fallback = ""))
+        }
+
+    @Test
+    fun `applyDynamicTranslations scopes overrides per language and increments version`() =
+        runTest(testDispatcher) {
+            localizationManager =
+                DefaultAppLocalizationManager(
+                    cacheStore = cacheStore,
+                    appEventBus = appEventBus,
+                    dispatcherProvider = dispatcherProvider,
+                    initialLanguage = "en",
+                )
+
+            val initialVersion = localizationManager.translationsVersion.value
+
+            localizationManager.applyDynamicTranslations(
+                translations = mapOf("settings.title" to "設定"),
+                languageCode = "ja_JP",
+            )
+
+            // Version incremented
+            assertEquals(initialVersion + 1, localizationManager.translationsVersion.value)
+
+            // Still in "en", so fallback is used
+            assertEquals("Settings", localizationManager.getString("settings.title", fallback = "Settings"))
+
+            // Switch to "ja_JP"
+            localizationManager.setLocale("ja_JP")
+            assertEquals(initialVersion + 2, localizationManager.translationsVersion.value)
+            assertEquals("設定", localizationManager.getString("settings.title", fallback = "Settings"))
+
+            // Switch to "vi" -> falls back to Vietnamese fallback
+            localizationManager.setLocale("vi")
+            assertEquals("Cài đặt", localizationManager.getString("settings.title", fallback = "Cài đặt"))
+        }
+
+    @Test
+    fun `getString resolves schema aliases between home nav home and home main title`() =
+        runTest(testDispatcher) {
+            localizationManager =
+                DefaultAppLocalizationManager(
+                    cacheStore = cacheStore,
+                    appEventBus = appEventBus,
+                    dispatcherProvider = dispatcherProvider,
+                    initialLanguage = "ja_JP",
+                )
+
+            localizationManager.applyDynamicTranslations(
+                translations = mapOf("home.main.title" to "ホーム"),
+                languageCode = "ja_JP",
+            )
+
+            assertEquals("ホーム", localizationManager.getString("home.main.title", fallback = "Home"))
+            assertEquals("ホーム", localizationManager.getString("home.nav.home", fallback = "Home"))
+        }
+
+    @Test
+    fun `applyDynamicTranslations with unchanged translations does not increment version`() =
+        runTest(testDispatcher) {
+            localizationManager =
+                DefaultAppLocalizationManager(
+                    cacheStore = cacheStore,
+                    appEventBus = appEventBus,
+                    dispatcherProvider = dispatcherProvider,
+                    initialLanguage = "en",
+                )
+
+            val initialVersion = localizationManager.translationsVersion.value
+            localizationManager.applyDynamicTranslations(mapOf("key1" to "value1"))
+            assertEquals(initialVersion + 1, localizationManager.translationsVersion.value)
+
+            // Re-applying exact same translations should NOT increment version
+            localizationManager.applyDynamicTranslations(mapOf("key1" to "value1"))
+            assertEquals(initialVersion + 1, localizationManager.translationsVersion.value)
+        }
+
+    @Test
+    fun `startup cache load restores translations into dynamicOverrides`() =
+        runTest(testDispatcher) {
+            coEvery { cacheStore.read<String>("translations_ja_JP", any()) } returns """{"custom.title":"タイトル"}"""
+
+            localizationManager =
+                DefaultAppLocalizationManager(
+                    cacheStore = cacheStore,
+                    appEventBus = appEventBus,
+                    dispatcherProvider = dispatcherProvider,
+                    initialLanguage = "ja_JP",
+                )
+
+            assertEquals("タイトル", localizationManager.getString("custom.title", fallback = "Default"))
         }
 
     companion object {
