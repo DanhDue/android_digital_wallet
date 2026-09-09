@@ -4,9 +4,20 @@
  */
 package com.danhdue.shell
 
+import androidx.annotation.StringRes
+
 /**
  * Defines the one-off events that the ViewModel can send to the UI for the Shell.
  */
 sealed interface ShellEvent {
-    // Example: data class ShowSnackbar(val message: String) : ShellEvent
+    /**
+     * Instructs the UI to display a user-facing informational or error message.
+     *
+     * @property messageRes String resource ID of the localized message.
+     * @property localizationKey Optional remote key for OTA translations.
+     */
+    data class ShowMessage(
+        @StringRes val messageRes: Int,
+        val localizationKey: String? = null,
+    ) : ShellEvent
 }

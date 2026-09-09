@@ -1,13 +1,13 @@
 ---
 id: "task_7_shell_ensure_module_and_failure"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T04:57:30Z"
+completedAt: "2026-09-10T04:57:30Z"
 labels: ["architecture", "feature", "shell"]
 order: "a7"
 ---
@@ -64,7 +64,7 @@ Applicable skills: `.agents/skills/test-driven-development`; `.agents/skills/qua
 
 ## TDD Checklist
 
-- [ ] **RED**: extend `ShellViewModelTest` with a fake `FeatureInstaller` and fake router. Failing first:
+- [x] **RED**: extend `ShellViewModelTest` with a fake `FeatureInstaller` and fake router. Failing first:
   - `EnsureModule` adds the module to `installingModules`
   - on install success: `readyModules` contains it, `installingModules` does not, and `dispatch(replay)` was called exactly once
   - on install failure: `installingModules` is cleared and a `ShowMessage` event is emitted; `readyModules` unchanged
@@ -74,17 +74,17 @@ Applicable skills: `.agents/skills/test-driven-development`; `.agents/skills/qua
   - `Failed(Blocked("..."))` emits a `ShowMessage` carrying the guard's reason
   - `Failed(RedirectLoop)` emits no `ShowMessage`
   - no `Failed` variant mutates any back stack — assert all three stacks are identical before and after
-- [ ] **GREEN**: implement both handlers and `ShellEvent.ShowMessage`; render it in `ShellScreen`.
-- [ ] **REFACTOR**: express the reason-to-message mapping as one exhaustive `when` over `FailureReason`, so adding a reason later is a compile error rather than a silent omission.
+- [x] **GREEN**: implement both handlers and `ShellEvent.ShowMessage`; render it in `ShellScreen`.
+- [x] **REFACTOR**: express the reason-to-message mapping as one exhaustive `when` over `FailureReason`, so adding a reason later is a compile error rather than a silent omission.
 
 ## Definition of Done
 
-- [ ] `./gradlew :shell:testDebugUnitTest` green, all cases above.
-- [ ] Exactly one install code path exists — verified by inspection; tab selection and `EnsureModule` share it.
-- [ ] The `FailureReason` mapping is an exhaustive `when` with no `else` branch.
-- [ ] User-facing strings go through `appStringResource`; no hard-coded literals.
-- [ ] `./gradlew :konsist-test:test detekt spotlessCheck assembleDebug bundleDebug` green.
-- [ ] Manual: `dispatch("myapp://scanner")` with the split absent shows the spinner and then opens Scanner.
+- [x] `./gradlew :shell:testDebugUnitTest` green, all cases above.
+- [x] Exactly one install code path exists — verified by inspection; tab selection and `EnsureModule` share it.
+- [x] The `FailureReason` mapping is an exhaustive `when` with no `else` branch.
+- [x] User-facing strings go through `appStringResource`; no hard-coded literals.
+- [x] `./gradlew :konsist-test:test detekt spotlessCheck assembleDebug bundleDebug` green.
+- [x] Manual: `dispatch("myapp://scanner")` with the split absent shows the spinner and then opens Scanner.
 
 ## Dependencies & Blockers
 

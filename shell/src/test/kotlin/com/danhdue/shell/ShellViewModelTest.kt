@@ -14,8 +14,10 @@ import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.FeatureInstaller
 import com.danhdue.platform.NoOpFeatureInstaller
 import com.danhdue.platform.deeplink.DeepLinkRouter
+import com.danhdue.platform.deeplink.FailureReason
 import com.danhdue.platform.deeplink.NavigationCommand
 import com.danhdue.shell.tabs.HomeStubRoute
+import com.danhdue.uikit.R
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -341,5 +343,135 @@ class ShellViewModelTest {
             assertEquals(ShellTab.Settings, viewModel.uiState.value.selectedTab)
             assertEquals(homeStack, viewModel.uiState.value.homeBackStack)
             assertEquals(settingsStack, viewModel.uiState.value.settingsBackStack)
+        }
+
+    @Test
+    fun `EnsureModule adds module to installingModules, updates readyModules on success and replays deep link`() =
+        coroutineRule.runTest {
+            val installer = FakeFeatureInstaller()
+            val router = FakeDeepLinkRouter()
+            val viewModel = createViewModel(installer = installer, router = router)
+
+            router.emitCommand(NavigationCommand.EnsureModule(module = "scanner", replay = "myapp://scanner/scan"))
+
+            assertEquals(listOf("scanner"), installer.requestedModules)
+            assertTrue("scanner" in viewModel.uiState.value.installingModules)
+            assertFalse("scanner" in viewModel.uiState.value.readyModules)
+            assertTrue(router.dispatchedUris.isEmpty())
+
+            installer.release()
+
+            assertFalse("scanner" in viewModel.uiState.value.installingModules)
+            assertTrue("scanner" in viewModel.uiState.value.readyModules)
+            assertEquals(listOf("myapp://scanner/scan"), router.dispatchedUris)
+        }
+
+    @Test
+    fun `EnsureModule on failure clears installingModules, leaves readyModules empty, and emits ShowMessage`() =
+        coroutineRule.runTest {
+            val installer = FakeFeatureInstaller()
+            val router = FakeDeepLinkRouter()
+            val viewModel = createViewModel(installer = installer, router = router)
+
+            installer.failure = IllegalStateException("Module download failed")
+
+            viewModel.event.test {
+                router.emitCommand(NavigationCommand.EnsureModule(module = "scanner", replay = "myapp://scanner/scan"))
+                installer.release()
+
+                assertFalse("scanner" in viewModel.uiState.value.installingModules)
+                assertFalse("scanner" in viewModel.uiState.value.readyModules)
+                assertTrue(router.dispatchedUris.isEmpty())
+
+                val event = awaitItem() as ShellEvent.ShowMessage
+                assertEquals(R.string.deeplink_error_install_failed, event.messageRes)
+                cancelAndConsumeRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `Failed with Malformed emits no ShowMessage and does not mutate back stacks`() =
+        coroutineRule.runTest {
+            val router = FakeDeepLinkRouter()
+            val viewModel = createViewModel(router = router)
+
+            val initialHome = viewModel.uiState.value.homeBackStack
+            val initialScanner = viewModel.uiState.value.scannerBackStack
+            val initialSettings = viewModel.uiState.value.settingsBackStack
+
+            viewModel.event.test {
+                router.emitCommand(NavigationCommand.Failed("myapp://malformed", FailureReason.Malformed))
+                expectNoEvents()
+                cancelAndConsumeRemainingEvents()
+            }
+
+            assertEquals(initialHome, viewModel.uiState.value.homeBackStack)
+            assertEquals(initialScanner, viewModel.uiState.value.scannerBackStack)
+            assertEquals(initialSettings, viewModel.uiState.value.settingsBackStack)
+        }
+
+    @Test
+    fun `Failed with NoResolver emits ShowMessage and does not mutate back stacks`() =
+        coroutineRule.runTest {
+            val router = FakeDeepLinkRouter()
+            val viewModel = createViewModel(router = router)
+
+            val initialHome = viewModel.uiState.value.homeBackStack
+            val initialScanner = viewModel.uiState.value.scannerBackStack
+            val initialSettings = viewModel.uiState.value.settingsBackStack
+
+            viewModel.event.test {
+                router.emitCommand(NavigationCommand.Failed("myapp://unknown", FailureReason.NoResolver))
+                val event = awaitItem() as ShellEvent.ShowMessage
+                assertEquals(R.string.deeplink_error_unknown_feature, event.messageRes)
+                cancelAndConsumeRemainingEvents()
+            }
+
+            assertEquals(initialHome, viewModel.uiState.value.homeBackStack)
+            assertEquals(initialScanner, viewModel.uiState.value.scannerBackStack)
+            assertEquals(initialSettings, viewModel.uiState.value.settingsBackStack)
+        }
+
+    @Test
+    fun `Failed with Blocked emits ShowMessage and does not mutate back stacks`() =
+        coroutineRule.runTest {
+            val router = FakeDeepLinkRouter()
+            val viewModel = createViewModel(router = router)
+
+            val initialHome = viewModel.uiState.value.homeBackStack
+            val initialScanner = viewModel.uiState.value.scannerBackStack
+            val initialSettings = viewModel.uiState.value.settingsBackStack
+
+            viewModel.event.test {
+                router.emitCommand(NavigationCommand.Failed("myapp://settings/secret", FailureReason.Blocked))
+                val event = awaitItem() as ShellEvent.ShowMessage
+                assertEquals(R.string.deeplink_error_blocked, event.messageRes)
+                cancelAndConsumeRemainingEvents()
+            }
+
+            assertEquals(initialHome, viewModel.uiState.value.homeBackStack)
+            assertEquals(initialScanner, viewModel.uiState.value.scannerBackStack)
+            assertEquals(initialSettings, viewModel.uiState.value.settingsBackStack)
+        }
+
+    @Test
+    fun `Failed with RedirectLoop emits no ShowMessage and does not mutate back stacks`() =
+        coroutineRule.runTest {
+            val router = FakeDeepLinkRouter()
+            val viewModel = createViewModel(router = router)
+
+            val initialHome = viewModel.uiState.value.homeBackStack
+            val initialScanner = viewModel.uiState.value.scannerBackStack
+            val initialSettings = viewModel.uiState.value.settingsBackStack
+
+            viewModel.event.test {
+                router.emitCommand(NavigationCommand.Failed("myapp://loop", FailureReason.RedirectLoop))
+                expectNoEvents()
+                cancelAndConsumeRemainingEvents()
+            }
+
+            assertEquals(initialHome, viewModel.uiState.value.homeBackStack)
+            assertEquals(initialScanner, viewModel.uiState.value.scannerBackStack)
+            assertEquals(initialSettings, viewModel.uiState.value.settingsBackStack)
         }
 }

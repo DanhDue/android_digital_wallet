@@ -28,16 +28,20 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,9 +59,12 @@ import com.danhdue.platform.FeatureEntry
 import com.danhdue.platform.LocalEntryProviderInstallers
 import com.danhdue.platform.featureEntriesFrom
 import com.danhdue.uikit.R
+import com.danhdue.uikit.localization.LocalDynamicStringResolver
 import com.danhdue.uikit.localization.appStringResource
 import com.danhdue.uikit.ui.theme.HomeGrayText
 import com.danhdue.uikit.ui.theme.HomePrimaryBlue
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import java.util.ServiceLoader
 
 @Composable
@@ -66,6 +73,7 @@ fun ShellRoot(viewModel: ShellViewModel = hiltViewModel()) {
 
     ShellScreen(
         state = state,
+        eventFlow = viewModel.event,
         onAction = viewModel::dispatch,
     )
 }
@@ -102,7 +110,29 @@ internal fun installersFrom(loader: ServiceLoader<FeatureEntry>): List<EntryProv
 private fun ShellScreen(
     state: ShellState,
     onAction: (ShellAction) -> Unit,
+    eventFlow: Flow<ShellEvent> = emptyFlow(),
 ) {
+    val context = LocalContext.current
+    val dynamicResolver = LocalDynamicStringResolver.current
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(eventFlow) {
+        eventFlow.collect { event ->
+            when (event) {
+                is ShellEvent.ShowMessage -> {
+                    val local = context.getString(event.messageRes)
+                    val text =
+                        if (event.localizationKey != null) {
+                            dynamicResolver(event.localizationKey, local)
+                        } else {
+                            local
+                        }
+                    snackbarHostState.showSnackbar(text)
+                }
+            }
+        }
+    }
+
     val installers = LocalEntryProviderInstallers.current
     val dynamicInstallers =
         remember(state.readyModules) {
@@ -114,6 +144,7 @@ private fun ShellScreen(
         }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         bottomBar = {
             ShellBottomBar(
                 selectedTab = state.selectedTab,

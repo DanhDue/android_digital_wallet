@@ -10,7 +10,9 @@ import com.danhdue.platform.AppEvent
 import com.danhdue.platform.AppEventBus
 import com.danhdue.platform.FeatureInstaller
 import com.danhdue.platform.deeplink.DeepLinkRouter
+import com.danhdue.platform.deeplink.FailureReason
 import com.danhdue.platform.deeplink.NavigationCommand
+import com.danhdue.uikit.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -114,8 +116,11 @@ class ShellViewModel
                 is NavigationCommand.OpenInTab -> openInTab(command)
                 is NavigationCommand.OpenFullScreen -> openFullScreen(command)
                 is NavigationCommand.OpenInCurrentTab -> openInCurrentTab(command)
-                is NavigationCommand.EnsureModule -> Unit
-                is NavigationCommand.Failed -> Unit
+                is NavigationCommand.EnsureModule ->
+                    ensureModuleInstalled(command.module) {
+                        deepLinkRouter.dispatch(command.replay)
+                    }
+                is NavigationCommand.Failed -> handleFailure(command.reason, command.raw)
             }
         }
 
@@ -166,8 +171,45 @@ class ShellViewModel
                 ShellTab.Settings -> currentState.settingsBackStack.lastOrNull()
             }
 
-        private fun ensureModuleInstalled(module: String) {
-            if (module in currentState.readyModules || module in currentState.installingModules) return
+        private fun handleFailure(
+            reason: FailureReason,
+            raw: String? = null,
+        ) {
+            Timber.w("Deep link dispatch failed: reason=%s, raw=%s", reason, raw)
+            val messageEvent =
+                when (reason) {
+                    FailureReason.Malformed -> null
+                    FailureReason.UnknownFeature, FailureReason.NoResolver ->
+                        ShellEvent.ShowMessage(
+                            messageRes = R.string.deeplink_error_unknown_feature,
+                            localizationKey = "deeplink.error.unknownFeature",
+                        )
+                    FailureReason.Blocked ->
+                        ShellEvent.ShowMessage(
+                            messageRes = R.string.deeplink_error_blocked,
+                            localizationKey = "deeplink.error.blocked",
+                        )
+                    FailureReason.RedirectLoop -> null
+                    FailureReason.InstallFailed ->
+                        ShellEvent.ShowMessage(
+                            messageRes = R.string.deeplink_error_install_failed,
+                            localizationKey = "deeplink.error.installFailed",
+                        )
+                }
+            if (messageEvent != null) {
+                sendEvent(messageEvent)
+            }
+        }
+
+        private fun ensureModuleInstalled(
+            module: String,
+            onInstalled: (() -> Unit)? = null,
+        ) {
+            if (module in currentState.readyModules) {
+                onInstalled?.invoke()
+                return
+            }
+            if (module in currentState.installingModules) return
             reduce { copy(installingModules = installingModules + module) }
             safeLaunch {
                 runCatching {
@@ -178,10 +220,12 @@ class ShellViewModel
                                 installingModules = installingModules - module,
                             )
                         }
+                        onInstalled?.invoke()
                     }
                 }.onFailure { error ->
                     Timber.w(error, "$module split install failed")
                     reduce { copy(installingModules = installingModules - module) }
+                    handleFailure(FailureReason.InstallFailed)
                 }
             }
         }

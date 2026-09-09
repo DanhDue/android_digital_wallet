@@ -30,4 +30,8 @@
     <string name="text_language_english">Tiếng Anh</string>
     <string name="text_language_vietnamese">Tiếng Việt</string>
     <string name="text_go_to_profile">Đến hồ sơ</string>
+
+    <string name="deeplink_error_unknown_feature">Liên kết này yêu cầu phiên bản ứng dụng mới hơn.</string>
+    <string name="deeplink_error_blocked">Truy cập vào liên kết này đã bị chặn.</string>
+    <string name="deeplink_error_install_failed">Không thể tải tính năng này, vui lòng thử lại.</string>
 </resources>

@@ -36,4 +36,8 @@
     <string name="text_language_english">English</string>
     <string name="text_language_vietnamese">Vietnamese</string>
     <string name="text_go_to_profile">Go to Profile</string>
+
+    <string name="deeplink_error_unknown_feature">This link needs a newer version of the app.</string>
+    <string name="deeplink_error_blocked">Access to this link was blocked.</string>
+    <string name="deeplink_error_install_failed">Could not load that feature, please try again.</string>
 </resources>
