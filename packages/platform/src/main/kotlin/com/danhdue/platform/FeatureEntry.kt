@@ -27,3 +27,36 @@ interface FeatureEntry {
      */
     fun resolver(): DeepLinkResolver? = null
 }
+
+/**
+ * Safely extracts successfully loaded [FeatureEntry] instances from [loader].
+ *
+ * Drops uninstalled dynamic feature splits that throw [java.util.ServiceConfigurationError]
+ * or [LinkageError] during iteration.
+ */
+fun featureEntriesFrom(loader: Iterable<FeatureEntry>): List<FeatureEntry> {
+    val entries = mutableListOf<FeatureEntry>()
+    val iterator = loader.iterator()
+    while (hasNextOrStop(iterator)) {
+        nextOrNull(iterator)?.let { entries += it }
+    }
+    return entries
+}
+
+private fun hasNextOrStop(iterator: Iterator<FeatureEntry>): Boolean =
+    try {
+        iterator.hasNext()
+    } catch (_: java.util.ServiceConfigurationError) {
+        false
+    } catch (_: LinkageError) {
+        false
+    }
+
+private fun nextOrNull(iterator: Iterator<FeatureEntry>): FeatureEntry? =
+    try {
+        iterator.next()
+    } catch (_: java.util.ServiceConfigurationError) {
+        null
+    } catch (_: LinkageError) {
+        null
+    }

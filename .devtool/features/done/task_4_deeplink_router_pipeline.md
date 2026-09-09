@@ -1,13 +1,13 @@
 ---
 id: "task_4_deeplink_router_pipeline"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T04:47:00Z"
+completedAt: "2026-09-10T04:47:00Z"
 labels: ["architecture", "feature", "platform"]
 order: "a4"
 ---
@@ -69,7 +69,7 @@ Applicable skills: `.agents/skills/test-driven-development`; `.agents/skills/sys
 
 ## TDD Checklist
 
-- [ ] **RED**: `DefaultDeepLinkRouterTest` with fake resolvers, fake guards, a fake store and a `TestScope`. All failing first:
+- [x] **RED**: `DefaultDeepLinkRouterTest` with fake resolvers, fake guards, a fake store and a `TestScope`. All failing first:
   - malformed URI ⇒ `Failed(Malformed)`
   - unknown feature key ⇒ `Failed(UnknownFeature)`
   - known feature, no resolver claims it ⇒ `Failed(NoResolver)`
@@ -83,16 +83,16 @@ Applicable skills: `.agents/skills/test-driven-development`; `.agents/skills/sys
   - pre-gate fires **before** `EnsureModule` when `entryPoint.requiresAuth` and the user is signed out
   - `AppEvent.UserLoggedIn` replays the pending link exactly once
   - **cold-start buffering**: `dispatch` before anyone collects `commands`, then collect — the command still arrives
-- [ ] **GREEN**: Implement `DefaultDeepLinkRouter`.
-- [ ] **REFACTOR**: Extract each pipeline stage into a named private function so the `dispatch` body reads as the numbered list above. Extract the shared `ServiceLoader` skip helper if it is duplicated with `ShellScreen`.
+- [x] **GREEN**: Implement `DefaultDeepLinkRouter`.
+- [x] **REFACTOR**: Extract each pipeline stage into a named private function so the `dispatch` body reads as the numbered list above. Extract the shared `ServiceLoader` skip helper if it is duplicated with `ShellScreen`.
 
 ## Definition of Done
 
-- [ ] `./gradlew :packages:platform:testDebugUnitTest` green, every case above covered.
-- [ ] Both loop guards (redirect depth, replay-once) have a dedicated failing-first test.
-- [ ] `DefaultDeepLinkRouter` is `internal`; only `DeepLinkRouter` is public.
-- [ ] The `ServiceLoader` branch skips unloadable entries rather than throwing — asserted by a test with a deliberately bad service entry.
-- [ ] `./gradlew detekt spotlessCheck assembleDebug` green; app behaviour unchanged (no consumer yet).
+- [x] `./gradlew :packages:platform:testDebugUnitTest` green, every case above covered.
+- [x] Both loop guards (redirect depth, replay-once) have a dedicated failing-first test.
+- [x] `DefaultDeepLinkRouter` is `internal`; only `DeepLinkRouter` is public.
+- [x] The `ServiceLoader` branch skips unloadable entries rather than throwing — asserted by a test with a deliberately bad service entry.
+- [x] `./gradlew detekt spotlessCheck assembleDebug` green; app behaviour unchanged (no consumer yet).
 
 ## Dependencies & Blockers
 

@@ -53,11 +53,11 @@ import com.danhdue.framework.navigation.ObserveBackstackForFlipper
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.platform.FeatureEntry
 import com.danhdue.platform.LocalEntryProviderInstallers
+import com.danhdue.platform.featureEntriesFrom
 import com.danhdue.uikit.R
 import com.danhdue.uikit.localization.appStringResource
 import com.danhdue.uikit.ui.theme.HomeGrayText
 import com.danhdue.uikit.ui.theme.HomePrimaryBlue
-import java.util.ServiceConfigurationError
 import java.util.ServiceLoader
 
 @Composable
@@ -95,40 +95,8 @@ private fun loadDynamicFeatureInstallers(): List<EntryProviderInstaller> =
  * `next()` for those; a `for` / `forEach` over it cannot recover, so `hasNext()`
  * and `next()` are driven by hand and the un-loadable element is dropped.
  */
-internal fun installersFrom(loader: ServiceLoader<FeatureEntry>): List<EntryProviderInstaller> {
-    val installers = mutableListOf<EntryProviderInstaller>()
-    val iterator = loader.iterator()
-    while (hasNextOrStop(iterator)) {
-        nextOrNull(iterator)?.let { installers += it.installer() }
-    }
-    return installers
-}
-
-// A bad line in the aggregated service file (a split that is not installed)
-// surfaces as ServiceConfigurationError; LinkageError covers a half-loaded class.
-// Both mean "this on-demand entry is not usable right now" — skip it, don't fail
-// the whole load. The `_` name opts out of detekt's SwallowedException rule
-// deliberately: there is nothing to log, this is the expected steady state.
-// Asymmetry: hasNext() only throws on a corrupt services file -> give up on the
-// whole iteration; a per-element next() failure (split not installed yet — the
-// steady-state case) is skipped in nextOrNull() and iteration continues.
-private fun hasNextOrStop(iterator: Iterator<FeatureEntry>): Boolean =
-    try {
-        iterator.hasNext()
-    } catch (_: ServiceConfigurationError) {
-        false
-    } catch (_: LinkageError) {
-        false
-    }
-
-private fun nextOrNull(iterator: Iterator<FeatureEntry>): FeatureEntry? =
-    try {
-        iterator.next()
-    } catch (_: ServiceConfigurationError) {
-        null
-    } catch (_: LinkageError) {
-        null
-    }
+internal fun installersFrom(loader: ServiceLoader<FeatureEntry>): List<EntryProviderInstaller> =
+    featureEntriesFrom(loader).map { it.installer() }
 
 @Composable
 private fun ShellScreen(

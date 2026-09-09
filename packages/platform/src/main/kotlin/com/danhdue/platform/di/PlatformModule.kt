@@ -10,6 +10,9 @@ import com.danhdue.core.pref.CacheStore
 import com.danhdue.platform.AppEventBus
 import com.danhdue.platform.deeplink.AuthDeepLinkGuard
 import com.danhdue.platform.deeplink.DeepLinkGuard
+import com.danhdue.platform.deeplink.DeepLinkResolver
+import com.danhdue.platform.deeplink.DeepLinkRouter
+import com.danhdue.platform.deeplink.DefaultDeepLinkRouter
 import com.danhdue.platform.deeplink.InMemoryPendingDeepLinkStore
 import com.danhdue.platform.deeplink.PendingDeepLinkStore
 import com.danhdue.platform.localization.AppLocalizationManager
@@ -21,6 +24,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.ElementsIntoSet
 import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
@@ -70,4 +74,25 @@ object PlatformModule {
     @Provides
     @IntoSet
     fun provideAuthDeepLinkGuard(guard: AuthDeepLinkGuard): DeepLinkGuard = guard
+
+    @Provides
+    @ElementsIntoSet
+    fun provideDefaultDeepLinkResolvers(): Set<DeepLinkResolver> = emptySet()
+
+    @Provides
+    @Singleton
+    fun provideDeepLinkRouter(
+        appEventBus: AppEventBus,
+        pendingStore: PendingDeepLinkStore,
+        dispatcherProvider: DispatcherProvider,
+        guards: Set<DeepLinkGuard>,
+        resolvers: Set<DeepLinkResolver>,
+    ): DeepLinkRouter =
+        DefaultDeepLinkRouter(
+            appEventBus = appEventBus,
+            pendingStore = pendingStore,
+            dispatcherProvider = dispatcherProvider,
+            guards = guards,
+            resolvers = resolvers,
+        )
 }
