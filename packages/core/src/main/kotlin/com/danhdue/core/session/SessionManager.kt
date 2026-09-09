@@ -23,7 +23,11 @@ class SessionManager @Inject constructor() {
         )
     val logoutEvent = _logoutEvent.asSharedFlow()
 
+    @Volatile
+    var isLoggedIn: Boolean = false
+
     fun logout() {
+        isLoggedIn = false
         _logoutEvent.tryEmit(Unit)
     }
 }

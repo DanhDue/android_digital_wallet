@@ -8,6 +8,10 @@ import android.content.Context
 import com.danhdue.core.coroutines.DispatcherProvider
 import com.danhdue.core.pref.CacheStore
 import com.danhdue.platform.AppEventBus
+import com.danhdue.platform.deeplink.AuthDeepLinkGuard
+import com.danhdue.platform.deeplink.DeepLinkGuard
+import com.danhdue.platform.deeplink.InMemoryPendingDeepLinkStore
+import com.danhdue.platform.deeplink.PendingDeepLinkStore
 import com.danhdue.platform.localization.AppLocalizationManager
 import com.danhdue.platform.localization.DefaultAppLocalizationManager
 import com.danhdue.platform.theme.AppThemeManager
@@ -17,6 +21,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -57,4 +62,12 @@ object PlatformModule {
             dispatcherProvider = dispatcherProvider,
             context = context,
         )
+
+    @Provides
+    @Singleton
+    fun providePendingDeepLinkStore(): PendingDeepLinkStore = InMemoryPendingDeepLinkStore()
+
+    @Provides
+    @IntoSet
+    fun provideAuthDeepLinkGuard(guard: AuthDeepLinkGuard): DeepLinkGuard = guard
 }
