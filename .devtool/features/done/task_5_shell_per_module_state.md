@@ -1,13 +1,13 @@
 ---
 id: "task_5_shell_per_module_state"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T04:50:00Z"
+completedAt: "2026-09-10T04:50:00Z"
 labels: ["refactor", "shell"]
 order: "a5"
 ---
@@ -61,22 +61,22 @@ Applicable skill: `.agents/skills/quality_check` at the end, per `CRITICAL_RULES
 
 **TDD Adaptation, stated explicitly**: this is a pure refactor with no new behaviour, so RED/GREEN/REFACTOR does not literally apply — there is no new failing test to write, and inventing one would only assert the shape of a data class. The substitution is a concrete change list plus a regression gate on the existing suite:
 
-- [ ] **Change**: replace the two booleans in `ShellState` with `installingModules` / `readyModules`; update the KDoc to describe module-keyed state instead of scanner-specific state.
-- [ ] **Change**: parameterise `ShellViewModel.ensureScannerInstalled()` to `ensureModuleInstalled(module: String)`; delete `SCANNER_MODULE`; the Scanner tab passes `"scanner"` at the call site.
-- [ ] **Change**: `ShellScreen` keys its `remember` on `state.readyModules` and gates the spinner on `"scanner" in state.installingModules`.
-- [ ] **Change**: update existing `ShellViewModel` tests to the new state shape — assert set membership rather than booleans.
-- [ ] **Change**: correct the stale `OnDemandFeatures.kt` reference in `features/scanner/build.gradle.kts`.
-- [ ] **Regression gate**: `./gradlew :shell:testDebugUnitTest :konsist-test:test detekt spotlessCheck assembleDebug` all green.
-- [ ] **Manual regression**: install the app, tap the Scanner tab, confirm the spinner appears and the scanner screen mounts — behaviour identical to before the change.
+- [x] **Change**: replace the two booleans in `ShellState` with `installingModules` / `readyModules`; update the KDoc to describe module-keyed state instead of scanner-specific state.
+- [x] **Change**: parameterise `ShellViewModel.ensureScannerInstalled()` to `ensureModuleInstalled(module: String)`; delete `SCANNER_MODULE`; the Scanner tab passes `"scanner"` at the call site.
+- [x] **Change**: `ShellScreen` keys its `remember` on `state.readyModules` and gates the spinner on `"scanner" in state.installingModules`.
+- [x] **Change**: update existing `ShellViewModel` tests to the new state shape — assert set membership rather than booleans.
+- [x] **Change**: correct the stale `OnDemandFeatures.kt` reference in `features/scanner/build.gradle.kts`.
+- [x] **Regression gate**: `./gradlew :shell:testDebugUnitTest :konsist-test:test detekt spotlessCheck assembleDebug` all green.
+- [x] **Manual regression**: install the app, tap the Scanner tab, confirm the spinner appears and the scanner screen mounts — behaviour identical to before the change.
 
 ## Definition of Done
 
-- [ ] No occurrence of `scannerReady`, `scannerInstalling` or `SCANNER_MODULE` remains in the repository (`grep` to confirm).
-- [ ] `./gradlew :shell:testDebugUnitTest` green with updated assertions.
-- [ ] `./gradlew assembleDebug bundleDebug` green.
-- [ ] Manual Scanner-tab regression passes — spinner then content, as before.
-- [ ] `features/scanner/build.gradle.kts` no longer references a file that does not exist.
-- [ ] `./gradlew detekt spotlessCheck` clean.
+- [x] No occurrence of `scannerReady`, `scannerInstalling` or `SCANNER_MODULE` remains in the repository (`grep` to confirm).
+- [x] `./gradlew :shell:testDebugUnitTest` green with updated assertions.
+- [x] `./gradlew assembleDebug bundleDebug` green.
+- [x] Manual Scanner-tab regression passes — spinner then content, as before.
+- [x] `features/scanner/build.gradle.kts` no longer references a file that does not exist.
+- [x] `./gradlew detekt spotlessCheck` clean.
 
 ## Dependencies & Blockers
 

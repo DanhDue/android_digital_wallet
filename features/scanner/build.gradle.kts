@@ -37,10 +37,8 @@ import extensions.testImplementation
 //  * `ScannerRoot` uses the plain AndroidX `viewModel()` (no `hiltViewModel()`).
 //
 // scanner is the hand-wired **bottom-nav-tab** DFM exemplar: `ShellViewModel` /
-// `ShellScreen` install and mount it directly. `shell/.../navigation/
-// OnDemandFeatures.kt` is the registry for DFMs reached from an arbitrary call
-// site (not a fixed tab) — `mason make ... --delivery on-demand` features use
-// that registry; scanner does not.
+// `ShellScreen` install and mount it directly. `AppDeepLinks.entryPoints`
+// declares on-demand modules via dynamicModule (epic `deeplink_router_engine`).
 //
 // Generate more on-demand modules with
 // `mason make mvi_feature --name <x> --delivery on-demand`.

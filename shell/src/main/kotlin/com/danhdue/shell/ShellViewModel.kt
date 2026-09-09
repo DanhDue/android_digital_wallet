@@ -25,8 +25,8 @@ import javax.inject.Inject
  * selecting the Scanner tab for the first time triggers
  * [FeatureInstaller.ensureInstalled] for the `scanner` split (a no-op in unit
  * tests, where [com.danhdue.platform.NoOpFeatureInstaller] reports every module
- * ready immediately). While it runs [ShellState.scannerInstalling] is true; once
- * the split is installed [ShellState.scannerReady] flips and `ShellScreen`
+ * ready immediately). While it runs [ShellState.installingModules] contains the module; once
+ * the split is installed [ShellState.readyModules] contains the module and `ShellScreen`
  * folds the split's `ServiceLoader`-loaded `FeatureEntry` into the entry
  * provider.
  */
@@ -41,9 +41,11 @@ class ShellViewModel
         ) {
         init {
             safeLaunch {
-                appEventBus.on<AppEvent.ProfileNameChanged>().collect { event ->
-                    reduce { copy(profileName = event.displayName) }
-                }
+                appEventBus
+                    .on<AppEvent.ProfileNameChanged>()
+                    .collect { event ->
+                        reduce { copy(profileName = event.displayName) }
+                    }
             }
         }
 
@@ -52,7 +54,7 @@ class ShellViewModel
                 is ShellAction.TabSelected -> {
                     reduce { copy(selectedTab = action.tab) }
                     if (action.tab == ShellTab.Scanner) {
-                        ensureScannerInstalled()
+                        ensureModuleInstalled("scanner")
                     }
                 }
                 is ShellAction.NavigateInTab -> {
@@ -94,22 +96,23 @@ class ShellViewModel
             }
         }
 
-        private fun ensureScannerInstalled() {
-            if (currentState.scannerReady || currentState.scannerInstalling) return
-            reduce { copy(scannerInstalling = true) }
+        private fun ensureModuleInstalled(module: String) {
+            if (module in currentState.readyModules || module in currentState.installingModules) return
+            reduce { copy(installingModules = installingModules + module) }
             safeLaunch {
                 runCatching {
-                    featureInstaller.ensureInstalled(SCANNER_MODULE) {
-                        reduce { copy(scannerReady = true, scannerInstalling = false) }
+                    featureInstaller.ensureInstalled(module) {
+                        reduce {
+                            copy(
+                                readyModules = readyModules + module,
+                                installingModules = installingModules - module,
+                            )
+                        }
                     }
                 }.onFailure { error ->
-                    Timber.w(error, "scanner split install failed")
-                    reduce { copy(scannerInstalling = false) }
+                    Timber.w(error, "$module split install failed")
+                    reduce { copy(installingModules = installingModules - module) }
                 }
             }
-        }
-
-        private companion object {
-            const val SCANNER_MODULE = "scanner"
         }
     }

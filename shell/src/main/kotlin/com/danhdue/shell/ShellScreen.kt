@@ -74,7 +74,7 @@ fun ShellRoot(viewModel: ShellViewModel = hiltViewModel()) {
  * Navigation entries contributed at runtime by installed on-demand Dynamic
  * Feature Module splits (Task 14, design §4.4). A downloaded split never joins
  * the host Hilt graph, so its [FeatureEntry] is discovered through
- * [ServiceLoader] once [ShellState.scannerReady] is set and merged into the set
+ * [ServiceLoader] once [ShellState.readyModules] is populated and merged into the set
  * that feeds `NavDisplay` — the install-time features keep plain Hilt
  * `@IntoSet` multibinding ([LocalEntryProviderInstallers]).
  */
@@ -91,7 +91,7 @@ private fun loadDynamicFeatureInstallers(): List<EntryProviderInstaller> =
  * `:app` and lists EVERY on-demand `FeatureEntry` FQCN (bundletool forbids two
  * feature splits shipping the same root resource — design §4.4), so at any
  * moment some of those classes belong to splits that are not installed.
- * `ServiceLoader`'s own iterator raises [ServiceConfigurationError] lazily from
+ * `ServiceLoader`'s own iterator raises `ServiceConfigurationError` lazily from
  * `next()` for those; a `for` / `forEach` over it cannot recover, so `hasNext()`
  * and `next()` are driven by hand and the un-loadable element is dropped.
  */
@@ -105,8 +105,8 @@ private fun ShellScreen(
 ) {
     val installers = LocalEntryProviderInstallers.current
     val dynamicInstallers =
-        remember(state.scannerReady) {
-            if (state.scannerReady) loadDynamicFeatureInstallers() else emptyList()
+        remember(state.readyModules) {
+            if (state.readyModules.isNotEmpty()) loadDynamicFeatureInstallers() else emptyList()
         }
     val entryProvider =
         remember(installers, dynamicInstallers) {
@@ -140,7 +140,7 @@ private fun ShellScreen(
             // Scanner is an on-demand Dynamic Feature Module (Task 14): show a
             // progress indicator while the split installs, then its real content
             // once the `ServiceLoader`-loaded entry is in `entryProvider`.
-            if (state.selectedTab == ShellTab.Scanner && !state.scannerReady) {
+            if (state.selectedTab == ShellTab.Scanner && "scanner" !in state.readyModules) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center,

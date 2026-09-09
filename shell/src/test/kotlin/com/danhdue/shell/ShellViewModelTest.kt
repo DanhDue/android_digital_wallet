@@ -113,13 +113,13 @@ class ShellViewModelTest {
             viewModel.dispatch(ShellAction.TabSelected(ShellTab.Scanner))
 
             assertEquals(listOf("scanner"), installer.requestedModules)
-            assertTrue("installing while the split downloads", viewModel.uiState.value.scannerInstalling)
-            assertFalse(viewModel.uiState.value.scannerReady)
+            assertTrue("installing while the split downloads", "scanner" in viewModel.uiState.value.installingModules)
+            assertFalse("scanner" in viewModel.uiState.value.readyModules)
 
             installer.release()
 
-            assertTrue("ready once the split is installed", viewModel.uiState.value.scannerReady)
-            assertFalse(viewModel.uiState.value.scannerInstalling)
+            assertTrue("ready once the split is installed", "scanner" in viewModel.uiState.value.readyModules)
+            assertFalse("scanner" in viewModel.uiState.value.installingModules)
         }
 
     @Test
@@ -145,8 +145,8 @@ class ShellViewModelTest {
             viewModel.dispatch(ShellAction.TabSelected(ShellTab.Scanner))
             installer.release()
 
-            assertFalse(viewModel.uiState.value.scannerInstalling)
-            assertFalse(viewModel.uiState.value.scannerReady)
+            assertFalse("scanner" in viewModel.uiState.value.installingModules)
+            assertFalse("scanner" in viewModel.uiState.value.readyModules)
 
             installer.failure = null
             viewModel.dispatch(ShellAction.TabSelected(ShellTab.Scanner))
@@ -154,6 +154,6 @@ class ShellViewModelTest {
             assertEquals(listOf("scanner", "scanner"), installer.requestedModules)
 
             installer.release()
-            assertTrue(viewModel.uiState.value.scannerReady)
+            assertTrue("scanner" in viewModel.uiState.value.readyModules)
         }
 }
