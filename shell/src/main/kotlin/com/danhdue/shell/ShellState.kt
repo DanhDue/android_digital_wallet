@@ -49,4 +49,17 @@ sealed class ShellTab(
     data object Scanner : ShellTab(1)
 
     data object Settings : ShellTab(2)
+
+    companion object {
+        val entries: List<ShellTab>
+            get() = listOf(Home, Scanner, Settings)
+
+        fun fromIndex(index: Int): ShellTab? =
+            when (index) {
+                0 -> Home
+                1 -> Scanner
+                2 -> Settings
+                else -> null
+            }
+    }
 }

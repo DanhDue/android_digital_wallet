@@ -85,8 +85,8 @@ object PlatformModule {
         appEventBus: AppEventBus,
         pendingStore: PendingDeepLinkStore,
         dispatcherProvider: DispatcherProvider,
-        guards: Set<DeepLinkGuard>,
-        resolvers: Set<DeepLinkResolver>,
+        guards: Set<@JvmSuppressWildcards DeepLinkGuard>,
+        resolvers: Set<@JvmSuppressWildcards DeepLinkResolver>,
     ): DeepLinkRouter =
         DefaultDeepLinkRouter(
             appEventBus = appEventBus,

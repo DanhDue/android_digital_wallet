@@ -1,13 +1,13 @@
 ---
 id: "task_6_shell_execute_placement"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T04:54:00Z"
+completedAt: "2026-09-10T04:54:00Z"
 labels: ["architecture", "feature", "shell"]
 order: "a6"
 ---
@@ -58,8 +58,8 @@ Applicable skills: `.agents/skills/test-driven-development`; `.agents/skills/sys
 
 ## TDD Checklist
 
-- [ ] **Step zero (spike, before TDD)**: add the `Navigator` constructor parameter and compile `:app`. Confirm the Hilt graph resolves. If it does not, switch to the documented fallback and note it in the HLD before continuing.
-- [ ] **RED**: extend `ShellViewModelTest` with a fake `DeepLinkRouter` exposing a controllable command flow. Failing first:
+- [x] **Step zero (spike, before TDD)**: add the `Navigator` constructor parameter and compile `:app`. Confirm the Hilt graph resolves. If it does not, switch to the documented fallback and note it in the HLD before continuing.
+- [x] **RED**: extend `ShellViewModelTest` with a fake `DeepLinkRouter` exposing a controllable command flow. Failing first:
   - `OpenInTab(2, [SettingsRoute, ProfileRoute])` selects the Settings tab and **replaces** `settingsBackStack`
   - `OpenInTab` on a tab that already has a deeper stack replaces it rather than appending
   - `OpenInTab` whose destination is already on top is a no-op — state instance unchanged
@@ -68,17 +68,17 @@ Applicable skills: `.agents/skills/test-driven-development`; `.agents/skills/sys
   - `OpenInCurrentTab` appends to the selected tab only
   - an out-of-range tab index is ignored, not a crash
   - two commands in sequence are both executed, in order
-- [ ] **RED**: `DeepLinkEntryPointContractTest` — every `AppDeepLinks.entryPoints` entry with a non-null `tab` maps to a real `ShellTab` index.
-- [ ] **GREEN**: implement the collector and the three handlers.
-- [ ] **REFACTOR**: extract a `topOf(tab)` helper so the no-op check is written once, not three times.
+- [x] **RED**: `DeepLinkEntryPointContractTest` — every `AppDeepLinks.entryPoints` entry with a non-null `tab` maps to a real `ShellTab` index.
+- [x] **GREEN**: implement the collector and the three handlers.
+- [x] **REFACTOR**: extract a `topOf(tab)` helper so the no-op check is written once, not three times.
 
 ## Definition of Done
 
-- [ ] Step zero resolved and its outcome recorded (injection works, or the fallback is adopted and the HLD updated).
-- [ ] `./gradlew :shell:testDebugUnitTest` green, all cases above.
-- [ ] Calling `deepLinkRouter.dispatch("myapp://settings/profile")` from anywhere in the app navigates correctly — **internal navigation (source 4) is functional at the end of this task**, verified manually.
-- [ ] `./gradlew :konsist-test:test detekt spotlessCheck assembleDebug` green.
-- [ ] No `:shell` → `:features:*` import was added (Konsist K1/K6 unchanged).
+- [x] Step zero resolved and its outcome recorded (injection works, or the fallback is adopted and the HLD updated).
+- [x] `./gradlew :shell:testDebugUnitTest` green, all cases above.
+- [x] Calling `deepLinkRouter.dispatch("myapp://settings/profile")` from anywhere in the app navigates correctly — **internal navigation (source 4) is functional at the end of this task**, verified manually.
+- [x] `./gradlew :konsist-test:test detekt spotlessCheck assembleDebug` green.
+- [x] No `:shell` → `:features:*` import was added (Konsist K1/K6 unchanged).
 
 ## Dependencies & Blockers
 

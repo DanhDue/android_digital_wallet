@@ -5,9 +5,12 @@
 package com.danhdue.shell
 
 import com.danhdue.framework.base.mvi.MviViewModel
+import com.danhdue.framework.navigation.Navigator
 import com.danhdue.platform.AppEvent
 import com.danhdue.platform.AppEventBus
 import com.danhdue.platform.FeatureInstaller
+import com.danhdue.platform.deeplink.DeepLinkRouter
+import com.danhdue.platform.deeplink.NavigationCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,6 +32,9 @@ import javax.inject.Inject
  * the split is installed [ShellState.readyModules] contains the module and `ShellScreen`
  * folds the split's `ServiceLoader`-loaded `FeatureEntry` into the entry
  * provider.
+ *
+ * Task 6 — deep link placement command execution:
+ * consumes [DeepLinkRouter.commands] and updates nested tab back stacks or the root [Navigator].
  */
 @HiltViewModel
 class ShellViewModel
@@ -36,6 +42,8 @@ class ShellViewModel
     constructor(
         private val appEventBus: AppEventBus,
         private val featureInstaller: FeatureInstaller,
+        private val navigator: Navigator,
+        private val deepLinkRouter: DeepLinkRouter,
     ) : MviViewModel<ShellState, ShellAction, ShellEvent>(
             initialState = ShellState(),
         ) {
@@ -46,6 +54,11 @@ class ShellViewModel
                     .collect { event ->
                         reduce { copy(profileName = event.displayName) }
                     }
+            }
+            safeLaunch {
+                deepLinkRouter.commands.collect { command ->
+                    executeCommand(command)
+                }
             }
         }
 
@@ -95,6 +108,63 @@ class ShellViewModel
                 }
             }
         }
+
+        private fun executeCommand(command: NavigationCommand) {
+            when (command) {
+                is NavigationCommand.OpenInTab -> openInTab(command)
+                is NavigationCommand.OpenFullScreen -> openFullScreen(command)
+                is NavigationCommand.OpenInCurrentTab -> openInCurrentTab(command)
+                is NavigationCommand.EnsureModule -> Unit
+                is NavigationCommand.Failed -> Unit
+            }
+        }
+
+        private fun openInTab(command: NavigationCommand.OpenInTab) {
+            val targetTab =
+                ShellTab.fromIndex(command.tab) ?: run {
+                    Timber.w("OpenInTab ignored: unknown tab index %d", command.tab)
+                    return
+                }
+            val destination = command.stack.lastOrNull()
+            if (currentState.selectedTab == targetTab && topOf(targetTab) == destination) {
+                return
+            }
+            reduce {
+                when (targetTab) {
+                    ShellTab.Home -> copy(selectedTab = targetTab, homeBackStack = command.stack)
+                    ShellTab.Scanner -> copy(selectedTab = targetTab, scannerBackStack = command.stack)
+                    ShellTab.Settings -> copy(selectedTab = targetTab, settingsBackStack = command.stack)
+                }
+            }
+        }
+
+        private fun openFullScreen(command: NavigationCommand.OpenFullScreen) {
+            if (navigator.backStack.lastOrNull() == command.destination) {
+                return
+            }
+            navigator.navigateTo(command.destination)
+        }
+
+        private fun openInCurrentTab(command: NavigationCommand.OpenInCurrentTab) {
+            val activeTab = currentState.selectedTab
+            if (topOf(activeTab) == command.destination) {
+                return
+            }
+            reduce {
+                when (activeTab) {
+                    ShellTab.Home -> copy(homeBackStack = homeBackStack + command.destination)
+                    ShellTab.Scanner -> copy(scannerBackStack = scannerBackStack + command.destination)
+                    ShellTab.Settings -> copy(settingsBackStack = settingsBackStack + command.destination)
+                }
+            }
+        }
+
+        private fun topOf(tab: ShellTab): Any? =
+            when (tab) {
+                ShellTab.Home -> currentState.homeBackStack.lastOrNull()
+                ShellTab.Scanner -> currentState.scannerBackStack.lastOrNull()
+                ShellTab.Settings -> currentState.settingsBackStack.lastOrNull()
+            }
 
         private fun ensureModuleInstalled(module: String) {
             if (module in currentState.readyModules || module in currentState.installingModules) return
