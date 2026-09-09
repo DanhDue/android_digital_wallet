@@ -1,13 +1,13 @@
 ---
 id: "task_2_deeplink_contract"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T04:16:30+07:00"
+completedAt: "2026-09-10T04:16:30+07:00"
 labels: ["architecture", "feature", "platform"]
 order: "a2"
 ---

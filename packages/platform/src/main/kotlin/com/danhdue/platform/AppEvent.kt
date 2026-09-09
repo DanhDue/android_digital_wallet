@@ -42,6 +42,9 @@ sealed interface AppEvent {
     /** The current user signed out; features should clear user-scoped state. */
     data object UserLoggedOut : AppEvent
 
+    /** The current user signed in; triggers pending deep link replay. */
+    data object UserLoggedIn : AppEvent
+
     /**
      * The user's profile display name, as loaded (or edited) by the Settings
      * feature.

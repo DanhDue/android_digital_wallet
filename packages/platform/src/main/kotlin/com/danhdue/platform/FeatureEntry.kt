@@ -4,6 +4,8 @@
  */
 package com.danhdue.platform
 
+import com.danhdue.platform.deeplink.DeepLinkResolver
+
 /**
  * Contract implemented only by on-demand dynamic feature modules (Task 14).
  *
@@ -16,4 +18,12 @@ package com.danhdue.platform
 interface FeatureEntry {
     /** Returns the installer that registers this feature's navigation entries. */
     fun installer(): EntryProviderInstaller
+
+    /**
+     * Returns the [DeepLinkResolver] for this on-demand dynamic feature split, or null
+     * if the feature does not contribute deep link routes.
+     *
+     * Defaulted to null so existing [FeatureEntry] implementations remain source-compatible.
+     */
+    fun resolver(): DeepLinkResolver? = null
 }
