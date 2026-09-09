@@ -1,13 +1,13 @@
 ---
 id: "task_9_manifest_intent_filters"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T05:01:50Z"
+completedAt: "2026-09-10T05:01:50Z"
 labels: ["feature", "app", "security"]
 order: "a9"
 ---
@@ -53,23 +53,23 @@ Applicable skill: `.agents/skills/quality_check` at the end.
 
 **TDD Adaptation, stated explicitly**: manifest XML has no unit-testable behaviour in this project (no Robolectric, and instrumentation tests would need a device in CI, which the pipeline deliberately avoids). RED/GREEN/REFACTOR is replaced by a change list plus `adb`-driven verification against a real installed build:
 
-- [ ] **Change**: add the custom-scheme `ACTION_VIEW` filter with `DEFAULT` and `BROWSABLE` categories.
-- [ ] **Change**: add the App Links filter with `android:autoVerify="true"`, `DEFAULT` + `BROWSABLE`, `android:scheme="https"`, `android:host="${appLinkHost}"`.
-- [ ] **Change**: set `android:launchMode="singleTop"`.
-- [ ] **Change**: add the security-posture comment block.
-- [ ] **Verify (merged manifest)**: `./gradlew :app:processDebugManifest`, then inspect the merged output — both filters present, placeholders substituted, `singleTop` applied.
-- [ ] **Verify (resolution)**: install, then `adb shell am start -W -a android.intent.action.VIEW -d "myapp://settings"` resolves to `MainActivity`. The app need not navigate yet — Task 10 wires the Kotlin side — but the Intent must reach the Activity.
-- [ ] **Verify (no duplicate instance)**: with the app already running, fire the same command and confirm via `adb shell dumpsys activity activities` that only one `MainActivity` instance exists.
-- [ ] **Verify (App Links status)**: `adb shell pm get-app-links <applicationId>` — expected to report unverified for `app.example.com`, which is the documented correct outcome for the template.
+- [x] **Change**: add the custom-scheme `ACTION_VIEW` filter with `DEFAULT` and `BROWSABLE` categories.
+- [x] **Change**: add the App Links filter with `android:autoVerify="true"`, `DEFAULT` + `BROWSABLE`, `android:scheme="https"`, `android:host="${appLinkHost}"`.
+- [x] **Change**: set `android:launchMode="singleTop"`.
+- [x] **Change**: add the security-posture comment block.
+- [x] **Verify (merged manifest)**: `./gradlew :app:processDebugManifest`, then inspect the merged output — both filters present, placeholders substituted, `singleTop` applied.
+- [x] **Verify (resolution)**: install, then `adb shell am start -W -a android.intent.action.VIEW -d "myapp://settings"` resolves to `MainActivity`. The app need not navigate yet — Task 10 wires the Kotlin side — but the Intent must reach the Activity.
+- [x] **Verify (no duplicate instance)**: with the app already running, fire the same command and confirm via `adb shell dumpsys activity activities` that only one `MainActivity` instance exists.
+- [x] **Verify (App Links status)**: `adb shell pm get-app-links <applicationId>` — expected to report unverified for `app.example.com`, which is the documented correct outcome for the template.
 
 ## Definition of Done
 
-- [ ] Merged manifest contains both filters with substituted values and `singleTop`.
-- [ ] `adb` resolution check passes for the custom scheme.
-- [ ] Only one `MainActivity` instance after a warm-start deeplink.
-- [ ] The manifest carries a comment recording the security posture (untrusted params; sensitive links over https only).
-- [ ] `./gradlew assembleDebug bundleDebug detekt spotlessCheck :konsist-test:test` green.
-- [ ] Manual regression: launcher icon still opens the app normally.
+- [x] Merged manifest contains both filters with substituted values and `singleTop`.
+- [x] `adb` resolution check passes for the custom scheme.
+- [x] Only one `MainActivity` instance after a warm-start deeplink.
+- [x] The manifest carries a comment recording the security posture (untrusted params; sensitive links over https only).
+- [x] `./gradlew assembleDebug bundleDebug detekt spotlessCheck :konsist-test:test` green.
+- [x] Manual regression: launcher icon still opens the app normally.
 
 ## Dependencies & Blockers
 

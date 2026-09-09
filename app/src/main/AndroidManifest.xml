@@ -27,15 +27,50 @@
                 android:value="true" />
         </service>
 
+        <!--
+          MainActivity is the single entry point for UI, launcher, and deep links.
+          - launchMode="singleTop" ensures warm-start deep links route to onNewIntent
+            without creating duplicate Activity or Navigator instances.
+          - Security posture:
+            * android:exported="true" is required for LAUNCHER and VIEW intent filters.
+            * All query and path parameters are untrusted input; resolvers validate them.
+            * Sensitive destinations should use verified App Links (https) to prevent
+              custom scheme hijacking on Android < 12.
+            * Custom scheme and App Links filters are kept separate to avoid combinatorial
+              matching of schemes and hosts.
+        -->
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.AndroidDigitalWallet">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Custom scheme deep link entry point (${deepLinkScheme}://...) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="${deepLinkScheme}" />
+            </intent-filter>
+
+            <!-- Verified App Links entry point (https://${appLinkHost}/...) -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="${appLinkHost}" />
             </intent-filter>
         </activity>
     </application>
