@@ -93,8 +93,8 @@ Applicable skills: `.agents/skills/verification-before-completion` — this task
 
 ## Dependencies & Blockers
 
+- Blocked by [Task 10](task_10_mainactivity_intent_handling.md), [Task 12](task_12_scanner_dfm_resolver.md), [Task 14](task_14_mason_brick_deeplink.md).
 - Blocked by every preceding task; this is the epic's closing task.
-- Directly blocked by [Task 10](task_10_mainactivity_intent_handling.md), [Task 12](task_12_scanner_dfm_resolver.md), [Task 14](task_14_mason_brick_deeplink.md).
 
 ## References & Rollback
 
