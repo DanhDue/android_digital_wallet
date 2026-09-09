@@ -1,13 +1,13 @@
 ---
 id: "task_8_scheme_build_placeholders"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T05:01:00Z"
+completedAt: "2026-09-10T05:01:00Z"
 labels: ["infra", "template"]
 order: "a8"
 ---
@@ -52,19 +52,19 @@ Applicable skill: `.agents/skills/quality_check` at the end, per `CRITICAL_RULES
 
 **TDD Adaptation, stated explicitly**: this task changes build configuration and a shell script. There is no Kotlin behaviour to drive with a unit test, and the project has no shell-test harness. RED/GREEN/REFACTOR is replaced by a concrete change list plus an executable verification that the substitution actually reached the merged manifest:
 
-- [ ] **Change**: add `deepLinkScheme` and `appLinkHost` to `AppConfig` with KDoc explaining they are template defaults meant to be rewritten by `rename_project.sh`.
-- [ ] **Change**: wire both into `manifestPlaceholders` for all build types.
-- [ ] **Change**: extend `scripts/rename_project.sh` to rewrite both, following its existing clean-tree / `--force` / verify conventions.
-- [ ] **Verify (substitution reaches the manifest)**: run `./gradlew :app:processDebugManifest` and inspect the merged manifest under `app/build/intermediates/merged_manifest*/` — confirm the placeholder tokens are gone and the literal values are present. Task 9 depends on this working.
-- [ ] **Verify (rename script)**: in a scratch clone or worktree, run `rename_project.sh` with a test name, then `grep` for the old scheme — zero occurrences — and run `./gradlew assembleDebug`.
+- [x] **Change**: add `deepLinkScheme` and `appLinkHost` to `AppConfig` with KDoc explaining they are template defaults meant to be rewritten by `rename_project.sh`.
+- [x] **Change**: wire both into `manifestPlaceholders` for all build types.
+- [x] **Change**: extend `scripts/rename_project.sh` to rewrite both, following its existing clean-tree / `--force` / verify conventions.
+- [x] **Verify (substitution reaches the manifest)**: run `./gradlew :app:processDebugManifest` and inspect the merged manifest under `app/build/intermediates/merged_manifest*/` — confirm the placeholder tokens are gone and the literal values are present. Task 9 depends on this working.
+- [x] **Verify (rename script)**: in a scratch clone or worktree, run `rename_project.sh` with a test name, then `grep` for the old scheme — zero occurrences — and run `./gradlew assembleDebug`.
 
 ## Definition of Done
 
-- [ ] `AppConfig` exposes both constants with KDoc.
-- [ ] `./gradlew :app:processDebugManifest` produces a merged manifest with no unresolved placeholder tokens.
-- [ ] `rename_project.sh` rewrites both values; a scratch-clone run leaves zero occurrences of the old scheme and builds green.
-- [ ] `./gradlew assembleDebug bundleDebug detekt spotlessCheck` green.
-- [ ] The default host is a documentation-reserved domain, never a real one.
+- [x] `AppConfig` exposes both constants with KDoc.
+- [x] `./gradlew :app:processDebugManifest` produces a merged manifest with no unresolved placeholder tokens.
+- [x] `rename_project.sh` rewrites both values; a scratch-clone run leaves zero occurrences of the old scheme and builds green.
+- [x] `./gradlew assembleDebug bundleDebug detekt spotlessCheck` green.
+- [x] The default host is a documentation-reserved domain, never a real one.
 
 ## Dependencies & Blockers
 

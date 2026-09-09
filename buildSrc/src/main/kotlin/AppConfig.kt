@@ -9,6 +9,19 @@ object AppConfig {
     const val minSdk = 28
     const val targetSdk = 36
 
+    /**
+     * URI scheme for custom scheme deep links (e.g. "myapp://settings").
+     * Template default meant to be rewritten by scripts/rename_project.sh.
+     */
+    const val deepLinkScheme = "myapp"
+
+    /**
+     * Host domain for HTTP/HTTPS App Links (e.g. "https://app.example.com/settings").
+     * Uses RFC 2606 reserved documentation domain "app.example.com".
+     * Template default meant to be rewritten by scripts/rename_project.sh.
+     */
+    const val appLinkHost = "app.example.com"
+
     private const val majorVersion = 3
     private const val minorVersion = 1
     private const val patchVersion = 1

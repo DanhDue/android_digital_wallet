@@ -51,6 +51,11 @@ android {
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
         resourceConfigurations += listOf("en", "vi")
+        manifestPlaceholders +=
+            mapOf(
+                "deepLinkScheme" to AppConfig.deepLinkScheme,
+                "appLinkHost" to AppConfig.appLinkHost,
+            )
     }
 
     bundle {

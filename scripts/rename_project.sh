@@ -143,6 +143,11 @@ VENDOR="${BUNDLE_ID%.*}"     # com.acme.wallet -> com.acme
 LEAF="${BUNDLE_ID##*.}"      # com.acme.wallet -> wallet
 VENDOR_PATH="${VENDOR//.//}" # com.acme -> com/acme
 
+# Deep link scheme and App Links host
+NEW_SCHEME="${APP_NAME}"
+VENDOR_DOMAIN="$(printf '%s' "${VENDOR}" | awk -F'.' '{for(i=NF;i>1;i--) printf "%s.", $i; print $1}')"
+NEW_HOST="app.${VENDOR_DOMAIN}"
+
 # PascalCase (no separators) and Title Case (spaced) forms of <app_name>
 APP_PASCAL="$(printf '%s' "${APP_NAME}" | awk -F'_' '{s="";for(i=1;i<=NF;i++)s=s toupper(substr($i,1,1)) substr($i,2);print s}')"
 if [ -z "${DISPLAY_NAME}" ]; then
@@ -174,6 +179,8 @@ echo "    bundle id / appId ..  com.danhdue.androiddigitalwallet -> ${BUNDLE_ID}
 echo "    PascalCase name ....  AndroidDigitalWallet   -> ${APP_PASCAL}"
 echo "    rootProject.name ...  AndroidDigitalWallet   -> ${APP_PASCAL}"
 echo "    display name ........ (app_name / label)     -> ${DISPLAY_NAME}"
+echo "    deep link scheme ...  myapp                  -> ${NEW_SCHEME}"
+echo "    app link host ......  app.example.com        -> ${NEW_HOST}"
 [ "${DRY_RUN}" -eq 1 ] && echo "    MODE ...............  --dry-run (no edits, no gradle)"
 echo ""
 
@@ -306,6 +313,12 @@ _feed | _subst 'androiddigitalwallet' "${LEAF}"
 # underscored repo-dir form (docs that name the source repo directory)
 _feed | _subst 'android_digital_wallet' "${APP_NAME}"
 
+# deep link scheme & App Links host
+_feed | _subst 'const val deepLinkScheme = "myapp"' "const val deepLinkScheme = \"${NEW_SCHEME}\""
+_feed | _subst 'const val appLinkHost = "app.example.com"' "const val appLinkHost = \"${NEW_HOST}\""
+_feed | _subst 'myapp://' "${NEW_SCHEME}://"
+_feed | _subst 'app.example.com' "${NEW_HOST}"
+
 # prose
 _feed | _subst_prose "${DISPLAY_NAME}"
 
@@ -321,6 +334,12 @@ LEFT="$(git grep -lI 'com\.danhdue' -- '*.kt' '*.kts' '*.java' '*.xml' 2>/dev/nu
 if [ -n "${LEFT}" ]; then
   echo "warning: 'com.danhdue' still present in source after rewrite:" >&2
   printf '  %s\n' ${LEFT} >&2
+fi
+
+LEFT_SCHEME="$(git grep -lI 'myapp://' -- '*.kt' '*.kts' '*.java' '*.xml' 2>/dev/null | grep -Ev '^(\.devtool/|bricks/)' || true)"
+if [ -n "${LEFT_SCHEME}" ]; then
+  echo "warning: 'myapp://' still present in source after rewrite:" >&2
+  printf '  %s\n' ${LEFT_SCHEME} >&2
 fi
 
 # Re-point the vendor prefix breaks ktlint / detekt import ordering (imports were
@@ -347,9 +366,12 @@ Rename complete.
   applicationId .... ${BUNDLE_ID}
   rootProject.name . ${APP_PASCAL}
   display name ..... ${DISPLAY_NAME}
+  deep link scheme . ${NEW_SCHEME}://
+  app link host .... ${NEW_HOST}
 
 Not touched (by design): .devtool/, docs/superpowers/, bricks/**/__brick__/**.
 This template commits no Firebase / signing config — add your own.
 
 Review the diff, then:  git add -A && git commit -m "chore: rename project from template"
 EOF
+
