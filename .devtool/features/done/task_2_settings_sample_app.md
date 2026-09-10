@@ -1,13 +1,13 @@
 ---
 id: "task_2_settings_sample_app"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "sandbox_and_contract_governance"
 dueDate: null
 created: "2026-09-10T23:53:00+07:00"
-modified: "2026-09-10T23:53:00+07:00"
-completedAt: null
+modified: "2026-09-11T00:26:35+07:00"
+completedAt: "2026-09-11T00:26:35+07:00"
 labels: ["sandbox", "settings", "exemplar", "compose"]
 order: "a2"
 ---
@@ -38,14 +38,14 @@ Provide the reference implementation of a Mini App Sandbox runner for the `:feat
 The sample runner serves as a living exemplar for all future Mini Apps. It proves that a feature module's Compose UI and MVI ViewModel can run in an isolated process with mocked host context. Developers can build and launch it via Android Studio in seconds without touching `:app`.
 
 ## TDD Checklist
-- [ ] **RED**:
+- [x] **RED**:
   - Add `include(":features:settings:sample")` to `settings.gradle.kts` and create empty `features/settings/sample/build.gradle.kts`.
   - Verify Gradle configuration fails until source files and Manifest are provided.
-- [ ] **GREEN**:
+- [x] **GREEN**:
   - Create `AndroidManifest.xml` declaring `SettingsSampleApp` and `SettingsSampleActivity` with `MAIN`/`LAUNCHER` intent filter.
   - Implement `SettingsSampleApp` initializing Timber.
   - Implement `SettingsSampleActivity` setting up `remember { Navigator(SettingsRoute) }` and `NavDisplay` bound to `LocalEntryProviderInstallers`.
   - Run `./gradlew :features:settings:sample:assembleDebug` and confirm `app-debug.apk` is generated under `features/settings/sample/build/outputs/apk/debug/`.
-- [ ] **REFACTOR**:
+- [x] **REFACTOR**:
   - Verify `aapt dump badging` on the sample APK confirms `package: name='com.danhdue.androiddigitalwallet.sample.settings'`.
   - Confirm Spotless and Detekt pass cleanly on the new module.

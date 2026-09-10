@@ -119,8 +119,9 @@ class AndroidSampleConventionPlugin : Plugin<Project> {
 
     private fun Project.configureDependencies() {
         dependencies.apply {
-            // Packages baseline: core, platform, framework, ui_kit
+            // Packages baseline: core, network, platform, framework, ui_kit
             add("implementation", project(mapOf("path" to Modules.core)))
+            add("implementation", project(mapOf("path" to Modules.network)))
             add("implementation", project(mapOf("path" to Modules.platform)))
             add("implementation", project(mapOf("path" to Modules.framework)))
             add("implementation", project(mapOf("path" to Modules.uiKit)))
@@ -144,7 +145,8 @@ class AndroidSampleConventionPlugin : Plugin<Project> {
             add("implementation", Deps.Navigation.nav3SerializationCore)
             add("implementation", Deps.Navigation.navigationCommonKtx)
 
-            // Hilt
+            // Hilt & Multidex
+            add("implementation", Deps.multidex)
             add("implementation", Deps.Hilt.core)
             add("ksp", Deps.Hilt.compiler)
             add("implementation", Deps.Hilt.navigationCompose)

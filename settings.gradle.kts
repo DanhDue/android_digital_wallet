@@ -41,6 +41,7 @@ include(":libraries:testutils")
 // Features — the reusable template keeps only `settings` (real) + `scanner` (empty; becomes a
 // dynamic-feature module in Task 14). `home` is a stub page inside `:shell`, not a module.
 include(":features:settings")
+include(":features:settings:sample")
 include(":features:scanner")
 // Governance — architecture-enforcement gate (JVM/JUnit, never shipped in the APK)
 include(":konsist-test")
