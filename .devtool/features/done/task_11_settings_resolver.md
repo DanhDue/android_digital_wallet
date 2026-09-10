@@ -1,13 +1,13 @@
 ---
 id: "task_11_settings_resolver"
-status: "todo"
+status: "done"
 priority: "medium"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T09:16:20Z"
+completedAt: "2026-09-10T09:16:20Z"
 labels: ["feature", "example"]
 order: "a11"
 ---
@@ -58,7 +58,7 @@ Applicable skills: `.agents/skills/test-driven-development`; `.agents/skills/qua
 
 ## TDD Checklist
 
-- [ ] **RED**: `SettingsDeepLinkResolverTest`, failing first:
+- [x] **RED**: `SettingsDeepLinkResolverTest`, failing first:
   - `myapp://settings` → target `SettingsRoute`, `placement == null`
   - `myapp://settings/profile` → target `ProfileRoute`, `placement == null`
   - `myapp://settings/unknown` → `null`
@@ -66,16 +66,16 @@ Applicable skills: `.agents/skills/test-driven-development`; `.agents/skills/qua
   - a link whose `feature` is not `settings` → `null`
   - unknown query params do not change the outcome
   - `requiresAuth` is `false` on both targets — Settings is reachable signed out
-- [ ] **GREEN**: implement the resolver and the `@IntoSet` binding.
-- [ ] **REFACTOR**: KDoc pointing at this class as the install-time reference implementation, and naming Task 12 as the on-demand counterpart.
+- [x] **GREEN**: implement the resolver and the `@IntoSet` binding.
+- [x] **REFACTOR**: KDoc pointing at this class as the install-time reference implementation, and naming Task 12 as the on-demand counterpart.
 
 ## Definition of Done
 
-- [ ] **`./gradlew :features:settings:testDebugUnitTest` green when run on its own** — the criterion 4.1 proof point; run it as an isolated command, not as part of a full build.
-- [ ] `ProfileRoute` remains feature-private; `AppRoutes` gains nothing.
-- [ ] `./gradlew :konsist-test:test` green — K1, K9 unaffected.
-- [ ] End-to-end manual: `adb shell am start -a android.intent.action.VIEW -d "myapp://settings/profile"` opens Profile in the Settings tab and Back returns to Settings.
-- [ ] `./gradlew detekt spotlessCheck assembleDebug` green.
+- [x] **`./gradlew :features:settings:testDebugUnitTest` green when run on its own** — the criterion 4.1 proof point; run it as an isolated command, not as part of a full build.
+- [x] `ProfileRoute` remains feature-private; `AppRoutes` gains nothing.
+- [x] `./gradlew :konsist-test:test` green — K1, K9 unaffected.
+- [x] End-to-end manual: `adb shell am start -a android.intent.action.VIEW -d "myapp://settings/profile"` opens Profile in the Settings tab and Back returns to Settings.
+- [x] `./gradlew detekt spotlessCheck assembleDebug` green.
 
 ## Dependencies & Blockers
 
