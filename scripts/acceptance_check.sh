@@ -65,6 +65,10 @@ set -Eeuo pipefail
 #              * ./gradlew :konsist-test:test assembleDebug -> BUILD SUCCESSFUL
 #              * `git status --porcelain` empty vs the post-rename baseline
 #                (no stray files, every wire point unwound).
+#
+#   Phase 6  Binary compatibility & contract validation:
+#              * ./gradlew apiCheck -> BUILD SUCCESSFUL
+#              * verifies public ABI contracts across all 5 shared packages.
 # ---------------------------------------------------------------------------
 
 RENAME_APP_NAME="acme_wallet"
@@ -367,6 +371,17 @@ phase_5() {
 }
 
 # ======================================================================
+# Phase 6 — binary compatibility & contract validation (apiCheck)
+# ======================================================================
+phase_6() {
+  PHASE_FAILS=0
+  cd "${REPO}"
+  _gradle apiCheck || _bad "apiCheck failed to validate public ABI contracts"
+  [ "${PHASE_FAILS}" -eq 0 ] && echo "  BUILD SUCCESSFUL (binary compatibility validation)"
+  return "${PHASE_FAILS}"
+}
+
+# ======================================================================
 main() {
   echo "acceptance_check.sh — throwaway copy at ${WORK}"
   run_phase 0 "throwaway clone"
@@ -375,6 +390,7 @@ main() {
   run_phase 3 "full quality gate + bundleDebug on the renamed tree"
   run_phase 4 "AAB split assertion (scanner + kyc) / base-APK class isolation"
   run_phase 5 "remove_feature teardown is a clean inverse"
+  run_phase 6 "binary compatibility & contract validation (apiCheck)"
 }
 main
 

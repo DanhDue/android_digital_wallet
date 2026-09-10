@@ -22,6 +22,17 @@ apiValidation {
     nonPublicMarkers += listOf("com.danhdue.core.annotation.InternalApi")
 }
 
+tasks.register("check") {
+    group = "verification"
+    description = "Runs root verification checks, including apiCheck on shared package contracts."
+}
+
+gradle.projectsEvaluated {
+    tasks.named("check") {
+        dependsOn(subprojects.mapNotNull { it.tasks.findByName("apiCheck") })
+    }
+}
+
 apply<codequality.DependencyUpdatePlugin>()
 
 apply(plugin = "codeanalyzetools.jacoco-multi-report")

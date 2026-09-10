@@ -187,7 +187,7 @@ echo ""
 # --- file set (tracked; excludes are the 'NEVER rewritten' list) --------
 _collect_files() {
   git ls-files -- \
-      '*.kt' '*.kts' '*.java' '*.xml' '*.pro' '*.md' \
+      '*.kt' '*.kts' '*.java' '*.xml' '*.pro' '*.md' '*.api' \
       '.aiproject' '.cursorrules' \
       'konsist-test/*.txt' 'scripts/*.txt' \
       '*/META-INF/services/*' \
