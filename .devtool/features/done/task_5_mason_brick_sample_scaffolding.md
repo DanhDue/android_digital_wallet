@@ -1,13 +1,13 @@
 ---
 id: "task_5_mason_brick_sample_scaffolding"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "sandbox_and_contract_governance"
 dueDate: null
 created: "2026-09-10T23:53:00+07:00"
-modified: "2026-09-10T23:53:00+07:00"
-completedAt: null
+modified: "2026-09-11T00:37:00+07:00"
+completedAt: "2026-09-11T00:37:00+07:00"
 labels: ["mason", "scaffolding", "automation", "brick"]
 order: "a5"
 ---
@@ -39,12 +39,12 @@ Upgrade the Mason code generator brick `bricks/mvi_feature` so that any future M
 Embedding the sample sandbox into the primary feature creation brick enforces the "Sandbox by Default" principle across all teams. Developers will never need to manually write sample harness boilerplate when starting a new Mini App.
 
 ## TDD Checklist
-- [ ] **RED**:
+- [x] **RED**:
   - Check `bricks/mvi_feature/__brick__/` and observe that no `sample/` folder exists.
-- [ ] **GREEN**:
+- [x] **GREEN**:
   - Add the `sample/` template files to `bricks/mvi_feature/__brick__/`.
   - Update `hooks/post_gen.dart` to insert `include(":features:{{feature_name.snakeCase()}}:sample")`.
   - Test code generation using Mason in a temporary directory or scratch environment; verify generated files compile.
-- [ ] **REFACTOR**:
+- [x] **REFACTOR**:
   - Ensure template imports and package names use Mustache helpers (`snakeCase`, `pascalCase`) consistently.
   - Clean up any temporary test artifacts.

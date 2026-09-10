@@ -25,6 +25,7 @@ void run(HookContext context) {
 
   _removeFeatureDirectory(modulePath, context.logger);
   _removeFromSettingsGradle(gradlePath, context.logger);
+  _removeFromSettingsGradle('$gradlePath:sample', context.logger);
   _removeFromDepsKt(pascalCase, context.logger);
   _removeFromDependencyHandler(upperSnakeCase, context.logger);
   _removeFeatureAccessorFromBuildFile(

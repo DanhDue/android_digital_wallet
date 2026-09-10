@@ -48,6 +48,9 @@ void run(HookContext context) {
 
   // 1. Always: register the module in settings.gradle.kts.
   _updateSettingsGradle(gradlePath, context.logger);
+  if (delivery != 'on-demand') {
+    _updateSettingsGradle('$gradlePath:sample', context.logger);
+  }
 
   // 2. Always: register entry route in AppRoutes.kt and entry point in AppDeepLinks.kt
   _appendRouteToAppRoutes(pascalCase, context.logger);
@@ -296,6 +299,12 @@ void _configureOnDemand({
   required String screenCamel,
 }) {
   final logger = context.logger;
+
+  final sampleDir = Directory('$modulePath/sample');
+  if (sampleDir.existsSync()) {
+    sampleDir.deleteSync(recursive: true);
+    logger.info('🗑  Removed sample/ (DFMs are tested via the host :app split runner)');
+  }
 
   _writeDynamicFeatureBuildGradle(modulePath, packageName, logger);
   _writeDynamicFeatureManifest(modulePath, snakeCase, logger);
