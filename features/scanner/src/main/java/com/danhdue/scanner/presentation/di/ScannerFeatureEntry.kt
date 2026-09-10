@@ -7,6 +7,7 @@ package com.danhdue.scanner.presentation.di
 import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.platform.FeatureEntry
+import com.danhdue.platform.deeplink.DeepLinkResolver
 import com.danhdue.scanner.presentation.ScannerRoot
 
 /**
@@ -36,4 +37,6 @@ class ScannerFeatureEntry : FeatureEntry {
                 ScannerRoot(onEvent = {})
             }
         }
+
+    override fun resolver(): DeepLinkResolver = ScannerDeepLinkResolver()
 }

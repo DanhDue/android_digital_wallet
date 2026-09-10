@@ -1,13 +1,13 @@
 ---
 id: "task_12_scanner_dfm_resolver"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T09:17:50Z"
+completedAt: "2026-09-10T09:17:50Z"
 labels: ["feature", "example", "dfm"]
 order: "a12"
 ---
@@ -62,29 +62,29 @@ Applicable skills: `.agents/skills/test-driven-development` for the resolver; `.
 
 ## TDD Checklist
 
-- [ ] **RED**: `ScannerDeepLinkResolverTest`, failing first:
+- [x] **RED**: `ScannerDeepLinkResolverTest`, failing first:
   - `myapp://scanner` → target `ScannerRoute`
   - `myapp://scanner/unknown` → `null`
   - a non-`scanner` feature key → `null`
   - the target carrying an explicit `placement` returns exactly that value, not the derived default
-- [ ] **GREEN**: implement the resolver and override `resolver()`.
-- [ ] **Verify (no new service registration)**: confirm `app/src/main/resources/META-INF/services/...FeatureEntry` still lists only `ScannerFeatureEntry` and needs no edit. If it does need one, that is a design surprise — record it in the HLD.
-- [ ] **Non-TDD acceptance, on device or emulator** (the install path cannot be unit-tested — `NoOpFeatureInstaller` reports every module ready):
+- [x] **GREEN**: implement the resolver and override `resolver()`.
+- [x] **Verify (no new service registration)**: confirm `app/src/main/resources/META-INF/services/...FeatureEntry` still lists only `ScannerFeatureEntry` and needs no edit. If it does need one, that is a design surprise — record it in the HLD.
+- [x] **Non-TDD acceptance, on device or emulator** (the install path cannot be unit-tested — `NoOpFeatureInstaller` reports every module ready):
   - build the AAB, generate APKs with `bundletool build-apks --local-testing`, install with `install-apks`
   - with the scanner split **absent**, fire `adb shell am start -a android.intent.action.VIEW -d "myapp://scanner"`
   - observe: spinner → split installs → Scanner screen opens
   - fire the same link again with the split now present: opens immediately, no spinner, no second install
   - force an install failure (airplane mode) and confirm the "couldn't load that feature" message, with **no** infinite retry loop — this exercises the replay-once cap from Task 4
-- [ ] **REFACTOR**: KDoc naming this the on-demand reference implementation and Task 11 as the install-time counterpart.
+- [x] **REFACTOR**: KDoc naming this the on-demand reference implementation and Task 11 as the install-time counterpart.
 
 ## Definition of Done
 
-- [ ] `./gradlew :features:scanner:testDebugUnitTest` green.
-- [ ] The `META-INF/services` file is unchanged (or the surprise is documented).
-- [ ] The three-step acceptance run passes: cold install via deeplink, warm re-open, and failure without a retry loop.
-- [ ] CI's bundletool step still asserts the scanner split is present in the generated `.apks`.
-- [ ] **Goal D3 demonstrated**: a deeplink to an uninstalled on-demand feature installs it and navigates.
-- [ ] `./gradlew :konsist-test:test detekt spotlessCheck assembleDebug bundleDebug` green.
+- [x] `./gradlew :features:scanner:testDebugUnitTest` green.
+- [x] The `META-INF/services` file is unchanged (or the surprise is documented).
+- [x] The three-step acceptance run passes: cold install via deeplink, warm re-open, and failure without a retry loop.
+- [x] CI's bundletool step still asserts the scanner split is present in the generated `.apks`.
+- [x] **Goal D3 demonstrated**: a deeplink to an uninstalled on-demand feature installs it and navigates.
+- [x] `./gradlew :konsist-test:test detekt spotlessCheck assembleDebug bundleDebug` green.
 
 ## Dependencies & Blockers
 
