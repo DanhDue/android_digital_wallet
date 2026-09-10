@@ -21,9 +21,10 @@ Packages are split into small single-responsibility modules (under `packages/`)
 - **`:packages:ui_kit`** (`com.danhdue.uikit`): Shared Compose design system (`ui/theme`, `ui/widgets`), Compose helpers, runtime-permission handlers. Depends only on `:packages:core`.
 - **`:packages:platform`** (`com.danhdue.platform`): Cross-feature seam — `AppRoutes` (shared `NavKey` registry), `AppEventBus` (`SharedFlow<AppEvent>`), `EntryProviderInstaller` + `LocalEntryProviderInstallers`, `FeatureEntry` / `FeatureInstaller` (DFM only), `DeepLinkRouter` / `DeepLinkResolver` / `AppDeepLinks`.
 - **`:features:*`** (`com.danhdue.{feature}`): Feature modules, each with `data` / `domain` / `presentation` layers. The template ships `settings` (a real reference feature) and `scanner` (an on-demand Dynamic Feature Module example). Depend only on the package modules — **never on another feature**. `:packages:core` + `:packages:platform` are wired by the `commons.android-feature` convention plugin.
+- **`:features:*:sample`** (`com.danhdue.features.{feature}.sample`): Isolated Sandbox APK runners configuring standalone execution testbeds via `commons.android-sample`. Enables local hot-reload and testing of single Mini Apps without assembling `:app` or sibling features.
 - **`:libraries:testutils`** (`com.danhdue.libraries.testutils`): Shared testing utilities, mocks, and test rules. The only remaining `libraries/*` module.
 - **`:konsist-test`** (`com.danhdue.konsist`): JVM/JUnit architecture-enforcement gate (rules K1–K10). Never shipped in the APK. Run with `./gradlew :konsist-test:test`.
-- **`buildSrc`**: Custom Gradle convention plugins (`commons.android-library` / `-compose` / `-feature` / `dagger-hilt`) and centralized dependency management (`Versions.kt`, `Deps.kt`, `Modules` object).
+- **`buildSrc`**: Custom Gradle convention plugins (`commons.android-library` / `-compose` / `-feature` / `-sample` / `dagger-hilt`) and centralized dependency management (`Versions.kt`, `Deps.kt`, `Modules` object).
 
 ## 🛠 Tech Stack
 - **Language**: Kotlin 2.x.
@@ -34,6 +35,7 @@ Packages are split into small single-responsibility modules (under `packages/`)
 - **Async & Concurrency**: Kotlin Coroutines & Flow.
 - **Database**: Room (using KSP).
 - **Networking**: Retrofit, OkHttp, Moshi (JSON parsing).
+- **Contract Governance**: JetBrains Binary Compatibility Validator (BCV 0.17.0) for shared package ABI validation (`./gradlew apiCheck` / `apiDump`).
 - **Observability**: OpenTelemetry (OTel).
 - **Testing**: JUnit 4, Mockk, Robolectric, Turbine.
 
@@ -51,6 +53,7 @@ The project uses custom convention plugins to reduce boilerplate:
 - `commons.dagger-hilt`: Sets up Hilt and KSP for Hilt.
 - `commons.android-compose`: Sets up Jetpack Compose configurations.
 - `commons.android-feature`: The feature-module convention — android-library + Hilt + Compose + quality + navigation, and auto-wires `:core` (the mandatory floor) + `:platform` (the cross-feature seam) + `:libraries:testutils`. Also carries the Gradle guard that fails the sync on a cross-feature dependency.
+- `commons.android-sample`: The sandbox application convention — android-application + Hilt + Compose + quality, computes isolated `applicationId` (`*.sample.<feature>`), and wires the target feature as the sole implementation dependency.
 
 ## 📝 Coding Guidelines for Agents
 1.  **Dependency Management**: Do not hardcode versions in `build.gradle.kts`. Always use `Versions.kt` and `Deps.kt` in `buildSrc`.
@@ -60,6 +63,7 @@ The project uses custom convention plugins to reduce boilerplate:
 3.  **Compose**: When enabling Compose, ensure the Compose Compiler plugin (`Deps.ANDROID_COMPOSE_PLUGIN_ID`) is applied.
 4.  **KSP**: Use KSP (`com.google.devtools.ksp`) instead of KAPT for annotation processors (Room, Hilt, Moshi).
 5.  **Extensions**: Use extension functions in `DependencyHandlerExtensions.kt` (e.g., `addHiltDependencies()`) to keep build files clean.
+6.  **Public ABI Contracts**: Foundation packages (`core`, `platform`, `network`, `framework`, `ui_kit`) are tracked by Binary Compatibility Validator. If modifying public declarations, mark non-public API with `@InternalApi` or run `./gradlew apiDump` when intentionally expanding contracts. Verify with `./gradlew apiCheck`.
 
 ## ⚠️ Known Issues / Notes
 - **Kotlin Plugin Versioning**: The root `build.gradle.kts` applies Kotlin and Compose plugins **without versions** (`apply false`). The version resolution relies on `settings.gradle.kts` or the `buildSrc` classpath to avoid "plugin already on classpath" errors.

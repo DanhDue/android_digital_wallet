@@ -29,6 +29,7 @@ Prerequisites: JDK 21, the Android SDK (`local.properties` or `$ANDROID_HOME`),
 | **3** | The full gate on the renamed tree: `./gradlew :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug bundleDebug` → **BUILD SUCCESSFUL**. |
 | **4** | `app-debug.aab` contains the `scanner/dex/**` **and** `kyc/dex/**` splits; the base `app-debug.apk` carries **0** `com/acme/{scanner,kyc}` classes (the splits are genuinely absent from the base). |
 | **5** | `remove_feature` is a clean inverse: `remove_feature Payments` + `remove_feature Kyc`, then `:konsist-test:test assembleDebug` → BUILD SUCCESSFUL, every wire point unwound (`AppRoutes`, `OnDemandFeatures`, `strings.xml`, `dynamicFeatures`, `settings.gradle.kts`, `buildSrc`), and nothing outside that wire-point set touched. |
+| **6** | Binary compatibility & contract validation: `./gradlew apiCheck` → **BUILD SUCCESSFUL**. Enforces that public ABI across all 5 shared packages (`core`, `platform`, `network`, `framework`, `ui_kit`) exactly matches checked-in `.api` declarations. |
 
 ### Brick ↔ rename ordering (why Phase 1 comes before Phase 2)
 
@@ -103,6 +104,11 @@ for brevity; the phase list and the summary are verbatim):
   + ./gradlew :konsist-test:test assembleDebug   -> BUILD SUCCESSFUL
 >>> PASS  Phase 5
 
+  Phase 6: binary compatibility & contract validation (apiCheck)
+  + ./gradlew apiCheck
+  BUILD SUCCESSFUL (binary compatibility validation)
+>>> PASS  Phase 6
+
 ======================================================================
   ACCEPTANCE SUMMARY
 ======================================================================
@@ -112,13 +118,14 @@ PASS  Phase 2 — rename_project.sh acme_wallet com.acme.wallet
 PASS  Phase 3 — full quality gate + bundleDebug on the renamed tree
 PASS  Phase 4 — AAB split assertion (scanner + kyc) / base-APK class isolation
 PASS  Phase 5 — remove_feature teardown is a clean inverse
+PASS  Phase 6 — binary compatibility & contract validation (apiCheck)
 ----------------------------------------------------------------------
 RESULT: PASS — a stranger can clone, add features (both modes), rename, and ship.
 ```
 
 Clone → scaffold (both delivery modes) → rename → full gate + `bundleDebug` →
 split assertion (both `scanner/dex/**` and `kyc/dex/**` present, 0 split classes
-in the base APK) → `remove_feature` teardown — all green, end to end.
+in the base APK) → `remove_feature` teardown → binary compatibility validation (`apiCheck`) — all green, end to end.
 
 ## 3. Defects this task surfaced and fixed
 

@@ -62,7 +62,25 @@ the `buildSrc` module registry, and (for `on-demand`) the `:app` `android.dynami
 list + a `dist:onDemand` manifest. `mvi_subfeature` adds a screen to an existing feature.
 See [docs/MASON_GUIDE.md](../MASON_GUIDE.md).
 
-## 3. Where the rules live
+## 3. Sandbox Development (Standalone Mini App Runners)
+
+Each install-time Mini App feature includes a dedicated `:sample` application module (e.g. `:features:settings:sample`) configured via the `commons.android-sample` plugin:
+- **Fast Build & Hot Reload**: Compiles only the target feature and shared packages without assembling `:app` or sibling features.
+- **Isolated Run**: Installs with a distinct application ID (`com.<vendor>.<app>.sample.<feature>`).
+- **Run Sandbox**:
+  ```bash
+  ./gradlew :features:settings:sample:assembleDebug
+  # or install directly to a connected device/emulator:
+  ./gradlew :features:settings:sample:installDebug
+  ```
+
+## 4. Contract Governance (BCV)
+
+Shared packages (`:packages:core`, `:packages:platform`, `:packages:network`, `:packages:framework`, `:packages:ui_kit`) have their public ABI strictly tracked:
+- **Verify compatibility**: `./gradlew apiCheck` (runs as part of CI Phase 6 and root `:check`).
+- **Update signatures**: `./gradlew apiDump` (run when intentionally adding new public API).
+
+## 5. Where the rules live
 
 - **Architecture (authoritative):** [docs/architecture/ARCHITECTURE.md](../architecture/ARCHITECTURE.md).
   The repo-root `ARCHITECTURE.md` is a redirect.
@@ -70,14 +88,16 @@ See [docs/MASON_GUIDE.md](../MASON_GUIDE.md).
   `.agent/rules/CRITICAL_RULES.md`.
 - **The gate:** `./gradlew :konsist-test:test` — the K1–K10 rule bodies are in
   `konsist-test/src/test/kotlin/.../konsist/`.
-- **Full quality run:** `./gradlew :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug`.
+- **Contract gate:** `./gradlew apiCheck` — verifies public declarations against `.api` files.
+- **Full quality run:** `./gradlew :konsist-test:test detekt spotlessCheck apiCheck testDebugUnitTest assembleDebug`.
 
-## 4. Acceptance
+## 6. Acceptance
 
 [docs/getting-started/TEMPLATE_ACCEPTANCE.md](./TEMPLATE_ACCEPTANCE.md) is the end-to-end
 acceptance runbook — one script, `scripts/acceptance_check.sh`, drives the whole non-device
 flow against a throwaway copy: scaffold a feature in **each** delivery mode on the pristine
 base → `rename_project.sh` → full gate + `bundleDebug` → assert the on-demand splits are in
-the AAB → `remove_feature` teardown. Run it after any change to the rename script or the
-Mason bricks. It also documents the single manual device step (`bundletool --local-testing`
-install → launch → tap Scanner → split downloads → screen opens).
+the AAB → `remove_feature` teardown → binary compatibility validation (`apiCheck`). Run it
+after any change to the rename script, build plugins, or the Mason bricks. It also documents
+the single manual device step (`bundletool --local-testing` install → launch → tap Scanner →
+split downloads → screen opens).

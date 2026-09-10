@@ -1,7 +1,9 @@
 # Architecture
 
-The authoritative architecture guide has moved to
-**[`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md)**.
+The authoritative architecture guide is available in:
+- 🇬🇧 **[English Version (docs/architecture/ARCHITECTURE.en.md)](docs/architecture/ARCHITECTURE.en.md)**
+- 🇻🇳 **[Phiên bản Tiếng Việt (docs/architecture/ARCHITECTURE.vi.md)](docs/architecture/ARCHITECTURE.vi.md)**
+- 🌐 **[Architecture Hub (docs/architecture/ARCHITECTURE.md)](docs/architecture/ARCHITECTURE.md)**
 
 It covers:
 

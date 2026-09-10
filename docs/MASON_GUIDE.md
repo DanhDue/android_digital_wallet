@@ -90,17 +90,21 @@ An unset or unrecognised `delivery` value falls back to `install-time` with a wa
 
 The module is a plain `com.android.library` feature. The hook:
 
-1. **Generates files** — `features/payment/` with the full Clean Architecture tree.
-2. **Wires the module** into:
-   * `settings.gradle.kts` — `include(":features:payment")`
-   * `buildSrc/.../Deps.kt` — `Modules.featurePayment`
-   * `buildSrc/.../DependencyHandlerExtensions.kt` — `FEATURE_PAYMENT` accessor
+1. **Generates files** — `features/payment/` with the full Clean Architecture tree (`data`, `domain`, `presentation`).
+2. **Generates Sample Runner** — `features/payment/sample/` with a standalone sandbox app powered by `commons.android-sample` (`MainActivity`, `SampleApp`, Hilt graph, `applicationId`).
+3. **Wires the module** into:
+   * `settings.gradle.kts` — `include(":features:payment")` and `include(":features:payment:sample")`
+   * `buildSrc/.../Deps.kt` — `Modules.featurePayment` and `Modules.featurePaymentSample`
+   * `buildSrc/.../DependencyHandlerExtensions.kt` — `FEATURE_PAYMENT` and `FEATURE_PAYMENT_SAMPLE` accessors
    * `app/build.gradle.kts` — `import` + `FEATURE_PAYMENT`
-   * `shell/build.gradle.kts` — same `FEATURE_PAYMENT` (**guarded**: skipped until `:shell` exists)
-3. **Leaves `:platform` `AppRoutes` untouched** — the feature's `*Route : NavKey` stays private.
-4. Navigation entries reach the host through the generated
-   `PaymentNavigationModule` (`@Module` providing `@Provides @IntoSet EntryProviderInstaller`) — Hilt multibinding does the rest.
-5. Runs a Gradle sync.
+   * `shell/build.gradle.kts` — same `FEATURE_PAYMENT`
+4. **Registers Cross-Feature Routes & Deep Links**:
+   * Registers `@Serializable data object PaymentRoute : NavKey` in `AppRoutes.kt`.
+   * Appends `fun AppDeepLinks.payment(...)` helper in `AppDeepLinks.kt`.
+   * Generates `PaymentDeepLinkResolver` implementing `DeepLinkResolver`.
+5. **Navigation Multi-binding**: Navigation entries reach the host through the generated
+   `PaymentNavigationModule` (`@Module` providing `@Provides @IntoSet EntryProviderInstaller` + `@Provides @IntoSet DeepLinkResolver`) — Hilt multibinding does the rest.
+6. Runs a Gradle sync.
 
 ### `--delivery on-demand` (Dynamic Feature Module)
 
@@ -110,19 +114,23 @@ The module becomes a `com.android.dynamic-feature` split. On top of `settings.gr
 * **Registers it in `:app`** — `android { dynamicFeatures += setOf(":features:kyc") }` (Konsist rule K8 reads this list to exempt the module from the "no host imports" rule).
 * **Rewrites the manifest** with `<dist:module dist:onDemand="true">` + a split-title string resource.
 * **Generates `KycFeatureEntry : com.danhdue.platform.FeatureEntry`** in the feature, and **appends its FQCN** to the single `META-INF/services/com.danhdue.platform.FeatureEntry` file **owned by `:app`** (`app/src/main/resources/…`) so `:shell` discovers it at runtime through `ServiceLoader`. The registration file is aggregated in the base module, not one-per-DFM: bundletool rejects an App Bundle where two feature splits ship the same root resource with different content (`bundleDebug` → `InvalidBundleException`). `:shell` iterates the `ServiceLoader` element-by-element and skips any entry whose split is not installed. `remove_feature` deletes the line.
-* **Forces the route constant into `:platform`** — appends `@Serializable data object KycRoute : NavKey` to `AppRoutes` (a DFM host cannot import the feature, so its route must live in `:platform`).
-* Drops a **guarded `// TODO(task_14)` install-branch marker** into `:shell` (skipped until `:shell` exists).
-
-> **Not done by the brick:** the `SplitInstallManager` / `SplitCompat` runtime and the `:shell` install branch that actually downloads the split are owned by **Task 14**. Until then the split is still bundled by `assembleDebug`, so an `on-demand` module compiles and runs like an install-time one. The Hilt Gradle plugin does not support `com.android.dynamic-feature`, so the generated DFM keeps `hilt-android` on the compile classpath only (no Hilt processing) — DI is Task 14's job.
+* **Registers the route and deep link in `:platform`** — appends `@Serializable data object KycRoute : NavKey` to `AppRoutes` and entry point to `AppDeepLinks.kt`.
+* Generates a `:shell` runtime install helper utilizing `FeatureInstaller.ensureInstalled(...)` (`SplitInstallManager` + `SplitCompat`).
 
 ### Generated Structure
 ```text
-features/payment/src/main/kotlin/
-├── data/           # RepositoryImpl, DTOs, Mappers, DI
-├── domain/         # Entities, UseCases, Repo Interface, DI
-└── presentation/   # ViewModels, UI, State, Events, Navigation DI
+features/payment/
+├── src/main/kotlin/
+│   ├── data/           # RepositoryImpl, DTOs, Mappers, DI
+│   ├── domain/         # Entities, UseCases, Repo Interface, DI
+│   └── presentation/   # ViewModels, UI, State, Events, Navigation & DeepLink DI
+├── sample/             # Standalone UI runner sandbox (:features:payment:sample)
+│   ├── src/main/kotlin/com/danhdue/payment/sample/
+│   │   ├── SampleActivity.kt
+│   │   └── SampleApplication.kt
+│   └── build.gradle.kts
 # on-demand only, additionally:
-└── <Name>FeatureEntry.kt
+└── src/main/kotlin/.../<Name>FeatureEntry.kt
 #   (its FQCN is appended to app/src/main/resources/META-INF/services/
 #    com.danhdue.platform.FeatureEntry — the :app-owned aggregated file)
 ```

@@ -88,6 +88,8 @@ The project is organized by **Feature**, not by Layer.
 -   **High Cohesion**: All code for a feature (Data, Domain, Presentation) lives in one `:features:*` module.
 -   **Decoupled**: Features never depend on each other — cross-feature traffic goes through `:packages:platform` (`AppRoutes` / `AppEventBus` / `EntryProviderInstaller` / `DeepLinkRouter`).
 -   **Scalable**: New features are added as new modules; a Konsist gate (K1–K10) enforces the boundaries.
+-   **Sandbox Development**: Every Mini App feature includes an isolated `:sample` runner application (`commons.android-sample`) to develop and test in standalone mode without compiling the whole Super App.
+-   **Contract Governance**: JetBrains Binary Compatibility Validator enforces public ABI stability across shared foundation packages.
 
 ### 4. Project Structure
 
@@ -96,7 +98,7 @@ The project is organized by **Feature**, not by Layer.
 ├── app/                  # Thin composition root: Hilt aggregation, NavDisplay, Application, entry Activity
 ├── shell/                # Host-only tab shell (ShellViewModel + bottom nav + per-tab nested nav); home is a stub page here
 ├── buildSrc/             # Convention plugins + centralized dependency management (Kotlin DSL)
-├── packages/             # Core packages
+├── packages/             # Shared foundation packages (protected by BCV apiCheck)
 │   ├── core/             # Dependency floor: DataState/NetworkResponse, DispatcherProvider, extensions, prefs, Room base, SessionManager, Logger
 │   ├── framework/        # MviViewModel / MvvmViewModel / BaseViewState + the navigation3 host mechanism
 │   ├── network/          # Retrofit / OkHttp / Moshi wiring, interceptors, apiCall / Failure
@@ -104,11 +106,12 @@ The project is organized by **Feature**, not by Layer.
 │   └── ui_kit/           # Shared Compose design system + runtime-permission handlers
 ├── features/
 │   ├── settings/         # Real reference feature (theme / locale / profile)
+│   │   └── sample/       # Standalone Sandbox APK runner (:features:settings:sample)
 │   └── scanner/          # On-demand Dynamic Feature Module example (com.android.dynamic-feature)
 ├── libraries/
 │   └── testutils/        # Shared test rules and base test classes
 ├── konsist-test/         # JVM/JUnit architecture gate (rules K1–K10); never shipped in the APK
-└── bricks/               # Mason code-generation templates (mvi_feature, mvi_subfeature, ...)
+└── bricks/               # Mason code-generation templates (mvi_feature, mvi_subfeature, remove_feature)
 ```
 
 Full detail and the module dependency graph: **[docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md)**.
@@ -135,7 +138,9 @@ Full detail and the module dependency graph: **[docs/architecture/ARCHITECTURE.m
 *   [Material 3][13] - Design system.
 *   [Timber][14] - Logging.
 
-### Testing
+### Testing & Architecture Governance
+*   [Konsist] - Architectural enforcement rules K1–K10.
+*   [Binary Compatibility Validator] - Public ABI contract validation (`apiCheck` / `apiDump`).
 *   [MockK][15] - Mocking library.
 *   [Turbine][16] - Flow testing.
 *   [Robolectric][17] - Unit testing framework.
