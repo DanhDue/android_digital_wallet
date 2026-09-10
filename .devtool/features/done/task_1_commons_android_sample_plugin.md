@@ -1,13 +1,13 @@
 ---
 id: "task_1_commons_android_sample_plugin"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "sandbox_and_contract_governance"
 dueDate: null
 created: "2026-09-10T23:53:00+07:00"
-modified: "2026-09-10T23:53:00+07:00"
-completedAt: null
+modified: "2026-09-11T00:19:30+07:00"
+completedAt: "2026-09-11T00:19:30+07:00"
 labels: ["architecture", "buildSrc", "gradle", "sample"]
 order: "a1"
 ---
@@ -49,12 +49,12 @@ dependencies {
 ```
 
 ## TDD Checklist
-- [ ] **RED**:
+- [x] **RED**:
   - Add plugin registration `commons.android-sample` in `buildSrc/build.gradle.kts` and verify Gradle fails when the implementation class is missing.
-- [ ] **GREEN**:
+- [x] **GREEN**:
   - Implement `commons.AndroidSampleConventionPlugin` configuring Android Application extension, Compose compiler, Hilt, and core dependency bundles.
   - Define `COMMONS_ANDROID_SAMPLE = "commons.android-sample"` in `Deps.kt`.
   - Verify Gradle sync succeeds and convention plugin can be resolved.
-- [ ] **REFACTOR**:
+- [x] **REFACTOR**:
   - Ensure all packaging options (e.g. 16 KB uncompressed native libs) and namespace derivations follow `AppConfig` conventions.
   - Run `./gradlew :buildSrc:compileKotlin` to guarantee 100% clean compilation.

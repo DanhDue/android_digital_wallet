@@ -14,6 +14,10 @@ gradlePlugin {
             id = "android.core.library.plugin"
             implementationClass = "commons.AndroidCoreLibraryPlugin"
         }
+        register("AndroidSampleConventionPlugin") {
+            id = "commons.android-sample"
+            implementationClass = "commons.AndroidSampleConventionPlugin"
+        }
     }
 }
 
