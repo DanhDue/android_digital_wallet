@@ -5,7 +5,7 @@
 | Trường | Giá trị |
 |---|---|
 | **Epic name** | `deeplink_router_engine` |
-| **Trạng thái** | Draft — đã sinh task, chưa bắt đầu implement |
+| **Trạng thái** | Hoàn thành — toàn bộ 15 task đã implement và verify theo ma trận nghiệm thu |
 | **Target Release** | Template v-next (nối tiếp epic `android_super_app_template`) |
 | **Source Spec** | [2026-09-10-deeplink-router-engine-design.md](2026-09-10-deeplink-router-engine-design.md) |
 | **Epic tiền nhiệm** | [android_super_app_template](../android_super_app_template/android_super_app_template.vi.md) |
@@ -303,9 +303,29 @@ Nguyên tắc kế thừa từ epic tiền nhiệm: **app build và chạy đư�
 
 | # | Trước | Sau |
 |---|---|---|
-| **2.1 DeepLink Router** | 🔴 Nửa vời | ✅ **Đạt đủ** — có cả Central Router lẫn URL Schema / DeepLink |
+| **2.1 DeepLink Router** | 🔴 Nửa vời | ✅ **Complete** — có cả Central Router lẫn URL Schema / DeepLink |
 | **3.2 DI phân tầng** | 🟡 Một phần | 🟡 Một phần, **khá hơn** — seam mới là interface với impl `internal`, tạo tiền lệ để bọc `AppEventBus` / `Navigator` sau |
 | **4.1 Sandbox** | 🟡 Một phần | 🟡 **Không xấu đi** — test resolver chạy trong sandbox của feature |
 | 1.1 · 1.2 · 2.2 · 3.1 · 4.2 | ✅ | Không đổi |
 
-Ngoài ra: đóng doc drift `OnDemandFeatures.kt`, và `ShellState` hết hard-code `"scanner"`.
+Thêm vào đó: doc drift quanh `OnDemandFeatures.kt` đã được đóng lại, và `ShellState` không còn hard-code `"scanner"`.
+
+---
+
+## 8. Ma trận kết quả nghiệm thu E2E đã ghi nhận
+
+| # | Vector nghiệm thu | Lệnh / Nguồn kích hoạt | Hành vi kỳ vọng | Kết quả ghi nhận | Trạng thái |
+|---|---|---|---|---|---|
+| 1 | **D2 / custom scheme** | `adb shell am start -a android.intent.action.VIEW -d "myapp://settings/profile"` | Cold start mở màn hình Profile trong tab Settings | Profile hiển thị trong tab Settings (tab 2) với backstack `[SettingsRoute, ProfileRoute]` | ✅ PASS |
+| 2 | **D2 / App Links** | `adb shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://app.example.com/settings/profile"` | URL HTTPS đã verify điều hướng đồng nhất | Điều hướng hoàn toàn giống custom scheme | ✅ PASS |
+| 3 | **D2 / push** | Nhấn notification tạo từ `DeepLinkIntentFactory.createPendingIntent` | Mở MainActivity và điều hướng | PendingIntent với `FLAG_IMMUTABLE` điều hướng chính xác đến đích | ✅ PASS |
+| 4 | **D2 / internal** | `deepLinkRouter.dispatch("myapp://settings")` | Điều hướng nội bộ qua code | Xử lý trực tiếp bởi `ShellViewModel` không recreate Activity | ✅ PASS |
+| 5 | **D3 / DFM** | `myapp://scanner` khi chưa cài split | Cài split, hiện tiến trình, rồi mở | Tải DFM qua `FeatureInstaller`, hiện UI tiến trình, mở Scanner | ✅ PASS |
+| 6 | **D6 / placement** | Placement dẫn xuất vs chỉ định rõ | Tự động tổng hợp backstack | Đã xác thực: placement tab tổng hợp parents; `RootFullScreen` che phủ shell | ✅ PASS |
+| 7 | **D7 / guard** | Link auth-gated khi chưa đăng nhập | Điều hướng auth + replay | Lưu trong `PendingDeepLinkStore`, phát `NavigateToLogin`, replay khi login | ✅ PASS |
+| 8 | **Failure** | `myapp://unsupported` | Xử lý lỗi an toàn | Màn hình hiện tại nguyên vẹn, hiện thông báo phiên bản không hỗ trợ | ✅ PASS |
+| 9 | **Rotation** | Xoay màn hình sau deeplink | Chống kích hoạt lặp | Cờ intent `EXTRA_CONSUMED` ngăn dispatch lặp khi đổi cấu hình | ✅ PASS |
+| 10 | **Warm start** | Intent mới khi app đang chạy | Không sinh thêm Activity | Xử lý qua `onNewIntent` trong `singleTop` `MainActivity` | ✅ PASS |
+| 11 | **D5 / sandbox** | `./gradlew :features:settings:testDebugUnitTest` | Chạy test độc lập của feature | Chạy không cần `:app`; 100% test pass | ✅ PASS |
+| 12 | **D8 / template** | `rename_project.sh` + `mason make mvi_feature` (cả 2 delivery mode) | Vòng đời sinh code hoàn chỉnh | Resolver sinh ra thỏa K10, build thành công, xóa sạch không residue | ✅ PASS |
+| 13 | **D1 / governance** | `./gradlew :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug bundleDebug` | Toàn bộ cổng kiến trúc | Tất cả task xanh; `konsist_baseline.txt` và `konsist_boundary_whitelist.txt` rỗng | ✅ PASS |

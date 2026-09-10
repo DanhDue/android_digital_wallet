@@ -19,10 +19,10 @@ Packages are split into small single-responsibility modules (under `packages/`)
 - **`:packages:framework`** (`com.danhdue.framework`): `MviViewModel` / `MvvmViewModel` / `BaseViewState` + the navigation3 host mechanism (`Navigator`, `NestedNavigator` + `LocalNestedNavigator`, `ObserveBackstackForFlipper`). Depends on `:packages:core` (`api`) and `:packages:network`.
 - **`:packages:network`** (`com.danhdue.network`): The HTTP stack — Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. Depends only on `:packages:core`.
 - **`:packages:ui_kit`** (`com.danhdue.uikit`): Shared Compose design system (`ui/theme`, `ui/widgets`), Compose helpers, runtime-permission handlers. Depends only on `:packages:core`.
-- **`:packages:platform`** (`com.danhdue.platform`): Cross-feature seam — `AppRoutes` (shared `NavKey` registry), `AppEventBus` (`SharedFlow<AppEvent>`), `EntryProviderInstaller` + `LocalEntryProviderInstallers`, `FeatureEntry` / `FeatureInstaller` (DFM only).
+- **`:packages:platform`** (`com.danhdue.platform`): Cross-feature seam — `AppRoutes` (shared `NavKey` registry), `AppEventBus` (`SharedFlow<AppEvent>`), `EntryProviderInstaller` + `LocalEntryProviderInstallers`, `FeatureEntry` / `FeatureInstaller` (DFM only), `DeepLinkRouter` / `DeepLinkResolver` / `AppDeepLinks`.
 - **`:features:*`** (`com.danhdue.{feature}`): Feature modules, each with `data` / `domain` / `presentation` layers. The template ships `settings` (a real reference feature) and `scanner` (an on-demand Dynamic Feature Module example). Depend only on the package modules — **never on another feature**. `:packages:core` + `:packages:platform` are wired by the `commons.android-feature` convention plugin.
 - **`:libraries:testutils`** (`com.danhdue.libraries.testutils`): Shared testing utilities, mocks, and test rules. The only remaining `libraries/*` module.
-- **`:konsist-test`** (`com.danhdue.konsist`): JVM/JUnit architecture-enforcement gate (rules K1–K9). Never shipped in the APK. Run with `./gradlew :konsist-test:test`.
+- **`:konsist-test`** (`com.danhdue.konsist`): JVM/JUnit architecture-enforcement gate (rules K1–K10). Never shipped in the APK. Run with `./gradlew :konsist-test:test`.
 - **`buildSrc`**: Custom Gradle convention plugins (`commons.android-library` / `-compose` / `-feature` / `dagger-hilt`) and centralized dependency management (`Versions.kt`, `Deps.kt`, `Modules` object).
 
 ## 🛠 Tech Stack

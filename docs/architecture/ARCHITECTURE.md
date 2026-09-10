@@ -39,6 +39,7 @@ generated from it.
   - [2. Architecture Layer Details](#2-architecture-layer-details)
   - [3. Module Map & Dependency Graph](#3-module-map--dependency-graph)
   - [4. Cross-Feature Communication Rules](#4-cross-feature-communication-rules)
+    - [4.1 DeepLink Router Engine](#41-deeplink-router-engine)
   - [5. Usage with Mason](#5-usage-with-mason)
 - [IV. Modern Android Stack](#iv-modern-android-stack)
 - [V. Code Examples & Best Practices](#v-code-examples--best-practices)
@@ -350,6 +351,7 @@ Features never import one another. All cross-feature traffic goes through `:plat
 | **`AppEventBus`** | `:platform` | `MutableSharedFlow<AppEvent>` broadcast; `publish(e)` / `inline fun <reified T> on(): Flow<T>` | any module — publish / subscribe one event type |
 | **`EntryProviderInstaller`** (Hilt `@IntoSet`) | mechanism in `:framework`, contributed per feature | feature `@Provides @IntoSet EntryProviderInstaller`; host consumes `Set<EntryProviderInstaller>` into `NavDisplay` | feature provides, host consumes — the host never imports the feature |
 | **`FeatureEntry`** + `ServiceLoader` | `:platform` interface, impl in the DFM feature; the `META-INF/services` registration file is **aggregated in `:app`** (one line per on-demand FQCN — bundletool forbids two feature splits sharing a root resource) | runtime-loaded `EntryProviderInstaller` after `SplitCompat.install()`; `:shell` skips entries whose split is not installed | **on-demand DFM only** — install-time features use Hilt multibinding |
+| **`DeepLinkRouter`** + `DeepLinkResolver` | `:platform` engine + per-feature resolvers | Tier-1 `AppDeepLinks` registry + Tier-2 `DeepLinkResolver` multibinding; resolves URI into `DeepLinkCommand` for `:shell` execution | any module, external intent, push notification, or ADB |
 | **Direct composition** | `:app`, `:shell` | Hilt aggregation + `NavDisplay` + tab-shell | **host only** (Konsist K6) |
 
 There is no request/response channel between two features. When a feature needs a typed
@@ -359,6 +361,72 @@ result from another feature's business logic, invert the dependency: put the int
 Lifecycle event vocabulary (in `AppEvent`): `ShellTabVisibilityChanged(tabIndex, isVisible)`
 (published by `:shell`), `AppLifecycleChanged(state)` (published by an app-root lifecycle
 observer), `UserLoggedOut` (published by `:network`'s 401 interceptor).
+
+#### 4.1 DeepLink Router Engine
+
+The template provides a governed, decoupled **DeepLink Router Engine** adhering to Clean Architecture and strict module boundaries.
+
+##### The Two Tiers
+Routing is split into two governance tiers so features never depend on each other:
+- **Tier 1 (Platform Entry Registry — `AppDeepLinks.entryPoints`)**:
+  Located in `:platform`. Declares known feature routing slugs, root entry `NavKey`s, optional tab indices, DFM split names, and coarse authentication gates:
+  ```kotlin
+  FeatureEntryPoint(
+      feature = "settings",
+      entryRoute = AppRoutes.SettingsRoute,
+      tab = 2,
+      requiresAuth = false,
+  )
+  ```
+- **Tier 2 (Feature Subpath Resolvers — `DeepLinkResolver`)**:
+  Owned by individual feature modules. Each feature contributes a resolver implementing `DeepLinkResolver` in `presentation/di/` (enforced by Konsist rule **K10**):
+  - **Install-time features**: Provided via Hilt `@Provides @IntoSet DeepLinkResolver` in a `SingletonComponent` module (e.g. `SettingsDeepLinkResolver`).
+  - **On-demand DFM features**: Contributed at runtime via `FeatureEntry.resolver()` (e.g. `ScannerFeatureEntry.resolver() = ScannerDeepLinkResolver()`).
+
+##### Adding Deep Links
+1. **To an existing feature**:
+   Add a path branch to the feature's `*DeepLinkResolver`:
+   ```kotlin
+   override fun resolve(link: DeepLink): DeepLinkTarget? =
+       if (link.feature != FEATURE) null
+       else when (link.segments) {
+           emptyList<String>() -> DeepLinkTarget(destination = AppRoutes.SettingsRoute)
+           listOf("profile") -> DeepLinkTarget(destination = ProfileRoute)
+           else -> null
+       }
+   ```
+2. **To a new feature**:
+   Running `mason make mvi_feature --name <Feature>` automatically:
+   - Creates `<Feature>DeepLinkResolver` in `presentation/di/` resolving `myapp://<feature>`.
+   - Appends `<Feature>Route` to `AppRoutes.kt`.
+   - Appends a `FeatureEntryPoint` to `AppDeepLinks.kt` with `tab = null`.
+   - *Note*: If the feature is hosted in a bottom navigation tab, update `tab = <tabIndex>` in `AppDeepLinks.kt`.
+
+##### Placement & Backstack Synthesis
+Resolvers return a `DeepLinkTarget(destination, placement, requiresAuth)`. If `placement` is null, the engine derives the placement from Tier 1:
+- If `tab != null`: derives `Placement.InTab(tab, parents = listOf(entryRoute))`. Navigates to tab and pushes the destination on top of the root route.
+- If `tab == null`: derives `Placement.RootFullScreen`. Displays over the tab shell.
+Resolvers can explicitly override placement using `Placement.InTab`, `Placement.RootFullScreen`, or `Placement.ReplaceTab`.
+
+##### Guard Pipeline
+Deep link resolution passes through a chain of `DeepLinkGuard` implementations:
+- **`AuthGuard`**: If a link targets a destination requiring authentication (`requiresAuth = true`) while the user is signed out (`SessionManager.isLoggedIn == false`), `AuthGuard` pauses the link, persists it in `PendingDeepLinkStore`, and emits `DeepLinkCommand.NavigateToLogin`.
+- **Replay**: Upon successful login, `ShellViewModel` retrieves the stored link from `PendingDeepLinkStore` and re-dispatches it automatically.
+
+##### Ingress Surfaces
+The engine processes deep links from four distinct sources:
+1. **Custom Scheme (`myapp://...`)**: Ingress via `MainActivity` intent filter.
+2. **Android App Links (`https://app.example.com/...`)**: Ingress via `MainActivity` intent filter with `android:autoVerify="true"`.
+3. **Push Notifications**: Constructed using `DeepLinkIntentFactory.createPendingIntent(context, uri)` targeting `MainActivity` as an immutable `PendingIntent`.
+4. **Programmatic In-App Dispatch**: Calling `deepLinkRouter.dispatch("myapp://...")`.
+
+##### Security Posture (HLD §4.6)
+- **Untrusted Input**: All URI path segments and query parameters must be treated as untrusted user input. Resolvers and ViewModels must validate data before use.
+- **Scheme Hijacking Risk**: Custom schemes (`myapp://`) can be claimed by other apps on the device without verification. Sensitive actions (e.g. transfers, password reset, auth tokens) must **strictly** use verified HTTPS App Links.
+- **Defence-in-Depth Authentication**: The `requiresAuth` gate provides UI redirection for UX convenience; it does **not** replace server-side token authentication on API requests.
+- **Allowlist Safety**: Any unregistered feature or unmapped subpath yields `DeepLinkCommand.Failed(Reason.UNSUPPORTED_LINK)`, safely alerting the user without crashing or leaking state.
+
+For complete App Links verification and `assetlinks.json` configuration, refer to **[`docs/APP_LINKS_SETUP.md`](../APP_LINKS_SETUP.md)**.
 
 **Enforcement.** Konsist (`./gradlew :konsist-test:test`) plus a Gradle guard in
 `commons.android-feature`:
@@ -374,6 +442,7 @@ observer), `UserLoggedOut` (published by `:network`'s 401 interceptor).
 | K7 | `:core` imports nothing from `:framework` / `:network` / `:ui_kit` / `:platform` / `:shell` / a feature | **enforced** |
 | K8 | a feature does not import `com.danhdue.androiddigitalwallet.*` (host internals) — except a module in `android.dynamicFeatures` | **enforced** |
 | K9 | a `*Route : NavKey` used cross-feature is declared in `:platform`, not in a feature | report-only (later phase) |
+| K10 | `*DeepLinkResolver` implements `DeepLinkResolver` and lives in `..presentation.di..` | **enforced** |
 
 The Gradle guard additionally fails the sync if a `features/*/build.gradle.kts` declares
 another `:features:*` module as a dependency.

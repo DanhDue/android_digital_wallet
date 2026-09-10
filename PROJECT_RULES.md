@@ -39,7 +39,7 @@ short form.
   never on another feature. `:packages:core` is the floor (no project dependencies); `:packages:framework` is only
   for modules with UI/state. `:packages:core` + `:packages:platform` are wired automatically by the
   `commons.android-feature` convention. Cross-feature traffic goes through `:packages:platform`
-  (`AppRoutes` / `AppEventBus` / `@IntoSet EntryProviderInstaller`). Konsist (K1–K9) + a Gradle
+  (`AppRoutes` / `AppEventBus` / `@IntoSet EntryProviderInstaller` / `DeepLinkRouter`). Konsist (K1–K10) + a Gradle
   guard enforce this — run `./gradlew :konsist-test:test`.
 
 ## 📝 Naming Conventions
@@ -47,3 +47,4 @@ short form.
 - **ViewModel**: `[Feature]ViewModel`.
 - **UseCase**: `[Action][Feature]UseCase` (e.g., `GetProfileDataUseCase`).
 - **Screen**: `[Feature]Screen` and `[Feature]Root` (ViewModel entry point).
+- **DeepLinkResolver**: `[Feature]DeepLinkResolver` in `presentation.di` (enforced by Konsist K10).

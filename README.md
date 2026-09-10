@@ -86,8 +86,8 @@ We use a Unidirectional Data Flow (UDF):
 The project is organized by **Feature**, not by Layer.
 
 -   **High Cohesion**: All code for a feature (Data, Domain, Presentation) lives in one `:features:*` module.
--   **Decoupled**: Features never depend on each other — cross-feature traffic goes through `:packages:platform` (`AppRoutes` / `AppEventBus` / `EntryProviderInstaller`).
--   **Scalable**: New features are added as new modules; a Konsist gate (K1–K9) enforces the boundaries.
+-   **Decoupled**: Features never depend on each other — cross-feature traffic goes through `:packages:platform` (`AppRoutes` / `AppEventBus` / `EntryProviderInstaller` / `DeepLinkRouter`).
+-   **Scalable**: New features are added as new modules; a Konsist gate (K1–K10) enforces the boundaries.
 
 ### 4. Project Structure
 
@@ -100,14 +100,14 @@ The project is organized by **Feature**, not by Layer.
 │   ├── core/             # Dependency floor: DataState/NetworkResponse, DispatcherProvider, extensions, prefs, Room base, SessionManager, Logger
 │   ├── framework/        # MviViewModel / MvvmViewModel / BaseViewState + the navigation3 host mechanism
 │   ├── network/          # Retrofit / OkHttp / Moshi wiring, interceptors, apiCall / Failure, Flipper network tooling
-│   ├── platform/         # Cross-feature seam: AppRoutes, AppEventBus, EntryProviderInstaller, FeatureEntry / FeatureInstaller
+│   ├── platform/         # Cross-feature seam: AppRoutes, AppEventBus, EntryProviderInstaller, FeatureEntry / FeatureInstaller, DeepLinkRouter / AppDeepLinks
 │   └── ui_kit/           # Shared Compose design system + runtime-permission handlers
 ├── features/
 │   ├── settings/         # Real reference feature (theme / locale / profile)
 │   └── scanner/          # On-demand Dynamic Feature Module example (com.android.dynamic-feature)
 ├── libraries/
 │   └── testutils/        # Shared test rules and base test classes
-├── konsist-test/         # JVM/JUnit architecture gate (rules K1–K9); never shipped in the APK
+├── konsist-test/         # JVM/JUnit architecture gate (rules K1–K10); never shipped in the APK
 └── bricks/               # Mason code-generation templates (mvi_feature, mvi_subfeature, ...)
 ```
 

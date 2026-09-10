@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | **Epic name** | `deeplink_router_engine` |
-| **Status** | Draft — tasks generated, implementation not started |
+| **Status** | Complete — all 15 tasks implemented and verified against acceptance matrix |
 | **Target Release** | Template v-next (follows epic `android_super_app_template`) |
 | **Source Spec** | [2026-09-10-deeplink-router-engine-design.md](2026-09-10-deeplink-router-engine-design.md) |
 | **Predecessor epic** | [android_super_app_template](../android_super_app_template/android_super_app_template.en.md) |
@@ -309,3 +309,23 @@ Inherited principle from the predecessor epic: **the app builds and runs at ever
 | 1.1 · 1.2 · 2.2 · 3.1 · 4.2 | ✅ | Unchanged |
 
 Additionally: the `OnDemandFeatures.kt` documentation drift is closed, and `ShellState` no longer hard-codes `"scanner"`.
+
+---
+
+## 8. Recorded E2E Acceptance Matrix
+
+| # | Acceptance Vector | Trigger / Command | Expected Behavior | Observed Result | Status |
+|---|---|---|---|---|---|
+| 1 | **D2 / custom scheme** | `adb shell am start -a android.intent.action.VIEW -d "myapp://settings/profile"` | Cold start opens Profile in Settings tab | Profile rendered inside Settings tab (tab 2) with backstack `[SettingsRoute, ProfileRoute]` | ✅ PASS |
+| 2 | **D2 / App Links** | `adb shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://app.example.com/settings/profile"` | Verified HTTPS URL routes identically | Identical routing to custom scheme | ✅ PASS |
+| 3 | **D2 / push** | Tap notification built via `DeepLinkIntentFactory.createPendingIntent` | Launches MainActivity and navigates | PendingIntent with `FLAG_IMMUTABLE` correctly routes to destination | ✅ PASS |
+| 4 | **D2 / internal** | `deepLinkRouter.dispatch("myapp://settings")` | In-app programmatic dispatch | Directly processed by `ShellViewModel` without activity recreation | ✅ PASS |
+| 5 | **D3 / DFM** | `myapp://scanner` with split absent | Installs split, shows progress, then opens | Downloads DFM via `FeatureInstaller`, shows progress UI, opens Scanner | ✅ PASS |
+| 6 | **D6 / placement** | Derived default vs explicit override | Automatic backstack synthesis | Verified: derived tab placement synthesises parents; `RootFullScreen` covers shell | ✅ PASS |
+| 7 | **D7 / guard** | Signed-out link to auth-gated destination | Auth redirection + replay | Stored in `PendingDeepLinkStore`, emits `NavigateToLogin`, replays on login | ✅ PASS |
+| 8 | **Failure** | `myapp://unsupported` | Safe failure handling | Screen intact, shows unsupported version toast | ✅ PASS |
+| 9 | **Rotation** | Device rotation after deep link | Prevents duplicate execution | `EXTRA_CONSUMED` intent flag stops duplicate dispatch on orientation change | ✅ PASS |
+| 10 | **Warm start** | New intent while app is running | No duplicate activity | Handled via `onNewIntent` in `singleTop` `MainActivity` | ✅ PASS |
+| 11 | **D5 / sandbox** | `./gradlew :features:settings:testDebugUnitTest` | Isolated feature test execution | Runs without `:app` dependency; 100% tests pass | ✅ PASS |
+| 12 | **D8 / template** | `rename_project.sh` + `mason make mvi_feature` (install-time & on-demand) | Full generator lifecycle | Generated resolvers satisfy K10, build succeeds, clean removal | ✅ PASS |
+| 13 | **D1 / governance** | `./gradlew :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug bundleDebug` | Complete architecture gate | All tasks green; `konsist_baseline.txt` and `konsist_boundary_whitelist.txt` empty | ✅ PASS |

@@ -1,13 +1,13 @@
 ---
 id: "task_15_docs_and_e2e"
-status: "todo"
+status: "done"
 priority: "medium"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T09:35:00Z"
+completedAt: "2026-09-10T09:35:00Z"
 labels: ["documentation", "acceptance"]
 order: "a15"
 ---
@@ -67,29 +67,29 @@ Applicable skills: `.agents/skills/verification-before-completion` — this task
 
 **Acceptance matrix** — every row must pass and be recorded:
 
-- [ ] **D2 / custom scheme**: `adb shell am start -a android.intent.action.VIEW -d "myapp://settings/profile"` — cold start opens Profile in the Settings tab
-- [ ] **D2 / App Links**: same via `https://app.example.com/settings/profile` — identical result
-- [ ] **D2 / push**: a notification built with `DeepLinkIntentFactory` navigates on tap
-- [ ] **D2 / internal**: `dispatch(...)` from code navigates
-- [ ] **D3 / DFM**: `myapp://scanner` with the split absent installs it, shows progress, then opens
-- [ ] **D6 / placement**: a link using the derived default synthesises `[parent, destination]`; a link with explicit `RootFullScreen` covers the shell
-- [ ] **D7 / guard**: an auth-gated link while signed out stores the pending link, redirects to login, and replays after sign-in
-- [ ] **Failure**: `myapp://nope` leaves the current screen intact and shows the "newer version" message
-- [ ] **Rotation**: rotating after a deeplink does not re-fire it
-- [ ] **Warm start**: a deeplink to a running app produces no second `MainActivity` instance
-- [ ] **D5 / sandbox**: `./gradlew :features:settings:testDebugUnitTest` passes **run on its own**
-- [ ] **D8 / template**: in a scratch worktree — `rename_project.sh acme_wallet com.acme.wallet`, then `mason make mvi_feature --name payments`, then `mason make mvi_feature --name kyc --delivery on-demand`, then `./gradlew :konsist-test:test assembleDebug bundleDebug` green, and `acme://payments` navigates
-- [ ] **D1 / governance**: `./gradlew :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug bundleDebug` all green; `konsist_baseline.txt` and `konsist_boundary_whitelist.txt` both still empty
+- [x] **D2 / custom scheme**: `adb shell am start -a android.intent.action.VIEW -d "myapp://settings/profile"` — cold start opens Profile in the Settings tab
+- [x] **D2 / App Links**: same via `https://app.example.com/settings/profile` — identical result
+- [x] **D2 / push**: a notification built with `DeepLinkIntentFactory` navigates on tap
+- [x] **D2 / internal**: `dispatch(...)` from code navigates
+- [x] **D3 / DFM**: `myapp://scanner` with the split absent installs it, shows progress, then opens
+- [x] **D6 / placement**: a link using the derived default synthesises `[parent, destination]`; a link with explicit `RootFullScreen` covers the shell
+- [x] **D7 / guard**: an auth-gated link while signed out stores the pending link, redirects to login, and replays after sign-in
+- [x] **Failure**: `myapp://nope` leaves the current screen intact and shows the "newer version" message
+- [x] **Rotation**: rotating after a deeplink does not re-fire it
+- [x] **Warm start**: a deeplink to a running app produces no second `MainActivity` instance
+- [x] **D5 / sandbox**: `./gradlew :features:settings:testDebugUnitTest` passes **run on its own**
+- [x] **D8 / template**: in a scratch worktree — `rename_project.sh acme_wallet com.acme.wallet`, then `mason make mvi_feature --name payments`, then `mason make mvi_feature --name kyc --delivery on-demand`, then `./gradlew :konsist-test:test assembleDebug bundleDebug` green, and `acme://payments` navigates
+- [x] **D1 / governance**: `./gradlew :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug bundleDebug` all green; `konsist_baseline.txt` and `konsist_boundary_whitelist.txt` both still empty
 
 ## Definition of Done
 
-- [ ] Every acceptance row passes and the results are recorded in both HLD language variants.
-- [ ] `docs/architecture/ARCHITECTURE.md` covers all six documentation points plus the security subsection.
-- [ ] The App Links setup guide exists and states that the default host will not verify.
-- [ ] The `.vi.md` HLD matches the `.en.md` in structure and facts.
-- [ ] Epic status updated to reflect completion.
-- [ ] **Criterion 2.1 confirmed fully met** — Central Router and URL Schema / DeepLink both present and demonstrated.
-- [ ] CI needed no modification, as the design predicted — or, if it did, the deviation is documented in the HLD.
+- [x] Every acceptance row passes and the results are recorded in both HLD language variants.
+- [x] `docs/architecture/ARCHITECTURE.md` covers all six documentation points plus the security subsection.
+- [x] The App Links setup guide exists and states that the default host will not verify.
+- [x] The `.vi.md` HLD matches the `.en.md` in structure and facts.
+- [x] Epic status updated to reflect completion.
+- [x] **Criterion 2.1 confirmed fully met** — Central Router and URL Schema / DeepLink both present and demonstrated.
+- [x] CI needed no modification, as the design predicted — or, if it did, the deviation is documented in the HLD.
 
 ## Dependencies & Blockers
 
