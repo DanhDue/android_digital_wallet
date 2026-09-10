@@ -32,6 +32,7 @@ object GlobalVersions {
     const val KT_LINT = "14.0.1"
     const val SPOTLESS = "8.1.0"
     const val DETEKT = "1.23.8"
+    const val BCV = "0.17.0"
 }
 
 object GlobalDeps {
@@ -56,6 +57,7 @@ object GlobalDeps {
     const val SPOTLESS = "com.diffplug.spotless:spotless-plugin-gradle:${GlobalVersions.SPOTLESS}"
     const val DETEKT = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${GlobalVersions.DETEKT}"
     const val COMPOSE_GRADLE = "org.jetbrains.kotlin:compose-compiler-gradle-plugin:${GlobalVersions.KOTLIN}"
+    const val BCV = "org.jetbrains.kotlinx:binary-compatibility-validator:${GlobalVersions.BCV}"
 }
 
 dependencies {
@@ -74,4 +76,5 @@ dependencies {
     implementation(GlobalDeps.SPOTLESS)
     implementation(GlobalDeps.DETEKT)
     implementation(GlobalDeps.COMPOSE_GRADLE)
+    implementation(GlobalDeps.BCV)
 }

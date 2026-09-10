@@ -8,7 +8,18 @@ plugins {
     id(Deps.ANDROID_COMPOSE_PLUGIN_ID) apply false
     id(Deps.GOOGLE_SERVICE_GRADLE_PLUGIN_ID) version Versions.GOOGLE_SERVICE apply false
     id(Deps.SONAR_CLOUD) version Versions.SONAR_CLOUD apply true
+    id(Deps.BCV_PLUGIN_ID) apply true
 //    alias(libs.plugins.android.dynamic.feature) apply false
+}
+
+apiValidation {
+    // Enforce validation strictly on the 5 foundation packages: core, platform, network, framework, ui_kit
+    ignoredProjects += subprojects
+        .filterNot { it.path in setOf(":packages:core", ":packages:platform", ":packages:network", ":packages:framework", ":packages:ui_kit") }
+        .map { it.name }
+        .toSet()
+    ignoredPackages += listOf("*.internal", "*.internal.*")
+    nonPublicMarkers += listOf("com.danhdue.core.annotation.InternalApi")
 }
 
 apply<codequality.DependencyUpdatePlugin>()

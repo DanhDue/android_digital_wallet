@@ -22,6 +22,7 @@ object Deps {
     const val CODE_ANALYZE_TOOLS_JACOCO = "codeanalyzetools.jacoco-report"
     const val CODE_ANALYZE_TOOLS_SPOTLESS = "codeanalyzetools.spotless"
     const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin.plugin.serialization"
+    const val BCV_PLUGIN_ID = "org.jetbrains.kotlinx.binary-compatibility-validator"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"

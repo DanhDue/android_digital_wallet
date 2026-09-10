@@ -1,0 +1,583 @@
+public abstract interface class com/danhdue/platform/AppEvent {
+}
+
+public final class com/danhdue/platform/AppEvent$AppLanguageChanged : com/danhdue/platform/AppEvent {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/danhdue/platform/AppEvent$AppLanguageChanged;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/AppEvent$AppLanguageChanged;Ljava/lang/String;ILjava/lang/Object;)Lcom/danhdue/platform/AppEvent$AppLanguageChanged;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLanguageCode ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/AppEvent$AppLifecycleChanged : com/danhdue/platform/AppEvent {
+	public static final field $stable I
+	public fun <init> (Lcom/danhdue/platform/AppLifecycleState;)V
+	public final fun component1 ()Lcom/danhdue/platform/AppLifecycleState;
+	public final fun copy (Lcom/danhdue/platform/AppLifecycleState;)Lcom/danhdue/platform/AppEvent$AppLifecycleChanged;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/AppEvent$AppLifecycleChanged;Lcom/danhdue/platform/AppLifecycleState;ILjava/lang/Object;)Lcom/danhdue/platform/AppEvent$AppLifecycleChanged;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getState ()Lcom/danhdue/platform/AppLifecycleState;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/AppEvent$ProfileNameChanged : com/danhdue/platform/AppEvent {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/danhdue/platform/AppEvent$ProfileNameChanged;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/AppEvent$ProfileNameChanged;Ljava/lang/String;ILjava/lang/Object;)Lcom/danhdue/platform/AppEvent$ProfileNameChanged;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDisplayName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/AppEvent$ShellTabVisibilityChanged : com/danhdue/platform/AppEvent {
+	public static final field $stable I
+	public fun <init> (IZ)V
+	public final fun component1 ()I
+	public final fun component2 ()Z
+	public final fun copy (IZ)Lcom/danhdue/platform/AppEvent$ShellTabVisibilityChanged;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/AppEvent$ShellTabVisibilityChanged;IZILjava/lang/Object;)Lcom/danhdue/platform/AppEvent$ShellTabVisibilityChanged;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTabIndex ()I
+	public fun hashCode ()I
+	public final fun isVisible ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/AppEvent$ThemeModeChanged : com/danhdue/platform/AppEvent {
+	public static final field $stable I
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lcom/danhdue/platform/AppEvent$ThemeModeChanged;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/AppEvent$ThemeModeChanged;ZILjava/lang/Object;)Lcom/danhdue/platform/AppEvent$ThemeModeChanged;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public final fun isDarkMode ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/AppEvent$UserLoggedIn : com/danhdue/platform/AppEvent {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/AppEvent$UserLoggedIn;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/AppEvent$UserLoggedOut : com/danhdue/platform/AppEvent {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/AppEvent$UserLoggedOut;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/AppEventBus {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun getEvents ()Lkotlinx/coroutines/flow/SharedFlow;
+	public final fun publish (Lcom/danhdue/platform/AppEvent;)V
+}
+
+public final class com/danhdue/platform/AppEventBus_Factory : dagger/internal/Factory {
+	public fun <init> ()V
+	public static fun create ()Lcom/danhdue/platform/AppEventBus_Factory;
+	public fun get ()Lcom/danhdue/platform/AppEventBus;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun newInstance ()Lcom/danhdue/platform/AppEventBus;
+}
+
+public final class com/danhdue/platform/AppLifecycleState : java/lang/Enum {
+	public static final field RESUMED Lcom/danhdue/platform/AppLifecycleState;
+	public static final field STARTED Lcom/danhdue/platform/AppLifecycleState;
+	public static final field STOPPED Lcom/danhdue/platform/AppLifecycleState;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/danhdue/platform/AppLifecycleState;
+	public static fun values ()[Lcom/danhdue/platform/AppLifecycleState;
+}
+
+public final class com/danhdue/platform/AppRoutes {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/AppRoutes;
+}
+
+public final class com/danhdue/platform/AppRoutes$ScannerRoute : androidx/navigation3/runtime/NavKey {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/AppRoutes$ScannerRoute;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/AppRoutes$SettingsRoute : androidx/navigation3/runtime/NavKey {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/AppRoutes$SettingsRoute;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/AppRoutes$ShellRoute : androidx/navigation3/runtime/NavKey {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/AppRoutes$ShellRoute;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/BuildConfig {
+	public static final field ANALYTIC_IS_ENABLE Z
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field CRASHLYTIC_IS_ENABLE Z
+	public static final field DB_NAME Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+
+public final class com/danhdue/platform/EntryProviderInstallerKt {
+	public static final fun getLocalEntryProviderInstallers ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public abstract interface class com/danhdue/platform/FeatureEntry {
+	public abstract fun installer ()Lkotlin/jvm/functions/Function1;
+	public fun resolver ()Lcom/danhdue/platform/deeplink/DeepLinkResolver;
+}
+
+public final class com/danhdue/platform/FeatureEntryKt {
+	public static final fun featureEntriesFrom (Ljava/lang/Iterable;)Ljava/util/List;
+}
+
+public abstract interface class com/danhdue/platform/FeatureInstaller {
+	public abstract fun ensureInstalled (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/danhdue/platform/NoOpFeatureInstaller : com/danhdue/platform/FeatureInstaller {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun ensureInstalled (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/danhdue/platform/NoOpFeatureInstaller_Factory : dagger/internal/Factory {
+	public fun <init> ()V
+	public static fun create ()Lcom/danhdue/platform/NoOpFeatureInstaller_Factory;
+	public fun get ()Lcom/danhdue/platform/NoOpFeatureInstaller;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun newInstance ()Lcom/danhdue/platform/NoOpFeatureInstaller;
+}
+
+public final class com/danhdue/platform/deeplink/AppDeepLinks {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/deeplink/AppDeepLinks;
+	public final fun getEntryPoints ()Ljava/util/List;
+}
+
+public final class com/danhdue/platform/deeplink/AuthDeepLinkGuard : com/danhdue/platform/deeplink/DeepLinkGuard {
+	public static final field $stable I
+	public static final field Companion Lcom/danhdue/platform/deeplink/AuthDeepLinkGuard$Companion;
+	public static final field LOGIN_URI Ljava/lang/String;
+	public fun <init> (Lcom/danhdue/core/session/SessionManager;Lcom/danhdue/platform/deeplink/PendingDeepLinkStore;)V
+	public fun check (Lcom/danhdue/platform/deeplink/DeepLink;Lcom/danhdue/platform/deeplink/DeepLinkTarget;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getOrder ()I
+}
+
+public final class com/danhdue/platform/deeplink/AuthDeepLinkGuard$Companion {
+}
+
+public final class com/danhdue/platform/deeplink/AuthDeepLinkGuard_Factory : dagger/internal/Factory {
+	public static fun create (Ldagger/internal/Provider;Ldagger/internal/Provider;)Lcom/danhdue/platform/deeplink/AuthDeepLinkGuard_Factory;
+	public fun get ()Lcom/danhdue/platform/deeplink/AuthDeepLinkGuard;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun newInstance (Lcom/danhdue/core/session/SessionManager;Lcom/danhdue/platform/deeplink/PendingDeepLinkStore;)Lcom/danhdue/platform/deeplink/AuthDeepLinkGuard;
+}
+
+public final class com/danhdue/platform/deeplink/DeepLink {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/Map;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/util/Map;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/Map;)Lcom/danhdue/platform/deeplink/DeepLink;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/DeepLink;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lcom/danhdue/platform/deeplink/DeepLink;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFeature ()Ljava/lang/String;
+	public final fun getParams ()Ljava/util/Map;
+	public final fun getRaw ()Ljava/lang/String;
+	public final fun getSegments ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/danhdue/platform/deeplink/DeepLinkGuard {
+	public abstract fun check (Lcom/danhdue/platform/deeplink/DeepLink;Lcom/danhdue/platform/deeplink/DeepLinkTarget;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getOrder ()I
+}
+
+public final class com/danhdue/platform/deeplink/DeepLinkParser {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/deeplink/DeepLinkParser;
+	public final fun parse (Ljava/lang/String;)Lcom/danhdue/platform/deeplink/DeepLink;
+}
+
+public abstract interface class com/danhdue/platform/deeplink/DeepLinkResolver {
+	public abstract fun resolve (Lcom/danhdue/platform/deeplink/DeepLink;)Lcom/danhdue/platform/deeplink/DeepLinkTarget;
+}
+
+public abstract interface class com/danhdue/platform/deeplink/DeepLinkRouter {
+	public abstract fun dispatch (Ljava/lang/String;)V
+	public abstract fun getCommands ()Lkotlinx/coroutines/flow/Flow;
+}
+
+public final class com/danhdue/platform/deeplink/DeepLinkTarget {
+	public static final field $stable I
+	public fun <init> (Landroidx/navigation3/runtime/NavKey;Lcom/danhdue/platform/deeplink/Placement;Z)V
+	public synthetic fun <init> (Landroidx/navigation3/runtime/NavKey;Lcom/danhdue/platform/deeplink/Placement;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Landroidx/navigation3/runtime/NavKey;
+	public final fun component2 ()Lcom/danhdue/platform/deeplink/Placement;
+	public final fun component3 ()Z
+	public final fun copy (Landroidx/navigation3/runtime/NavKey;Lcom/danhdue/platform/deeplink/Placement;Z)Lcom/danhdue/platform/deeplink/DeepLinkTarget;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/DeepLinkTarget;Landroidx/navigation3/runtime/NavKey;Lcom/danhdue/platform/deeplink/Placement;ZILjava/lang/Object;)Lcom/danhdue/platform/deeplink/DeepLinkTarget;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDestination ()Landroidx/navigation3/runtime/NavKey;
+	public final fun getPlacement ()Lcom/danhdue/platform/deeplink/Placement;
+	public final fun getRequiresAuth ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/deeplink/DefaultDeepLinkRouter_Factory : dagger/internal/Factory {
+	public static fun create (Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;)Lcom/danhdue/platform/deeplink/DefaultDeepLinkRouter_Factory;
+	public fun get ()Lcom/danhdue/platform/deeplink/DefaultDeepLinkRouter;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun newInstance (Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/platform/deeplink/PendingDeepLinkStore;Lcom/danhdue/core/coroutines/DispatcherProvider;Ljava/util/Set;Ljava/util/Set;Ljava/util/List;)Lcom/danhdue/platform/deeplink/DefaultDeepLinkRouter;
+}
+
+public final class com/danhdue/platform/deeplink/FailureReason : java/lang/Enum {
+	public static final field Blocked Lcom/danhdue/platform/deeplink/FailureReason;
+	public static final field InstallFailed Lcom/danhdue/platform/deeplink/FailureReason;
+	public static final field Malformed Lcom/danhdue/platform/deeplink/FailureReason;
+	public static final field NoResolver Lcom/danhdue/platform/deeplink/FailureReason;
+	public static final field RedirectLoop Lcom/danhdue/platform/deeplink/FailureReason;
+	public static final field UnknownFeature Lcom/danhdue/platform/deeplink/FailureReason;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/danhdue/platform/deeplink/FailureReason;
+	public static fun values ()[Lcom/danhdue/platform/deeplink/FailureReason;
+}
+
+public final class com/danhdue/platform/deeplink/FeatureEntryPoint {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Landroidx/navigation3/runtime/NavKey;Ljava/lang/Integer;Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/String;Landroidx/navigation3/runtime/NavKey;Ljava/lang/Integer;Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Landroidx/navigation3/runtime/NavKey;
+	public final fun component3 ()Ljava/lang/Integer;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Z
+	public final fun copy (Ljava/lang/String;Landroidx/navigation3/runtime/NavKey;Ljava/lang/Integer;Ljava/lang/String;Z)Lcom/danhdue/platform/deeplink/FeatureEntryPoint;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/FeatureEntryPoint;Ljava/lang/String;Landroidx/navigation3/runtime/NavKey;Ljava/lang/Integer;Ljava/lang/String;ZILjava/lang/Object;)Lcom/danhdue/platform/deeplink/FeatureEntryPoint;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDynamicModule ()Ljava/lang/String;
+	public final fun getEntryRoute ()Landroidx/navigation3/runtime/NavKey;
+	public final fun getFeature ()Ljava/lang/String;
+	public final fun getRequiresAuth ()Z
+	public final fun getTab ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/danhdue/platform/deeplink/GuardVerdict {
+}
+
+public final class com/danhdue/platform/deeplink/GuardVerdict$Allow : com/danhdue/platform/deeplink/GuardVerdict {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/deeplink/GuardVerdict$Allow;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/deeplink/GuardVerdict$Block : com/danhdue/platform/deeplink/GuardVerdict {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/danhdue/platform/deeplink/GuardVerdict$Block;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/GuardVerdict$Block;Ljava/lang/String;ILjava/lang/Object;)Lcom/danhdue/platform/deeplink/GuardVerdict$Block;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getReason ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/deeplink/GuardVerdict$Redirect : com/danhdue/platform/deeplink/GuardVerdict {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/danhdue/platform/deeplink/GuardVerdict$Redirect;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/GuardVerdict$Redirect;Ljava/lang/String;ILjava/lang/Object;)Lcom/danhdue/platform/deeplink/GuardVerdict$Redirect;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTo ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/danhdue/platform/deeplink/NavigationCommand {
+}
+
+public final class com/danhdue/platform/deeplink/NavigationCommand$EnsureModule : com/danhdue/platform/deeplink/NavigationCommand {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/danhdue/platform/deeplink/NavigationCommand$EnsureModule;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/NavigationCommand$EnsureModule;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/danhdue/platform/deeplink/NavigationCommand$EnsureModule;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getModule ()Ljava/lang/String;
+	public final fun getReplay ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/deeplink/NavigationCommand$Failed : com/danhdue/platform/deeplink/NavigationCommand {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Lcom/danhdue/platform/deeplink/FailureReason;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lcom/danhdue/platform/deeplink/FailureReason;
+	public final fun copy (Ljava/lang/String;Lcom/danhdue/platform/deeplink/FailureReason;)Lcom/danhdue/platform/deeplink/NavigationCommand$Failed;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/NavigationCommand$Failed;Ljava/lang/String;Lcom/danhdue/platform/deeplink/FailureReason;ILjava/lang/Object;)Lcom/danhdue/platform/deeplink/NavigationCommand$Failed;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRaw ()Ljava/lang/String;
+	public final fun getReason ()Lcom/danhdue/platform/deeplink/FailureReason;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/deeplink/NavigationCommand$OpenFullScreen : com/danhdue/platform/deeplink/NavigationCommand {
+	public static final field $stable I
+	public fun <init> (Landroidx/navigation3/runtime/NavKey;)V
+	public final fun component1 ()Landroidx/navigation3/runtime/NavKey;
+	public final fun copy (Landroidx/navigation3/runtime/NavKey;)Lcom/danhdue/platform/deeplink/NavigationCommand$OpenFullScreen;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/NavigationCommand$OpenFullScreen;Landroidx/navigation3/runtime/NavKey;ILjava/lang/Object;)Lcom/danhdue/platform/deeplink/NavigationCommand$OpenFullScreen;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDestination ()Landroidx/navigation3/runtime/NavKey;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/deeplink/NavigationCommand$OpenInCurrentTab : com/danhdue/platform/deeplink/NavigationCommand {
+	public static final field $stable I
+	public fun <init> (Landroidx/navigation3/runtime/NavKey;)V
+	public final fun component1 ()Landroidx/navigation3/runtime/NavKey;
+	public final fun copy (Landroidx/navigation3/runtime/NavKey;)Lcom/danhdue/platform/deeplink/NavigationCommand$OpenInCurrentTab;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/NavigationCommand$OpenInCurrentTab;Landroidx/navigation3/runtime/NavKey;ILjava/lang/Object;)Lcom/danhdue/platform/deeplink/NavigationCommand$OpenInCurrentTab;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDestination ()Landroidx/navigation3/runtime/NavKey;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/deeplink/NavigationCommand$OpenInTab : com/danhdue/platform/deeplink/NavigationCommand {
+	public static final field $stable I
+	public fun <init> (ILjava/util/List;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (ILjava/util/List;)Lcom/danhdue/platform/deeplink/NavigationCommand$OpenInTab;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/NavigationCommand$OpenInTab;ILjava/util/List;ILjava/lang/Object;)Lcom/danhdue/platform/deeplink/NavigationCommand$OpenInTab;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getStack ()Ljava/util/List;
+	public final fun getTab ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/danhdue/platform/deeplink/PendingDeepLinkStore {
+	public abstract fun put (Ljava/lang/String;)V
+	public abstract fun takeIfAny ()Ljava/lang/String;
+}
+
+public abstract interface class com/danhdue/platform/deeplink/Placement {
+}
+
+public final class com/danhdue/platform/deeplink/Placement$CurrentTab : com/danhdue/platform/deeplink/Placement {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/deeplink/Placement$CurrentTab;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/deeplink/Placement$InTab : com/danhdue/platform/deeplink/Placement {
+	public static final field $stable I
+	public fun <init> (ILjava/util/List;)V
+	public synthetic fun <init> (ILjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (ILjava/util/List;)Lcom/danhdue/platform/deeplink/Placement$InTab;
+	public static synthetic fun copy$default (Lcom/danhdue/platform/deeplink/Placement$InTab;ILjava/util/List;ILjava/lang/Object;)Lcom/danhdue/platform/deeplink/Placement$InTab;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getParents ()Ljava/util/List;
+	public final fun getTab ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/deeplink/Placement$RootFullScreen : com/danhdue/platform/deeplink/Placement {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/deeplink/Placement$RootFullScreen;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/danhdue/platform/di/PlatformModule {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/danhdue/platform/di/PlatformModule;
+	public final fun provideAppLocalizationManager (Landroid/content/Context;Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;)Lcom/danhdue/platform/localization/AppLocalizationManager;
+	public final fun provideAppThemeManager (Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;)Lcom/danhdue/platform/theme/AppThemeManager;
+	public final fun provideAuthDeepLinkGuard (Lcom/danhdue/platform/deeplink/AuthDeepLinkGuard;)Lcom/danhdue/platform/deeplink/DeepLinkGuard;
+	public final fun provideDeepLinkRouter (Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/platform/deeplink/PendingDeepLinkStore;Lcom/danhdue/core/coroutines/DispatcherProvider;Ljava/util/Set;Ljava/util/Set;)Lcom/danhdue/platform/deeplink/DeepLinkRouter;
+	public final fun provideDefaultDeepLinkResolvers ()Ljava/util/Set;
+	public final fun providePendingDeepLinkStore ()Lcom/danhdue/platform/deeplink/PendingDeepLinkStore;
+	public final fun providePlatformCacheStore (Landroid/content/Context;)Lcom/danhdue/core/pref/CacheStore;
+}
+
+public final class com/danhdue/platform/di/PlatformModule_ProvideAppLocalizationManagerFactory : dagger/internal/Factory {
+	public static fun create (Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;)Lcom/danhdue/platform/di/PlatformModule_ProvideAppLocalizationManagerFactory;
+	public fun get ()Lcom/danhdue/platform/localization/AppLocalizationManager;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun provideAppLocalizationManager (Landroid/content/Context;Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;)Lcom/danhdue/platform/localization/AppLocalizationManager;
+}
+
+public final class com/danhdue/platform/di/PlatformModule_ProvideAppThemeManagerFactory : dagger/internal/Factory {
+	public static fun create (Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;)Lcom/danhdue/platform/di/PlatformModule_ProvideAppThemeManagerFactory;
+	public fun get ()Lcom/danhdue/platform/theme/AppThemeManager;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun provideAppThemeManager (Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;)Lcom/danhdue/platform/theme/AppThemeManager;
+}
+
+public final class com/danhdue/platform/di/PlatformModule_ProvideAuthDeepLinkGuardFactory : dagger/internal/Factory {
+	public static fun create (Ldagger/internal/Provider;)Lcom/danhdue/platform/di/PlatformModule_ProvideAuthDeepLinkGuardFactory;
+	public fun get ()Lcom/danhdue/platform/deeplink/DeepLinkGuard;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun provideAuthDeepLinkGuard (Lcom/danhdue/platform/deeplink/AuthDeepLinkGuard;)Lcom/danhdue/platform/deeplink/DeepLinkGuard;
+}
+
+public final class com/danhdue/platform/di/PlatformModule_ProvideDeepLinkRouterFactory : dagger/internal/Factory {
+	public static fun create (Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;)Lcom/danhdue/platform/di/PlatformModule_ProvideDeepLinkRouterFactory;
+	public fun get ()Lcom/danhdue/platform/deeplink/DeepLinkRouter;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun provideDeepLinkRouter (Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/platform/deeplink/PendingDeepLinkStore;Lcom/danhdue/core/coroutines/DispatcherProvider;Ljava/util/Set;Ljava/util/Set;)Lcom/danhdue/platform/deeplink/DeepLinkRouter;
+}
+
+public final class com/danhdue/platform/di/PlatformModule_ProvideDefaultDeepLinkResolversFactory : dagger/internal/Factory {
+	public fun <init> ()V
+	public static fun create ()Lcom/danhdue/platform/di/PlatformModule_ProvideDefaultDeepLinkResolversFactory;
+	public synthetic fun get ()Ljava/lang/Object;
+	public fun get ()Ljava/util/Set;
+	public static fun provideDefaultDeepLinkResolvers ()Ljava/util/Set;
+}
+
+public final class com/danhdue/platform/di/PlatformModule_ProvidePendingDeepLinkStoreFactory : dagger/internal/Factory {
+	public fun <init> ()V
+	public static fun create ()Lcom/danhdue/platform/di/PlatformModule_ProvidePendingDeepLinkStoreFactory;
+	public fun get ()Lcom/danhdue/platform/deeplink/PendingDeepLinkStore;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun providePendingDeepLinkStore ()Lcom/danhdue/platform/deeplink/PendingDeepLinkStore;
+}
+
+public final class com/danhdue/platform/di/PlatformModule_ProvidePlatformCacheStoreFactory : dagger/internal/Factory {
+	public static fun create (Ldagger/internal/Provider;)Lcom/danhdue/platform/di/PlatformModule_ProvidePlatformCacheStoreFactory;
+	public fun get ()Lcom/danhdue/core/pref/CacheStore;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun providePlatformCacheStore (Landroid/content/Context;)Lcom/danhdue/core/pref/CacheStore;
+}
+
+public abstract interface class com/danhdue/platform/localization/AppLocalizationManager {
+	public abstract fun applyDynamicTranslations (Ljava/util/Map;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun applyDynamicTranslations$default (Lcom/danhdue/platform/localization/AppLocalizationManager;Ljava/util/Map;Ljava/lang/String;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public abstract fun getCurrentLanguageCode ()Lkotlinx/coroutines/flow/StateFlow;
+	public abstract fun getString (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public abstract fun getTranslationsVersion ()Lkotlinx/coroutines/flow/StateFlow;
+	public abstract fun setLocale (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/danhdue/platform/localization/DefaultAppLocalizationManager : com/danhdue/platform/localization/AppLocalizationManager {
+	public static final field $stable I
+	public static final field Companion Lcom/danhdue/platform/localization/DefaultAppLocalizationManager$Companion;
+	public static final field KEY_APP_LANGUAGE Ljava/lang/String;
+	public fun <init> (Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;Landroid/content/Context;Ljava/lang/String;)V
+	public synthetic fun <init> (Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;Landroid/content/Context;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun applyDynamicTranslations (Ljava/util/Map;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getCurrentLanguageCode ()Lkotlinx/coroutines/flow/StateFlow;
+	public fun getString (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun getTranslationsVersion ()Lkotlinx/coroutines/flow/StateFlow;
+	public fun setLocale (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/danhdue/platform/localization/DefaultAppLocalizationManager$Companion {
+}
+
+public final class com/danhdue/platform/localization/DefaultAppLocalizationManager_Factory : dagger/internal/Factory {
+	public static fun create (Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;)Lcom/danhdue/platform/localization/DefaultAppLocalizationManager_Factory;
+	public fun get ()Lcom/danhdue/platform/localization/DefaultAppLocalizationManager;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun newInstance (Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;Landroid/content/Context;Ljava/lang/String;)Lcom/danhdue/platform/localization/DefaultAppLocalizationManager;
+}
+
+public final class com/danhdue/platform/localization/LocalAppLocalizationManagerKt {
+	public static final fun getLocalAppLocalizationManager ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public abstract interface class com/danhdue/platform/theme/AppThemeManager {
+	public abstract fun getThemeMode ()Lkotlinx/coroutines/flow/StateFlow;
+	public abstract fun isDarkMode ()Lkotlinx/coroutines/flow/StateFlow;
+	public abstract fun setThemeMode (Lcom/danhdue/platform/theme/AppThemeMode;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun syncSystemDarkMode (Z)V
+}
+
+public final class com/danhdue/platform/theme/AppThemeMode : java/lang/Enum {
+	public static final field DARK Lcom/danhdue/platform/theme/AppThemeMode;
+	public static final field LIGHT Lcom/danhdue/platform/theme/AppThemeMode;
+	public static final field SYSTEM Lcom/danhdue/platform/theme/AppThemeMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/danhdue/platform/theme/AppThemeMode;
+	public static fun values ()[Lcom/danhdue/platform/theme/AppThemeMode;
+}
+
+public final class com/danhdue/platform/theme/DefaultAppThemeManager : com/danhdue/platform/theme/AppThemeManager {
+	public static final field $stable I
+	public static final field Companion Lcom/danhdue/platform/theme/DefaultAppThemeManager$Companion;
+	public static final field KEY_THEME_MODE Ljava/lang/String;
+	public fun <init> (Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;Z)V
+	public synthetic fun <init> (Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getThemeMode ()Lkotlinx/coroutines/flow/StateFlow;
+	public fun isDarkMode ()Lkotlinx/coroutines/flow/StateFlow;
+	public fun setThemeMode (Lcom/danhdue/platform/theme/AppThemeMode;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun syncSystemDarkMode (Z)V
+}
+
+public final class com/danhdue/platform/theme/DefaultAppThemeManager$Companion {
+}
+
+public final class com/danhdue/platform/theme/DefaultAppThemeManager_Factory : dagger/internal/Factory {
+	public static fun create (Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;Ldagger/internal/Provider;)Lcom/danhdue/platform/theme/DefaultAppThemeManager_Factory;
+	public fun get ()Lcom/danhdue/platform/theme/DefaultAppThemeManager;
+	public synthetic fun get ()Ljava/lang/Object;
+	public static fun newInstance (Lcom/danhdue/core/pref/CacheStore;Lcom/danhdue/platform/AppEventBus;Lcom/danhdue/core/coroutines/DispatcherProvider;Z)Lcom/danhdue/platform/theme/DefaultAppThemeManager;
+}
+
+public final class com/danhdue/platform/theme/LocalAppThemeManagerKt {
+	public static final fun getLocalAppThemeManager ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public class hilt_aggregated_deps/_com_danhdue_platform_di_PlatformModule {
+	public fun <init> ()V
+}
+

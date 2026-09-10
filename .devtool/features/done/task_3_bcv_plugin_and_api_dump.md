@@ -1,13 +1,13 @@
 ---
 id: "task_3_bcv_plugin_and_api_dump"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "sandbox_and_contract_governance"
 dueDate: null
 created: "2026-09-10T23:53:00+07:00"
-modified: "2026-09-10T23:53:00+07:00"
-completedAt: null
+modified: "2026-09-11T00:29:45+07:00"
+completedAt: "2026-09-11T00:29:45+07:00"
 labels: ["bcv", "contract", "abi", "governance"]
 order: "a3"
 ---
@@ -50,13 +50,13 @@ Integrate JetBrains' **Binary Compatibility Validator (BCV)** to track and prote
 In a modular Super App, public signatures in shared packages are treated as immutable protocol contracts. BCV ensures that any unauthorized or accidental change to a public function, method parameter, or data class breaks compilation during PR review, rather than crashing in production.
 
 ## TDD Checklist
-- [ ] **RED**:
+- [x] **RED**:
   - Run `./gradlew apiCheck` before configuring the plugin and generating `.api` files; verify task does not exist or fails.
-- [ ] **GREEN**:
+- [x] **GREEN**:
   - Add BCV plugin to `buildSrc` dependencies and apply in root `build.gradle.kts`.
   - Configure `apiValidation` scope to target only the 5 shared package modules.
   - Run `./gradlew apiDump` to generate the 5 `.api` signature files.
   - Run `./gradlew apiCheck` and verify `BUILD SUCCESSFUL`.
-- [ ] **REFACTOR**:
+- [x] **REFACTOR**:
   - Verify that adding a temporary dummy method to `packages/core/src/main/kotlin/com/danhdue/core/extensions/StringExtensions.kt` causes `./gradlew apiCheck` to immediately fail with a signature mismatch.
   - Revert the dummy change and confirm `./gradlew apiCheck` returns to passing clean.

@@ -89,4 +89,7 @@ object Versions {
     // Architecture-enforcement gate (:konsist-test). Latest stable on Maven Central:
     // https://central.sonatype.com/artifact/com.lemonappdev/konsist
     const val konsist = "0.17.3"
+
+    // Binary Compatibility Validator (BCV)
+    const val bcv = "0.17.0"
 }
