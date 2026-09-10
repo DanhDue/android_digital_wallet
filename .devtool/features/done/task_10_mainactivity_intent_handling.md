@@ -1,13 +1,13 @@
 ---
 id: "task_10_mainactivity_intent_handling"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T09:14:20Z"
+completedAt: "2026-09-10T09:14:20Z"
 labels: ["feature", "app"]
 order: "a10"
 ---
@@ -52,29 +52,29 @@ Applicable skills: `.agents/skills/test-driven-development` for the factory; `.a
 
 ## TDD Checklist
 
-- [ ] **RED**: `DeepLinkIntentFactoryTest`, failing first (Intent construction is testable without a device using the project's existing unit-test setup):
+- [x] **RED**: `DeepLinkIntentFactoryTest`, failing first (Intent construction is testable without a device using the project's existing unit-test setup):
   - the produced Intent has `ACTION_VIEW` and the given URI as data
   - it targets `MainActivity`
   - `FLAG_IMMUTABLE` is set
   - two different URIs yield distinct `PendingIntent`s, not a collapsed single one
-- [ ] **GREEN**: implement the factory.
-- [ ] **Non-TDD, verified on device** (`MainActivity` Intent plumbing needs a real Activity lifecycle; instrumentation in CI is out of scope for this pipeline):
+- [x] **GREEN**: implement the factory.
+- [x] **Non-TDD, verified on device** (`MainActivity` Intent plumbing needs a real Activity lifecycle; instrumentation in CI is out of scope for this pipeline):
   - `onCreate` cold start with `-d "myapp://settings/profile"` opens Profile inside the Settings tab, Back returns to Settings
   - warm start, app in Scanner tab, same command switches to Settings and opens Profile
   - **rotate after a deeplink — the link does not re-fire** (this is the marker-extra regression, the highest-value manual check in the task)
   - normal launcher start dispatches nothing
   - `https://app.example.com/settings/profile` via `adb` behaves identically to the custom scheme
   - an unknown link (`myapp://nope`) leaves the app on its current screen and shows the "needs a newer version" message
-- [ ] **REFACTOR**: extract the shared read-dispatch-mark logic so `onCreate` and `onNewIntent` share one function.
+- [x] **REFACTOR**: extract the shared read-dispatch-mark logic so `onCreate` and `onNewIntent` share one function.
 
 ## Definition of Done
 
-- [ ] `./gradlew :app:testDebugUnitTest` green.
-- [ ] All six manual checks above pass on a device or emulator, **including the rotation check**.
-- [ ] `onCreate` and `onNewIntent` share one implementation, not two copies.
-- [ ] No `FirebaseMessagingService` was added (epic Non-Goal).
-- [ ] `./gradlew assembleDebug bundleDebug detekt spotlessCheck :konsist-test:test` green.
-- [ ] **All four link sources demonstrably work** — custom scheme, App Links, `PendingIntent`, internal `dispatch`.
+- [x] `./gradlew :app:testDebugUnitTest` green.
+- [x] All six manual checks above pass on a device or emulator, **including the rotation check**.
+- [x] `onCreate` and `onNewIntent` share one implementation, not two copies.
+- [x] No `FirebaseMessagingService` was added (epic Non-Goal).
+- [x] `./gradlew assembleDebug bundleDebug detekt spotlessCheck :konsist-test:test` green.
+- [x] **All four link sources demonstrably work** — custom scheme, App Links, `PendingIntent`, internal `dispatch`.
 
 ## Dependencies & Blockers
 

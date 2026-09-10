@@ -5,6 +5,7 @@
 package com.danhdue.androiddigitalwallet.ui
 
 import android.content.ContextWrapper
+import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
@@ -44,6 +45,7 @@ import com.danhdue.platform.AppEventBus
 import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.platform.LocalEntryProviderInstallers
+import com.danhdue.platform.deeplink.DeepLinkRouter
 import com.danhdue.platform.localization.AppLocalizationManager
 import com.danhdue.platform.localization.LocalAppLocalizationManager
 import com.danhdue.platform.theme.AppThemeManager
@@ -75,6 +77,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var appLocalizationManager: AppLocalizationManager
 
+    @Inject
+    lateinit var deepLinkRouter: DeepLinkRouter
+
     private var backPressedTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,9 +92,17 @@ class MainActivity : ComponentActivity() {
             navigator.navigateTo(AppRoutes.ShellRoute)
         }
 
+        handleDeepLink(intent)
+
         setContent {
             MainAppContent()
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleDeepLink(intent)
     }
 
     @Composable
@@ -200,8 +213,18 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun handleDeepLink(intent: Intent?) {
+        if (intent == null) return
+        if (intent.getBooleanExtra(EXTRA_CONSUMED, false)) return
+
+        val uri = intent.dataString ?: return
+        intent.putExtra(EXTRA_CONSUMED, true)
+        deepLinkRouter.dispatch(uri)
+    }
+
     companion object {
         private const val BACK_PRESS_THRESHOLD = 2000 // 2 seconds
+        internal const val EXTRA_CONSUMED = "com.danhdue.androiddigitalwallet.deeplink.EXTRA_CONSUMED"
     }
 }
 
