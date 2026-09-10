@@ -1,5 +1,4 @@
 import extensions.addFirebaseDependencies
-import extensions.addFlipperDependencies
 import extensions.addNavigationDependencies
 import extensions.api
 import extensions.implementation
@@ -10,13 +9,13 @@ import extensions.implementation
 // design §4.1), relocated to the repo root. Owns `MviViewModel` / `MvvmViewModel` /
 // `BaseViewState`, and the unchanged navigation3 mechanism: `Navigator`
 // (`@ActivityRetainedScoped` backstack), `NestedNavigator` + `LocalNestedNavigator` (per-tab
-// nested backstack), `ObserveBackstackForFlipper`, plus the app-lifecycle plumbing
+// nested backstack), plus the app-lifecycle plumbing
 // (`CoreApplication`, `TimberInitializer`, `MultiDexInitializer`).
 //
-// Depends on `:core` (design's `core <- {framework, network, ui_kit, platform}` fan-out) and
-// on `:network` for the Flipper navigation bridge. It does NOT depend on `:platform`: no
-// `:framework` source imports `com.danhdue.platform.*` — features reach the cross-feature seam
-// through the `commons.android-feature` convention, not transitively through here.
+// Depends solely on `:core` (design's `core <- {framework, network, ui_kit, platform}` fan-out).
+// It does NOT depend on `:platform`: no `:framework` source imports `com.danhdue.platform.*` —
+// features reach the cross-feature seam through the `commons.android-feature` convention, not
+// transitively through here.
 plugins {
     id(Deps.COMMONS_ANDROID_LIBRARY)
     id(Deps.COMMONS_ANDROID_COMPOSE)
@@ -37,20 +36,10 @@ dependencies {
     // `:core`. (Konsist K7 still guarantees `:core` imports nothing from up here.)
     api(project(":packages:core"))
 
-    // `implementation` (narrowed from `api` in Task 9): only `ObserveBackstackForFlipper`
-    // touches `com.danhdue.network` (`FlipperNavigationObject.sendNavigation(...)`), and only
-    // inside function bodies — no `com.danhdue.network.*` type appears in any public or
-    // `protected` signature of `:framework`. `:network` is therefore a private implementation
-    // detail here; the one consumer that needs network types (`:app`) declares `:network`
-    // itself via `addNetworkDependencies()`.
-    implementation(project(":packages:network"))
-
     // MultiDexInitializer / CoreApplication (MultiDexApplication).
     implementation(Deps.multidex)
     // navigation3 runtime — Navigator / NestedNavigator / CommonRoutes (NavKey).
     addNavigationDependencies()
     // FirebaseCrashlyticsReportTree.
     addFirebaseDependencies()
-    // FlipperBackstackObserver — debug/release Flipper runtime wiring.
-    addFlipperDependencies()
 }

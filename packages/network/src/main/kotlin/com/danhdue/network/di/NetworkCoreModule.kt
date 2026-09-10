@@ -10,7 +10,6 @@ import com.danhdue.core.network.calladapter.NetworkResponseAdapterFactory
 import com.danhdue.network.BuildConfig
 import com.danhdue.network.createChuckInterceptor
 import com.danhdue.network.createOkHttpClient
-import com.danhdue.network.flipper.FlipperNetworkObject
 import com.danhdue.network.interceptor.GlobalHeaderInterceptor
 import com.danhdue.network.interceptor.UnauthorizedInterceptor
 import dagger.Module
@@ -61,8 +60,6 @@ object NetworkCoreModule {
             )
         if (BuildConfig.DEBUG) {
             interceptors.add(chuckerInterceptor)
-            // Add Flipper network interceptor for network inspection
-            FlipperNetworkObject.getInterceptor()?.let { interceptors.add(it) }
         }
         return createOkHttpClient(
             isCache = false,

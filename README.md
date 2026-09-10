@@ -99,7 +99,7 @@ The project is organized by **Feature**, not by Layer.
 ├── packages/             # Core packages
 │   ├── core/             # Dependency floor: DataState/NetworkResponse, DispatcherProvider, extensions, prefs, Room base, SessionManager, Logger
 │   ├── framework/        # MviViewModel / MvvmViewModel / BaseViewState + the navigation3 host mechanism
-│   ├── network/          # Retrofit / OkHttp / Moshi wiring, interceptors, apiCall / Failure, Flipper network tooling
+│   ├── network/          # Retrofit / OkHttp / Moshi wiring, interceptors, apiCall / Failure
 │   ├── platform/         # Cross-feature seam: AppRoutes, AppEventBus, EntryProviderInstaller, FeatureEntry / FeatureInstaller, DeepLinkRouter / AppDeepLinks
 │   └── ui_kit/           # Shared Compose design system + runtime-permission handlers
 ├── features/

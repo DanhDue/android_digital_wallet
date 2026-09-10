@@ -270,8 +270,8 @@ never on another feature.
 | Module | Package | Role | Project dependencies |
 |---|---|---|---|
 | `:packages:core` | `com.danhdue.core` | Dependency floor. `DataState` / `NetworkResponse` call-adapter, `DispatcherProvider`, `extension/*`, `pref/*` (DataStore + Tink), `room/*` (`BaseDao`, converters), `SessionManager`, `usecase/*`, `Logger` contract, `AppInitializer`. **Compose-free.** | *none* |
-| `:packages:framework` | `com.danhdue.framework` | `MviViewModel` / `MvvmViewModel` / `BaseViewState`; the navigation3 mechanism — `Navigator` (`@ActivityRetainedScoped` backstack), `NestedNavigator` + `LocalNestedNavigator`, `ObserveBackstackForFlipper`; app-lifecycle plumbing. | `api(:packages:core)`, `implementation(:packages:network)` |
-| `:packages:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, Flipper network tooling, token authenticator. | `api(:packages:core)` |
+| `:packages:framework` | `com.danhdue.framework` | `MviViewModel` / `MvvmViewModel` / `BaseViewState`; the navigation3 mechanism — `Navigator` (`@ActivityRetainedScoped` backstack), `NestedNavigator` + `LocalNestedNavigator`; app-lifecycle plumbing. | `api(:packages:core)` |
+| `:packages:network` | `com.danhdue.network` | Retrofit / OkHttp / Moshi wiring, interceptors, `apiCall` / `Failure`, `HttpStatusCode`, token authenticator. | `api(:packages:core)` |
 | `:packages:ui_kit` | `com.danhdue.uikit` | Shared Compose design system (`ui/theme`, `ui/widgets`), Compose helpers, runtime-permission handlers. | `implementation(:packages:core)` |
 | `:packages:platform` | `com.danhdue.platform` | Cross-feature seam: `AppRoutes` (shared `NavKey` registry), `AppEventBus` (`SharedFlow<AppEvent>`), `EntryProviderInstaller` typealias + `LocalEntryProviderInstallers`, `FeatureEntry` / `FeatureInstaller` (DFM only). | *none* — Compose-runtime only |
 | `:shell` | `com.danhdue.shell` | Host tab-shell: `ShellViewModel`, bottom nav, per-tab nested nav, 5 seeded tab backstacks. | packages + 5 `:features:*` (tab seeds) |
@@ -514,7 +514,7 @@ another feature.
 | **Storage** | Room (KSP), DataStore Preferences, `security-crypto` + Tink, Paging 3 | Local persistence, encrypted prefs, paged lists |
 | **Async** | Kotlin Coroutines & Flow; `DispatcherProvider` | Structured concurrency, testable dispatchers |
 | **Code Generation** | **KSP** (Hilt, Moshi, Room) — never KAPT; **Mason** for feature scaffolding | Compile-time DI / JSON / DB; one-command feature creation |
-| **Observability** | Timber, Firebase Crashlytics, Flipper (debug), LeakCanary (debug), OpenTelemetry | Logging, crash reporting, network/nav inspection |
+| **Observability** | Timber, Firebase Crashlytics, LeakCanary (debug), Chucker (debug), OpenTelemetry | Logging, crash reporting, network inspection, leak detection |
 | **Quality Gates** | **Konsist** (architecture), detekt, Spotless, JaCoCo | Layer / boundary / naming enforcement, static analysis, formatting, coverage |
 | **Testing** | JUnit 4, MockK, Turbine, Robolectric, OkHttp MockWebServer, `:libraries:testutils` | Unit tests, Flow assertions, JVM Android tests |
 | **Build** | Gradle Kotlin DSL, `buildSrc` convention plugins (`commons.android-library` / `-compose` / `-feature` / `dagger-hilt`), `Versions.kt` + `Deps.kt` | Centralized versions (no hardcoding), per-module conventions |

@@ -357,7 +357,7 @@ fun DependencyHandler.addCommonDependencies() {
 fun DependencyHandler.addNetworkDependencies() {
     // The HTTP stack now lives in `:network` (epic android_super_app_template, design §4.1):
     // NetworkCoreModule (the Retrofit/OkHttp Hilt graph), the interceptors, `apiCall` /
-    // `Failure`, and the Flipper network tooling. A consumer that calls this helper gets the
+    // `Failure`. A consumer that calls this helper gets the
     // module plus its transitively-exposed Retrofit / OkHttp / Moshi libs.
     implementation(project(mapOf(PATH to Modules.network)))
     addJsonParsingDependencies()
@@ -472,16 +472,8 @@ fun DependencyHandler.addFirebaseDependencies() {
     implementation(Deps.Firebase.remoteConfig)
 }
 
-fun DependencyHandler.addFlipperDependencies() {
-    debugImplementation(Deps.Flipper.core)
-    debugImplementation(Deps.Flipper.network)
-    debugImplementation(Deps.Flipper.soLoader)
-    releaseImplementation(Deps.Flipper.noOp)
-}
-
 fun DependencyHandler.addLeakCanaryDependencies() {
     debugImplementation(Deps.LeakCanary.android)
-    debugImplementation(Deps.FlipperPlugins.leakCanary)
 }
 
 fun DependencyHandler.addJacksonMsgPackDependencies() {

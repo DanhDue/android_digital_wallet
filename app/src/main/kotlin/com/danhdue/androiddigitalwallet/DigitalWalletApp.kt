@@ -30,7 +30,7 @@ class DigitalWalletApp : CoreApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        // Initialize all app initializers including Flipper
+        // Initialize all app initializers
         initializer.init(this)
     }
 }

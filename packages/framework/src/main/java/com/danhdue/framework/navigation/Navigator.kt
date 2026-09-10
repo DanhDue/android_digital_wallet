@@ -12,9 +12,6 @@ import javax.inject.Inject
 /**
  * A stateful navigator that manages the backstack for Navigation 3.
  * Scoped to [ActivityRetainedScoped] to survive configuration changes.
- *
- * Note: Flipper navigation tracking is handled by ObserveBackstackForFlipper
- * composable which observes backstack changes using snapshotFlow.
  */
 @ActivityRetainedScoped
 class Navigator

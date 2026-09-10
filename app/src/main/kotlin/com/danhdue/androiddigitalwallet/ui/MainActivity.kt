@@ -39,7 +39,6 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.danhdue.androiddigitalwallet.R
 import com.danhdue.framework.navigation.Navigator
-import com.danhdue.framework.navigation.ObserveBackstackForFlipper
 import com.danhdue.platform.AppEvent
 import com.danhdue.platform.AppEventBus
 import com.danhdue.platform.AppRoutes
@@ -164,8 +163,6 @@ class MainActivity : ComponentActivity() {
             contentWindowInsets = WindowInsets(bottom = 0.dp),
         ) { paddingValues ->
             if (navigator.backStack.isNotEmpty()) {
-                ObserveBackstackForFlipper(backStack = navigator.backStack, prefix = "Root")
-
                 NavDisplay(
                     backStack = navigator.backStack,
                     modifier = Modifier.padding(paddingValues),

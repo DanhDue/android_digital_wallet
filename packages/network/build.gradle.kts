@@ -1,5 +1,4 @@
 import extensions.PLATFORM
-import extensions.addFlipperDependencies
 import extensions.api
 import extensions.debugImplementation
 import extensions.implementation
@@ -11,8 +10,7 @@ import extensions.releaseImplementation
 // design §4.1). Owns the OkHttp / Retrofit / Moshi wiring: `NetworkCoreModule` (the Hilt
 // graph — base `OkHttpClient`, `Retrofit.Builder`, `@Named("BaseUrl")`), the interceptors
 // (`GlobalHeaderInterceptor`, `HttpRequestInterceptor`, `EnvironmentInterceptor`), the
-// `apiCall` / `Failure` error mapping, the Flipper network/navigation tooling and
-// `FlipperInitializer`, plus `NetworkConfig`.
+// `apiCall` / `Failure` error mapping, plus `NetworkConfig`.
 //
 // The framework-agnostic primitives it builds on — `DataState`, `HttpStatusCode` and the
 // `NetworkResponse` call-adapter (`network/calladapter/`) — already live in `:core`.
@@ -82,9 +80,4 @@ dependencies {
     // Chucker — `ChuckerInterceptor` is public in `NetworkHelper`; no-op flavour on release.
     debugImplementation(Deps.Networking.chuckerDebug)
     releaseImplementation(Deps.Networking.chuckerRelease)
-
-    // Flipper — `FlipperInitializer` / `Flipper*Object` load these purely by reflection, so
-    // they are runtime-only (debug) and never a compile dependency; kept for parity with the
-    // environment the code had inside the former `framework` god-module.
-    addFlipperDependencies()
 }

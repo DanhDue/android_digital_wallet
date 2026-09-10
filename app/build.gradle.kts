@@ -138,7 +138,7 @@ dependencies {
     // Package modules — declared explicitly (Task 9 narrowed `:framework`'s re-exports).
     // `:app` imports `com.danhdue.core.*` (AppInitializer, DispatcherProvider),
     // `com.danhdue.platform.*` (EntryProviderInstaller, LocalEntryProviderInstallers) and
-    // `com.danhdue.network.*` (FlipperInitializer, NetworkConfig) directly.
+    // `com.danhdue.network.*` (NetworkConfig) directly.
     CORE
     NETWORK
     PLATFORM

@@ -53,7 +53,6 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.danhdue.framework.navigation.LocalNestedNavigator
 import com.danhdue.framework.navigation.NestedNavigator
-import com.danhdue.framework.navigation.ObserveBackstackForFlipper
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.platform.FeatureEntry
 import com.danhdue.platform.LocalEntryProviderInstallers
@@ -207,10 +206,6 @@ private fun ShellTabContent(
     onAction: (ShellAction) -> Unit,
 ) {
     if (isVisible) {
-        // Observe backstack changes and report to Flipper
-        val tabName = tab::class.simpleName ?: "Tab"
-        ObserveBackstackForFlipper(backStack = backStack, prefix = tabName)
-
         val nestedNavigator =
             remember(tab) {
                 object : NestedNavigator {

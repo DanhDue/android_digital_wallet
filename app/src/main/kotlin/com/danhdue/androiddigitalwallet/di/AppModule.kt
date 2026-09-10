@@ -15,7 +15,6 @@ import com.danhdue.core.coroutines.DefaultDispatcherProvider
 import com.danhdue.core.coroutines.DispatcherProvider
 import com.danhdue.framework.base.app.MultiDexInitializer
 import com.danhdue.framework.base.app.TimberInitializer
-import com.danhdue.network.base.app.FlipperInitializer
 import com.danhdue.network.base.app.NetworkConfig
 import dagger.Module
 import dagger.Provides
@@ -58,19 +57,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesFlipperInitializer() = FlipperInitializer()
-
-    @Provides
-    @Singleton
     fun providesAppInitializer(
         multiDexInitializer: MultiDexInitializer,
         timberInitializer: TimberInitializer,
-        flipperInitializer: FlipperInitializer,
     ): AppInitializer =
         AppInitializerImpl(
             timberInitializer,
             multiDexInitializer,
-            flipperInitializer,
         )
 
     @Provides

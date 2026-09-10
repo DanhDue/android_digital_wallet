@@ -232,13 +232,6 @@ object Deps {
         const val otelAndroidInstrumentationSlowrendering = "io.opentelemetry.android:instrumentation-slowrendering:${Versions.otelAndroid}"
     }
 
-    object Flipper {
-        const val core = "com.facebook.flipper:flipper:${Versions.flipper}"
-        const val network = "com.facebook.flipper:flipper-network-plugin:${Versions.flipper}"
-        const val noOp = "com.facebook.flipper:flipper-noop:${Versions.flipper}"
-        const val soLoader = "com.facebook.soloader:soloader:${Versions.soLoader}"
-    }
-
     object LeakCanary {
         const val android = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
     }
@@ -256,10 +249,6 @@ object Deps {
             "com.google.android.play:feature-delivery:${Versions.playFeatureDelivery}"
         const val featureDeliveryKtx =
             "com.google.android.play:feature-delivery-ktx:${Versions.playFeatureDelivery}"
-    }
-
-    object FlipperPlugins {
-        const val leakCanary = "com.facebook.flipper:flipper-leakcanary-plugin:${Versions.flipper}"
     }
 }
 
