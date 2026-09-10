@@ -76,8 +76,8 @@ class BaselineParserTest {
 
     @Test
     fun `the checked-in baseline only references enforced rules`() {
-        // All Konsist rules are now enforced (no @Ignore). K1 was enabled in Task 12.
-        val enforced = setOf("K1", "K2", "K3", "K4", "K5", "K6", "K7", "K8", "K9")
+        // All Konsist rules are now enforced (no @Ignore). K1 was enabled in Task 12, K10 in Task 13.
+        val enforced = setOf("K1", "K2", "K3", "K4", "K5", "K6", "K7", "K8", "K9", "K10")
         val stray =
             Baseline
                 .load(

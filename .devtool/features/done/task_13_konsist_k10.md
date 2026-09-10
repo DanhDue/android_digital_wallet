@@ -1,13 +1,13 @@
 ---
 id: "task_13_konsist_k10"
-status: "todo"
+status: "done"
 priority: "medium"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T09:19:30Z"
+completedAt: "2026-09-10T09:19:30Z"
 labels: ["governance", "konsist"]
 order: "a13"
 ---
@@ -53,21 +53,21 @@ Applicable skills: `.agents/skills/test-driven-development`; `.agents/skills/qua
 
 ## TDD Checklist
 
-- [ ] **RED**: add the K10 test to `NamingRulesTest` and prove it can fail — temporarily rename one resolver (or add a throwaway `FooResolver` in the wrong package), confirm the rule reports it with `ruleId = "K10"`, then revert the deliberate violation.
-- [ ] **RED**: extend `BaselineParserTest`'s enforced-rules assertion to include `K10`; watch it fail before the rule exists.
-- [ ] **GREEN**: implement K10 using the existing assertion helper so its failure message matches the house format.
-- [ ] **Verify scope**: confirm the rule actually sees `features/scanner` sources. If the scope excludes dynamic-feature modules, widen the scope; do not exempt the module.
-- [ ] **REFACTOR**: KDoc the rule — what it enforces, and **why collision detection is deliberately absent** (structurally impossible; see HLD §4.1).
+- [x] **RED**: add the K10 test to `NamingRulesTest` and prove it can fail — temporarily rename one resolver (or add a throwaway `FooResolver` in the wrong package), confirm the rule reports it with `ruleId = "K10"`, then revert the deliberate violation.
+- [x] **RED**: extend `BaselineParserTest`'s enforced-rules assertion to include `K10`; watch it fail before the rule exists.
+- [x] **GREEN**: implement K10 using the existing assertion helper so its failure message matches the house format.
+- [x] **Verify scope**: confirm the rule actually sees `features/scanner` sources. If the scope excludes dynamic-feature modules, widen the scope; do not exempt the module.
+- [x] **REFACTOR**: KDoc the rule — what it enforces, and **why collision detection is deliberately absent** (structurally impossible; see HLD §4.1).
 
 ## Definition of Done
 
-- [ ] `./gradlew :konsist-test:test` green with K10 enforced.
-- [ ] `konsist_baseline.txt` remains **empty** — no new entries.
-- [ ] `BaselineParserTest` enforced set is `K1`–`K10`.
-- [ ] The rule was demonstrated to fail on a deliberate violation before being left green.
-- [ ] K10's scope includes the dynamic-feature module.
-- [ ] The KDoc records why collision detection is out of scope.
-- [ ] `./gradlew detekt spotlessCheck assembleDebug` green.
+- [x] `./gradlew :konsist-test:test` green with K10 enforced.
+- [x] `konsist_baseline.txt` remains **empty** — no new entries.
+- [x] `BaselineParserTest` enforced set is `K1`–`K10`.
+- [x] The rule was demonstrated to fail on a deliberate violation before being left green.
+- [x] K10's scope includes the dynamic-feature module.
+- [x] The KDoc records why collision detection is out of scope.
+- [x] `./gradlew detekt spotlessCheck assembleDebug` green.
 
 ## Dependencies & Blockers
 

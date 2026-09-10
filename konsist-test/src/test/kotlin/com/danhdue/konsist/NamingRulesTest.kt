@@ -28,6 +28,7 @@ import org.junit.Test
 class NamingRulesTest {
     private companion object {
         const val RULE = "K5"
+        const val RULE_K10 = "K10"
         const val MVI_BASE = "MviViewModel"
         val VIEW_MODEL_BASES = setOf("MviViewModel", "MvvmViewModel")
 
@@ -165,6 +166,43 @@ class NamingRulesTest {
                 "every `*NavigationModule` must be a Dagger/Hilt `@Module` — it provides " +
                     "`@Provides @IntoSet EntryProviderInstaller`, the one seam a feature exposes to the host.",
             fix = "annotate the object with `@Module @InstallIn(...)`.",
+            offenders = offenders,
+        )
+    }
+
+    /**
+     * **Konsist rule K10 — DeepLinkResolver naming & location** (epic design §6.1, §9.1).
+     *
+     * Every class implementing [com.danhdue.platform.deeplink.DeepLinkResolver] must:
+     * - be named `*DeepLinkResolver`
+     * - live in a `..presentation.di..` package
+     *
+     * Note: Pattern collision between features is deliberately NOT checked by AST analysis
+     * because it is structurally impossible: Tier 1 routes by unique `feature` key, so two features
+     * cannot claim the same URI. Intra-feature collision is owned by feature-level unit tests.
+     */
+    @Test
+    fun `K10 - classes implementing DeepLinkResolver are named DeepLinkResolver and live in presentation di`() {
+        val resolverName = "DeepLinkResolver"
+        val expectedPackagePart = ".presentation.di"
+        val expectedSuffix = "DeepLinkResolver"
+
+        val classesImplementingResolver =
+            ArchScope
+                .classes()
+                .filter { koClass ->
+                    koClass.parents(indirectParents = true).any { rawParentName(it.name) == resolverName }
+                }
+
+        val offenders =
+            classesImplementingResolver
+                .filterNot { it.name.endsWith(expectedSuffix) && it.packageName.contains(expectedPackagePart) }
+                .map { "${it.qualified()} — must end with '$expectedSuffix' and reside in a '$expectedPackagePart' package" }
+
+        assertNoViolations(
+            ruleId = RULE_K10,
+            rule = "every class implementing `DeepLinkResolver` must be named `*DeepLinkResolver` and live in `..presentation.di..`.",
+            fix = "rename the class to end with `DeepLinkResolver` and place it in the feature's `presentation.di` package.",
             offenders = offenders,
         )
     }
