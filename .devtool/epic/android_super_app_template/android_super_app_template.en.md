@@ -14,7 +14,7 @@
 
 ## 1. Meta Data
 - **Epic Name**: `android_super_app_template`
-- **Status**: Queued (backlog) — behind `template_android`, `template_flutter`, `template_ios` (those epics have `todo` tasks in `.devtool/features/`). Flip tasks `backlog → todo` once those epics' tasks are all `done`, or by explicit human decision if they are dormant.
+- **Status**: Completed (All 16 tasks implemented; predecessor to epic `deeplink_router_engine`)
 - **Target Release**: Ships on branch `epic/android-super-app-template` (git worktree of this repo); integration to `develop` decided per-phase.
 - **Source Spec**: [2026-09-02-android-super-app-template-design.md](2026-09-02-android-super-app-template-design.md)
 - **Parallel/related epics**: `super_app_governance` (Flutter, in `bloc_digital_wallet` — the governance framework this epic ports back to native Android), `template_flutter` / `template_android` / `template_ios` (the Flutter-template epics — separate work; this epic only *reads* them for reference).
@@ -57,53 +57,86 @@ This epic ports the Flutter governance work back to native Android — where the
 ### 4.1 High-Level Architecture
 
 ```mermaid
-graph TD
-    subgraph Host["Host (pure container)"]
-        APP[":app<br/>DI aggregation, NavDisplay, FeatureInstaller impl"]
-        SHELL[":shell<br/>ShellViewModel, tab-shell, home stub"]
+flowchart LR
+    %% ==========================================
+    %% 1. LEFT: Architecture Gate (Konsist)
+    %% ==========================================
+    subgraph GATE["🛡️ ARCHITECTURE GATE"]
+        KONSIST["<b>:konsist-test</b><br/><i>K1–K10 Architecture Gate</i><br/>───────────────<br/>• Forbid cross-feature imports<br/>• Enforce Presentation→Domain←Data<br/>• Enforce MVI & naming rules<br/>• Boundary whitelist enforcement<br/><i>(JUnit JVM Test · Never in APK)</i>"]
     end
 
-    subgraph Platform[":platform (cross-feature seam)"]
-        ROUTES["AppRoutes<br/>(shared NavKey registry)"]
-        BUS["AppEventBus<br/>(SharedFlow&lt;AppEvent&gt;)"]
-        FE["FeatureEntry / FeatureInstaller<br/>(DFM only)"]
+    %% ==========================================
+    %% 2. MIDDLE: Features & Infrastructure
+    %% ==========================================
+    subgraph Features["🧩 FEATURES (:features:* — Blind to each other)"]
+        direction TB
+        F_SET["<b>:features:settings</b><br/><i>(Install-time reference)</i>"]
+        F_SCAN["<b>:features:scanner</b><br/><i>(DFM on-demand)</i>"]
+        F_BIZ["<b>:features:…</b><br/><i>(Extended features)</i>"]
     end
 
-    subgraph Features[":features:* (blind to each other)"]
-        F_SET[":features:settings"]
-        F_SCAN[":features:scanner<br/>(on-demand DFM)"]
-        F_BIZ[":features:* (source repo:<br/>authentication, myWallet, ...)"]
+    subgraph Seam["🌉 CROSS-FEATURE SEAM (:packages:platform)"]
+        direction LR
+        ROUTES["<b>AppRoutes</b><br/>NavKey Registry"]
+        ROUTER["<b>DeepLinkRouter</b><br/>AppDeepLinks"]
+        BUS["<b>AppEventBus</b><br/>SharedFlow&lt;AppEvent&gt;"]
+        FE["<b>FeatureEntry</b><br/>FeatureInstaller"]
     end
 
-    subgraph Packages["Packages (packages/)"]
-        FRAMEWORK[":packages:framework<br/>MviViewModel, navigation3 mechanism"]
-        NETWORK[":packages:network<br/>Retrofit/OkHttp + authenticator"]
-        UIKIT[":packages:ui_kit<br/>Compose design system + permission"]
-        CORE[":packages:core<br/>DataState, session, pref, room, utils, Logger"]
+    subgraph Packages["📦 SHARED INFRASTRUCTURE (packages/)"]
+        direction TB
+        UIKIT["<b>:packages:ui_kit</b><br/>Compose Theme · Widgets"]
+        NETWORK["<b>:packages:network</b><br/>Retrofit/OkHttp · Moshi"]
+        FRAMEWORK["<b>:packages:framework</b><br/>MviViewModel · Navigation3"]
+        CORE["<b>:packages:core</b><br/><i>(Dependency Floor — No internal deps)</i>"]
+        UIKIT --> CORE
+        NETWORK --> CORE
+        FRAMEWORK --> CORE
     end
 
-    APP --> SHELL
-    APP -->|Hilt @IntoSet aggregation| Features
-    SHELL --> Features
-    SHELL --> Platform
-    SHELL --> FRAMEWORK
-    SHELL --> UIKIT
+    %% ==========================================
+    %% 3. RIGHT: Host Container
+    %% ==========================================
+    subgraph Host["🏛️ HOST CONTAINER"]
+        direction TB
+        APP["<b>:app</b><br/>Composition Root<br/>Hilt Aggregation · NavDisplay"]
+        SHELL["<b>:shell</b><br/>Tab Shell · ShellViewModel<br/>BottomNav · Home Stub"]
+        APP -->|"Initializes"| SHELL
+    end
 
-    Features --> Platform
-    Features --> FRAMEWORK
-    Features --> NETWORK
-    Features --> UIKIT
+    %% Align horizontally: Gate (Left) -> Features (Middle) -> Host (Right)
+    KONSIST ~~~ F_SET ~~~ APP
 
-    F_SCAN -.->|"depends on :app<br/>(DFM inverted dep)"| APP
+    %% Gate verifies all layers
+    KONSIST -.->|"Enforce boundaries"| Features
+    KONSIST -.->|"Enforce layers"| Packages
+    KONSIST -.->|"Enforce cross-feature seam"| Seam
 
-    Platform --> CORE
-    Platform --> FRAMEWORK
-    FRAMEWORK --> CORE
-    NETWORK --> CORE
-    UIKIT --> CORE
+    %% Features & Seam connect to Host on the Right
+    Features ==>|"Hilt @IntoSet Multibinding"| APP
+    F_SCAN -.->|"Mandatory DFM Inverted Dep"| APP
+    Features -->|"Tab Navigation"| SHELL
+    Seam -->|"Deeplink & Event Routing"| SHELL
 
-    KONSIST[":konsist-test<br/>K1–K9 architecture gate"] -.->|verifies, not in APK| Features
-    KONSIST -.-> Packages
+    %% Features in Middle connect to infrastructure
+    Seam --> CORE
+    Features -->|"Cross-feature usage"| Seam
+    Features --> Packages
+
+    %% Styling
+    classDef host fill:#1b5e20,stroke:#81c784,stroke-width:2px,color:#ffffff
+    classDef feat fill:#b78103,stroke:#ffd54f,stroke-width:2px,color:#ffffff
+    classDef seam fill:#0277bd,stroke:#4fc3f7,stroke-width:2px,color:#ffffff
+    classDef pkg fill:#283593,stroke:#7986cb,stroke-width:2px,color:#ffffff
+    classDef core fill:#263238,stroke:#90a4ae,stroke-width:2px,color:#ffffff
+    classDef gate fill:#b71c1c,stroke:#e57373,stroke-width:2px,color:#ffffff
+
+    class APP,SHELL host
+    class F_SET,F_SCAN,F_BIZ feat
+    class ROUTES,ROUTER,BUS,FE seam
+    class FRAMEWORK,NETWORK,UIKIT pkg
+    class CORE core
+    class KONSIST gate
 ```
 
 **Invariants (Konsist-verified):** every solid arrow points down toward `:core`; no feature points at another feature; only `:app`/`:shell` aggregate multiple features; the dashed `F_SCAN → :app` edge is the DFM-mandated inverted dependency, exempted by rule K8 via `android.dynamicFeatures`.

@@ -226,9 +226,10 @@ features/{name}/src/main/kotlin/com/{org}/{name}/
     ├── {Feature}Route.kt         data object : NavKey — feature-private unless used
     │                             cross-feature (then it moves to :platform AppRoutes)
     └── {Feature}NavigationModule.kt
-                                  @Module @InstallIn(ActivityRetainedComponent::class)
+                                  @Module @InstallIn(SingletonComponent::class)
                                   — @Provides @IntoSet EntryProviderInstaller
-                                  (the ONE point a feature is visible to the host)
+                                  — @Provides @IntoSet DeepLinkResolver
+                                  (the integration points a feature contributes to host navigation)
 ```
 
 ### 2. Architecture Layer Details
@@ -277,63 +278,89 @@ never on another feature.
 | `:app` | `com.danhdue.androiddigitalwallet` | Thin composition root: Hilt aggregation (`Set<EntryProviderInstaller>`), `NavDisplay`, `Application`, entry `Activity`. | packages + every `:features:*` |
 | `:features:*` | `com.danhdue.{feature}` | One product feature, three layers. **Blind to every other feature.** | `:packages:core`, `:packages:framework`, `:packages:network`, `:packages:ui_kit`, `:packages:platform` — via the `commons.android-feature` convention |
 | `:libraries:testutils` | `com.danhdue.libraries.testutils` | Shared test rules, base test classes, MockWebServer helpers. | *(test-only)* |
-| `:konsist-test` | `com.danhdue.konsist` | JVM/JUnit architecture gate (rules K1–K9). Never shipped in the APK. | *(reads the source tree)* |
+| `:konsist-test` | `com.danhdue.konsist` | JVM/JUnit architecture gate (rules K1–K10). Never shipped in the APK. | *(reads the source tree)* |
 
 ```mermaid
-graph TD
-    subgraph Host["Host (pure container)"]
-        APP[":app — DI aggregation, NavDisplay"]
-        SHELL[":shell — tab-shell"]
+flowchart LR
+    %% ==========================================
+    %% 1. LEFT: Architecture Gate (Konsist)
+    %% ==========================================
+    subgraph GATE["🛡️ ARCHITECTURE GATE"]
+        KONSIST["<b>:konsist-test</b><br/><i>K1–K10 Architecture Gate</i><br/>───────────────<br/>• Forbid cross-feature imports<br/>• Enforce Presentation→Domain←Data<br/>• Enforce MVI & naming rules<br/>• Boundary whitelist enforcement<br/><i>(JUnit JVM Test · Never in APK)</i>"]
     end
 
-    subgraph Platform[":packages:platform (cross-feature seam)"]
-        ROUTES["AppRoutes (shared NavKey registry)"]
-        BUS["AppEventBus (SharedFlow&lt;AppEvent&gt;)"]
-        FE["FeatureEntry / FeatureInstaller (DFM only)"]
+    %% ==========================================
+    %% 2. MIDDLE: Features & Infrastructure
+    %% ==========================================
+    subgraph Features["🧩 FEATURES (:features:* — Blind to each other)"]
+        direction TB
+        F_SET["<b>:features:settings</b><br/><i>(Install-time reference)</i>"]
+        F_SCAN["<b>:features:scanner</b><br/><i>(DFM on-demand)</i>"]
+        F_BIZ["<b>:features:…</b><br/><i>(Extended features)</i>"]
     end
 
-    subgraph Features[":features:* (blind to each other)"]
-        F_SET[":features:settings"]
-        F_SCAN[":features:scanner"]
-        F_BIZ[":features:* (source repo: authentication, myWallet, …)"]
+    subgraph Seam["🌉 CROSS-FEATURE SEAM (:packages:platform)"]
+        direction LR
+        ROUTES["<b>AppRoutes</b><br/>NavKey Registry"]
+        ROUTER["<b>DeepLinkRouter</b><br/>AppDeepLinks"]
+        BUS["<b>AppEventBus</b><br/>SharedFlow&lt;AppEvent&gt;"]
+        FE["<b>FeatureEntry</b><br/>FeatureInstaller"]
     end
 
-    subgraph Packages["Packages (packages/)"]
-        FRAMEWORK[":packages:framework — MviViewModel, navigation3 mechanism"]
-        NETWORK[":packages:network — Retrofit/OkHttp + authenticator"]
-        UIKIT[":packages:ui_kit — Compose design system + permission"]
-        CORE[":packages:core — DataState, session, pref, room, utils, Logger"]
+    subgraph Packages["📦 SHARED INFRASTRUCTURE (packages/)"]
+        direction TB
+        UIKIT["<b>:packages:ui_kit</b><br/>Compose Theme · Widgets"]
+        NETWORK["<b>:packages:network</b><br/>Retrofit/OkHttp · Moshi"]
+        FRAMEWORK["<b>:packages:framework</b><br/>MviViewModel · Navigation3"]
+        CORE["<b>:packages:core</b><br/><i>(Dependency Floor — No internal deps)</i>"]
+        UIKIT --> CORE
+        NETWORK --> CORE
+        FRAMEWORK --> CORE
     end
 
-    APP --> SHELL
-    APP -->|Hilt @IntoSet aggregation| Features
-    SHELL --> Features
-    SHELL --> Platform
-    SHELL --> FRAMEWORK
-    SHELL --> UIKIT
+    %% ==========================================
+    %% 3. RIGHT: Host Container
+    %% ==========================================
+    subgraph Host["🏛️ HOST CONTAINER"]
+        direction TB
+        APP["<b>:app</b><br/>Composition Root<br/>Hilt Aggregation · NavDisplay"]
+        SHELL["<b>:shell</b><br/>Tab Shell · ShellViewModel<br/>BottomNav · Home Stub"]
+        APP -->|"Initializes"| SHELL
+    end
 
-    Features --> Platform
-    Features --> FRAMEWORK
-    Features --> NETWORK
-    Features --> UIKIT
+    %% Align horizontally: Gate (Left) -> Features (Middle) -> Host (Right)
+    KONSIST ~~~ F_SET ~~~ APP
 
-    F_SCAN -.->|"depends on :app (DFM inverted dep)"| APP
+    %% Gate verifies all layers
+    KONSIST -.->|"Enforce boundaries"| Features
+    KONSIST -.->|"Enforce cross-feature seam"| Seam
+    KONSIST -.->|"Enforce layers"| Packages
 
-    Platform --> CORE
-    FRAMEWORK --> CORE
-    FRAMEWORK --> NETWORK
-    NETWORK --> CORE
-    UIKIT --> CORE
+    %% Features in Middle connect to infrastructure
+    Features -->|"Cross-feature usage"| Seam
+    Features --> Packages
+    Seam --> CORE
 
-    KONSIST[":konsist-test — K1–K9 gate"] -.->|verifies, not in APK| Features
-    KONSIST -.-> Packages
+    %% Features & Seam connect to Host on the Right
+    Features ==>|"Hilt @IntoSet Multibinding"| APP
+    F_SCAN -.->|"Mandatory DFM Inverted Dep"| APP
+    Seam -->|"Deeplink & Event Routing"| SHELL
+    Features -->|"Tab Navigation"| SHELL
 
-    classDef host fill:#088210,stroke:#02CC0C,color:#fff
-    classDef pkg fill:#036A99,stroke:#088DF3,color:#fff
-    classDef feat fill:#867C04,stroke:#fbc02d,color:#fff
+    %% Styling
+    classDef host fill:#1b5e20,stroke:#81c784,stroke-width:2px,color:#ffffff
+    classDef feat fill:#b78103,stroke:#ffd54f,stroke-width:2px,color:#ffffff
+    classDef seam fill:#0277bd,stroke:#4fc3f7,stroke-width:2px,color:#ffffff
+    classDef pkg fill:#283593,stroke:#7986cb,stroke-width:2px,color:#ffffff
+    classDef core fill:#263238,stroke:#90a4ae,stroke-width:2px,color:#ffffff
+    classDef gate fill:#b71c1c,stroke:#e57373,stroke-width:2px,color:#ffffff
+
     class APP,SHELL host
-    class CORE,FRAMEWORK,NETWORK,UIKIT,ROUTES,BUS,FE pkg
     class F_SET,F_SCAN,F_BIZ feat
+    class ROUTES,ROUTER,BUS,FE seam
+    class FRAMEWORK,NETWORK,UIKIT pkg
+    class CORE core
+    class KONSIST gate
 ```
 
 **Konsist-verified invariants:** every solid arrow points down toward `:core`; no feature
@@ -686,11 +713,13 @@ viewModel.openProfile()                         // ❌ second entry point
 ### 2. Epic design
 - [`.devtool/epic/android_super_app_template/2026-09-02-android-super-app-template-design.md`](../../.devtool/epic/android_super_app_template/2026-09-02-android-super-app-template-design.md) — target architecture, §4 module map, §6 governance.
 - [`.devtool/epic/android_super_app_template/android_super_app_template.en.md`](../../.devtool/epic/android_super_app_template/android_super_app_template.en.md) — high-level architecture (§4.1) and cross-feature channels (§4.4).
+- [`.devtool/epic/deeplink_router_engine/2026-09-10-deeplink-router-engine-design.md`](../../.devtool/epic/deeplink_router_engine/2026-09-10-deeplink-router-engine-design.md) — DeepLink Router Engine architecture, §4 component design, §6 governance.
+- [`.devtool/epic/deeplink_router_engine/deeplink_router_engine.en.md`](../../.devtool/epic/deeplink_router_engine/deeplink_router_engine.en.md) — DeepLink Router Engine epic overview and acceptance matrix.
 
 ### 3. In-repo
 - [`../../PROJECT_RULES.md`](../../PROJECT_RULES.md) — coding standards.
 - [`../../AGENTS.md`](../../AGENTS.md) — project context for tooling.
-- `konsist-test/src/test/kotlin/com/danhdue/konsist/` — the K1–K9 rule bodies.
+- `konsist-test/src/test/kotlin/com/danhdue/konsist/` — the K1–K10 rule bodies.
 
 ### 4. External
 - [Clean Architecture — Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
@@ -709,11 +738,11 @@ viewModel.openProfile()                         // ❌ second entry point
 | **Architecture** | Clean Architecture (3 layers) + MVI |
 | **Structure** | Feature-first in `features/*`; packages in `:packages:core` / `:packages:framework` / `:packages:network` / `:packages:ui_kit` / `:packages:platform` |
 | **State management** | `MviViewModel<State, Action, Event>`, single `onAction()` |
-| **DI** | Hilt, one flat `SingletonComponent`, `@IntoSet` multibinding for feature navigation |
+| **DI** | Hilt, one flat `SingletonComponent`, `@IntoSet` multibinding for feature navigation and deeplink resolvers |
 | **Navigation** | navigation3 `NavDisplay` + `Navigator` / `NestedNavigator`; cross-feature `NavKey`s in `:platform AppRoutes` |
-| **Cross-feature comms** | `AppRoutes` + `AppEventBus` + `@IntoSet EntryProviderInstaller`; features never import each other |
+| **Cross-feature comms** | `AppRoutes` + `AppEventBus` + `@IntoSet EntryProviderInstaller` + `DeepLinkRouter`; features never import each other |
 | **Code generation** | KSP (Hilt / Moshi / Room); Mason for features |
-| **Enforcement** | Konsist K1–K9 + a Gradle guard + CI |
+| **Enforcement** | Konsist K1–K10 + a Gradle guard + CI |
 
 ### 2. Key principles
 

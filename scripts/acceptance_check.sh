@@ -234,6 +234,10 @@ phase_1() {
   _assert_not '[ -n "$(find features/kyc -path "*META-INF/services*" -print -quit)" ]'  "kyc ships NO per-module META-INF/services file"
   _assert 'grep -Eq "on-demand|onDemand" features/kyc/src/main/AndroidManifest.xml' \
                                                                          "kyc dist:on-demand manifest"
+  _assert 'grep -q "\"payments\"" packages/platform/src/main/kotlin/com/danhdue/platform/deeplink/AppDeepLinks.kt' \
+                                                                         "payments registered in :platform AppDeepLinks"
+  _assert 'grep -q "\"kyc\"" packages/platform/src/main/kotlin/com/danhdue/platform/deeplink/AppDeepLinks.kt' \
+                                                                         "kyc registered in :platform AppDeepLinks"
   return "${PHASE_FAILS}"
 }
 
@@ -330,6 +334,8 @@ phase_5() {
   # since the project has been renamed away from com.danhdue)
   _assert_not 'grep -Rql --include=AppRoutes.kt -E "PaymentsRoute|KycRoute" packages/platform/src/main/kotlin' \
                                                                                  "PaymentsRoute/KycRoute removed from :platform AppRoutes"
+  _assert_not 'grep -Rql --include=AppDeepLinks.kt -E "\"payments\"|\"kyc\"" packages/platform/src/main/kotlin' \
+                                                                                 "payments/kyc removed from :platform AppDeepLinks"
   _assert_not 'grep -Rql --include=OnDemandFeatures.kt -E "\"payments\"|\"kyc\"" shell/src/main/kotlin' \
                                                                                  "payments/kyc entry removed from :shell OnDemandFeatures"
   _assert_not 'grep -REql "(payments|kyc)_feature_title" app/src/main/res' \
@@ -345,7 +351,7 @@ phase_5() {
   local stray
   stray="$(git status --porcelain \
     | sed 's/^...//' \
-    | grep -Ev '^(features/(payments|kyc)/|app/build\.gradle\.kts$|settings\.gradle\.kts$|buildSrc/src/main/kotlin/(Deps\.kt$|extensions/DependencyHandlerExtensions\.kt$)|packages/platform/src/main/kotlin/.*/AppRoutes\.kt$|shell/src/main/kotlin/.*/OnDemandFeatures\.kt$|app/src/main/res/values/strings\.xml$|app/src/main/resources/META-INF/services/[^/]*\.platform\.FeatureEntry$)' \
+    | grep -Ev '^(features/(payments|kyc)/|app/build\.gradle\.kts$|settings\.gradle\.kts$|buildSrc/src/main/kotlin/(Deps\.kt$|extensions/DependencyHandlerExtensions\.kt$)|packages/platform/src/main/kotlin/.*/(AppRoutes|deeplink/AppDeepLinks)\.kt$|shell/src/main/kotlin/.*/OnDemandFeatures\.kt$|app/src/main/res/values/strings\.xml$|app/src/main/resources/META-INF/services/[^/]*\.platform\.FeatureEntry$)' \
     || true)"
   if [ -n "${stray}" ]; then
     echo "  FAIL: remove_feature touched files outside its wire-point set:"

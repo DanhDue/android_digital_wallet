@@ -41,18 +41,18 @@ This epic builds the missing half.
 
 ## 3. Goals & Non-Goals
 
-### Goals
+### Goals & Re-evaluation
 
-| # | Goal |
-|---|---|
-| **D1** | Raise criterion **2.1 from partial to fully met** — add the missing "URL Schema / DeepLink" half, keep the existing "Central Router" half untouched. |
-| **D2** | **Four link sources, one pipeline**: custom scheme `myapp://`, Android App Links `https://`, push-notification payload, and internal URL-string navigation. No per-source branch. |
-| **D3** | **Do not break criterion 1.2** — a link to an uninstalled on-demand feature triggers `FeatureInstaller.ensureInstalled(...)`, shows the existing progress UI, then opens the correct destination. |
-| **D4** | **Do not break the "features are blind to each other" half of 2.1** — each feature declares its own URLs; no feature knows another's. Konsist K1 stays green, whitelist stays empty. |
-| **D5** | **Do not regress criterion 4.1** — a feature's resolver tests must run under `:features:<x>:testDebugUnitTest` without `:app`. |
-| **D6** | **Per-link declarable back-stack strategy** (`Placement`), defaulting to `InTab` with synthesised parents. Changing one link's behaviour is a one-line change inside that feature. |
-| **D7** | **Extensible guard chain** — auth guard plus pending-link replay ship as the worked example; adding a guard (feature flag, KYC, kill switch) is one more `@IntoSet` binding, with no engine change. |
-| **D8** | **Template-ready** — `mvi_feature` generates a working resolver and wires it; `rename_project.sh` rewrites the scheme; `myapp://` is hard-coded nowhere. |
+| # | Goal | Status | Verification & Evidence |
+|---|---|---|---|
+| **D1** | Raise criterion **2.1 from partial to fully met** — add missing "URL Schema / DeepLink" half, keep "Central Router" untouched. | ✅ **Fully Met** | Implemented `DefaultDeepLinkRouter`, `AppDeepLinks` (Tier 1), `DeepLinkResolver` (Tier 2), manifest intent filters (`myapp://` + App Links). Full gate green. Konsist rule K10 green. |
+| **D2** | **Four link sources, one pipeline**: custom scheme `myapp://`, Android App Links `https://`, push payload, and internal URL string navigation. | ✅ **Fully Met** | All 4 sources parse into `DeepLink` and dispatch through `DefaultDeepLinkRouter.dispatch(uri)`. Handled seamlessly in cold, warm, and foreground states. |
+| **D3** | **Do not break criterion 1.2** — link to uninstalled on-demand feature triggers `FeatureInstaller.ensureInstalled(...)`, shows progress, opens destination. | ✅ **Fully Met** | Tier 1 checks `dynamicModule`. If not installed, emits `EnsureModule("scanner", pendingLink)`. `ShellViewModel` coordinates installation with `FeatureInstaller` and replays pending link upon completion. |
+| **D4** | **Do not break "features are blind to each other" half of 2.1** — each feature declares its own URLs; no feature knows another's. | ✅ **Fully Met** | Tier 2 `DeepLinkResolver` is declared locally in `features/{name}/presentation/di/`. No feature imports or references another. Konsist K1 passes; whitelist is empty. |
+| **D5** | **Do not regress criterion 4.1** — a feature's resolver tests must run under `:features:<x>:testDebugUnitTest` without `:app`. | ✅ **Fully Met** | `SettingsDeepLinkResolverTest` executes in `:features:settings:testDebugUnitTest` without `:app` dependency. 100% tests pass in isolation. |
+| **D6** | **Per-link declarable back-stack strategy** (`Placement`), defaulting to `InTab` with synthesised parents. | ✅ **Fully Met** | `Placement.InTab`, `Placement.RootFullScreen`, and `Placement.CustomBackStack` supported. `DefaultDeepLinkRouter` automatically synthesises parent backstack if placement is omitted. |
+| **D7** | **Extensible guard chain** — auth guard plus pending-link replay ship as worked example; adding guards requires only `@IntoSet` binding. | ✅ **Fully Met** | `DeepLinkGuard` multibinding chain runs pre/post-resolution. `AuthDeepLinkGuard` + `PendingDeepLinkStore` redirect unauthenticated traffic and replay on `AppEvent.UserLoggedIn`. |
+| **D8** | **Template-ready** — `mvi_feature` generates working resolver; `rename_project.sh` rewrites scheme; `myapp://` hard-coded nowhere. | ✅ **Fully Met** | `mvi_feature` generates `<Feature>DeepLinkResolver.kt` complying with K10, wires `AppDeepLinks` and `AppRoutes`. `rename_project.sh` rewrites scheme and host. |
 
 ### Non-Goals
 
@@ -272,30 +272,30 @@ Inherited principle from the predecessor epic: **the app builds and runs at ever
 
 ### Phase 1 — Contract + parser (`:packages:platform`)
 
-1. [Task 1: DeepLink model and parser](../../features/task_1_deeplink_parser.md)
-2. [Task 2: Two-tier contract types and AppDeepLinks](../../features/task_2_deeplink_contract.md)
-3. [Task 3: Guard chain, pending store, auth guard](../../features/task_3_deeplink_guard_chain.md)
-4. [Task 4: DefaultDeepLinkRouter pipeline](../../features/task_4_deeplink_router_pipeline.md)
+1. [Task 1: DeepLink model and parser](../../features/done/task_1_deeplink_parser.md)
+2. [Task 2: Two-tier contract types and AppDeepLinks](../../features/done/task_2_deeplink_contract.md)
+3. [Task 3: Guard chain, pending store, auth guard](../../features/done/task_3_deeplink_guard_chain.md)
+4. [Task 4: DefaultDeepLinkRouter pipeline](../../features/done/task_4_deeplink_router_pipeline.md)
 
 ### Phase 2 — Host execution (`:shell`)
 
-5. [Task 5: Per-module install state in ShellState](../../features/task_5_shell_per_module_state.md)
-6. [Task 6: ShellViewModel executes placement commands](../../features/task_6_shell_execute_placement.md)
-7. [Task 7: ShellViewModel handles EnsureModule and Failed](../../features/task_7_shell_ensure_module_and_failure.md)
+5. [Task 5: Per-module install state in ShellState](../../features/done/task_5_shell_per_module_state.md)
+6. [Task 6: ShellViewModel executes placement commands](../../features/done/task_6_shell_execute_placement.md)
+7. [Task 7: ShellViewModel handles EnsureModule and Failed](../../features/done/task_7_shell_ensure_module_and_failure.md)
 
 ### Phase 3 — Intent entry (`:app`, `buildSrc`, `scripts`)
 
-8. [Task 8: Scheme and host build placeholders plus rename script](../../features/task_8_scheme_build_placeholders.md)
-9. [Task 9: Manifest intent filters and singleTop](../../features/task_9_manifest_intent_filters.md)
-10. [Task 10: MainActivity intent handling and push factory](../../features/task_10_mainactivity_intent_handling.md)
+8. [Task 8: Scheme and host build placeholders plus rename script](../../features/done/task_8_scheme_build_placeholders.md)
+9. [Task 9: Manifest intent filters and singleTop](../../features/done/task_9_manifest_intent_filters.md)
+10. [Task 10: MainActivity intent handling and push factory](../../features/done/task_10_mainactivity_intent_handling.md)
 
 ### Phase 4 — Features, DFM, governance
 
-11. [Task 11: SettingsDeepLinkResolver — install-time exemplar](../../features/task_11_settings_resolver.md)
-12. [Task 12: Scanner DFM resolver and local-testing acceptance](../../features/task_12_scanner_dfm_resolver.md)
-13. [Task 13: Konsist rule K10](../../features/task_13_konsist_k10.md)
-14. [Task 14: Mason brick wiring for deeplinks](../../features/task_14_mason_brick_deeplink.md)
-15. [Task 15: Documentation and E2E acceptance](../../features/task_15_docs_and_e2e.md)
+11. [Task 11: SettingsDeepLinkResolver — install-time exemplar](../../features/done/task_11_settings_resolver.md)
+12. [Task 12: Scanner DFM resolver and local-testing acceptance](../../features/done/task_12_scanner_dfm_resolver.md)
+13. [Task 13: Konsist rule K10](../../features/done/task_13_konsist_k10.md)
+14. [Task 14: Mason brick wiring for deeplinks](../../features/done/task_14_mason_brick_deeplink.md)
+15. [Task 15: Documentation and E2E acceptance](../../features/done/task_15_docs_and_e2e.md)
 
 ---
 

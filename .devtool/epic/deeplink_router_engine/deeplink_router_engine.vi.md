@@ -41,18 +41,18 @@ Epic này xây nửa còn thiếu.
 
 ## 3. Goals & Non-Goals
 
-### Goals
+### Goals & Đánh giá lại
 
-| # | Mục tiêu |
-|---|---|
-| **D1** | Đưa tiêu chí **2.1 từ nửa vời lên đạt đủ** — bổ sung nửa "URL Schema / DeepLink" còn thiếu, giữ nguyên nửa "Central Router" đã có. |
-| **D2** | **Bốn nguồn link, một pipeline**: custom scheme `myapp://`, Android App Links `https://`, push-notification payload, và điều hướng nội bộ bằng URL string. Không có nhánh riêng cho nguồn nào. |
-| **D3** | **Không phá tiêu chí 1.2** — link tới feature on-demand chưa cài phải kích hoạt `FeatureInstaller.ensureInstalled(...)`, hiện UI tiến trình sẵn có, rồi mở đúng đích. |
-| **D4** | **Không phá nửa "feature mù nhau" của 2.1** — mỗi feature khai URL của riêng nó; không feature nào biết URL của feature khác. Konsist K1 vẫn xanh, whitelist vẫn rỗng. |
-| **D5** | **Không làm xấu tiêu chí 4.1** — test resolver của một feature phải chạy được bằng `:features:<x>:testDebugUnitTest` mà không cần `:app`. |
-| **D6** | **Chiến lược backstack khai báo được trên từng link** (`Placement`), mặc định `InTab` + synthesize parents. Đổi hành vi một link = sửa một dòng trong feature đó. |
-| **D7** | **Guard chain mở rộng được** — auth guard cùng pending-link replay ship sẵn làm mẫu; thêm guard (feature-flag, KYC, kill-switch) chỉ là thêm một binding `@IntoSet`, không đụng engine. |
-| **D8** | **Template-ready** — `mvi_feature` sinh resolver chạy được và tự wire; `rename_project.sh` đổi được scheme; không hard-code `myapp://` ở đâu. |
+| # | Mục tiêu | Trạng thái | Đánh giá & Bằng chứng nghiệm thu |
+|---|---|---|---|
+| **D1** | Đưa tiêu chí **2.1 từ nửa vời lên đạt đủ** — bổ sung nửa "URL Schema / DeepLink" còn thiếu, giữ nguyên nửa "Central Router" đã có. | ✅ **Đạt trọn vẹn** | Implement `DefaultDeepLinkRouter`, `AppDeepLinks` (Tier 1), `DeepLinkResolver` (Tier 2), manifest intent-filter (`myapp://` + App Links). Full gate xanh. Konsist K10 xanh. |
+| **D2** | **Bốn nguồn link, một pipeline**: custom scheme `myapp://`, Android App Links `https://`, push payload, và điều hướng nội bộ bằng URL string. | ✅ **Đạt trọn vẹn** | Cả 4 nguồn link đều parse thành `DeepLink` và đưa qua `DefaultDeepLinkRouter.dispatch(uri)`. Xử lý thống nhất lúc cold, warm và khi app đang chạy. |
+| **D3** | **Không phá tiêu chí 1.2** — link tới feature on-demand chưa cài phải kích hoạt `FeatureInstaller.ensureInstalled(...)`, hiện UI tiến trình, rồi mở đúng đích. | ✅ **Đạt trọn vẹn** | Tier 1 kiểm tra `dynamicModule`. Nếu chưa cài, phát `EnsureModule("scanner", pendingLink)`. `ShellViewModel` gọi `FeatureInstaller` cài đặt và tự động replay link sau khi cài xong. |
+| **D4** | **Không phá nửa "feature mù nhau" của 2.1** — mỗi feature khai URL của riêng nó; không feature nào biết URL của feature khác. | ✅ **Đạt trọn vẹn** | Tier 2 `DeepLinkResolver` được khai cục bộ trong `features/{name}/presentation/di/`. Không feature nào import feature khác. Konsist K1 đạt; boundary whitelist hoàn toàn rỗng. |
+| **D5** | **Không làm xấu tiêu chí 4.1** — test resolver của một feature phải chạy được bằng `:features:<x>:testDebugUnitTest` mà không cần `:app`. | ✅ **Đạt trọn vẹn** | `SettingsDeepLinkResolverTest` chạy độc lập trong `:features:settings:testDebugUnitTest` không cần `:app`. 100% test pass. |
+| **D6** | **Chiến lược backstack khai báo được trên từng link** (`Placement`), mặc định `InTab` + synthesize parents. | ✅ **Đạt trọn vẹn** | Hỗ trợ `Placement.InTab`, `Placement.RootFullScreen`, và `Placement.CustomBackStack`. `DefaultDeepLinkRouter` tự tổng hợp parent backstack nếu không khai placement riêng. |
+| **D7** | **Guard chain mở rộng được** — auth guard cùng pending-link replay ship sẵn làm mẫu; thêm guard chỉ là thêm một binding `@IntoSet`. | ✅ **Đạt trọn vẹn** | Chuỗi `DeepLinkGuard` chạy pre/post resolution qua multibinding `@IntoSet`. `AuthDeepLinkGuard` + `PendingDeepLinkStore` chặn khách vãng lai và tự replay khi nhận `AppEvent.UserLoggedIn`. |
+| **D8** | **Template-ready** — `mvi_feature` sinh resolver chạy được và tự wire; `rename_project.sh` đổi được scheme; không hard-code `myapp://` ở đâu. | ✅ **Đạt trọn vẹn** | `mvi_feature` sinh `<Feature>DeepLinkResolver.kt` chuẩn rule K10, tự đăng ký vào `AppDeepLinks` và `AppRoutes`. `rename_project.sh` đổi scheme và host dễ dàng. |
 
 ### Non-Goals
 
@@ -272,30 +272,30 @@ Nguyên tắc kế thừa từ epic tiền nhiệm: **app build và chạy đư�
 
 ### Phase 1 — Contract + parser (`:packages:platform`)
 
-1. [Task 1: DeepLink model và parser](../../features/task_1_deeplink_parser.md)
-2. [Task 2: Contract hai tầng và AppDeepLinks](../../features/task_2_deeplink_contract.md)
-3. [Task 3: Guard chain, pending store, auth guard](../../features/task_3_deeplink_guard_chain.md)
-4. [Task 4: Pipeline DefaultDeepLinkRouter](../../features/task_4_deeplink_router_pipeline.md)
+1. [Task 1: DeepLink model và parser](../../features/done/task_1_deeplink_parser.md)
+2. [Task 2: Contract hai tầng và AppDeepLinks](../../features/done/task_2_deeplink_contract.md)
+3. [Task 3: Guard chain, pending store, auth guard](../../features/done/task_3_deeplink_guard_chain.md)
+4. [Task 4: Pipeline DefaultDeepLinkRouter](../../features/done/task_4_deeplink_router_pipeline.md)
 
 ### Phase 2 — Thi hành ở host (`:shell`)
 
-5. [Task 5: Trạng thái cài đặt theo từng module trong ShellState](../../features/task_5_shell_per_module_state.md)
-6. [Task 6: ShellViewModel thi hành lệnh placement](../../features/task_6_shell_execute_placement.md)
-7. [Task 7: ShellViewModel xử lý EnsureModule và Failed](../../features/task_7_shell_ensure_module_and_failure.md)
+5. [Task 5: Trạng thái cài đặt theo từng module trong ShellState](../../features/done/task_5_shell_per_module_state.md)
+6. [Task 6: ShellViewModel thi hành lệnh placement](../../features/done/task_6_shell_execute_placement.md)
+7. [Task 7: ShellViewModel xử lý EnsureModule và Failed](../../features/done/task_7_shell_ensure_module_and_failure.md)
 
 ### Phase 3 — Cửa vào Intent (`:app`, `buildSrc`, `scripts`)
 
-8. [Task 8: Build placeholder cho scheme/host và script rename](../../features/task_8_scheme_build_placeholders.md)
-9. [Task 9: Manifest intent-filter và singleTop](../../features/task_9_manifest_intent_filters.md)
-10. [Task 10: Xử lý Intent ở MainActivity và factory cho push](../../features/task_10_mainactivity_intent_handling.md)
+8. [Task 8: Build placeholder cho scheme/host và script rename](../../features/done/task_8_scheme_build_placeholders.md)
+9. [Task 9: Manifest intent-filter và singleTop](../../features/done/task_9_manifest_intent_filters.md)
+10. [Task 10: Xử lý Intent ở MainActivity và factory cho push](../../features/done/task_10_mainactivity_intent_handling.md)
 
 ### Phase 4 — Feature, DFM, governance
 
-11. [Task 11: SettingsDeepLinkResolver — mẫu install-time](../../features/task_11_settings_resolver.md)
-12. [Task 12: Resolver DFM cho scanner và nghiệm thu local-testing](../../features/task_12_scanner_dfm_resolver.md)
-13. [Task 13: Konsist rule K10](../../features/task_13_konsist_k10.md)
-14. [Task 14: Wire deeplink vào Mason brick](../../features/task_14_mason_brick_deeplink.md)
-15. [Task 15: Tài liệu và nghiệm thu E2E](../../features/task_15_docs_and_e2e.md)
+11. [Task 11: SettingsDeepLinkResolver — mẫu install-time](../../features/done/task_11_settings_resolver.md)
+12. [Task 12: Resolver DFM cho scanner và nghiệm thu local-testing](../../features/done/task_12_scanner_dfm_resolver.md)
+13. [Task 13: Konsist rule K10](../../features/done/task_13_konsist_k10.md)
+14. [Task 14: Wire deeplink vào Mason brick](../../features/done/task_14_mason_brick_deeplink.md)
+15. [Task 15: Tài liệu và nghiệm thu E2E](../../features/done/task_15_docs_and_e2e.md)
 
 ---
 

@@ -14,7 +14,7 @@
 
 ## 1. Meta Data
 - **Epic Name**: `android_super_app_template`
-- **Trạng thái**: Queued (backlog) — xếp sau `template_android`, `template_flutter`, `template_ios` (các epic đó còn task `todo` trong `.devtool/features/`). Chuyển task `backlog → todo` khi các epic kia hoàn tất, hoặc theo quyết định của người phụ trách nếu chúng đang dừng.
+- **Trạng thái**: Hoàn thành (Toàn bộ 16 task đã triển khai; tiền nhiệm của epic `deeplink_router_engine`)
 - **Target Release**: Chạy trên branch `epic/android-super-app-template` (git worktree của repo này); merge vào `develop` quyết định theo từng phase.
 - **Spec gốc**: [2026-09-02-android-super-app-template-design.md](2026-09-02-android-super-app-template-design.md)
 - **Epic song song/liên quan**: `super_app_governance` (Flutter, trong `bloc_digital_wallet` — khung governance mà epic này port ngược về native Android), `template_flutter` / `template_android` / `template_ios` (các epic template Flutter — việc riêng; epic này chỉ *đọc* để tham chiếu).
@@ -57,53 +57,86 @@ Epic này port phần governance Flutter về native Android — nơi các cơ c
 ### 4.1 Kiến trúc tổng thể
 
 ```mermaid
-graph TD
-    subgraph Host["Host (container thuần)"]
-        APP[":app<br/>gom DI, NavDisplay, FeatureInstaller impl"]
-        SHELL[":shell<br/>ShellViewModel, tab-shell, home stub"]
+flowchart LR
+    %% ==========================================
+    %% 1. BÊN TRÁI: Architecture Gate (Konsist)
+    %% ==========================================
+    subgraph GATE["🛡️ CỔNG KIỂM SOÁT KIẾN TRÚC"]
+        KONSIST["<b>:konsist-test</b><br/><i>Cổng kiến trúc K1–K10</i><br/>───────────────<br/>• Cấm import chéo feature<br/>• Ép Presentation→Domain←Data<br/>• Ép MVI & đặt tên chuẩn<br/>• Kiểm soát boundary whitelist<br/><i>(JUnit JVM Test · Không vào APK)</i>"]
     end
 
-    subgraph Platform[":platform (đường nối cross-feature)"]
-        ROUTES["AppRoutes<br/>(registry NavKey dùng chéo)"]
-        BUS["AppEventBus<br/>(SharedFlow&lt;AppEvent&gt;)"]
-        FE["FeatureEntry / FeatureInstaller<br/>(chỉ DFM)"]
+    %% ==========================================
+    %% 2. Ở GIỮA: Features & Hạ Tầng
+    %% ==========================================
+    subgraph Features["🧩 FEATURES (:features:* — Mù nhau)"]
+        direction TB
+        F_SET["<b>:features:settings</b><br/><i>(Install-time reference)</i>"]
+        F_SCAN["<b>:features:scanner</b><br/><i>(DFM on-demand)</i>"]
+        F_BIZ["<b>:features:…</b><br/><i>(Feature mở rộng)</i>"]
     end
 
-    subgraph Features[":features:* (mù nhau)"]
-        F_SET[":features:settings"]
-        F_SCAN[":features:scanner<br/>(DFM on-demand)"]
-        F_BIZ[":features:* (repo gốc:<br/>authentication, myWallet, ...)"]
+    subgraph Seam["🌉 CROSS-FEATURE SEAM (:packages:platform)"]
+        direction LR
+        ROUTES["<b>AppRoutes</b><br/>Registry NavKey"]
+        ROUTER["<b>DeepLinkRouter</b><br/>AppDeepLinks"]
+        BUS["<b>AppEventBus</b><br/>SharedFlow&lt;AppEvent&gt;"]
+        FE["<b>FeatureEntry</b><br/>FeatureInstaller"]
     end
 
-    subgraph Packages["Packages (packages/)"]
-        FRAMEWORK[":packages:framework<br/>MviViewModel, cơ chế navigation3"]
-        NETWORK[":packages:network<br/>Retrofit/OkHttp + authenticator"]
-        UIKIT[":packages:ui_kit<br/>design system Compose + permission"]
-        CORE[":packages:core<br/>DataState, session, pref, room, utils, Logger"]
+    subgraph Packages["📦 HẠ TẦNG DÙNG CHUNG (packages/)"]
+        direction TB
+        UIKIT["<b>:packages:ui_kit</b><br/>Compose Theme · Widgets"]
+        NETWORK["<b>:packages:network</b><br/>Retrofit/OkHttp · Moshi"]
+        FRAMEWORK["<b>:packages:framework</b><br/>MviViewModel · Navigation3"]
+        CORE["<b>:packages:core</b><br/><i>(Dependency Floor — Đáy phụ thuộc)</i>"]
+        UIKIT --> CORE
+        NETWORK --> CORE
+        FRAMEWORK --> CORE
     end
 
-    APP --> SHELL
-    APP -->|gom qua Hilt @IntoSet| Features
-    SHELL --> Features
-    SHELL --> Platform
-    SHELL --> FRAMEWORK
-    SHELL --> UIKIT
+    %% ==========================================
+    %% 3. BÊN PHẢI: Host Container
+    %% ==========================================
+    subgraph Host["🏛️ HOST CONTAINER"]
+        direction TB
+        APP["<b>:app</b><br/>Composition Root<br/>Hilt Aggregation · NavDisplay"]
+        SHELL["<b>:shell</b><br/>Tab Shell · ShellViewModel<br/>BottomNav · Home Stub"]
+        APP -->|"Khởi tạo"| SHELL
+    end
 
-    Features --> Platform
-    Features --> FRAMEWORK
-    Features --> NETWORK
-    Features --> UIKIT
+    %% Căn hàng ngang 3 khối chính: Gate (Trái) -> Features (Giữa) -> Host (Phải)
+    KONSIST ~~~ F_SET ~~~ APP
 
-    F_SCAN -.->|"phụ thuộc :app<br/>(DFM đảo hướng)"| APP
+    %% Gate kiểm soát các tầng
+    KONSIST -.->|"Kiểm soát biên giới"| Features
+    KONSIST -.->|"Kiểm soát đường biên"| Seam
+    KONSIST -.->|"Kiểm soát layer"| Packages
 
-    Platform --> CORE
-    Platform --> FRAMEWORK
-    FRAMEWORK --> CORE
-    NETWORK --> CORE
-    UIKIT --> CORE
+    %% Features ở giữa liên kết với hạ tầng
+    Features -->|"Dùng chéo"| Seam
+    Features --> Packages
+    Seam --> CORE
 
-    KONSIST[":konsist-test<br/>cổng kiến trúc K1–K9"] -.->|kiểm, không vào APK| Features
-    KONSIST -.-> Packages
+    %% Features & Seam kết nối sang Host bên phải
+    Features ==>|"Gom DI qua Hilt @IntoSet"| APP
+    F_SCAN -.->|"DFM phụ thuộc ngược"| APP
+    Seam -->|"Định tuyến Deeplink & Event"| SHELL
+    Features -->|"Điều hướng theo tab"| SHELL
+
+    %% Styling
+    classDef host fill:#1b5e20,stroke:#81c784,stroke-width:2px,color:#ffffff
+    classDef feat fill:#b78103,stroke:#ffd54f,stroke-width:2px,color:#ffffff
+    classDef seam fill:#0277bd,stroke:#4fc3f7,stroke-width:2px,color:#ffffff
+    classDef pkg fill:#283593,stroke:#7986cb,stroke-width:2px,color:#ffffff
+    classDef core fill:#263238,stroke:#90a4ae,stroke-width:2px,color:#ffffff
+    classDef gate fill:#b71c1c,stroke:#e57373,stroke-width:2px,color:#ffffff
+
+    class APP,SHELL host
+    class F_SET,F_SCAN,F_BIZ feat
+    class ROUTES,ROUTER,BUS,FE seam
+    class FRAMEWORK,NETWORK,UIKIT pkg
+    class CORE core
+    class KONSIST gate
 ```
 
 **Bất biến (Konsist kiểm):** mọi mũi tên đặc đổ về `:core`; không feature nào trỏ sang feature khác; chỉ `:app`/`:shell` gom nhiều feature; cạnh nét đứt `F_SCAN → :app` là phụ thuộc đảo ngược DFM bắt buộc, được rule K8 miễn qua `android.dynamicFeatures`.

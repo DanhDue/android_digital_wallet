@@ -4,12 +4,12 @@
 
 A **governed multi-module Android template** for building a super-app: Clean Architecture + MVI,
 Jetpack Compose, a Host/Shell composition root, an on-demand Dynamic Feature Module example
-(`:features:scanner`), and a Konsist architecture gate (rules K1–K9) that hard-blocks
-cross-feature imports and layer violations.
+(`:features:scanner`), a two-tier DeepLink Router engine, and a Konsist architecture gate
+(rules K1–K10) that hard-blocks cross-feature imports and layer violations.
 
 Module surface: `:app` · `:shell` · `:core` · `:framework` · `:network` · `:ui_kit` ·
-`:platform` · `:features:settings` · `:features:scanner` · `:libraries:testutils` ·
-`:konsist-test`.
+`:platform` (with `DeepLinkRouter` / `AppDeepLinks`) · `:features:settings` · `:features:scanner` ·
+`:libraries:testutils` · `:konsist-test`.
 
 ## 1. Rename after clone (the one command)
 
@@ -68,7 +68,7 @@ See [docs/MASON_GUIDE.md](../MASON_GUIDE.md).
   The repo-root `ARCHITECTURE.md` is a redirect.
 - **Governance / coding standards:** `PROJECT_RULES.md`, `AGENTS.md`,
   `.agent/rules/CRITICAL_RULES.md`.
-- **The gate:** `./gradlew :konsist-test:test` — the K1–K9 rule bodies are in
+- **The gate:** `./gradlew :konsist-test:test` — the K1–K10 rule bodies are in
   `konsist-test/src/test/kotlin/.../konsist/`.
 - **Full quality run:** `./gradlew :konsist-test:test detekt spotlessCheck testDebugUnitTest assembleDebug`.
 

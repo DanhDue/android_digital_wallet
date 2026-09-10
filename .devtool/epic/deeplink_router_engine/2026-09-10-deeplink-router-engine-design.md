@@ -1,8 +1,8 @@
 # Epic: DeepLink Router Engine — đóng trụ 2.1 của khung Super App Governance
 
 **Ngày**: 2026-09-10
-**Trạng thái**: Draft — chờ review
-**Epic name (dự kiến)**: `deeplink_router_engine`
+**Trạng thái**: Approved / Completed — Đã triển khai và nghiệm thu 15/15 tasks
+**Epic name**: `deeplink_router_engine`
 **Tiền đề**: epic `android_super_app_template` đã hoàn tất (Task 1–16)
 
 ---
