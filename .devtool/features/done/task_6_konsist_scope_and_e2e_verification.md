@@ -1,13 +1,13 @@
 ---
 id: "task_6_konsist_scope_and_e2e_verification"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "sandbox_and_contract_governance"
 dueDate: null
 created: "2026-09-10T23:53:00+07:00"
-modified: "2026-09-10T23:53:00+07:00"
-completedAt: null
+modified: "2026-09-11T00:58:00+07:00"
+completedAt: "2026-09-11T00:58:00+07:00"
 labels: ["konsist", "e2e", "acceptance", "quality"]
 order: "a6"
 ---
@@ -41,11 +41,11 @@ Ensure that the addition of `:sample` subprojects and BCV integration preserves 
 A Super App's governance framework is only as good as its enforcement mechanism. Verifying that the Konsist gate natively embraces the `:sample` runner architecture ensures that the repository remains strictly governed as new teams add dozens of Mini Apps.
 
 ## TDD Checklist
-- [ ] **RED**:
+- [x] **RED**:
   - Run `./gradlew :konsist-test:test` and observe any scope classification discrepancies with sample runners.
-- [ ] **GREEN**:
+- [x] **GREEN**:
   - Update `ArchScope.kt` if necessary to explicitly categorize sample modules as standalone sample runners.
   - Verify all 10 Konsist test suites (`BoundaryRulesTest`, `HostRulesTest`, `LayerRulesTest`, `NamingRulesTest`, etc.) pass with 0 errors.
   - Execute `./scripts/acceptance_check.sh` and verify all 6 phases succeed.
-- [ ] **REFACTOR**:
+- [x] **REFACTOR**:
   - Verify git working tree is clean and `konsist_boundary_whitelist.txt` remains empty.

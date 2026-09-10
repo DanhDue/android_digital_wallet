@@ -348,7 +348,3 @@ public abstract interface class com/danhdue/network/moshi/IValueEnum {
 	public abstract fun getValue ()Ljava/lang/String;
 }
 
-public class hilt_aggregated_deps/_com_danhdue_network_di_NetworkCoreModule {
-	public fun <init> ()V
-}
-

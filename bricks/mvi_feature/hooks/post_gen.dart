@@ -933,7 +933,7 @@ void _appendDeepLinkEntryPoint({
   }
 
   final entry = isDfm
-      ? '''            // TODO: if this feature is hosted in a shell tab, set tab = <tabIndex> (e.g. tab = 0)
+      ? '''            // Note: if this feature is hosted in a shell tab, set tab = <tabIndex> (e.g. tab = 0)
             FeatureEntryPoint(
                 feature = "$snakeCase",
                 entryRoute = AppRoutes.${pascalCase}Route,
@@ -941,7 +941,7 @@ void _appendDeepLinkEntryPoint({
                 dynamicModule = "$snakeCase",
             ),
 '''
-      : '''            // TODO: if this feature is hosted in a shell tab, set tab = <tabIndex> (e.g. tab = 0)
+      : '''            // Note: if this feature is hosted in a shell tab, set tab = <tabIndex> (e.g. tab = 0)
             FeatureEntryPoint(
                 feature = "$snakeCase",
                 entryRoute = AppRoutes.${pascalCase}Route,

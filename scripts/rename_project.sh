@@ -268,7 +268,7 @@ while IFS= read -r f; do
 done < <(find . -type f -path '*/META-INF/services/com.danhdue.*' \
            -not -path './.git/*' -not -path '*/build/*' -not -path './bricks/*' | sed 's|^\./||')
 
-# source files whose *name* carries the old domain (DigitalWalletApp.kt, DigitalWalletDivider.kt)
+# source files whose *name* carries the old domain (DigitalWalletApp.kt)
 while IFS= read -r f; do
   [ -f "${f}" ] || continue
   b="${f##*/}"; dir="${f%/*}"

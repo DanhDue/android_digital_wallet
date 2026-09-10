@@ -18,7 +18,7 @@ apiValidation {
         .filterNot { it.path in setOf(":packages:core", ":packages:platform", ":packages:network", ":packages:framework", ":packages:ui_kit") }
         .map { it.name }
         .toSet()
-    ignoredPackages += listOf("*.internal", "*.internal.*")
+    ignoredPackages += listOf("hilt_aggregated_deps")
     nonPublicMarkers += listOf("com.danhdue.core.annotation.InternalApi")
 }
 

@@ -577,7 +577,3 @@ public final class com/danhdue/platform/theme/LocalAppThemeManagerKt {
 	public static final fun getLocalAppThemeManager ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
-public class hilt_aggregated_deps/_com_danhdue_platform_di_PlatformModule {
-	public fun <init> ()V
-}
-

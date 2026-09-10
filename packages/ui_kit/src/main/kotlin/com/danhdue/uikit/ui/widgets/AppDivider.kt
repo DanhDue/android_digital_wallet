@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.danhdue.uikit.ui.theme.BluePrimary
 
 @Composable
-fun DigitalWalletDivider(modifier: Modifier = Modifier) {
+fun AppDivider(modifier: Modifier = Modifier) {
     HorizontalDivider(
         modifier =
             modifier
@@ -35,7 +35,7 @@ fun DigitalWalletDivider(modifier: Modifier = Modifier) {
 private fun DividerPreview() {
     MaterialTheme {
         Box(Modifier.size(height = 10.dp, width = 100.dp)) {
-            DigitalWalletDivider(Modifier.align(Alignment.Center))
+            AppDivider(Modifier.align(Alignment.Center))
         }
     }
 }

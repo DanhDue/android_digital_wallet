@@ -284,8 +284,12 @@ public final class com/danhdue/uikit/ui/theme/TypeKt {
 	public static final fun getTypography ()Landroidx/compose/material3/Typography;
 }
 
-public final class com/danhdue/uikit/ui/widgets/ComposableSingletons$DigitalWalletDividerKt {
-	public static final field INSTANCE Lcom/danhdue/uikit/ui/widgets/ComposableSingletons$DigitalWalletDividerKt;
+public final class com/danhdue/uikit/ui/widgets/AppDividerKt {
+	public static final fun AppDivider (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/danhdue/uikit/ui/widgets/ComposableSingletons$AppDividerKt {
+	public static final field INSTANCE Lcom/danhdue/uikit/ui/widgets/ComposableSingletons$AppDividerKt;
 	public fun <init> ()V
 	public final fun getLambda-1$ui_kit_release ()Lkotlin/jvm/functions/Function2;
 }
@@ -320,10 +324,6 @@ public final class com/danhdue/uikit/ui/widgets/ComposableSingletons$LottieError
 	public fun <init> ()V
 	public final fun getLambda-1$ui_kit_release ()Lkotlin/jvm/functions/Function3;
 	public final fun getLambda-2$ui_kit_release ()Lkotlin/jvm/functions/Function2;
-}
-
-public final class com/danhdue/uikit/ui/widgets/DigitalWalletDividerKt {
-	public static final fun DigitalWalletDivider (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class com/danhdue/uikit/ui/widgets/EmptyViewKt {

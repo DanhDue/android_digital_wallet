@@ -28,6 +28,8 @@ import java.nio.charset.StandardCharsets
  * Returns `null` on malformed, unparseable, or non-hierarchical URIs without throwing.
  */
 object DeepLinkParser {
+    private const val SCHEME_DELIMITER = "://"
+
     /**
      * Parses the given [uriString] into a normalised [DeepLink], or returns `null`
      * if the URI is malformed, blank, non-hierarchical, or missing a feature identifier.
@@ -48,12 +50,34 @@ object DeepLinkParser {
         }
     }
 
-    private fun parseUriOrNull(uriString: String): URI? =
-        try {
-            URI(uriString).takeUnless { it.isOpaque }
-        } catch (_: Exception) {
-            null
+    private fun parseUriOrNull(uriString: String): URI? {
+        val direct =
+            try {
+                URI(uriString).takeUnless { it.isOpaque }
+            } catch (_: Exception) {
+                null
+            }
+        return direct ?: parseSanitizedUriOrNull(uriString)
+    }
+
+    private fun parseSanitizedUriOrNull(uriString: String): URI? {
+        // Fallback for custom schemes with underscores (e.g. "acme_wallet://...")
+        // which are common in Android intent-filters but rejected by strict RFC 2396 java.net.URI.
+        val delimiterIndex = uriString.indexOf(SCHEME_DELIMITER)
+        if (delimiterIndex > 0) {
+            val rawScheme = uriString.substring(0, delimiterIndex)
+            val remainder = uriString.substring(delimiterIndex + SCHEME_DELIMITER.length)
+            if (rawScheme.contains('_')) {
+                val sanitizedScheme = rawScheme.replace('_', '-')
+                return try {
+                    URI("$sanitizedScheme://$remainder").takeUnless { it.isOpaque }
+                } catch (_: Exception) {
+                    null
+                }
+            }
         }
+        return null
+    }
 
     private fun extractFeatureAndSegments(uri: URI): Pair<String, List<String>>? {
         val scheme = uri.scheme?.lowercase() ?: return null

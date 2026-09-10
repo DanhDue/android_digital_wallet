@@ -58,6 +58,10 @@ object ArchScope {
     fun moduleOf(path: String): String {
         val normalized = path.replace('\\', '/')
         val beforeSrc = normalized.substringBefore("/src/", "")
+        if (beforeSrc.endsWith("/sample")) {
+            val parent = beforeSrc.substringBeforeLast("/sample").substringAfterLast('/')
+            return "$parent-sample"
+        }
         return beforeSrc.substringAfterLast('/')
     }
 }

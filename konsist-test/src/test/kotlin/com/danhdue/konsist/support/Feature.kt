@@ -37,7 +37,9 @@ enum class Feature(
             if (qualifiedName.isNullOrBlank()) return null
             return entries.firstOrNull { feature ->
                 qualifiedName == feature.packagePrefix ||
-                    qualifiedName.startsWith(feature.packagePrefix + ".")
+                    qualifiedName.startsWith(feature.packagePrefix + ".") ||
+                    qualifiedName == "com.danhdue.features.${feature.moduleName}.sample" ||
+                    qualifiedName.startsWith("com.danhdue.features.${feature.moduleName}.sample.")
             }
         }
     }
