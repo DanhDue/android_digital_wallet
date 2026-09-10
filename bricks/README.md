@@ -54,6 +54,16 @@ mason make remove_subfeature --module payment --name Detail
 mason make remove_feature --name Payment
 ```
 
+## Deep Links Integration
+
+Newly generated features automatically wire deep link support:
+- Deep Link scheme: `myapp://<feature_name>`
+- Auto-registers `*DeepLinkResolver` in `presentation/di/` (conforming to Konsist rule K10).
+- Auto-registers a `FeatureEntryPoint` in `packages/platform/.../AppDeepLinks.kt` with `tab = null` (`RootFullScreen`).
+- If a feature is placed in a bottom navigation tab, update `tab = <tabIndex>` on its `FeatureEntryPoint` entry in `AppDeepLinks.kt`.
+- Removing a feature via `mason make remove_feature` cleanly unwires `AppDeepLinks.kt` and `AppRoutes.kt`.
+
 ## Architecture Reference
 
 See [ARCHITECTURE.md](../ARCHITECTURE.md) for details on the Clean Architecture + MVI pattern.
+

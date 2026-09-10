@@ -11,7 +11,9 @@ import 'package:mason/mason.dart';
 ///   `Deps.kt`, `DependencyHandlerExtensions.kt`, `app/build.gradle.kts` and (when
 ///   present) `shell/build.gradle.kts` as an `implementation(project(...))`
 ///   dependency; Hilt `@Provides @IntoSet EntryProviderInstaller` multibinding
-///   aggregates its navigation entries. `AppRoutes` is left untouched.
+///   aggregates its navigation entries; Hilt `@Provides @IntoSet DeepLinkResolver`
+///   exposes its deep link resolution; its route is appended to `AppRoutes.kt`,
+///   and its entry point is added to `AppDeepLinks.kt`.
 ///
 /// * **`delivery: on-demand`** — the module is turned into a
 ///   `com.android.dynamic-feature` split, structurally identical to the
@@ -19,11 +21,13 @@ import 'package:mason/mason.dart';
 ///   hook rewrites its `build.gradle.kts` + `AndroidManifest.xml`, strips every
 ///   Hilt annotation from the generated code (a downloaded split never joins the
 ///   host Hilt graph), generates
-///   `<package>.presentation.di.<Name>FeatureEntry : FeatureEntry` plus a
+///   `<package>.presentation.di.<Name>FeatureEntry : FeatureEntry` (providing
+///   both installer and deep link resolver) plus a
 ///   `META-INF/services` registration, registers the module in `:app`
 ///   `android.dynamicFeatures`, forces a `<Name>Route : NavKey` constant into
-///   `:platform` `AppRoutes`, and drops a `:shell` helper that installs the
-///   split at runtime through `FeatureInstaller.ensureInstalled(...)`
+///   `:platform` `AppRoutes`, adds an entry point to `AppDeepLinks.kt`, and
+///   drops a `:shell` helper that installs the split at runtime through
+///   `FeatureInstaller.ensureInstalled(...)`
 ///   (`SplitInstallManager` + `SplitCompat`) exactly like the scanner tab.
 void run(HookContext context) {
   final name = context.vars['name'] as String;
@@ -44,6 +48,15 @@ void run(HookContext context) {
 
   // 1. Always: register the module in settings.gradle.kts.
   _updateSettingsGradle(gradlePath, context.logger);
+
+  // 2. Always: register entry route in AppRoutes.kt and entry point in AppDeepLinks.kt
+  _appendRouteToAppRoutes(pascalCase, context.logger);
+  _appendDeepLinkEntryPoint(
+    snakeCase: snakeCase,
+    pascalCase: pascalCase,
+    isDfm: delivery == 'on-demand',
+    logger: context.logger,
+  );
 
   if (delivery == 'on-demand') {
     _configureOnDemand(
@@ -342,6 +355,18 @@ void _stripHiltForOnDemand({
       logger.info('🗑  Removed $relative (no Hilt / no local route in a DFM)');
     }
     _pruneEmptyDirs(f.parent, stopAt: Directory(src));
+  }
+
+  final resolverFile = File(
+    '$src/presentation/di/${pascalCase}DeepLinkResolver.kt',
+  );
+  if (resolverFile.existsSync()) {
+    var resolverContent = resolverFile.readAsStringSync();
+    resolverContent = resolverContent
+        .replaceAll('import javax.inject.Inject\n', '')
+        .replaceAll(' @Inject constructor()', '');
+    resolverFile.writeAsStringSync(resolverContent);
+    logger.info('📝 Stripped @Inject from ${pascalCase}DeepLinkResolver.kt (DFM)');
   }
 
   File('$src/presentation/$screenCamel/${screenPascal}ViewModel.kt').writeAsStringSync('''
@@ -682,6 +707,7 @@ package $packageName.presentation.di
 import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
 import com.danhdue.platform.FeatureEntry
+import com.danhdue.platform.deeplink.DeepLinkResolver
 import $packageName.presentation.$screenCamel.${screenPascal}Root
 
 /**
@@ -706,6 +732,8 @@ class ${pascalCase}FeatureEntry : FeatureEntry {
                 ${screenPascal}Root(onEvent = {})
             }
         }
+
+    override fun resolver(): DeepLinkResolver = ${pascalCase}DeepLinkResolver()
 }
 ''');
   logger.info('📝 Generated ${pascalCase}FeatureEntry.kt');
@@ -857,6 +885,66 @@ void _appendRouteToAppRoutes(String pascalCase, Logger logger) {
   logger.info('📝 Added ${pascalCase}Route to :platform AppRoutes.kt');
 }
 
+/// Appends a [FeatureEntryPoint] for this feature to `:platform` `AppDeepLinks.kt`.
+///
+/// Idempotent; the exact inverse of `remove_feature`.
+void _appendDeepLinkEntryPoint({
+  required String snakeCase,
+  required String pascalCase,
+  required bool isDfm,
+  required Logger logger,
+}) {
+  var file = File(appDeepLinksPath);
+  if (!file.existsSync()) {
+    final dir = Directory('packages/platform/src/main/kotlin');
+    if (dir.existsSync()) {
+      for (final e in dir.listSync(recursive: true)) {
+        if (e is File && e.uri.pathSegments.last == 'AppDeepLinks.kt') {
+          file = e;
+          break;
+        }
+      }
+    }
+  }
+  if (!file.existsSync()) {
+    logger.warn('⚠️ ${file.path} not found — skipping :platform deep link registration');
+    return;
+  }
+
+  var content = file.readAsStringSync();
+  if (content.contains('feature = "$snakeCase"')) {
+    logger.info('✓ $snakeCase already in AppDeepLinks.kt');
+    return;
+  }
+
+  final lastParen = content.lastIndexOf('        )');
+  if (lastParen == -1) {
+    logger.warn('⚠️ AppDeepLinks.kt closing parenthesis missing — skipping');
+    return;
+  }
+
+  final entry = isDfm
+      ? '''            // TODO: if this feature is hosted in a shell tab, set tab = <tabIndex> (e.g. tab = 0)
+            FeatureEntryPoint(
+                feature = "$snakeCase",
+                entryRoute = AppRoutes.${pascalCase}Route,
+                tab = null,
+                dynamicModule = "$snakeCase",
+            ),
+'''
+      : '''            // TODO: if this feature is hosted in a shell tab, set tab = <tabIndex> (e.g. tab = 0)
+            FeatureEntryPoint(
+                feature = "$snakeCase",
+                entryRoute = AppRoutes.${pascalCase}Route,
+                tab = null,
+            ),
+''';
+
+  content = content.substring(0, lastParen) + entry + content.substring(lastParen);
+  file.writeAsStringSync(content);
+  logger.info('📝 Added $snakeCase to :platform AppDeepLinks.kt');
+}
+
 /// Real `:shell` on-demand install wiring (Task 14, design §4.4). Maintains
 /// `shell/.../navigation/OnDemandFeatures.kt` — a compiling registry of
 /// module → `:platform` route plus the `FeatureInstaller.ensureInstalled(...)` /
@@ -968,8 +1056,11 @@ object OnDemandFeatures {
 const appRoutesPath =
     'packages/platform/src/main/kotlin/com/danhdue/platform/AppRoutes.kt';
 
+const appDeepLinksPath =
+    'packages/platform/src/main/kotlin/com/danhdue/platform/deeplink/AppDeepLinks.kt';
+
 String appRoutesEntry(String pascalCase) =>
-    '\n    /** Entry point of the $pascalCase feature (an on-demand dynamic feature module). */\n'
+    '\n    /** Entry point of the $pascalCase feature. */\n'
     '    @Serializable\n'
     '    data object ${pascalCase}Route : NavKey\n';
 

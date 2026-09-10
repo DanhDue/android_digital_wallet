@@ -40,9 +40,12 @@ void run(HookContext context) {
     label: 'shell/build.gradle.kts',
   );
 
+  // Common wire points across all features (install-time and on-demand).
+  _removeFromAppDeepLinks(snakeCase, context.logger);
+  _removeRouteFromAppRoutes(pascalCase, context.logger);
+
   // on-demand-only wire points (no-ops when the feature was install-time).
   _removeFromAppDynamicFeatures(gradlePath, context.logger);
-  _removeRouteFromAppRoutes(pascalCase, context.logger);
   _removeShellInstallBranch(snakeCase, pascalCase, context.logger);
   _removeSplitTitleFromAppStrings(snakeCase, context.logger);
   _removeFeatureEntryFromServiceLoader(pascalCase, context.logger);
@@ -240,6 +243,17 @@ void _removeRouteFromAppRoutes(String pascalCase, Logger logger) {
   var content = file.readAsStringSync();
   final entry = _appRoutesEntry(pascalCase);
   if (!content.contains(entry)) {
+    final fallbackPattern = RegExp(
+      r'\n\s*/\*\*[\s\S]*?\*/\s*@Serializable\s+data object ' +
+          RegExp.escape('${pascalCase}Route') +
+          r' : NavKey\n',
+    );
+    if (fallbackPattern.hasMatch(content)) {
+      content = content.replaceAll(fallbackPattern, '');
+      file.writeAsStringSync(content);
+      logger.info('📝 Removed ${pascalCase}Route from :platform AppRoutes.kt');
+      return;
+    }
     logger.info('✓ ${pascalCase}Route not in AppRoutes.kt');
     return;
   }
@@ -247,6 +261,32 @@ void _removeRouteFromAppRoutes(String pascalCase, Logger logger) {
   content = content.replaceAll(entry, '');
   file.writeAsStringSync(content);
   logger.info('📝 Removed ${pascalCase}Route from :platform AppRoutes.kt');
+}
+
+/// Exact inverse of the `mvi_feature` AppDeepLinks insertion.
+void _removeFromAppDeepLinks(String snakeCase, Logger logger) {
+  final file = _findFile('packages/platform/src/main/kotlin', 'AppDeepLinks.kt');
+  if (file == null) {
+    logger.info('✓ AppDeepLinks.kt absent — nothing to unwire');
+    return;
+  }
+
+  var content = file.readAsStringSync();
+  if (!content.contains('feature = "$snakeCase"')) {
+    logger.info('✓ "$snakeCase" not in AppDeepLinks.kt');
+    return;
+  }
+
+  // Matches the FeatureEntryPoint block including any preceding comment and trailing comma/newline
+  final pattern = RegExp(
+    r'[ \t]*(?://[^\n]*\n)?[ \t]*FeatureEntryPoint\(\s*feature\s*=\s*"' +
+        RegExp.escape(snakeCase) +
+        r'"[\s\S]*?\),[ \t]*\n',
+  );
+
+  content = content.replaceAll(pattern, '');
+  file.writeAsStringSync(content);
+  logger.info('📝 Removed "$snakeCase" from :platform AppDeepLinks.kt');
 }
 
 /// Removes the guarded `:shell` on-demand install branch. Guarded on
@@ -344,7 +384,7 @@ void _removeSplitTitleFromAppStrings(String snakeCase, Logger logger) {
 // ---------------------------------------------------------------------------
 
 String _appRoutesEntry(String pascalCase) =>
-    '\n    /** Entry point of the $pascalCase feature (an on-demand dynamic feature module). */\n'
+    '\n    /** Entry point of the $pascalCase feature. */\n'
     '    @Serializable\n'
     '    data object ${pascalCase}Route : NavKey\n';
 

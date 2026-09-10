@@ -1,13 +1,13 @@
 ---
 id: "task_14_mason_brick_deeplink"
-status: "todo"
+status: "done"
 priority: "medium"
 assignee: null
 epic: "deeplink_router_engine"
 dueDate: null
 created: "2026-09-09T20:50:45Z"
-modified: "2026-09-09T20:50:45Z"
-completedAt: null
+modified: "2026-09-10T09:31:00Z"
+completedAt: "2026-09-10T09:31:00Z"
 labels: ["template", "tooling", "mason"]
 order: "a14"
 ---
@@ -56,24 +56,24 @@ Applicable skills: `.agents/skills/quality_check` at the end. Read `.devtool/epi
 
 **TDD Adaptation, stated explicitly**: the hook is a Dart code generator with no test harness in this repo, and the predecessor epic's brick tasks established acceptance-by-generation as the convention. RED/GREEN/REFACTOR is replaced by generate-and-verify runs against a scratch worktree, which exercise the real output rather than a mock of it:
 
-- [ ] **Change**: add the resolver template and the `AppDeepLinks` append (both delivery modes) to `post_gen.dart`.
-- [ ] **Change**: add the entry-point removal to `remove_feature`.
-- [ ] **Change**: document both in the brick READMEs, including the `tab = null` TODO.
-- [ ] **Verify (install-time)**: in a scratch worktree, `mason make mvi_feature --name payments`, then `./gradlew :features:payments:testDebugUnitTest :konsist-test:test assembleDebug` — all green, K10 passes on the generated resolver, and `myapp://payments` navigates.
-- [ ] **Verify (on-demand)**: `mason make mvi_feature --name kyc --delivery on-demand`, then `./gradlew :konsist-test:test assembleDebug bundleDebug` green, with `dynamicModule = "kyc"` present on the generated entry-point line.
-- [ ] **Verify (idempotence)**: run the same generation twice; `AppDeepLinks` gains exactly one line, not two.
-- [ ] **Verify (removal)**: `mason make remove_feature --name payments`, then confirm zero residual references (`grep`) and `./gradlew assembleDebug` green.
-- [ ] **Verify (existing behaviour)**: the `settings.gradle.kts` / `AppRoutes` / nav-module wiring the hook already did still works — no regression.
+- [x] **Change**: add the resolver template and the `AppDeepLinks` append (both delivery modes) to `post_gen.dart`.
+- [x] **Change**: add the entry-point removal to `remove_feature`.
+- [x] **Change**: document both in the brick READMEs, including the `tab = null` TODO.
+- [x] **Verify (install-time)**: in a scratch worktree, `mason make mvi_feature --name payments`, then `./gradlew :features:payments:testDebugUnitTest :konsist-test:test assembleDebug` — all green, K10 passes on the generated resolver, and `myapp://payments` navigates.
+- [x] **Verify (on-demand)**: `mason make mvi_feature --name kyc --delivery on-demand`, then `./gradlew :konsist-test:test assembleDebug bundleDebug` green, with `dynamicModule = "kyc"` present on the generated entry-point line.
+- [x] **Verify (idempotence)**: run the same generation twice; `AppDeepLinks` gains exactly one line, not two.
+- [x] **Verify (removal)**: `mason make remove_feature --name payments`, then confirm zero residual references (`grep`) and `./gradlew assembleDebug` green.
+- [x] **Verify (existing behaviour)**: the `settings.gradle.kts` / `AppRoutes` / nav-module wiring the hook already did still works — no regression.
 
 ## Definition of Done
 
-- [ ] Both generation modes produce a feature with a working deeplink and no manual edits.
-- [ ] The generated resolver satisfies K10 without adjustment.
-- [ ] Generation is idempotent.
-- [ ] `remove_feature` leaves zero residue, verified by `grep`.
-- [ ] Brick READMEs document the behaviour and the `tab` TODO.
-- [ ] No new brick variable was introduced.
-- [ ] All verification runs above are green.
+- [x] Both generation modes produce a feature with a working deeplink and no manual edits.
+- [x] The generated resolver satisfies K10 without adjustment.
+- [x] Generation is idempotent.
+- [x] `remove_feature` leaves zero residue, verified by `grep`.
+- [x] Brick READMEs document the behaviour and the `tab` TODO.
+- [x] No new brick variable was introduced.
+- [x] All verification runs above are green.
 
 ## Dependencies & Blockers
 

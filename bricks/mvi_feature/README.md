@@ -19,20 +19,28 @@ mason make mvi_feature \
 3. Adds `featurePayment` to `Deps.kt` Modules object
 4. Adds `FEATURE_PAYMENT` accessor to `DependencyHandlerExtensions.kt`
 5. Adds import and `FEATURE_PAYMENT` to `app/build.gradle.kts` (and `shell/build.gradle.kts` once `:shell` exists — guarded)
-6. Runs Gradle sync
+6. Appends `PaymentRoute` to `:platform` `AppRoutes.kt`
+7. Registers entry point in `:platform` `AppDeepLinks.kt`
+8. Runs Gradle sync
 
-The feature exposes its navigation entries through the generated
-`PaymentNavigationModule` (`@Module` → `@Provides @IntoSet EntryProviderInstaller`).
-`:platform` `AppRoutes` is **not** touched.
+The feature exposes its navigation entries and deep link resolution through the generated
+`PaymentNavigationModule` (`@Module` in `SingletonComponent` → `@Provides @IntoSet EntryProviderInstaller` and `@Provides @IntoSet DeepLinkResolver`).
 
 ### `--delivery on-demand` (Dynamic Feature Module)
 On top of step 1–2 above:
 * rewrites `features/payment/build.gradle.kts` to apply `com.android.dynamic-feature` (inverted dep: `implementation(project(":app"))`)
 * adds `":features:payment"` to `:app` `android.dynamicFeatures`
 * rewrites the manifest with `<dist:module dist:onDemand="true">` + a title string resource
-* generates `PaymentFeatureEntry : com.danhdue.platform.FeatureEntry` + `resources/META-INF/services/com.danhdue.platform.FeatureEntry`
+* generates `PaymentFeatureEntry : com.danhdue.platform.FeatureEntry` (providing installer and `PaymentDeepLinkResolver`) + `resources/META-INF/services/com.danhdue.platform.FeatureEntry`
 * appends `@Serializable data object PaymentRoute : NavKey` to `:platform` `AppRoutes`
-* drops a guarded `// TODO(task_14)` install-branch marker into `:shell`
+* registers entry point with `dynamicModule = "payment"` in `:platform` `AppDeepLinks`
+* registers the feature in `:shell` `OnDemandFeatures`
+
+### Deep Links and Tab Placement
+Every feature automatically resolves its base deep link:
+- `myapp://<feature>` -> `AppRoutes.<Feature>Route`
+- By default, `AppDeepLinks.kt` registers `tab = null` (which resolves to `RootFullScreen` placement).
+- **TODO**: If the feature is hosted inside a Shell bottom navigation tab, update `tab = <tabIndex>` in `AppDeepLinks.kt` (e.g., `tab = 0`).
 
 > The `SplitInstallManager` runtime + `:shell` install branch are **Task 14**. The Hilt Gradle plugin does not support dynamic-feature modules, so the generated DFM keeps `hilt-android` on the compile classpath only (no processing) — its DI wiring is Task 14's job. Until then the split is bundled by `assembleDebug` and behaves like install-time.
 

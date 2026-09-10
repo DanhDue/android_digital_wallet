@@ -4,32 +4,38 @@
  */
 package {{package}}.presentation.di
 
+import com.danhdue.framework.navigation.LocalNestedNavigator
+import com.danhdue.platform.AppRoutes
 import com.danhdue.platform.EntryProviderInstaller
-import com.danhdue.framework.navigation.Navigator
+import com.danhdue.platform.deeplink.DeepLinkResolver
 import {{package}}.presentation.{{screen.camelCase()}}.{{screen.pascalCase()}}Event
 import {{package}}.presentation.{{screen.camelCase()}}.{{screen.pascalCase()}}Root
-import {{package}}.presentation.{{screen.camelCase()}}.{{screen.pascalCase()}}Route
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 
 /**
- * Hilt module that provides navigation entries for the {{name.pascalCase()}} feature.
+ * Hilt module that provides navigation entries and deep link resolution for the {{name.pascalCase()}} feature.
  */
 @Module
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(SingletonComponent::class)
 object {{name.pascalCase()}}NavigationModule {
     @Provides
     @IntoSet
-    fun provide{{name.pascalCase()}}Entries(navigator: Navigator): EntryProviderInstaller =
+    fun provide{{name.pascalCase()}}DeepLinkResolver(resolver: {{name.pascalCase()}}DeepLinkResolver): DeepLinkResolver = resolver
+
+    @Provides
+    @IntoSet
+    fun provide{{name.pascalCase()}}Entries(): EntryProviderInstaller =
         {
-            entry<{{screen.pascalCase()}}Route> {
+            entry<AppRoutes.{{name.pascalCase()}}Route> {
+                val nestedNavigator = LocalNestedNavigator.current
                 {{screen.pascalCase()}}Root(
                     onEvent = { event ->
                         when (event) {
-                            {{screen.pascalCase()}}Event.NavigateBack -> navigator.popBackStack()
+                            {{screen.pascalCase()}}Event.NavigateBack -> nestedNavigator.popBackStack()
                         }
                     },
                 )
