@@ -21,8 +21,6 @@ It also prints a scan summary (how many `task_*.md` files were seen, how
 many matched the epic, how many were skipped) so a task file with broken
 or missing frontmatter is never silently dropped.
 """
-from __future__ import annotations
-
 import argparse
 import re
 import sys
@@ -90,9 +88,7 @@ def scan_tasks(features_dir: Path, epic: str) -> tuple[dict[str, dict], list[Pat
     tasks: dict[str, dict] = {}
     scanned: list[Path] = []
     skipped: list[Path] = []
-    for path in sorted(Path(features_dir).rglob("task_*.md")):
-        if "archived" in path.parts:
-            continue
+    for path in sorted(Path(features_dir).glob("task_*.md")):
         scanned.append(path)
         text = path.read_text()
         fm = parse_frontmatter(text)
