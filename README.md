@@ -25,37 +25,60 @@ Konsist architecture gate. Clone it, run one script, start building.
 - **Android Studio**: Latest stable or higher.
 - **Dart SDK**: only for [Mason][1], the feature-scaffolding tool.
 
-### 2. Rename the project (mandatory first step)
+### 2. Rename & Configure Mode (mandatory first step)
 
 After cloning, run the single post-clone entrypoint to replace the template's
-package / applicationId / namespace / rootProject name / app label in one pass:
+package / applicationId / namespace / rootProject name / app label and configure your target execution profile:
 
 ```bash
+# Default: Enterprise Super App (12 modules, DFM, Konsist, BCV)
 ./scripts/rename_project.sh acme_wallet com.acme.wallet "Acme Wallet"
+
+# Or configure specific mode:
+./scripts/rename_project.sh acme_wallet com.acme.wallet "Acme Wallet" --mode lean
+./scripts/rename_project.sh my_plugin com.acme.plugin "My Plugin" --mode plugin
+
 git add -A && git commit -m "chore: rename project from template"
 ```
+
+You can also switch project modes at any time without renaming:
+```bash
+./scripts/configure_mode.sh <enterprise|lean|plugin> [--prune]
+```
+
+#### Execution Profiles (Tri-Mode):
+- **`enterprise`** (Default): Full Super App (12 modules, DFM `:features:scanner`, Konsist K1–K10 architecture gate, BCV ABI validation).
+- **`lean`**: Fast-compiling standalone MVP app (9 modules, DFM / Konsist / BCV deactivated for rapid developer feedback).
+- **`plugin`**: Flutter Plugin Native Devbed (`:plugin` + `:sample` only, Pure Dagger 2, WorkManager background execution without `FlutterEngine`).
 
 See **[docs/getting-started/TEMPLATE_USAGE.md](docs/getting-started/TEMPLATE_USAGE.md)**
 for the full workflow (adding features, where the rules live).
 
-### 3. Feature scaffolding (Mason)
+### 3. Feature & Plugin Scaffolding (Mason)
 
-> **See the [Mason Guide](docs/MASON_GUIDE.md) for full instructions on creating features and screens.**
+> **See the [Mason Guide](docs/MASON_GUIDE.md) for full instructions on creating features and native plugins.**
 
 ```bash
 dart pub global activate mason_cli
 mason get
 
+# ── Super App Features ──────────────────────────────────────────────────────
 # install-time feature module
 mason make mvi_feature --name Profile --package com.acme.profile --screen Main
 
 # on-demand Dynamic Feature Module
 mason make mvi_feature --name Rewards --package com.acme.rewards --screen Main --delivery on-demand
-```
 
-> The `__brick__` templates hardcode the template's original package import prefix and
-> `rename_project.sh` never touches `bricks/` — run `mason make` before the rename, or pass
-> `--package` (as above) and repoint the generated package `import` lines to your vendor prefix.
+# ── Flutter Native Plugins ──────────────────────────────────────────────────
+# Headless plugin (Platform IPC + Pure Dagger 2 + WorkManager)
+mason make native_plugin --name biometric_auth --package com.acme.biometric --has_ui false
+
+# UI-enabled plugin (adds Jetpack Compose PlatformView & MVI)
+mason make native_plugin --name custom_camera --package com.acme.camera --has_ui true
+
+# Upgrade an existing headless plugin to UI
+mason make add_native_ui --name biometric_auth --package com.acme.biometric
+```
 
 ---
 
@@ -111,7 +134,9 @@ The project is organized by **Feature**, not by Layer.
 ├── libraries/
 │   └── testutils/        # Shared test rules and base test classes
 ├── konsist-test/         # JVM/JUnit architecture gate (rules K1–K10); never shipped in the APK
-└── bricks/               # Mason code-generation templates (mvi_feature, mvi_subfeature, remove_feature)
+├── plugin/               # Flutter Plugin Native Devbed library (Pure Dagger 2, headless WorkManager)
+├── sample/               # Standalone testbed runner app for local plugin debugging (no Flutter required)
+└── bricks/               # Mason code-generation templates (mvi_feature, native_plugin, add_native_ui)
 ```
 
 Full detail and the module dependency graph: **[docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md)**.

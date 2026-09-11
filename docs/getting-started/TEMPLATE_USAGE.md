@@ -19,7 +19,13 @@ every module `namespace`, the Gradle `rootProject.name`, the `AndroidManifest` l
 `./gradlew :konsist-test:test assembleDebug`.
 
 ```bash
+# Default: enterprise mode (all 12 modules, DFM, Konsist, BCV)
 ./scripts/rename_project.sh acme_wallet com.acme.wallet "Acme Wallet"
+
+# Or configure mode explicitly:
+./scripts/rename_project.sh acme_wallet com.acme.wallet "Acme Wallet" --mode lean
+./scripts/rename_project.sh my_plugin com.acme.plugin "My Plugin" --mode plugin
+
 git add -A && git commit -m "chore: rename project from template"
 ```
 
@@ -29,7 +35,16 @@ git add -A && git commit -m "chore: rename project from template"
   e.g. `com.acme`) that replaces `com.danhdue`, and an **app leaf** (the last segment,
   e.g. `wallet`) that replaces `androiddigitalwallet`.
 - `<display_name>` — optional; Title-Cased from `<app_name>` when omitted.
+- `--mode <enterprise|lean|plugin>` — target execution profile:
+  - `enterprise` (default): Full Super App (12 modules, DFM `:features:scanner`, Konsist K1–K10, BCV).
+  - `lean`: Fast-compiling standalone MVP app (9 modules, no DFM, no Konsist, no BCV).
+  - `plugin`: Flutter Plugin Native Devbed (`:plugin` + `:sample` only, Pure Dagger 2).
 - `--force` — run on a dirty tree. `--dry-run` — list every change, edit nothing, exit 0.
+
+You can also switch project modes at any time without renaming:
+```bash
+./scripts/configure_mode.sh <enterprise|lean|plugin> [--prune]
+```
 
 **Never rewritten by the script:** `.devtool/`, `docs/superpowers/`,
 `bricks/**/__brick__/**` (Mason `{{package}}` placeholders). This repo commits no Firebase /
@@ -74,13 +89,29 @@ Each install-time Mini App feature includes a dedicated `:sample` application mo
   ./gradlew :features:settings:sample:installDebug
   ```
 
-## 4. Contract Governance (BCV)
+## 5. Flutter Plugin Native Devbed (`:plugin` + `:sample`)
 
-Shared packages (`:packages:core`, `:packages:platform`, `:packages:network`, `:packages:framework`, `:packages:ui_kit`) have their public ABI strictly tracked:
-- **Verify compatibility**: `./gradlew apiCheck` (runs as part of CI Phase 6 and root `:check`).
-- **Update signatures**: `./gradlew apiDump` (run when intentionally adding new public API).
+When developing native Android code for Flutter Plugins:
+- **Switch to plugin mode**:
+  ```bash
+  ./scripts/configure_mode.sh plugin
+  ```
+- **Pure Dagger 2**: Zero Hilt dependency in `:plugin` avoiding `Application` class requirements.
+- **Headless Execution**: `DataSyncWorker` (WorkManager) and Pigeon Host API execute in background without `FlutterEngine`.
+- **Interactive Testbed**: `:sample` runner application directly embeds `MyPluginScreen` and provides native debugging controls.
+- **Scaffold Plugins with Mason**:
+  ```bash
+  # Headless plugin
+  mason make native_plugin --name biometric_auth --package com.acme.biometric --has_ui false
 
-## 5. Where the rules live
+  # UI-enabled plugin
+  mason make native_plugin --name custom_camera --package com.acme.camera --has_ui true
+
+  # Upgrade headless plugin to UI
+  mason make add_native_ui --name biometric_auth --package com.acme.biometric
+  ```
+
+## 6. Where the rules live
 
 - **Architecture (authoritative):** [docs/architecture/ARCHITECTURE.md](../architecture/ARCHITECTURE.md).
   The repo-root `ARCHITECTURE.md` is a redirect.

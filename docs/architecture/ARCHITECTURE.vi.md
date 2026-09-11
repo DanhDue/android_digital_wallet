@@ -42,6 +42,8 @@ Tài liệu này là **hướng dẫn kiến trúc chuẩn mực (authoritative 
     - [4.2 Super App Governance: 4 Trụ Cột & 8 Tiêu Chí](#42-super-app-governance-4-trụ-cột--8-tiêu-chí)
     - [4.3 Sandbox Development: Standalone Mini App Runners](#43-sandbox-development-standalone-mini-app-runners)
     - [4.4 Binary Compatibility Validator (BCV) & Quản Trị Hợp Đồng ABI](#44-binary-compatibility-validator-bcv--quản-trị-hợp-đồng-abi)
+    - [4.5 Cấu Hình Tri-Mode (enterprise, lean, plugin)](#45-cấu-hình-tri-mode-enterprise-lean-plugin)
+    - [4.6 Flutter Plugin Native Devbed (:plugin + :sample)](#46-flutter-plugin-native-devbed-plugin--sample)
   - [5. Sử dụng với Mason](#5-sử-dụng-với-mason)
 - [IV. Stack Công Nghệ Android Hiện Đại](#iv-stack-công-nghệ-android-hiện-đại)
 - [V. Ví Dụ Code & Best Practices](#v-ví-dụ-code--best-practices)
@@ -551,7 +553,30 @@ Ngoài ra, Gradle guard sẽ làm quá trình Gradle sync thất bại nếu ph�
 | Đăng ký route cross-feature vào `:platform AppRoutes` | ✅ khi dùng `--delivery on-demand`, ngược lại có thông báo nhắc |
 | Dependency injection cho repository / use case mới | ✅ Constructor gắn `@Inject` của Hilt (không cần đăng ký thủ công) |
 | Sinh mã tự động (Hilt, Moshi, Room) | ✅ KSP, tích hợp sẵn khi build |
-| Định dạng code chuẩn | ✅ `./gradlew spotlessApply` |
+### 4.5 Cấu Hình Tri-Mode (enterprise, lean, plugin)
+
+Template cung cấp 3 cấu hình thực thi chuẩn mực thông qua `scripts/configure_mode.sh` và `scripts/rename_project.sh --mode <profile>`:
+
+| Cấu hình | Module Hoạt Động | Trường Hợp Sử Dụng | Đặc Điểm Chính |
+|---|---|---|---|
+| **`enterprise`** (Mặc định) | 12 modules (`:app`, `:shell`, `:packages:*`, `:features:*`, `:libraries:testutils`, `:konsist-test`) | Super App Quy Mô Lớn / Production | DFM on-demand split (`:features:scanner`), Konsist gate (K1–K10), BCV ABI validation, Hilt `@IntoSet` multibindings. |
+| **`lean`** | 9 modules (`:app`, `:shell`, `:packages:*`, `:features:settings`, `:libraries:testutils`) | Tạo Mẫu Tính Năng / MVP Độc Lập | Tạm tắt DFM, Konsist gate và BCV để Gradle sync siêu tốc và phản hồi tối đa. |
+| **`plugin`** | 2 modules (`:plugin`, `:sample`) | Phát Triển Native Plugin Cho Flutter | Không phụ thuộc Hilt, Pure Dagger 2, chạy background WorkManager không cần `FlutterEngine`, runner app tương tác độc lập. |
+
+Chuyển đổi chế độ bất kỳ lúc nào:
+```bash
+./scripts/configure_mode.sh enterprise|lean|plugin [--prune]
+```
+
+### 4.6 Flutter Plugin Native Devbed (`:plugin` + `:sample`)
+
+Khi phát triển tính năng native Android cho Flutter Plugins:
+1. **Kiến Trúc Pure Dagger 2**: Module `:plugin` không dùng Hilt để giữ tính độc lập nền tảng, hoạt động không cần lớp `Application`.
+2. **Thực Thi Headless**: Worker nền (`DataSyncWorker`) và Pigeon Host API hoạt động hoàn toàn độc lập với Flutter UI hoặc `FlutterEngine`.
+3. **Bộ Chạy `:sample` Độc Lập**: Lập trình viên Android có thể build, debug và kiểm thử giao diện Compose (`MyPluginScreen`) trực tiếp từ Android Studio mà không cần cài Flutter SDK.
+4. **Bộ Mason Bricks Chuyên Dụng**:
+   - `mason make native_plugin --name <name> --package <pkg> [--has_ui true|false]`
+   - `mason make add_native_ui --name <name> --package <pkg>`
 
 ---
 

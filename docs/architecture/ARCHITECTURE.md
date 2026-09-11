@@ -22,6 +22,8 @@
 | **• Sandbox Development (:sample runners)** | [English (§4.3)](ARCHITECTURE.en.md#43-sandbox-development-standalone-mini-app-runners) | [Tiếng Việt (§4.3)](ARCHITECTURE.vi.md#43-sandbox-development-standalone-mini-app-runners) |
 | **• BCV Contract Governance** | [English (§4.4)](ARCHITECTURE.en.md#44-binary-compatibility-validator-bcv--abi-contract-governance) | [Tiếng Việt (§4.4)](ARCHITECTURE.vi.md#44-binary-compatibility-validator-bcv--quản-trị-hợp-đồng-abi) |
 | **• Konsist Rules Gate (K1–K10)** | [English (§4.4 Konsist)](ARCHITECTURE.en.md#44-binary-compatibility-validator-bcv--abi-contract-governance) | [Tiếng Việt (§4.4 Konsist)](ARCHITECTURE.vi.md#44-binary-compatibility-validator-bcv--quản-trị-hợp-đồng-abi) |
+| **• Tri-Mode Profiles** | [English (§4.5)](ARCHITECTURE.en.md#45-tri-mode-execution-profiles-enterprise-lean-plugin) | [Tiếng Việt (§4.5)](ARCHITECTURE.vi.md#45-cấu-hình-tri-mode-enterprise-lean-plugin) |
+| **• Flutter Plugin Devbed** | [English (§4.6)](ARCHITECTURE.en.md#46-flutter-plugin-native-devbed-plugin--sample) | [Tiếng Việt (§4.6)](ARCHITECTURE.vi.md#46-flutter-plugin-native-devbed-plugin--sample) |
 | **IV. Modern Android Stack** | [English (Part IV)](ARCHITECTURE.en.md#iv-modern-android-stack) | [Tiếng Việt (Phần IV)](ARCHITECTURE.vi.md#iv-stack-công-nghệ-android-hiện-đại) |
 | **V. Code Examples & Best Practices** | [English (Part V)](ARCHITECTURE.en.md#v-code-examples--best-practices) | [Tiếng Việt (Phần V)](ARCHITECTURE.vi.md#v-ví-dụ-code--best-practices) |
 | **VI. References** | [English (Part VI)](ARCHITECTURE.en.md#vi-references) | [Tiếng Việt (Phần VI)](ARCHITECTURE.vi.md#vi-tài-liệu-tham-khảo) |

@@ -45,6 +45,8 @@ generated from it.
     - [4.2 Super App Governance: 4 Core Pillars & 8 Criteria](#42-super-app-governance-4-core-pillars--8-criteria)
     - [4.3 Sandbox Development: Standalone Mini App Runners](#43-sandbox-development-standalone-mini-app-runners)
     - [4.4 Binary Compatibility Validator (BCV) & ABI Contract Governance](#44-binary-compatibility-validator-bcv--abi-contract-governance)
+    - [4.5 Tri-Mode Execution Profiles (enterprise, lean, plugin)](#45-tri-mode-execution-profiles-enterprise-lean-plugin)
+    - [4.6 Flutter Plugin Native Devbed (:plugin + :sample)](#46-flutter-plugin-native-devbed-plugin--sample)
   - [5. Usage with Mason](#5-usage-with-mason)
 - [IV. Modern Android Stack](#iv-modern-android-stack)
 - [V. Code Examples & Best Practices](#v-code-examples--best-practices)
@@ -585,6 +587,31 @@ another feature.
 | Dependency injection of new repositories / use cases | ✅ Hilt `@Inject` constructors (no manual registry) |
 | Code generation (Hilt, Moshi, Room) | ✅ KSP, in-build |
 | Formatting | ✅ `./gradlew spotlessApply` |
+
+### 4.5 Tri-Mode Execution Profiles (enterprise, lean, plugin)
+
+The template provides three governed execution profiles managed via `scripts/configure_mode.sh` and `scripts/rename_project.sh --mode <profile>`:
+
+| Profile | Active Modules | Use Case | Key Characteristics |
+|---|---|---|---|
+| **`enterprise`** (Default) | 12 modules (`:app`, `:shell`, `:packages:*`, `:features:*`, `:libraries:testutils`, `:konsist-test`) | Full-scale Super App / Production | DFM on-demand split (`:features:scanner`), Konsist architecture gate (K1–K10), BCV public ABI enforcement, Hilt `@IntoSet` multibindings. |
+| **`lean`** | 9 modules (`:app`, `:shell`, `:packages:*`, `:features:settings`, `:libraries:testutils`) | Rapid Feature Prototyping / Standalone MVP | Deactivates DFM, Konsist gate, and BCV for instant Gradle sync and maximum iteration speed. |
+| **`plugin`** | 2 modules (`:plugin`, `:sample`) | Flutter Plugin Native Development | Zero Hilt overhead, pure Dagger 2, WorkManager background execution without `FlutterEngine`, interactive standalone testbed app. |
+
+Switch modes anytime with:
+```bash
+./scripts/configure_mode.sh enterprise|lean|plugin [--prune]
+```
+
+### 4.6 Flutter Plugin Native Devbed (`:plugin` + `:sample`)
+
+When engineering native Android features for Flutter Plugins:
+1. **Pure Dagger 2 Architecture**: `:plugin` avoids Hilt annotations to remain completely framework-neutral and operable without an `Application` container class.
+2. **Headless Execution**: Background workers (`DataSyncWorker`) and IPC host APIs operate independently of Flutter UI or `FlutterEngine`.
+3. **Standalone `:sample` Runner**: Native Android developers can run, debug, and test Compose UI components (`MyPluginScreen`) and background tasks directly from Android Studio without installing Flutter SDK.
+4. **Dedicated Mason Bricks**:
+   - `mason make native_plugin --name <name> --package <pkg> [--has_ui true|false]`
+   - `mason make add_native_ui --name <name> --package <pkg>`
 
 ---
 

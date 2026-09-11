@@ -1,13 +1,13 @@
 ---
 id: "task_7_e2e_verification_and_docs"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "tri_mode_and_flutter_plugin_devbed"
 dueDate: null
 created: "2026-09-11T15:20:00Z"
-modified: "2026-09-11T15:28:00Z"
-completedAt: null
+modified: "2026-09-11T17:36:00Z"
+completedAt: "2026-09-11T17:36:00Z"
 labels: ["qa", "verification", "documentation", "e2e"]
 order: "a7"
 ---
