@@ -1,13 +1,13 @@
 ---
 id: "task_4_flutter_platform_and_compose_view"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "tri_mode_and_flutter_plugin_devbed"
 dueDate: null
 created: "2026-09-11T15:20:00Z"
-modified: "2026-09-11T15:28:00Z"
-completedAt: null
+modified: "2026-09-11T17:06:00Z"
+completedAt: "2026-09-11T17:06:00Z"
 labels: ["presentation", "compose", "flutter", "pigeon", "platformview"]
 order: "a4"
 ---

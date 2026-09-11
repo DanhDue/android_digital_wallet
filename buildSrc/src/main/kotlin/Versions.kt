@@ -66,6 +66,7 @@ object Versions {
     const val media = "1.7.0"
     const val media3 = "1.9.0"
     const val lombok = "1.18.36"
+    const val flutterEmbedding = "1.0.0-cc8e596aa65130a0678cc59613ed1c5125184db4"
     const val otelBom = "1.46.0"
     const val otelSemConv = "1.30.1-alpha"
     const val otelAndroid = "0.9.0"

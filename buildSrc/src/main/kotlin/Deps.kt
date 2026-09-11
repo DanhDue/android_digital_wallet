@@ -85,6 +85,10 @@ object Deps {
         const val compiler = "com.google.dagger:dagger-compiler:${Versions.hilt}"
     }
 
+    object Flutter {
+        const val embedding = "io.flutter:flutter_embedding_debug:${Versions.flutterEmbedding}"
+    }
+
     object Hilt {
         const val hiltCommon = "androidx.hilt:hilt-common:${Versions.hiltCommon}"
         const val core = "com.google.dagger:hilt-android:${Versions.hilt}"

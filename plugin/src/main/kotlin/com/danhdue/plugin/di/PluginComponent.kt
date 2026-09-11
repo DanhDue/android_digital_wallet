@@ -16,6 +16,7 @@ interface PluginComponent {
     fun getPluginRepository(): PluginRepository
     fun getDataUseCase(): GetDataUseCase
     fun getSyncDataUseCase(): SyncDataUseCase
+    fun getMyPluginViewModel(): com.danhdue.plugin.presentation.MyPluginViewModel
 
     @Component.Builder
     interface Builder {
