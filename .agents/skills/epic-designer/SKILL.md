@@ -6,7 +6,7 @@ description: Use when analyzing high-level requirements to design a complete sof
 # Epic Designer
 
 ## Overview
-This skill transforms high-level product or technical requirements into a structured, developer-ready Epic. It creates a centralized High-Level Design (HLD) document and breaks the work down into granular Kanban tasks enforcing Behavior-Driven Development (BDD), Test-Driven Development (TDD), and strict Definition of Done (DoD), fully aligned with `epic-implementation`'s Dual-Persona workflow.
+This skill transforms high-level product or technical requirements into a structured, developer-ready Epic. It creates a centralized High-Level Design (HLD) document and breaks the work down into granular Kanban tasks enforcing Behavior-Driven Development (BDD), Test-Driven Development (TDD), and strict Definition of Done (DoD), fully aligned with `epic-implementation`'s Tri-Persona workflow (QA Red Team + TDD Master + System Integration Engineer).
 
 ## When to Use
 - When the user provides a high-level requirement or problem statement and asks for a technical design or task breakdown.
@@ -72,7 +72,83 @@ Before writing any task file, check `.devtool/features/*.md` (excluding the `don
 If no other epic has any active (`todo`/`in-progress`/`review`) task, generate tasks with the normal default `status: "todo"` as usual.
 
 ### Step 2: Generate LachyFS Kanban Tasks
-Break the Epic down into granular implementation tasks. **Crucially, each task must be structured around Behavior-Driven Development (BDD) and Test-Driven Development (TDD)** to feed directly into the Dual-Persona (QA Red Team + TDD Master) execution workflow in `epic-implementation`. Wherever the task produces testable behavior (see the TDD Adaptation note below for tasks that don't), generate Markdown task files located at `.devtool/features/task_<number>_<name>.md` (and mirrored in `.devtool/epic/<epic_name>/task_<number>_<name>.md` as permanent epic outputs).
+Break the Epic down into granular implementation tasks. **Crucially, each task must be structured around Behavior-Driven Development (BDD), Test-Driven Development (TDD), and Integration Flow Testing** to feed directly into the Tri-Persona (QA Red Team + TDD Master + System Integration Engineer) execution workflow in `epic-implementation`. Wherever the task produces testable behavior (see the TDD Adaptation note below for tasks that don't), generate Markdown task files located at `.devtool/features/task_<number>_<name>.md` (and mirrored in `.devtool/epic/<epic_name>/task_<number>_<name>.md` as permanent epic outputs).
+
+#### Mandatory 3-Tier Testing Standard in Task Breakdown
+Every Epic breakdown MUST explicitly structure and address all 3 testing tiers across the Tri-Persona system:
+- **Tier A (Unit / Package Tests)**: Individual tasks covering module/feature logic, MVI ViewModels, UseCases, Repositories, Parsers with isolated unit tests (`./gradlew testDebugUnitTest`). Executed by the **TDD Master (Dev Persona)**.
+- **Tier B (Tooling & Governance Tests)**: Tasks that touch architectural rules, convention plugins, or public API signatures MUST include verification with Konsist rules K1–K10 (`./gradlew :konsist-test:test`) and BCV public ABI checks (`./gradlew apiCheck`).
+- **Tier C (Acceptance & App Tests)**: Every Epic MUST include an explicit final integration task (e.g. `Task N: Host App Integration & Acceptance Tests`) verifying the Host composition root (`:app` + `:shell`), full end-to-end user navigation flows, DFM on-demand splits, and running the automated acceptance harness (`./scripts/acceptance_check.sh`). Executed by the **System Integration Engineer (Integration Persona)**.
+
+```mermaid
+flowchart TD
+    subgraph SPEC["Specification & Architecture (HLD)"]
+        HLD["High-Level Design<br/>(Use Cases & Sequence Diagrams)"]
+    end
+
+    subgraph PHASE1["Phase 1: QA Red Team (Adversarial Decoupling)"]
+        BDD["BDD Scenarios (Gherkin syntax)<br/>⚠️ Strictly Decoupled from Coding"]
+        TAG{"Categorization & Contract Freeze"}
+    end
+
+    subgraph PARALLEL["Parallel Execution Tracks (dispatching-parallel-agents)"]
+        direction LR
+        subgraph TIER_A["Tier A: TDD Master (Dev Persona)"]
+            UNIT_SCENARIOS["[Tier A - Unit] Scenarios"]
+            RED["1. RED: Failing Unit Tests"]
+            GREEN["2. GREEN: Minimal Kotlin/Compose Code"]
+            REFACTOR["3. REFACTOR: Clean Code & Lint"]
+            VERIFY_A["./gradlew testDebugUnitTest"]
+        end
+
+        subgraph TIER_C["Tier C: System Integration & E2E Engineer"]
+            FLOW_SCENARIOS["[Tier C - Integration] Scenarios"]
+            FLOW_TESTS["Host App Integration Flow Tests<br/>(*FlowTest.kt in :app / :shell)"]
+            SYS_ASSERT["Assert DI, Navigation Stack, Lifecycle,<br/>Auth Gating Replay, DFM Splits"]
+        end
+    end
+
+    subgraph TIER_B["Tier B: Automated Governance Gates"]
+        GATE["Konsist K1-K10 + BCV apiCheck<br/>(Architecture Boundaries & Public ABI)"]
+    end
+
+    subgraph SYNC["Sync Checkpoint & Acceptance Verification"]
+        MERGE["Merge & Sync Checkpoint"]
+        VERIFY_C["./scripts/acceptance_check.sh<br/>(Packaging & E2E Acceptance Harness)"]
+    end
+
+    HLD -->|100% Independent Derivation| BDD
+    BDD --> TAG
+    TAG -->|Track 1: Disjoint Feature Files| UNIT_SCENARIOS
+    TAG -->|Track 2: Disjoint Host Test Files| FLOW_SCENARIOS
+
+    UNIT_SCENARIOS --> RED --> GREEN --> REFACTOR --> VERIFY_A
+    REFACTOR -.->|Code Changes Validated by| GATE
+
+    FLOW_SCENARIOS --> FLOW_TESTS --> SYS_ASSERT
+
+    VERIFY_A --> MERGE
+    SYS_ASSERT --> MERGE
+    GATE --> MERGE
+    MERGE --> VERIFY_C
+```
+
+> [!IMPORTANT]
+> ### ⚡ PARALLEL EXECUTION RULES (TIER A & TIER C CONCURRENCY)
+> When executing via `dispatching-parallel-agents`, the Lead Agent may dispatch **Subagent 1 (Dev Persona — Tier A)** and **Subagent 2 (SDET Persona — Tier C)** concurrently, provided these 3 inviolable rules are satisfied:
+> 
+> 1. **Rule 1: Strict Contract Freeze (Zero Contract Drift)**:
+>    - All public interface contracts (`AppRoutes`, `AppEventBus`, DTOs, ViewModel Intent/State contracts) must be locked during Phase 1 BDD authoring.
+>    - Neither agent is permitted to rename, alter types, or mutate public contract signatures during parallel execution without a synchronized pause.
+> 
+> 2. **Rule 2: Disjoint File Sets (Zero Git Merge Conflicts)**:
+>    - **Subagent 1 (Dev)**: Restricted strictly to feature/package sources (`features/{name}/**`, `packages/{package}/**`).
+>    - **Subagent 2 (SDET)**: Restricted strictly to Host App integration testbeds (`app/src/test/**`, `shell/src/test/**`).
+>    - **NEITHER agent** may modify shared build or dependency files (`settings.gradle.kts`, `buildSrc/**`) concurrently.
+> 
+> 3. **Rule 3: ATDD Sync Checkpoint & Verification**:
+>    - Subagent 2's integration flow tests initially act as **ATDD Red Tests** (failing while Subagent 1's code is in-flight).
+>    - Once both subagents report completion, the Lead Agent performs the **Sync Checkpoint**: merges the branches, validates that the integration tests turn **GREEN** (`./gradlew testDebugUnitTest`), and runs `./scripts/acceptance_check.sh`.
 
 Task files are English-only — do not generate a `.vi.md` variant for tasks and do not mix Vietnamese prose into section headers or body. The English/Vietnamese pairing applies only to the Epic Overview document from Step 1.
 
@@ -97,25 +173,42 @@ Each task file MUST adhere to this exact structure:
 2. **Title**: `# Task <number>: <Task Name>`
 3. **Epic Reference**: A link back to the parent HLD, e.g. `Epic: [<epic_name>](../epic/<epic_name>/<epic_name>.en.md)`. This is the agent's entry point back to architecture/diagram context (Use Cases and Sequence Diagrams).
 4. **Requirement Analysis**: Context and requirements specific to this task.
-5. **Relevant Files & Context Pointers**: An explicit bullet list of exact file/directory paths this task reads or modifies (e.g. `packages/core/lib/utils/log.dart`). This is what lets an agent load full context in one pass instead of searching — always populate it, even if just 2-3 paths.
-6. **Design Rationale**: Architecture decisions or design patterns chosen. **Crucially, review the available skills in `.agents/skills/` and if any skill is directly applicable to this task (e.g., `api_integration`, `mobile-uiux-promax`), explicitly note it here so the developer or agent knows which skill to invoke when implementing.**
+5. **Relevant Files & Context Pointers**: An explicit bullet list of exact file/directory paths this task reads or modifies (e.g. `packages/core/src/main/kotlin/com/danhdue/core/utils/Logger.kt`). This is what lets an agent load full context in one pass instead of searching — always populate it, even if just 2-3 paths.
+6. **Design Rationale**: Architecture decisions or design patterns chosen. **Crucially, review the available skills in `.agents/skills/` and if any skill is directly applicable to this task (e.g., `api_integration`, `moshi_dto_generator`), explicitly note it here so the developer or agent knows which skill to invoke when implementing.**
 7. **BDD Scenarios & Acceptance Criteria (The QA Persona)**:
    Document this section under the markdown heading `### BDD SCENARIOS`.
    Define behavioral scenarios using Gherkin syntax (`Given - When - Then`).
+
+   **Strict Adversarial Independence Mandate**:
+   - The QA Persona MUST author BDD scenarios **completely decoupled from implementation code**.
+   - Do NOT base scenarios on implementation ease or existing code internals. Base them **PURELY on the Epic's HLD specifications, Use Cases (flowchart), and Sequence Diagrams**.
+   - The QA Persona's sole objective is to act as an adversarial quality gate: expose all unhandled edge cases, boundaries, race conditions, and system failure modes before any coding begins.
+
    **Mandatory Self-Review**: You MUST perform a self-review by cross-checking these scenarios directly against the Use Cases (flowchart) and Sequence Diagrams defined in the Epic's HLD document (`<epic_name>.en.md`) to guarantee zero missing requirements before proceeding to the Dev/TDD phase.
    Exhaustively apply Boundary Value Analysis & Equivalence Partitioning across 5 dimensions:
    - **Happy Paths**: Normal data flow and standard successful outcomes.
    - **Edge Cases & Boundaries**: Null inputs, empty arrays/collections, malformed payloads, boundary numbers.
-   - **State Transitions**: Valid and invalid state transitions (for BLoC/MVI architecture).
-   - **Async / Race Conditions**: Rapid consecutive user interactions (e.g. fast multi-tap), debouncing, stream `switchMap`/cancellation, out-of-order async responses.
+   - **State Transitions**: Valid and invalid state transitions (for MVI architecture: ViewIntent -> ViewState / ViewEffect).
+   - **Async / Race Conditions**: Rapid consecutive user interactions (e.g. fast multi-tap), debouncing, Flow `flatMapLatest`/cancellation, out-of-order async responses.
    - **Failures & Storage/Network Resilience**: Timeouts, 4xx/5xx HTTP errors, offline states, corrupted local storage/DB.
-8. **TDD Checklist (The Dev Persona)**:
-   - [ ] **RED**: Translate all BDD scenarios into failing tests (Unit/Widget/Integration). Write mock objects with artificial delays to test race conditions and verify stream subscriptions are cancelled. Confirm tests fail for the right reasons before writing implementation code.
-   - [ ] **GREEN**: Write minimal implementation code to satisfy the tests.
-   - [ ] **REFACTOR**: Optimize performance, clean up structure, format (`dart format -l 99`), and verify zero linter warnings (`melos run analyze`).
 
-   **TDD Adaptation**: For tasks that are pure refactors, mass find/replace, or config/infra changes with no new behavior (e.g. "replace all call sites"), RED/GREEN/REFACTOR doesn't literally apply. Replace the checklist with concrete, verifiable steps instead (what to change, then "run the existing test suite / `melos run analyze` to confirm no regression"), and say explicitly in the task why TDD was adapted. Never silently drop structure — state the substitution.
-9. **Definition of Done (DoD)**: Acceptance criteria (e.g., 100% scenario coverage, stream subscription cancellation verified, zero lint warnings).
+   **Tier Categorization Tagging**: The QA Persona MUST explicitly tag each scenario:
+   - `[Tier A - Unit]`: Scenarios covering class/function level logic, MVI ViewModels, UseCases, Repositories, Parsers, and Guards.
+   - `[Tier C - Integration]`: Scenarios covering end-to-end user navigation, Host App lifecycle, Tab switching, Auth Gating & Replay, or DFM on-demand split installation.
+
+8. **Test & Verification Checklist (Dev Persona / Integration Persona)**:
+   - **For Tier A (Unit / Feature Tasks — The Dev Persona)**:
+     - [ ] **RED**: Translate all `[Tier A - Unit]` BDD scenarios into failing unit tests. Write mock objects with Coroutine test dispatchers/delays to test race conditions and verify coroutine jobs/flows are properly cancelled. Confirm tests fail for the right reasons before writing implementation code.
+     - [ ] **GREEN**: Write minimal implementation code to satisfy the tests.
+     - [ ] **REFACTOR**: Optimize performance, clean up structure, format (`./gradlew spotlessApply`), and verify zero linter warnings (`./gradlew detekt`).
+   - **For Tier C (Host App Integration Tasks — The Integration Persona)**:
+     - [ ] **ENV SETUP**: Configure Host App composition testbed (`:app` / `:shell`) with real or test Hilt components and Navigation channels.
+     - [ ] **FLOW TRANSLATION**: Translate all `[Tier C - Integration]` BDD scenarios into executable Integration Flow Tests (`*FlowTest.kt`).
+     - [ ] **ASSERTIONS**: Assert tab selection, backstack synthesis, Intent cold/warm start, Auth Gating replay, and DFM split resolution.
+     - [ ] **ACCEPTANCE HARNESS**: Verify `./gradlew testDebugUnitTest` and execute `./scripts/acceptance_check.sh` to confirm zero regressions across packaging, DFM splits, and architecture gates.
+
+   **TDD Adaptation**: For tasks that are pure refactors, mass find/replace, or config/infra changes with no new behavior (e.g. "replace all call sites"), RED/GREEN/REFACTOR doesn't literally apply. Replace the checklist with concrete, verifiable steps instead (what to change, then "run the existing test suite / `./gradlew check` to confirm no regression"), and say explicitly in the task why TDD was adapted. Never silently drop structure — state the substitution.
+9. **Definition of Done (DoD)**: Acceptance criteria (e.g., 100% scenario coverage, flow cancellation verified, zero lint warnings, passes appropriate Tier A/B/C verification).
 10. **Dependencies & Blockers**: Link to blocking/blocked task files as markdown links (e.g. `Blocked by [Task 1](task_1_create_package.md)`), not prose-only references.
 11. **References & Rollback**: Links to docs, APIs, and a rollback strategy if this specific task fails.
 
@@ -137,6 +230,7 @@ Finally, update the Epic's **Status** field if the overall epic phase has change
 
 ## Red Flags - STOP and Start Over
 - Writing task files before the user has confirmed the task breakdown checkpoint.
+- Omitting the final Tier C (Acceptance & App Tests) task from the Epic breakdown.
 - Generating tasks without BDD scenarios / edge case specifications or without a TDD checklist (or stated TDD Adaptation).
 - Creating the Epic overview in the project root instead of `.devtool/epic/<epic_name>/`.
 - Generating the Epic Overview while its source spec still lives in `docs/superpowers/specs/` instead of `.devtool/epic/<epic_name>/`.

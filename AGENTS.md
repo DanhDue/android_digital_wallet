@@ -5,7 +5,7 @@ This is a **governed multi-module Android template**: Clean Architecture + MVI, 
 a Host/Shell composition root, an on-demand Dynamic Feature Module example, and a Konsist
 architecture gate. Strong focus on module boundaries, dependency injection, and centralized
 build configuration. The authoritative architecture reference is
-**[`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md)**.
+**[`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md)**, and the complete development process is defined in **[`docs/architecture/EPIC_LIFECYCLE.md`](docs/architecture/EPIC_LIFECYCLE.md)**.
 
 ## 🏗 Project Structure
 
@@ -64,6 +64,23 @@ The project uses custom convention plugins to reduce boilerplate:
 4.  **KSP**: Use KSP (`com.google.devtools.ksp`) instead of KAPT for annotation processors (Room, Hilt, Moshi).
 5.  **Extensions**: Use extension functions in `DependencyHandlerExtensions.kt` (e.g., `addHiltDependencies()`) to keep build files clean.
 6.  **Public ABI Contracts**: Foundation packages (`core`, `platform`, `network`, `framework`, `ui_kit`) are tracked by Binary Compatibility Validator. If modifying public declarations, mark non-public API with `@InternalApi` or run `./gradlew apiDump` when intentionally expanding contracts. Verify with `./gradlew apiCheck`.
+
+## 🧪 3-Tier Testing Standard
+All test suites and implementation workflows across the project follow a standardized 3-tier model driven by a **Tri-Persona System**:
+- **Tier A (Unit / Package Tests)**: Driven by the **TDD Master (Dev Persona)**. Isolated logic tests for individual packages and features (`:packages:*`, `:features:*`). Tests MVI State, ViewModel, UseCase, Repository, Parsers, and Guards with mocks.
+  - Command: `./gradlew testDebugUnitTest`
+- **Tier B (Tooling & Governance Tests)**: Architecture rules and contract validation. AST linting via Konsist K1–K10 (`:konsist-test:test`), Binary Compatibility Validator public ABI checks (`apiCheck`), Detekt code smells, and Spotless formatting.
+  - Command: `./gradlew :konsist-test:test apiCheck detekt spotlessCheck`
+- **Tier C (Acceptance & App Tests)**: Driven by the **System Integration & E2E Engineer (Integration Persona)**. Integration Flow Tests (`*FlowTest.kt` in `:app` + `:shell`) and automated acceptance harness. Tests whole-app DI graph, navigation flow, Intent cold-start / warm-start, on-demand DFM splits, and project lifecycle.
+  - Command: `./scripts/acceptance_check.sh` (along with Host Flow Tests in `testDebugUnitTest`)
+
+### 👥 Tri-Persona Execution Workflow
+> [!IMPORTANT]
+> **Adversarial Independence Rule**: Phase 1 (QA Red Team) MUST operate completely decoupled from coding. Deriving BDD scenarios must rely strictly on HLD specifications, Use Cases, and Sequence Diagrams — NEVER on implementation code or coding convenience. This prevents confirmation bias and guarantees 100% coverage of edge cases, race conditions, and failure modes.
+
+1. **Expert QA (Red Team Persona)**: Authors exhaustive BDD Scenarios (Gherkin syntax) completely decoupled from coding, categorizing them into `[Tier A - Unit]` vs `[Tier C - Integration]`.
+2. **TDD Master (Dev Persona — Tier A)**: Translates unit BDD scenarios into failing tests (RED), writes minimal code to pass (GREEN), refactors cleanly.
+3. **System Integration Engineer (Integration Persona — Tier C)**: Translates flow/sequence BDD scenarios into Host App integration tests (`:app` / `:shell`), verifies DI, Navigation, Auth Replay, DFM split loading, and runs `acceptance_check.sh`.
 
 ## ⚠️ Known Issues / Notes
 - **Kotlin Plugin Versioning**: The root `build.gradle.kts` applies Kotlin and Compose plugins **without versions** (`apply false`). The version resolution relies on `settings.gradle.kts` or the `buildSrc` classpath to avoid "plugin already on classpath" errors.

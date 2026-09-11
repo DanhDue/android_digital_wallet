@@ -50,7 +50,7 @@ flowchart TB
     diverged{"Divergence\nfrom the HLD?"}
     phase3["Phase 3: Doc Sync\n(direct edits, no skill)"]
     moretasks{"More tasks\nin the order?"}
-    phase4["Phase 4: End of Epic\nmelos test/analyze ->\nsuperpowers:finishing-a-development-branch"]
+    phase4["Phase 4: End of Epic Verification\nquality_check (3-Tier + 4 Specialist Audits) ->\nsuperpowers:finishing-a-development-branch"]
     style phase4 fill:green
 
     prereq --> phase0
@@ -112,37 +112,131 @@ These are Phase 1's closing steps, not a separate phase — they run after the s
 
 For each task in the confirmed order, follow `superpowers:subagent-driven-development` almost exactly. **This differs from the base skill in two ways: (a) the task's Kanban `status` is kept live on disk (uncommitted) as it moves through `in-progress` and `review` while work is ongoing, so the dashboard reflects real progress instead of jumping straight from `todo` to `done`; (b) the implementer does not commit — you make exactly one commit yourself, after both reviews pass, staging the code and the task file's final status together.** Everything else is the base skill unchanged. The board's real columns are `backlog | todo | in-progress | review | done` — there is no `blocked` column, so a stalled task simply stays at `in-progress` while you resolve it out of band (chat with your human partner, the ledger), rather than moving to a status the board doesn't have.
 
+   #### Tri-Persona 3-Tier Quality Architecture
+
+   ```mermaid
+   flowchart TD
+       subgraph SPEC["Specification & Architecture (HLD)"]
+           HLD["High-Level Design<br/>(Use Cases & Sequence Diagrams)"]
+       end
+
+       subgraph PHASE1["Phase 1: QA Red Team (Adversarial Decoupling)"]
+           BDD["BDD Scenarios (Gherkin syntax)<br/>⚠️ Strictly Decoupled from Coding"]
+           TAG{"Categorization & Contract Freeze"}
+       end
+
+       subgraph PARALLEL["Parallel Execution Tracks (dispatching-parallel-agents)"]
+           direction LR
+           subgraph TIER_A["Tier A: TDD Master (Dev Persona)"]
+               UNIT_SCENARIOS["[Tier A - Unit] Scenarios"]
+               RED["1. RED: Failing Unit Tests"]
+               GREEN["2. GREEN: Minimal Kotlin/Compose Code"]
+               REFACTOR["3. REFACTOR: Clean Code & Lint"]
+               VERIFY_A["./gradlew testDebugUnitTest"]
+           end
+
+           subgraph TIER_C["Tier C: System Integration & E2E Engineer"]
+               FLOW_SCENARIOS["[Tier C - Integration] Scenarios"]
+               FLOW_TESTS["Host App Integration Flow Tests<br/>(*FlowTest.kt in :app / :shell)"]
+               SYS_ASSERT["Assert DI, Navigation Stack, Lifecycle,<br/>Auth Gating Replay, DFM Splits"]
+           end
+       end
+
+       subgraph TIER_B["Tier B: Automated Governance Gates"]
+           GATE["Konsist K1-K10 + BCV apiCheck<br/>(Architecture Boundaries & Public ABI)"]
+       end
+
+       subgraph SYNC["Sync Checkpoint & Acceptance Verification"]
+           MERGE["Merge & Sync Checkpoint"]
+           VERIFY_C["./scripts/acceptance_check.sh<br/>(Packaging & E2E Acceptance Harness)"]
+       end
+
+       HLD -->|100% Independent Derivation| BDD
+       BDD --> TAG
+       TAG -->|Track 1: Disjoint Feature Files| UNIT_SCENARIOS
+       TAG -->|Track 2: Disjoint Host Test Files| FLOW_SCENARIOS
+
+       UNIT_SCENARIOS --> RED --> GREEN --> REFACTOR --> VERIFY_A
+       REFACTOR -.->|Code Changes Validated by| GATE
+
+       FLOW_SCENARIOS --> FLOW_TESTS --> SYS_ASSERT
+
+       VERIFY_A --> MERGE
+       SYS_ASSERT --> MERGE
+       GATE --> MERGE
+       MERGE --> VERIFY_C
+   ```
+
+   > [!IMPORTANT]
+   > ### ⚡ PARALLEL EXECUTION RULES (TIER A & TIER C CONCURRENCY)
+   > When invoking `dispatching-parallel-agents`, the Lead Agent may spawn **Subagent 1 (Dev Persona — Tier A)** and **Subagent 2 (SDET Persona — Tier C)** in parallel, enforcing these 3 inviolable rules:
+   > 
+   > 1. **Rule 1: Strict Contract Freeze (Zero Contract Drift)**:
+   >    - Public interface contracts (`AppRoutes`, `AppEventBus`, DTOs, ViewModel Intent/State contracts) must be locked in Phase 1 before dispatch.
+   >    - Neither agent is permitted to rename, alter types, or mutate public contract signatures during parallel execution without a synchronized pause.
+   > 
+   > 2. **Rule 2: Disjoint File Sets (Zero Git Merge Conflicts)**:
+   >    - **Subagent 1 (Dev)**: Restricted strictly to feature/package sources (`features/{name}/**`, `packages/{package}/**`).
+   >    - **Subagent 2 (SDET)**: Restricted strictly to Host App integration testbeds (`app/src/test/**`, `shell/src/test/**`).
+   >    - **NEITHER agent** may modify shared build or dependency files (`settings.gradle.kts`, `buildSrc/**`) concurrently.
+   > 
+   > 3. **Rule 3: ATDD Sync Checkpoint & Verification**:
+   >    - Subagent 2's integration flow tests initially act as **ATDD Red Tests** (failing while Subagent 1's code is in-flight).
+   >    - Once both subagents report completion, the Lead Agent performs the **Sync Checkpoint**: merges the branches, validates that the integration tests turn **GREEN** (`./gradlew testDebugUnitTest`), and runs `./scripts/acceptance_check.sh`.
+
 1. **(Difference a)** Before dispatching, edit — **do not commit** — that task's frontmatter in `.devtool/features/task_<n>.md` to `status: "in-progress"`. This is a live, uncommitted change purely for the Kanban dashboard (most markdown-Kanban plugins, including this one, read the file straight off disk); it gets overwritten by later status edits and finally by `status: "done"` in step 4, so none of these intermediate edits ever produce a commit of their own. 
 
-   **CRITICAL DUAL-PERSONA DISPATCH**: When dispatching the implementer subagent, you MUST include the following Dual-Persona instructions along with the task text:
+   **CRITICAL TRI-PERSONA DISPATCH**: When dispatching the implementer subagent, you MUST include the following Tri-Persona instructions along with the task text:
    
-   > You are a dual-agent system: First, an Expert QA (Red Team). Second, a Principal Mobile Engineer (TDD Master).
-   > Your task is to write strictly TDD Unit Tests for this feature, but you MUST follow these phases sequentially:
+   > You are a tri-persona system operating across the 3-Tier Testing Standard:
+   > 1. **Expert QA (Red Team Persona)**: Authors BDD Scenarios and categorizes them into Unit (Tier A) vs Flow/Integration (Tier C).
+   > 2. **Principal Mobile Engineer (TDD Master Persona — Tier A)**: Implements module-level unit tests and minimal feature code.
+   > 3. **System Integration & E2E Engineer (Tier C Persona)**: Implements host integration flow tests connecting DI, Navigation, and lifecycle.
    > 
-   > # PHASE 1: BDD SCENARIOS (The QA Persona)
-   > Before writing any code, identify all possible scenarios using Gherkin syntax (Given - When - Then). 
-   > You MUST exhaustively apply Boundary Value Analysis & Equivalence Partitioning to include:
+   > You MUST follow these phases sequentially based on the task scope:
+   > 
+   > # PHASE 1: BDD SCENARIOS & TIER CATEGORIZATION (The QA Persona)
+   > ⚠️ **STRICT ADVERSARIAL INDEPENDENCE MANDATE (DECOUPLED FROM CODING)**:
+   > - You MUST execute Phase 1 in complete isolation from coding.
+   > - **DO NOT write, inspect, or think about implementation code while authoring BDD scenarios!** Thinking about coding convenience while designing tests creates fatal confirmation bias (only testing what you find easy to code).
+   > - Derive scenarios **PURELY from the Epic's HLD specifications, Use Cases (flowchart), and Sequence Diagrams**. Your sole goal in Phase 1 is to act as an adversarial QA engineer exposing every boundary hazard, race condition, state machine flaw, and failure mode.
+   > - Only AFTER Phase 1 is fully complete, self-reviewed against the HLD diagrams, and documented in `### BDD SCENARIOS`, may you transition to Phase 2 (Unit TDD) or Phase 3 (Integration Flow).
+   > 
+   > Before writing any code, identify all possible scenarios using Gherkin syntax (Given - When - Then).
+   > You MUST exhaustively apply Boundary Value Analysis & Equivalence Partitioning across:
    > - Happy paths (Normal data flow).
    > - Edge cases (Null inputs, empty arrays, malformed JSON, boundary numbers).
-   > - State Transitions (Valid and Invalid state changes for BLoC/MVI).
-   > - Async/Race conditions (e.g., User rapidly triggers the action 3 times -> only the last response should be processed).
+   > - State Transitions (Valid and Invalid state changes for MVI: ViewIntent -> ViewState / ViewEffect).
+   > - Async/Race conditions (e.g., User rapidly triggers action -> debounce/cancellation).
    > - Network & Storage failures (Timeouts, 500 errors, Corrupted local DB).
    > 
-   > After defining the scenarios, you MUST perform a self-review: cross-check these scenarios against the use cases and sequence diagrams defined in the epic's documents. Ensure no requirements are missed before proceeding to Phase 2.
+   > **Categorization**: Explicitly tag each scenario:
+   > - `[Tier A - Unit]`: Scenarios testing isolated class/function behavior, ViewModels, UseCases, Parsers, Guards.
+   > - `[Tier C - Integration]`: Scenarios testing end-to-end flows, cross-module interactions, Host App navigation, Tab switching, Auth Gating & Replay, or DFM split loading.
    > 
+   > Perform a self-review: cross-check these scenarios against the Use Cases (flowchart) and Sequence Diagrams defined in the epic's HLD documents. Ensure zero missing requirements.
    > Output this phase in a markdown block titled "### BDD SCENARIOS".
    > 
-   > # PHASE 2: TDD IMPLEMENTATION (The Dev Persona)
-   > Translate EVERY scenario from Phase 1 into executable Unit Tests.
-   > Constraints:
-   > 1. Target language/framework: Flutter/Dart (or Android/Kotlin if specified).
+   > # PHASE 2: TDD UNIT IMPLEMENTATION (The Dev Persona — For Tier A Tasks)
+   > If the task is a module/feature task, translate all `[Tier A - Unit]` scenarios into executable Unit Tests:
+   > 1. Target language/framework: Android/Kotlin (Jetpack Compose, Coroutines, Flow, Hilt).
    > 2. Use Mocking to simulate API responses with artificial Delays to test Race Conditions.
-   > 3. Verify that Streams/Subscriptions are properly closed/cancelled.
-   > 4. Test the Behavior/State emissions exactly in order, not just the final result.
+   > 3. Verify that Coroutine Jobs/Flows/Channels are properly closed or cancelled.
+   > 4. Test the Behavior/State emissions (MVI State / Effects) exactly in order.
    > 5. DO NOT WRITE THE ACTUAL IMPLEMENTATION CODE YET. Write ONLY the Tests and the necessary Interfaces/Mocks.
+   > 6. RED-GREEN-REFACTOR: Verify tests FAIL first (RED), write minimal implementation to pass (GREEN), then format (`./gradlew spotlessApply`) and check lint (`./gradlew detekt`).
    > 
-   > # PHASE 3: RED-GREEN-REFACTOR (Strict Rule)
-   > Ensure the tests are designed to FAIL first (RED). You must explain exactly why they will fail if Race Conditions (like the switchMap/cancellation flaw) are not handled in the upcoming implementation. Only after confirming the RED phase, you can write the minimal implementation code to pass them (GREEN).
+   > # PHASE 3: SYSTEM INTEGRATION & E2E FLOW IMPLEMENTATION (The Integration Persona — For Tier C Tasks)
+   > If the task is a Host App (`:app` / `:shell`), Cross-Feature seam, or Acceptance task:
+   > 1. Translate all `[Tier C - Integration]` scenarios into real **Integration Flow Tests** (e.g. `*FlowTest.kt` in `:app` or `:shell`).
+   > 2. Initialize the real or semi-real Composition Root / Hilt Test Graph (avoid excessive mocking; test real components working together).
+   > 3. Simulate OS lifecycle events: Cold start (`Intent.ACTION_VIEW` via `onCreate`), Warm start (`onNewIntent`), and configuration changes.
+   > 4. Assert full user flows:
+   >    - Tab selection and nested backstack synthesis.
+   >    - Auth Gating: Redirect to login, pending link persistence, and replay upon `UserLoggedIn` event.
+   >    - Dynamic Feature Module (DFM): verify `FeatureInstaller` triggers split installation and downstream resolution.
+   >    - Malformed/Unrecognized links: verify graceful fallback with zero crashes.
+   > 5. Verify that the tests pass under `./gradlew testDebugUnitTest` and the integration gate passes cleanly with `./scripts/acceptance_check.sh`.
    
    The subagent will then follow `superpowers:test-driven-development`, self-review, but must **not** commit yet.
 2. **(Difference a, continued)** Once the implementer reports `DONE` (or `DONE_WITH_CONCERNS`), edit the frontmatter to `status: "review"` before dispatching the spec-compliance reviewer, then the code-quality reviewer, same as the base skill.
@@ -170,14 +264,25 @@ Only when Phase 2 step 6 flags divergence:
    ```
    This keeps the task's code commit exactly one commit even when divergence is found.
 
-### Phase 4 — End of Epic
+### Phase 4 — End of Epic Verification (@quality_check)
 
-1. Once every task is `done`, run the full test suite and analyzer once more on the epic worktree:
-   ```bash
-   melos run test
-   melos run analyze
-   ```
-2. Use `superpowers:finishing-a-development-branch` on the epic branch (base = `develop`). Never merge to `develop` outside of that skill's flow.
+Once every task is `done`, run the comprehensive **`@quality_check`** skill on the epic worktree before finishing the branch:
+
+1. **Master Quality Orchestrator (`@quality_check`)**:
+   Coordinates the automated **3-Tier Testing Standard** in parallel with the **4 Specialized Category Audit Skills** across the entire epic diff against `develop`:
+   - **Track 1 (Background Gradle 3-Tier Suite)**:
+     - **Tier A (Unit / Package Tests)**: `./gradlew testDebugUnitTest`
+     - **Tier B (Tooling & Governance Tests)**: `./gradlew :konsist-test:test apiCheck detekt spotlessCheck` (Konsist K1–K10, BCV ABI contracts, Detekt code smells, Spotless)
+     - **Tier C (Acceptance & App Tests)**: `./scripts/acceptance_check.sh` (E2E acceptance harness, Host App assembly, and DFM split verification)
+   - **Track 2 (Foreground Specialist Semantic Audits)**:
+     - `@security-audit` (OWASP M1–M10, strict `BigDecimal` financial precision, Keystore, zero PII in logs)
+     - `@architecture-audit` (Domain purity, feature module isolation, MVI immutability, dispatcher injection)
+     - `@compose-audit` (Recomposition stability, state hoisting, Material3 design tokens)
+     - `@code-health-audit` (Function sizing <20 lines, max 2 params, strict ban on `!!`, idiomatic Kotlin)
+2. **Resource Cleanup**:
+   Automatically terminates all background Gradle/Java daemon threads via `cleanup-java` (`pkill -9 java`).
+
+Only when `@quality_check` reports **🟢 LGTM (All checks passing)**, use `superpowers:finishing-a-development-branch` on the epic branch (base = `develop`). Never merge to `develop` outside of that skill's flow.
 
 ## Quick Reference
 
@@ -188,7 +293,7 @@ Only when Phase 2 step 6 flags divergence:
 | Bootstrap the worktree | `resources/scripts/bootstrap_worktree.sh <worktree_path>` |
 | Run each task | `superpowers:subagent-driven-development` |
 | Per-task TDD | `superpowers:test-driven-development` |
-| End-of-epic verification | `melos run test` + `melos run analyze` |
+| End-of-epic verification | Master Quality Gate: `@quality_check` (3-Tier Testing + 4 Specialist Audits + `cleanup-java`) |
 | Finish the epic branch | `superpowers:finishing-a-development-branch` |
 
 ## Common Mistakes
@@ -224,6 +329,7 @@ Only when Phase 2 step 6 flags divergence:
 - **superpowers:using-git-worktrees** — creates the epic worktree (pass `develop` as the explicit base ref).
 - **superpowers:subagent-driven-development** — runs each task.
 - **superpowers:test-driven-development** — used by each task's implementer subagent.
+- **quality_check** — runs end-of-epic 3-Tier testing standard and 4 category audits.
 - **superpowers:finishing-a-development-branch** — completes the epic branch.
 - **copy_secure_configurations** — invoked by `bootstrap_worktree.sh`.
 

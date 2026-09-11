@@ -65,6 +65,30 @@ When in doubt, ask the user which they want rather than guessing.
 
 If brainstorming decomposed the original request into multiple sub-project specs, route **each spec independently** — do not merge multiple specs into a single epic-designer invocation. Each spec keeps its own spec → design → implementation lineage.
 
+### Complete End-to-End Epic Lifecycle
+
+When routing to `epic-designer`, the project enters the full governed Epic Lifecycle detailed in **[`docs/architecture/EPIC_LIFECYCLE.md`](../../docs/architecture/EPIC_LIFECYCLE.md)**:
+
+```mermaid
+flowchart TD
+    STAGE1["Stage 1: Inception & Spec<br/>(superpowers:brainstorming)"] -->|Gate 1: Spec Approved| STAGE2["Stage 2: Architecture & Tasks<br/>(epic-designer)"]
+    STAGE2 -->|Gate 2: HLD & Tasks Approved| STAGE3["Stage 3: Isolated Worktree Execution<br/>(epic-implementation)"]
+    
+    subgraph S3["Stage 3 Execution Pipeline"]
+        direction TB
+        P01["Phase 0 & 1: Execution Order & Worktree Bootstrap"]
+        P2["Phase 2: Task Execution (TDD + Integration Flow)"]
+        P3["Phase 3: Doc Sync on Divergence"]
+        P4["Phase 4: Master Gate @quality_check (3-Tiers + 4 Audits)"]
+        P01 --> P2 --> P3 --> P4
+    end
+    
+    STAGE3 -.-> S3
+    S3 -->|Gate 4: @quality_check 🟢 LGTM| STAGE4["Stage 4: Finish Branch & Merge<br/>(superpowers:finishing-a-development-branch)"]
+```
+
+---
+
 ## The Brainstorming Mindset
 
 To ensure this is a true creative collaboration and not just a rigid interrogation, you MUST adopt the following mindset during the session:
