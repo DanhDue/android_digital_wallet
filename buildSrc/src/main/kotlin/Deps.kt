@@ -80,6 +80,11 @@ object Deps {
         const val coilNetworkOkhttp = "io.coil-kt.coil3:coil-network-okhttp:${Versions.coil}"
     }
 
+    object Dagger {
+        const val core = "com.google.dagger:dagger:${Versions.hilt}"
+        const val compiler = "com.google.dagger:dagger-compiler:${Versions.hilt}"
+    }
+
     object Hilt {
         const val hiltCommon = "androidx.hilt:hilt-common:${Versions.hiltCommon}"
         const val core = "com.google.dagger:hilt-android:${Versions.hilt}"

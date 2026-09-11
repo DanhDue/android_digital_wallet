@@ -47,5 +47,5 @@ include(":features:scanner")
 include(":konsist-test")
 
 // ── Flutter Plugin Native Devbed modules ────────────────────────────────────
-// include(":plugin")
+include(":plugin")
 // include(":sample")

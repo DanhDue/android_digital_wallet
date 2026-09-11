@@ -1,13 +1,13 @@
 ---
 id: "task_3_scaffold_plugin_module_pure_dagger"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "tri_mode_and_flutter_plugin_devbed"
 dueDate: null
 created: "2026-09-11T15:20:00Z"
-modified: "2026-09-11T15:28:00Z"
-completedAt: null
+modified: "2026-09-11T16:11:00Z"
+completedAt: "2026-09-11T16:11:00Z"
 labels: ["architecture", "di", "plugin", "dagger", "workmanager"]
 order: "a3"
 ---
