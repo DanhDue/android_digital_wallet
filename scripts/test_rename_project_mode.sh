@@ -45,6 +45,7 @@ else
 fi
 
 # Test 3: Dry run with default mode is enterprise
+STATUS_BEFORE="$(cd "${ROOT_DIR}" && git status --porcelain || true)"
 OUT="$("${RENAME_SCRIPT}" test_app com.test.app --dry-run 2>&1 || true)"
 if echo "${OUT}" | grep -q "MODE ...............  enterprise"; then
   pass "Dry-run with default mode displays enterprise"
@@ -69,11 +70,11 @@ else
 fi
 
 # Test 6: Working tree is unaffected by dry-run
-STATUS="$(cd "${ROOT_DIR}" && git status --porcelain | grep -Ev '(test_rename_project_mode\.sh|rename_project\.sh|\.devtool/)' || true)"
-if [ -z "${STATUS}" ]; then
-  pass "Git status remains clean after dry-runs"
+STATUS_AFTER="$(cd "${ROOT_DIR}" && git status --porcelain || true)"
+if [ "${STATUS_BEFORE}" = "${STATUS_AFTER}" ]; then
+  pass "Git status remains unaffected after dry-runs"
 else
-  fail "Git status remains clean after dry-runs" "Modified files: ${STATUS}"
+  fail "Git status remains unaffected after dry-runs" "Status diff: before vs after"
 fi
 
 echo ""

@@ -1,13 +1,13 @@
 ---
 id: "task_5_scaffold_sample_runner_app"
-status: "todo"
+status: "done"
 priority: "medium"
 assignee: null
 epic: "tri_mode_and_flutter_plugin_devbed"
 dueDate: null
 created: "2026-09-11T15:20:00Z"
-modified: "2026-09-11T15:28:00Z"
-completedAt: null
+modified: "2026-09-11T17:25:00Z"
+completedAt: "2026-09-11T17:25:00Z"
 labels: ["presentation", "testbed", "runner", "sample"]
 order: "a5"
 ---

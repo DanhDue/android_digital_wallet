@@ -119,7 +119,9 @@ comment_bcv() {
   local file="$1"
   [ -f "${file}" ] || return 0
   perl -i -pe 's{^\s*id\(Deps\.BCV_PLUGIN_ID\)\s*apply\s*true}{// id(Deps.BCV_PLUGIN_ID) apply true}' "${file}"
-  perl -0777 -i -pe 's{^\s*(apiValidation\s*\{[\s\S]*?\n\})}{/* [BCV_DISABLED]\n$1\n*/}m' "${file}"
+  if ! grep -qF '/* [BCV_DISABLED]' "${file}"; then
+    perl -0777 -i -pe 's{^\s*(apiValidation\s*\{[\s\S]*?\n\})}{/* [BCV_DISABLED]\n$1\n*/}m' "${file}"
+  fi
 }
 
 uncomment_bcv() {
