@@ -5,7 +5,7 @@ set -Eeuo pipefail   # -E so the ERR trap fires from inside helper functions too
 # scripts/rename_project.sh — the single post-clone entrypoint.
 #
 # Usage:
-#   scripts/rename_project.sh <app_name> <bundle_id> [<display_name>] [--force] [--dry-run]
+#   scripts/rename_project.sh <app_name> <bundle_id> [<display_name>] [--mode <enterprise|lean|plugin>] [--force] [--dry-run]
 #
 #   <app_name>      snake_case, ^[a-z][a-z0-9_]*$
 #                   Basis for the Gradle rootProject name and the PascalCase
@@ -16,6 +16,7 @@ set -Eeuo pipefail   # -E so the ERR trap fires from inside helper functions too
 #                     app leaf      = the last segment            (e.g. wallet)
 #   <display_name>  optional human-facing name. Title-Cased from <app_name>
 #                   when omitted (acme_wallet -> "Acme Wallet").
+#   --mode          target project mode: enterprise (default), lean, or plugin.
 #   --force         run even when the git working tree is dirty.
 #   --dry-run       print every file + substitution that WOULD change, make NO
 #                   edits, skip the Gradle self-verify, exit 0.
@@ -69,11 +70,12 @@ _abort_hint() {
 
 usage() {
   cat >&2 <<'EOF'
-usage: scripts/rename_project.sh <app_name> <bundle_id> [<display_name>] [--force] [--dry-run]
+usage: scripts/rename_project.sh <app_name> <bundle_id> [<display_name>] [--mode <enterprise|lean|plugin>] [--force] [--dry-run]
 
   <app_name>      snake_case, ^[a-z][a-z0-9_]*$
   <bundle_id>     reverse-DNS, ^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$
   <display_name>  optional; Title-Cased from <app_name> when omitted
+  --mode          target project mode: enterprise (default), lean, or plugin
   --force         run even if the git working tree is dirty
   --dry-run       list the changes, edit nothing, exit 0
 EOF
@@ -93,6 +95,7 @@ fi
 # --- parse args -----------------------------------------------------------
 FORCE=0
 DRY_RUN=0
+MODE="enterprise"
 APP_NAME=""
 BUNDLE_ID=""
 DISPLAY_NAME=""
@@ -101,6 +104,14 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --force)   FORCE=1 ;;
     --dry-run) DRY_RUN=1 ;;
+    --mode)
+      shift
+      [ $# -gt 0 ] || { echo "error: --mode requires an argument (enterprise, lean, plugin)" >&2; exit 1; }
+      MODE="$1"
+      ;;
+    --mode=*)
+      MODE="${1#--mode=}"
+      ;;
     --)        shift; break ;;
     -*)        echo "error: unknown flag: $1" >&2; usage ;;
     *)
@@ -130,6 +141,14 @@ done
 [ -n "${APP_NAME}" ] && [ -n "${BUNDLE_ID}" ] || usage
 
 # --- validate -----------------------------------------------------------
+case "${MODE}" in
+  enterprise|lean|plugin) ;;
+  *)
+    echo "error: unknown mode '${MODE}'. Valid modes are: enterprise, lean, plugin" >&2
+    exit 1
+    ;;
+esac
+
 if ! printf '%s' "${APP_NAME}" | grep -qE '^[a-z][a-z0-9_]*$'; then
   echo "error: <app_name> must be snake_case matching ^[a-z][a-z0-9_]*\$ (got '${APP_NAME}')" >&2
   exit 1
@@ -181,7 +200,11 @@ echo "    rootProject.name ...  AndroidDigitalWallet   -> ${APP_PASCAL}"
 echo "    display name ........ (app_name / label)     -> ${DISPLAY_NAME}"
 echo "    deep link scheme ...  myapp                  -> ${NEW_SCHEME}"
 echo "    app link host ......  app.example.com        -> ${NEW_HOST}"
-[ "${DRY_RUN}" -eq 1 ] && echo "    MODE ...............  --dry-run (no edits, no gradle)"
+if [ "${DRY_RUN}" -eq 1 ]; then
+  echo "    MODE ...............  ${MODE} (--dry-run: no edits, no gradle)"
+else
+  echo "    MODE ...............  ${MODE}"
+fi
 echo ""
 
 # --- file set (tracked; excludes are the 'NEVER rewritten' list) --------
@@ -322,6 +345,16 @@ _feed | _subst 'app.example.com' "${NEW_HOST}"
 # prose
 _feed | _subst_prose "${DISPLAY_NAME}"
 
+# --- Phase B.2: configure mode --------------------------------------
+if [ "${DRY_RUN}" -eq 1 ]; then
+  echo ""
+  echo "  WOULD CONFIGURE MODE  scripts/configure_mode.sh ${MODE}"
+else
+  echo ""
+  echo "==> configure project mode: scripts/configure_mode.sh ${MODE}"
+  "${SCRIPT_DIR}/configure_mode.sh" "${MODE}"
+fi
+
 # --- Phase C: self-verify ------------------------------------------
 if [ "${DRY_RUN}" -eq 1 ]; then
   echo ""
@@ -351,8 +384,20 @@ echo "==> normalise formatting: ./gradlew spotlessApply --console=plain"
 ./gradlew spotlessApply --console=plain
 
 echo ""
-echo "==> self-verify: ./gradlew :konsist-test:test detekt spotlessCheck assembleDebug --console=plain"
-./gradlew :konsist-test:test detekt spotlessCheck assembleDebug --console=plain
+case "${MODE}" in
+  enterprise)
+    echo "==> self-verify: ./gradlew :konsist-test:test detekt spotlessCheck assembleDebug --console=plain"
+    ./gradlew :konsist-test:test detekt spotlessCheck assembleDebug --console=plain
+    ;;
+  lean)
+    echo "==> self-verify: ./gradlew detekt spotlessCheck assembleDebug --console=plain"
+    ./gradlew detekt spotlessCheck assembleDebug --console=plain
+    ;;
+  plugin)
+    echo "==> self-verify: ./gradlew :plugin:testDebugUnitTest :plugin:assembleRelease --console=plain"
+    ./gradlew :plugin:testDebugUnitTest :plugin:assembleRelease --console=plain
+    ;;
+esac
 
 trap - ERR
 
