@@ -1,0 +1,20 @@
+name: native_plugin
+description: Generates an Android Library plugin module following Clean Architecture with Pure Dagger 2.
+version: 0.1.0+1
+environment:
+  mason: ">=0.1.0-dev.26 <1.0.0"
+
+vars:
+  name:
+    type: string
+    description: Plugin name in snake_case (e.g. biometric_auth, custom_sensor)
+    prompt: What is the plugin name?
+  package:
+    type: string
+    description: Base package name (e.g. com.danhdue.biometric)
+    prompt: What is the base package name?
+  has_ui:
+    type: boolean
+    description: Whether to include Jetpack Compose UI (MviViewModel, Screen, PlatformView)
+    default: false
+    prompt: Include Jetpack Compose UI?

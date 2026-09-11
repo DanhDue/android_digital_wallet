@@ -1,13 +1,13 @@
 ---
 id: "task_6_native_plugin_mason_bricks"
-status: "todo"
+status: "done"
 priority: "medium"
 assignee: null
 epic: "tri_mode_and_flutter_plugin_devbed"
 dueDate: null
 created: "2026-09-11T15:20:00Z"
-modified: "2026-09-11T15:28:00Z"
-completedAt: null
+modified: "2026-09-11T17:31:00Z"
+completedAt: "2026-09-11T17:31:00Z"
 labels: ["mason", "scaffolding", "tooling", "bricks"]
 order: "a6"
 ---

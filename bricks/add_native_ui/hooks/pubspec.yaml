@@ -1,0 +1,7 @@
+name: add_native_ui_hooks
+description: Hooks for add_native_ui brick
+environment:
+  sdk: '>=2.19.0 <4.0.0'
+
+dependencies:
+  mason: any

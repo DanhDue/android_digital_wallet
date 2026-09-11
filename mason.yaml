@@ -7,3 +7,7 @@ bricks:
     path: bricks/remove_feature
   remove_subfeature:
     path: bricks/remove_subfeature
+  native_plugin:
+    path: bricks/native_plugin
+  add_native_ui:
+    path: bricks/add_native_ui
