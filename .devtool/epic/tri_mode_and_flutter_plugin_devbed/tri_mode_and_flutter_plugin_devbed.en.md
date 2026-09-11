@@ -114,9 +114,20 @@ sequenceDiagram
     Note over OS,Worker: Task completed with 0MB Flutter Engine overhead!
 ```
 
+### 4.4 Comprehensive BDD Test Scenarios
+All system behavior across the use cases, state transitions, async edge cases, and background resilience are formally specified in the dedicated BDD suite:
+👉 **[BDD Scenarios Document (bdd_scenarios.md)](bdd_scenarios.md)**
+
 ---
 
-## 5. Rollout Strategy & Mitigation
+## 5. BDD Living Documentation & Agent Context (`bdd_scenarios.md`)
+The dedicated [bdd_scenarios.md](bdd_scenarios.md) file serves a **Dual Value Purpose**:
+1. **Human Maintenance (Living Documentation)**: Enables any incoming developer to instantly comprehend business intent, state transitions, boundary limits, and resilience rules without wading through implementation code.
+2. **Instant AI Agent Context Injection**: Provides a dense, unambiguous behavioral contract that can be loaded into an AI Agent's context window in one shot, eliminating hallucinations and ensuring rigorous compliance during implementation or bug fixes.
+
+---
+
+## 6. Rollout Strategy & Mitigation
 
 1. **Idempotent Script Execution:**
    `scripts/configure_mode.sh` uses regex pattern matching to ensure re-running the script with the same mode produces no unintended diffs.
@@ -129,7 +140,7 @@ sequenceDiagram
 
 ---
 
-## 6. Kanban Tasks Breakdown
+## 7. Kanban Tasks Breakdown
 
 - [Task 1: Infrastructure & Mode Configuration Script (`configure_mode.sh`)](../../features/task_1_configure_mode_script.md)
 - [Task 2: Project Renaming Integration (`rename_project.sh` with `--mode`)](../../features/task_2_rename_project_mode_integration.md)

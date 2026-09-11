@@ -114,9 +114,20 @@ sequenceDiagram
     Note over OS,Worker: Tác vụ hoàn tất với 0 byte RAM tiêu hao cho Flutter Engine!
 ```
 
+### 4.4 Kịch bản Kiểm thử Hành vi Toàn diện (BDD Test Scenarios)
+Toàn bộ hành vi hệ thống qua các ca sử dụng, chuyển đổi trạng thái, edge cases bất đồng bộ, và khả năng chịu tải khi chạy nền được đặc tả bằng Gherkin tại:
+👉 **[Tài liệu BDD Scenarios (bdd_scenarios.md)](bdd_scenarios.md)**
+
 ---
 
-## 5. Chiến lược Phát hành & Giảm thiểu Rủi ro (Rollout Strategy)
+## 5. Giá trị Kép của BDD Living Documentation (`bdd_scenarios.md`)
+Tài liệu [bdd_scenarios.md](bdd_scenarios.md) mang lại **Giá trị Kép (Dual Value Purpose)**:
+1. **Bảo trì cho Kỹ sư (Living Documentation)**: Giúp bất kỳ kỹ sư mới nào tiếp cận dự án cũng nắm bắt ngay lập tức mục tiêu nghiệp vụ, chuyển đổi trạng thái và quy tắc chịu tải mà không cần đọc từng dòng mã nguồn.
+2. **Nạp Ngữ cảnh Tức thì cho AI Agent (Instant Agent Context Injection)**: Cung cấp bản hợp đồng hành vi cô đọng, rõ ràng để nạp thẳng vào context window của AI Agent, loại bỏ hoàn toàn hiện tượng ảo giác (hallucination) và đảm bảo tuân thủ nghiêm ngặt khi lập trình hoặc sửa lỗi.
+
+---
+
+## 6. Chiến lược Phát hành & Giảm thiểu Rủi ro (Rollout Strategy)
 
 1. **Thực thi Script An toàn (Idempotent):**
    `scripts/configure_mode.sh` sử dụng các mẫu regex chuẩn để đảm bảo chạy lại nhiều lần cùng một mode không tạo ra diff rác.
@@ -129,7 +140,7 @@ sequenceDiagram
 
 ---
 
-## 6. Phân rã Kanban Tasks (Kanban Tasks Breakdown)
+## 7. Phân rã Kanban Tasks (Kanban Tasks Breakdown)
 
 - [Task 1: Script Cấu hình Chế độ (`configure_mode.sh`)](../../features/task_1_configure_mode_script.md)
 - [Task 2: Tích hợp Cờ `--mode` vào Script Đổi tên Dự án (`rename_project.sh`)](../../features/task_2_rename_project_mode_integration.md)
