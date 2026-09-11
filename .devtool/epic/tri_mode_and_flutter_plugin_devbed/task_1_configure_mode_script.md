@@ -1,13 +1,13 @@
 ---
 id: "task_1_configure_mode_script"
-status: "todo"
+status: "done"
 priority: "high"
 assignee: null
 epic: "tri_mode_and_flutter_plugin_devbed"
 dueDate: null
 created: "2026-09-11T15:20:00Z"
-modified: "2026-09-11T15:28:00Z"
-completedAt: null
+modified: "2026-09-11T16:03:00Z"
+completedAt: "2026-09-11T16:03:00Z"
 labels: ["scripts", "tooling", "architecture"]
 order: "a1"
 ---
@@ -97,9 +97,9 @@ And aborts before deleting any physical directories
 ### TDD Checklist (The Dev Persona)
 *TDD Adaptation:* Shell script automation. Verified via automated test suite `scripts/test_configure_mode.sh` operating on fixture copies of Gradle files.
 
-- [ ] **RED**: Write `scripts/test_configure_mode.sh` containing test functions for Scenarios 1–6 asserting failure against uncreated script.
-- [ ] **GREEN**: Implement `scripts/configure_mode.sh` with robust regex handling for all 3 modes and `--prune` safeguards. Run `scripts/test_configure_mode.sh` to confirm all assertions pass.
-- [ ] **REFACTOR**: Standardize error messaging, verify macOS BSD vs Linux GNU compatibility, and format script with `shfmt` if available.
+- [x] **RED**: Write `scripts/test_configure_mode.sh` containing test functions for Scenarios 1–6 asserting failure against uncreated script.
+- [x] **GREEN**: Implement `scripts/configure_mode.sh` with robust regex handling for all 3 modes and `--prune` safeguards. Run `scripts/test_configure_mode.sh` to confirm all assertions pass.
+- [x] **REFACTOR**: Standardize error messaging, verify macOS BSD vs Linux GNU compatibility, and format script with `shfmt` if available.
 
 ## Definition of Done (DoD)
 - `scripts/configure_mode.sh` executable exists with `chmod +x`.

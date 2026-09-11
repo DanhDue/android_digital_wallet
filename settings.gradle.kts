@@ -45,3 +45,7 @@ include(":features:settings:sample")
 include(":features:scanner")
 // Governance — architecture-enforcement gate (JVM/JUnit, never shipped in the APK)
 include(":konsist-test")
+
+// ── Flutter Plugin Native Devbed modules ────────────────────────────────────
+// include(":plugin")
+// include(":sample")

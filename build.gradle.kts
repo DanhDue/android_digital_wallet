@@ -11,7 +11,6 @@ plugins {
     id(Deps.BCV_PLUGIN_ID) apply true
 //    alias(libs.plugins.android.dynamic.feature) apply false
 }
-
 apiValidation {
     // Enforce validation strictly on the 5 foundation packages: core, platform, network, framework, ui_kit
     ignoredProjects += subprojects
